@@ -150,7 +150,7 @@
         .modal-content { background: #fff; padding: 2.5rem; border-radius: 12px; max-width: 400px; width: 100%; text-align: center; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
         
         .qr-container { 
-            margin: 1rem auto; padding: 15px; 
+            margin: 1rem auto; padding: 20px; 
             background: #fff; border: 2px solid #e7f3ff; 
             border-radius: 16px; box-shadow: 0 8px 24px rgba(0, 123, 255, 0.15); 
             display: inline-block; text-align: center;
@@ -166,6 +166,9 @@
             -webkit-touch-callout: default !important; 
             -webkit-user-select: auto !important;
             user-select: auto !important;
+        }
+        .qr-container canvas {
+            display: none !important; /* 強制隱藏 canvas，只顯示 Base64 img */
         }
         
         .close-modal { position: absolute; top: 15px; right: 15px; font-size: 1.5rem; cursor: pointer; color: #aaa; transition: 0.2s; }
@@ -694,7 +697,7 @@
             const mainChartCanvas = document.getElementById('savings-chart').getContext('2d');
             let mainChart;
 
-            // --- 檢查 URL 是否有分享數據 (客戶模式，允許修改數字) ---
+            // --- 檢查 URL 是否有分享數據 (極簡客戶模式，允許修改數字) ---
             const urlParams = new URLSearchParams(window.location.search);
             if (urlParams.has('data')) {
                 try {
@@ -708,17 +711,20 @@
                         }
                     });
                     
-                    // --- 啟動客戶專屬報告模式 ---
+                    // --- 啟動客戶專屬報告模式 (斷捨離版) ---
+                    // 1. 隱藏不必要的區塊及導航
                     document.querySelector('.management-section').style.display = 'none'; // 隱藏管理區
+                    document.getElementById('section-basic-settings').style.display = 'none'; // 隱藏開始歲數與通脹設定
                     document.getElementById('section-chart').style.display = 'none'; // 隱藏圖表
                     document.querySelector('.appendix-toggle-btn').style.display = 'none'; // 隱藏附錄
                     document.getElementById('privacy-notice').style.display = 'none'; // 隱藏保密聲明
+                    document.querySelector('.bottom-nav').style.display = 'none'; // 【取消導航】
                     
                     // 隱藏客戶模式下的眼睛 logo
                     const eyeBtnContainer = document.getElementById('eye-icon-container');
                     if(eyeBtnContainer) eyeBtnContainer.style.display = 'none';
                     
-                    // 顯示專屬客戶名稱
+                    // 2. 顯示專屬客戶名稱，隱藏預設副標題
                     document.getElementById('main-subtitle').style.display = 'none';
                     const clientName = sharedData['client-name'] || '尊貴客戶';
                     const clientTitleDisplay = document.getElementById('client-view-title');
@@ -831,7 +837,7 @@
                 reader.readAsText(file);
             });
 
-            // --- 分享功能邏輯 (防封鎖機制，強制產生標準 IMG 保證可長按) ---
+            // --- 分享功能邏輯 (純淨 QR Code + 保證長按儲存圖片) ---
             document.getElementById('share-btn').addEventListener('click', () => {
                 if (window.location.protocol === 'file:') {
                     alert('⚠️ 溫馨提示：您目前正在電腦本機 (file://) 開啟檔案，產生的分享連結無法在手機上開啟。\n請將檔案上傳至伺服器或 GitHub Pages 後再使用分享功能！');
@@ -851,23 +857,24 @@
                 // 建立隱藏的 div 供 qrcode.js 渲染
                 const tempDiv = document.createElement('div');
                 
+                // 產生最標準的黑白 QR Code，容錯率 L 令格仔最大化，保證秒速掃描
                 new QRCode(tempDiv, { 
                     text: shareUrl, 
                     width: 250, 
                     height: 250, 
-                    colorDark : "#0056b3",
+                    colorDark : "#000000",
                     colorLight: "#ffffff",
-                    correctLevel : QRCode.CorrectLevel.M 
+                    correctLevel : QRCode.CorrectLevel.L 
                 });
                 
-                // 延遲等待 qrcode.js 渲染完成，再抽出 Base64 放到獨立的 img
+                // 等待 qrcode.js 渲染完成後，強制抽出 Base64 放入標準 IMG
                 setTimeout(() => {
                     const canvas = tempDiv.querySelector('canvas');
                     if (canvas) {
                         const imgData = canvas.toDataURL('image/png');
                         const imgElement = document.createElement('img');
                         imgElement.src = imgData;
-                        // 以下 CSS 極度重要，保證手機可長按
+                        // 以下 CSS 極度重要，保證任何手機都可以長按
                         imgElement.style.cssText = "display: block !important; margin: 0 auto; width: 250px; height: 250px; pointer-events: auto !important; -webkit-touch-callout: default !important; user-select: auto !important;";
                         qrContainer.appendChild(imgElement);
                     }
