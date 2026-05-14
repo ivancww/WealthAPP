@@ -3,6 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    
     <title>顛覆認知的理財策略</title>
 
     <link rel="manifest" href="manifest.json">
@@ -150,7 +154,7 @@
         .modal-content { background: #fff; padding: 2.5rem; border-radius: 12px; max-width: 400px; width: 100%; text-align: center; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
         
         .qr-container { 
-            margin: 1rem auto; padding: 20px; 
+            margin: 1.5rem auto; padding: 20px; 
             background: #fff; border: 2px solid #e7f3ff; 
             border-radius: 16px; box-shadow: 0 8px 24px rgba(0, 123, 255, 0.15); 
             display: inline-block; text-align: center;
@@ -241,6 +245,8 @@
                             <option value="withdraw8_from8">第8年取8%</option>
                             <option value="withdraw13_from15">第15年取13%</option>
                             <option value="withdraw18_from20">第20年取18%</option>
+                            <option value="withdraw23_from25">第25年取23%</option>
+                            <option value="withdraw29_from30">第30年取29%</option>
                         </select>
                     </div>
                      <div class="input-group">
@@ -251,6 +257,8 @@
                             <option value="withdraw8_from8">第8年取8%</option>
                             <option value="withdraw13_from15">第15年取13%</option>
                             <option value="withdraw18_from20">第20年取18%</option>
+                            <option value="withdraw23_from25">第25年取23%</option>
+                            <option value="withdraw29_from30">第30年取29%</option>
                         </select>
                     </div>
                      <div class="input-group">
@@ -261,6 +269,8 @@
                             <option value="withdraw8_from8">第8年取8%</option>
                             <option value="withdraw13_from15">第15年取13%</option>
                             <option value="withdraw18_from20">第20年取18%</option>
+                            <option value="withdraw23_from25">第25年取23%</option>
+                            <option value="withdraw29_from30">第30年取29%</option>
                         </select>
                     </div>
                      <div class="input-group">
@@ -271,6 +281,8 @@
                             <option value="withdraw8_from8">第8年取8%</option>
                             <option value="withdraw13_from15">第15年取13%</option>
                             <option value="withdraw18_from20">第20年取18%</option>
+                            <option value="withdraw23_from25">第25年取23%</option>
+                            <option value="withdraw29_from30">第30年取29%</option>
                         </select>
                     </div>
                 </div>
@@ -406,6 +418,7 @@
             
             <div id="privacy-notice" style="text-align: center; margin-top: 3rem; padding: 1rem; border: 2px dashed var(--primary-color); background-color: #e7f3ff; border-radius: 8px;">
                 <p style="margin: 0; font-weight: 500; color: var(--primary-color);">🔒 絕對保密：所有資料只會儲存在您的瀏覽器內，不會上傳到任何伺服器。</p>
+                <p style="margin-top: 10px; font-size: 0.8rem; color: #999;">系統版本: v1.1 (強制更新機制已啟動)</p>
             </div>
         </div>
     </div>
@@ -542,6 +555,8 @@
                             <option value="withdraw8_from8">第8年開始 取8%</option>
                             <option value="withdraw13_from15">第15年開始 取13%</option>
                             <option value="withdraw18_from20">第20年開始 取18%</option>
+                            <option value="withdraw23_from25">第25年開始 取23%</option>
+                            <option value="withdraw29_from30">第30年開始 取29%</option>
                         </select>
                         <div class="goose-stats">
                             <div class="goose-stat-row highlight"><span>每年派息:</span><strong id="goose-plan1-income">$0</strong></div>
@@ -561,6 +576,8 @@
                             <option value="withdraw8_from8">第8年開始 取8%</option>
                             <option value="withdraw13_from15">第15年開始 取13%</option>
                             <option value="withdraw18_from20">第20年開始 取18%</option>
+                            <option value="withdraw23_from25">第25年開始 取23%</option>
+                            <option value="withdraw29_from30">第30年開始 取29%</option>
                         </select>
                         <div class="goose-stats">
                             <div class="goose-stat-row highlight"><span>每年派息:</span><strong id="goose-plan2-income">$0</strong></div>
@@ -580,6 +597,8 @@
                             <option value="withdraw8_from8">第8年開始 取8%</option>
                             <option value="withdraw13_from15">第15年開始 取13%</option>
                             <option value="withdraw18_from20">第20年開始 取18%</option>
+                            <option value="withdraw23_from25">第25年開始 取23%</option>
+                            <option value="withdraw29_from30">第30年開始 取29%</option>
                         </select>
                         <div class="goose-stats">
                             <div class="goose-stat-row highlight"><span>每年派息:</span><strong id="goose-plan3-income">$0</strong></div>
@@ -599,6 +618,8 @@
                             <option value="withdraw8_from8">第8年開始 取8%</option>
                             <option value="withdraw13_from15">第15年開始 取13%</option>
                             <option value="withdraw18_from20">第20年開始 取18%</option>
+                            <option value="withdraw23_from25">第25年開始 取23%</option>
+                            <option value="withdraw29_from30">第30年開始 取29%</option>
                         </select>
                         <div class="goose-stats">
                             <div class="goose-stat-row highlight"><span>每年派息:</span><strong id="goose-plan4-income">$0</strong></div>
@@ -655,8 +676,6 @@
             <p style="color:#555; font-size:0.95rem; margin-top:0;">或複製網址發送給客戶</p>
             <div class="qr-container" id="qr-code-display"></div>
             
-            <p style="font-size:0.9rem; color:#d84315; margin-top:0.5rem; font-weight:bold;">👆 可長按 QR Code 掃描或儲存</p>
-            
             <button class="btn btn-secondary copy-url-btn" id="copy-url-btn">
                 📄 複製專屬網址
             </button>
@@ -666,6 +685,17 @@
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
+        // --- Version Control & Force Update ---
+        const APP_VERSION = '1.1';
+        if (localStorage.getItem('APP_VERSION') !== APP_VERSION) {
+            localStorage.setItem('APP_VERSION', APP_VERSION);
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.getRegistrations().then(function(registrations) {
+                    for(let registration of registrations) { registration.update(); }
+                });
+            }
+        }
+
         // 頁面切換邏輯
         function switchTab(tabId, element) {
             document.querySelectorAll('.tab-section').forEach(tab => tab.classList.remove('active'));
@@ -697,7 +727,7 @@
             const mainChartCanvas = document.getElementById('savings-chart').getContext('2d');
             let mainChart;
 
-            // --- 檢查 URL 是否有分享數據 (極簡客戶模式，允許修改數字) ---
+            // --- 檢查 URL 是否有分享數據 (客戶模式，允許修改數字) ---
             const urlParams = new URLSearchParams(window.location.search);
             if (urlParams.has('data')) {
                 try {
@@ -711,14 +741,12 @@
                         }
                     });
                     
-                    // --- 啟動客戶專屬報告模式 (斷捨離版) ---
-                    // 1. 隱藏不必要的區塊及導航
+                    // --- 啟動客戶專屬報告模式 ---
+                    // 1. 隱藏不必要的區塊
                     document.querySelector('.management-section').style.display = 'none'; // 隱藏管理區
-                    document.getElementById('section-basic-settings').style.display = 'none'; // 隱藏開始歲數與通脹設定
                     document.getElementById('section-chart').style.display = 'none'; // 隱藏圖表
                     document.querySelector('.appendix-toggle-btn').style.display = 'none'; // 隱藏附錄
                     document.getElementById('privacy-notice').style.display = 'none'; // 隱藏保密聲明
-                    document.querySelector('.bottom-nav').style.display = 'none'; // 【取消導航】
                     
                     // 隱藏客戶模式下的眼睛 logo
                     const eyeBtnContainer = document.getElementById('eye-icon-container');
@@ -837,7 +865,7 @@
                 reader.readAsText(file);
             });
 
-            // --- 分享功能邏輯 (純淨 QR Code + 保證長按儲存圖片) ---
+            // --- 分享功能邏輯 (保證 100% 可掃描 + 支援長按儲存圖片) ---
             document.getElementById('share-btn').addEventListener('click', () => {
                 if (window.location.protocol === 'file:') {
                     alert('⚠️ 溫馨提示：您目前正在電腦本機 (file://) 開啟檔案，產生的分享連結無法在手機上開啟。\n請將檔案上傳至伺服器或 GitHub Pages 後再使用分享功能！');
@@ -854,31 +882,29 @@
                 const qrContainer = document.getElementById('qr-code-display');
                 qrContainer.innerHTML = '';
                 
-                // 建立隱藏的 div 供 qrcode.js 渲染
-                const tempDiv = document.createElement('div');
-                
-                // 產生最標準的黑白 QR Code，容錯率 L 令格仔最大化，保證秒速掃描
-                new QRCode(tempDiv, { 
+                // 產生最純淨的 QR Code，不加任何圖案，保證百份百讀取
+                new QRCode(qrContainer, { 
                     text: shareUrl, 
                     width: 250, 
                     height: 250, 
-                    colorDark : "#000000",
+                    colorDark : "#0056b3",
                     colorLight: "#ffffff",
-                    correctLevel : QRCode.CorrectLevel.L 
+                    correctLevel : QRCode.CorrectLevel.M 
                 });
                 
-                // 等待 qrcode.js 渲染完成後，強制抽出 Base64 放入標準 IMG
+                // 等待 qrcode.js 渲染完成後，強制隱藏 Canvas，確保只顯示 Base64 Img 供手機長按
                 setTimeout(() => {
-                    const canvas = tempDiv.querySelector('canvas');
-                    if (canvas) {
-                        const imgData = canvas.toDataURL('image/png');
-                        const imgElement = document.createElement('img');
-                        imgElement.src = imgData;
-                        // 以下 CSS 極度重要，保證任何手機都可以長按
-                        imgElement.style.cssText = "display: block !important; margin: 0 auto; width: 250px; height: 250px; pointer-events: auto !important; -webkit-touch-callout: default !important; user-select: auto !important;";
-                        qrContainer.appendChild(imgElement);
+                    const canvas = qrContainer.querySelector('canvas');
+                    const img = qrContainer.querySelector('img');
+                    if (canvas && img) {
+                        // 如果 img.src 仲未載入，手動轉入去
+                        if (!img.src || img.src === '') {
+                            img.src = canvas.toDataURL('image/png');
+                        }
+                        img.style.display = 'block';
+                        canvas.style.display = 'none';
                     }
-                }, 150);
+                }, 300);
                 
                 document.getElementById('share-modal').style.display = 'flex';
                 document.getElementById('copy-success-msg').style.display = 'none';
@@ -937,6 +963,8 @@
             const returnMultipliers_withdraw8_from8 = { 10: 1.0658, 15: 1.0606, 20: 1.0931, 25: 1.186, 30: 1.237, 35: 1.229, 40: 1.22, 45: 1.226, 50: 1.235, 55: 1.241, 60: 1.248, 65: 1.259, 70: 1.269 };
             const returnMultipliers_withdraw13_from15 = { 15: 1.731, 20: 1.784, 25: 1.94, 30: 2.0272, 35: 2.0196, 40: 2.0143, 45: 2.0353, 50: 2.068, 55: 2.0995, 60: 2.142, 65: 2.199, 70: 2.276 };
             const returnMultipliers_withdraw18_from20 = { 20: 2.527, 25: 2.772, 30: 2.93, 35: 2.964, 40: 3.017, 45: 3.133, 50: 3.298, 55: 3.504, 60: 3.786, 65: 4.171, 70: 4.696, 75: 5.416, 80: 6.402, 85: 7.752, 90: 9.6, 95: 12.134, 100: 15.604 };
+            const returnMultipliers_withdraw23_from25 = { 25: 3.447, 30: 3.475, 35: 3.492, 40: 3.401, 45: 3.329, 50: 3.23, 55: 3.0943, 60: 2.911 };
+            const returnMultipliers_withdraw29_from30 = { 30: 4.754, 35: 4.841, 40: 4.805, 45: 4.821, 50: 4.838, 55: 4.858, 60: 4.866 };
 
             function getInterpolatedMultiplier(multipliersObj, year) {
                 const keys = Object.keys(multipliersObj).map(Number).sort((a,b)=>a-b);
@@ -1010,6 +1038,8 @@
                             if (strategy === 'withdraw8_from8' && pA >= 8) { cA = tP * 0.08; cW = cA * (pA - 8 + 1); cV = tP * getInterpolatedMultiplier(returnMultipliers_withdraw8_from8, pA); }
                             else if (strategy === 'withdraw13_from15' && pA >= 15) { cA = tP * 0.13; cW = cA * (pA - 15 + 1); cV = tP * getInterpolatedMultiplier(returnMultipliers_withdraw13_from15, pA); }
                             else if (strategy === 'withdraw18_from20' && pA >= 20) { cA = tP * 0.18; cW = cA * (pA - 20 + 1); cV = tP * getInterpolatedMultiplier(returnMultipliers_withdraw18_from20, pA); }
+                            else if (strategy === 'withdraw23_from25' && pA >= 25) { cA = tP * 0.23; cW = cA * (pA - 25 + 1); cV = tP * getInterpolatedMultiplier(returnMultipliers_withdraw23_from25, pA); }
+                            else if (strategy === 'withdraw29_from30' && pA >= 30) { cA = tP * 0.29; cW = cA * (pA - 30 + 1); cV = tP * getInterpolatedMultiplier(returnMultipliers_withdraw29_from30, pA); }
                             else { cV = tP * getInterpolatedMultiplier(returnMultipliers_none, pA); }
                             
                             if(pA < 5 && strategy !== 'none') cV = Math.min(pA, 5) * aC;
