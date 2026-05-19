@@ -68,9 +68,11 @@
         .input-group select { text-align-last: center; margin-top: 0.5rem; border-color: var(--primary-color); font-size: 0.9rem; }
         #inflation-value, #bank-interest-value { font-weight: bold; color: var(--primary-color); }
         
-        /* 獨立隱藏框樣式 */
-        .engine-placeholder { border: 2px dashed #ccc; border-radius: 8px; padding: 1rem; text-align: center; cursor: pointer; height: 100%; display: flex; align-items: center; justify-content: center; flex-direction: column; opacity: 0.6; transition: 0.2s; min-height: 120px; }
-        .engine-placeholder:hover { opacity: 1; transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.05); }
+        /* 公仔開關按鈕樣式 */
+        .emoji-toggle-bar { grid-column: 1 / -1; display: flex; gap: 15px; align-items: center; justify-content: center; background: #f8f9fa; padding: 12px; border-radius: 8px; border: 1px dashed var(--border-color); margin-bottom: 0.5rem; flex-wrap: wrap; }
+        .emoji-toggle { cursor: pointer; font-size: 1.8rem; opacity: 0.3; filter: grayscale(100%); transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); padding: 5px; border-radius: 50%; background: #e9ecef; width: 45px; height: 45px; display: flex; align-items: center; justify-content: center; box-shadow: inset 0 2px 4px rgba(0,0,0,0.05); user-select: none; }
+        .emoji-toggle:hover { opacity: 0.7; transform: scale(1.05); }
+        .emoji-toggle.active { opacity: 1; filter: none; background: #fff3cd; box-shadow: 0 4px 10px rgba(255, 193, 7, 0.3); transform: scale(1.15); border: 2px solid #ffca28; }
         .remove-engine-btn { position: absolute; top: -10px; right: -10px; background: #dee2e6; color: #495057; border: none; border-radius: 50%; width: 26px; height: 26px; cursor: pointer; font-size: 12px; z-index: 10; display: flex; align-items: center; justify-content: center; transition: 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
         .remove-engine-btn:hover { background: #dc3545; color: white; }
 
@@ -246,6 +248,13 @@
             <div class="section">
                 <h2>複利增值：各引擎的獨立策略</h2>
                 <div class="plan-grid">
+                    <div class="emoji-toggle-bar">
+                        <span style="font-size: 0.95rem; color: #555; font-weight: bold; margin-right: 5px;">點擊公仔啟用分段投入：</span>
+                        <div id="btn-toggle-plan2" class="emoji-toggle" onclick="toggleEngine('plan2')" title="啟用/隱藏 引擎二 (第6年供)">🐓</div>
+                        <div id="btn-toggle-plan3" class="emoji-toggle" onclick="toggleEngine('plan3')" title="啟用/隱藏 引擎三 (第11年供)">🐣</div>
+                        <div id="btn-toggle-plan4" class="emoji-toggle" onclick="toggleEngine('plan4')" title="啟用/隱藏 引擎四 (第16年供)">🥚</div>
+                    </div>
+
                     <div class="input-group">
                         <label style="color:var(--plan1-color); font-weight:bold;">財富引擎一 (5年期 • 第1年供)</label>
                         <input type="text" id="plan1-contribution" value="40,000" inputmode="numeric">
@@ -259,13 +268,8 @@
                         </select>
                     </div>
 
-                    <div class="input-group engine-placeholder" id="placeholder-plan2" onclick="toggleEngine('plan2')" style="border-color:var(--plan2-color); color:var(--plan2-color);">
-                        <div style="font-size: 1.5rem; margin-bottom: 5px;">➕</div>
-                        <div style="font-weight: bold; font-size: 0.95rem;">啟用財富引擎二</div>
-                        <div style="font-size: 0.8rem; margin-top: 2px;">(第6年供)</div>
-                    </div>
                     <div class="input-group extra-jar" id="group-plan2" style="display:none; position:relative;">
-                        <button class="remove-engine-btn" onclick="toggleEngine('plan2')">❌</button>
+                        <button class="remove-engine-btn" onclick="toggleEngine('plan2')" title="移除此引擎">❌</button>
                         <label style="color:var(--plan2-color); font-weight:bold;">財富引擎二 (5年期 • 第6年供)</label>
                         <input type="text" id="plan2-contribution" value="50,000" inputmode="numeric">
                         <select id="plan2-strategy">
@@ -278,13 +282,8 @@
                         </select>
                     </div>
 
-                    <div class="input-group engine-placeholder" id="placeholder-plan3" onclick="toggleEngine('plan3')" style="border-color:var(--plan3-color); color:var(--plan3-color);">
-                        <div style="font-size: 1.5rem; margin-bottom: 5px;">➕</div>
-                        <div style="font-weight: bold; font-size: 0.95rem;">啟用財富引擎三</div>
-                        <div style="font-size: 0.8rem; margin-top: 2px;">(第11年供)</div>
-                    </div>
                     <div class="input-group extra-jar" id="group-plan3" style="display:none; position:relative;">
-                        <button class="remove-engine-btn" onclick="toggleEngine('plan3')">❌</button>
+                        <button class="remove-engine-btn" onclick="toggleEngine('plan3')" title="移除此引擎">❌</button>
                         <label style="color:var(--plan3-color); font-weight:bold;">財富引擎三 (5年期 • 第11年供)</label>
                         <input type="text" id="plan3-contribution" value="60,000" inputmode="numeric">
                         <select id="plan3-strategy">
@@ -297,13 +296,8 @@
                         </select>
                     </div>
 
-                    <div class="input-group engine-placeholder" id="placeholder-plan4" onclick="toggleEngine('plan4')" style="border-color:var(--plan4-color); color:var(--plan4-color);">
-                        <div style="font-size: 1.5rem; margin-bottom: 5px;">➕</div>
-                        <div style="font-weight: bold; font-size: 0.95rem;">啟用財富引擎四</div>
-                        <div style="font-size: 0.8rem; margin-top: 2px;">(第16年供)</div>
-                    </div>
                     <div class="input-group extra-jar" id="group-plan4" style="display:none; position:relative;">
-                        <button class="remove-engine-btn" onclick="toggleEngine('plan4')">❌</button>
+                        <button class="remove-engine-btn" onclick="toggleEngine('plan4')" title="移除此引擎">❌</button>
                         <label style="color:var(--plan4-color); font-weight:bold;">財富引擎四 (5年期 • 第16年供)</label>
                         <input type="text" id="plan4-contribution" value="70,000" inputmode="numeric">
                         <select id="plan4-strategy">
@@ -441,7 +435,7 @@
             
             <div id="privacy-notice" style="text-align: center; margin-top: 3rem; padding: 1rem; border: 2px dashed var(--primary-color); background-color: #e7f3ff; border-radius: 8px;">
                 <p style="margin: 0; font-weight: 500; color: var(--primary-color);">🔒 絕對保密：所有資料只會儲存在您的瀏覽器內，不會上傳到任何伺服器。</p>
-                <p style="margin-top: 10px; font-size: 0.8rem; color: #999;">系統版本: v1.3 (強制更新機制已啟動)</p>
+                <p style="margin-top: 10px; font-size: 0.8rem; color: #999;">系統版本: v1.4 (強制更新機制已啟動)</p>
             </div>
         </div>
     </div>
@@ -541,7 +535,7 @@
     <div id="tab-strategy" class="tab-section">
         <div class="lazy-bag-container">
             <h2>🐔 黃金農場：四合一金雞佈局</h2>
-            <p class="intro-text">資料已與「計算推演」同步。以下顯示在 <strong id="goose-target-year-display" style="color:var(--primary-color);">第 30 年</strong> 時的預期金蛋收成。<br>您可以直接喺度更改每隻金雞嘅提取策略！</p>
+            <p class="intro-text">資料已與「計算推演」同步。以下顯示在 <strong id="goose-target-year-display" style="color:var(--primary-color);">最長遠終點</strong> 時的預期金蛋收成。<br>您可以直接喺度更改每隻金雞嘅提取策略！</p>
 
             <div class="goose-3in1-wrapper">
                 <div class="goose-egg-side">
@@ -567,6 +561,13 @@
                 </div>
 
                 <div class="goose-geese-side">
+                    <div class="emoji-toggle-bar">
+                        <span style="font-size: 0.95rem; color: #555; font-weight: bold; margin-right: 5px;">點擊公仔啟用分段投入：</span>
+                        <div id="goose-btn-toggle-plan2" class="emoji-toggle" onclick="toggleEngine('plan2')" title="啟用/隱藏 引擎二 (第6年供)">🐓</div>
+                        <div id="goose-btn-toggle-plan3" class="emoji-toggle" onclick="toggleEngine('plan3')" title="啟用/隱藏 引擎三 (第11年供)">🐣</div>
+                        <div id="goose-btn-toggle-plan4" class="emoji-toggle" onclick="toggleEngine('plan4')" title="啟用/隱藏 引擎四 (第16年供)">🥚</div>
+                    </div>
+
                     <div class="goose-card">
                         <div class="goose-card-header">
                             <div class="icon">🐔</div>
@@ -588,14 +589,8 @@
                         </div>
                     </div>
 
-                    <div class="goose-card engine-placeholder" id="goose-placeholder-plan2" onclick="toggleEngine('plan2')" style="border-color:#ffe082; background: transparent; box-shadow:none;">
-                        <div style="text-align:center; color: #f57f17; font-weight:bold;">
-                            <div style="font-size: 2.5rem; margin-bottom:10px;">➕</div>
-                            啟用引擎二金雞<br><span style="font-size:0.85rem; font-weight:normal;">(第6年供)</span>
-                        </div>
-                    </div>
                     <div class="goose-card extra-goose" id="goose-group-plan2" style="display:none; position:relative;">
-                        <button class="remove-engine-btn" onclick="toggleEngine('plan2')">❌</button>
+                        <button class="remove-engine-btn" onclick="toggleEngine('plan2')" title="移除此引擎">❌</button>
                         <div class="goose-card-header">
                             <div class="icon">🐓</div>
                             <h4>引擎二金雞</h4>
@@ -616,14 +611,8 @@
                         </div>
                     </div>
 
-                    <div class="goose-card engine-placeholder" id="goose-placeholder-plan3" onclick="toggleEngine('plan3')" style="border-color:#ffe082; background: transparent; box-shadow:none;">
-                        <div style="text-align:center; color: #f57f17; font-weight:bold;">
-                            <div style="font-size: 2.5rem; margin-bottom:10px;">➕</div>
-                            啟用引擎三金雞<br><span style="font-size:0.85rem; font-weight:normal;">(第11年供)</span>
-                        </div>
-                    </div>
                     <div class="goose-card extra-goose" id="goose-group-plan3" style="display:none; position:relative;">
-                        <button class="remove-engine-btn" onclick="toggleEngine('plan3')">❌</button>
+                        <button class="remove-engine-btn" onclick="toggleEngine('plan3')" title="移除此引擎">❌</button>
                         <div class="goose-card-header">
                             <div class="icon">🐣</div>
                             <h4>引擎三金雞</h4>
@@ -644,14 +633,8 @@
                         </div>
                     </div>
 
-                    <div class="goose-card engine-placeholder" id="goose-placeholder-plan4" onclick="toggleEngine('plan4')" style="border-color:#ffe082; background: transparent; box-shadow:none;">
-                        <div style="text-align:center; color: #f57f17; font-weight:bold;">
-                            <div style="font-size: 2.5rem; margin-bottom:10px;">➕</div>
-                            啟用引擎四金雞<br><span style="font-size:0.85rem; font-weight:normal;">(第16年供)</span>
-                        </div>
-                    </div>
                     <div class="goose-card extra-goose" id="goose-group-plan4" style="display:none; position:relative;">
-                        <button class="remove-engine-btn" onclick="toggleEngine('plan4')">❌</button>
+                        <button class="remove-engine-btn" onclick="toggleEngine('plan4')" title="移除此引擎">❌</button>
                         <div class="goose-card-header">
                             <div class="icon">🥚</div>
                             <h4>引擎四金雞</h4>
@@ -730,7 +713,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         // --- Version Control & Force Update ---
-        const APP_VERSION = '1.3';
+        const APP_VERSION = '1.4';
         if (localStorage.getItem('APP_VERSION') !== APP_VERSION) {
             localStorage.setItem('APP_VERSION', APP_VERSION);
             if ('serviceWorker' in navigator) {
@@ -740,12 +723,14 @@
             }
         }
 
-        // 獨立開關特定引擎的邏輯
+        // 獨立開關特定引擎的邏輯 (公仔微交互版)
         window.toggleEngine = function(engineId) {
             const group = document.getElementById(`group-${engineId}`);
-            const placeholder = document.getElementById(`placeholder-${engineId}`);
             const gooseGroup = document.getElementById(`goose-group-${engineId}`);
-            const goosePlaceholder = document.getElementById(`goose-placeholder-${engineId}`);
+            
+            // Tab 1 及 Tab 3 嘅公仔按鈕
+            const btn1 = document.getElementById(`btn-toggle-${engineId}`);
+            const btn3 = document.getElementById(`goose-btn-toggle-${engineId}`);
             
             if (!group) return;
 
@@ -753,14 +738,14 @@
             
             if (isCurrentlyHidden) {
                 if(group) group.style.display = 'block';
-                if(placeholder) placeholder.style.display = 'none';
                 if(gooseGroup) gooseGroup.style.display = 'flex';
-                if(goosePlaceholder) goosePlaceholder.style.display = 'none';
+                if(btn1) btn1.classList.add('active');
+                if(btn3) btn3.classList.add('active');
             } else {
                 if(group) group.style.display = 'none';
-                if(placeholder) placeholder.style.display = 'flex';
                 if(gooseGroup) gooseGroup.style.display = 'none';
-                if(goosePlaceholder) goosePlaceholder.style.display = 'flex';
+                if(btn1) btn1.classList.remove('active');
+                if(btn3) btn3.classList.remove('active');
             }
             
             calculateAndDisplay();
@@ -826,7 +811,7 @@
                     clientTitleDisplay.innerHTML = `💼 <strong>${clientName}</strong> 的專屬理財方案`;
                     clientTitleDisplay.style.display = 'block';
 
-                    // 如果客戶資料中有啟用引擎2/3/4，自動展開
+                    // 如果客戶資料中有啟用引擎2/3/4，自動展開並著色
                     [2, 3, 4].forEach(i => {
                         if(sharedData[`plan${i}-contribution`] && parseFloat(sharedData[`plan${i}-contribution`]) > 0) {
                             const group = document.getElementById(`group-plan${i}`);
@@ -892,7 +877,7 @@
                         }
                     });
                     
-                    // 自動展開已填資料的引擎
+                    // 自動展開已填資料的引擎並著色
                     [2, 3, 4].forEach(i => {
                         const hasVal = data[`plan${i}-contribution`] && parseFloat(data[`plan${i}-contribution`]) > 0;
                         const group = document.getElementById(`group-plan${i}`);
@@ -1075,9 +1060,12 @@
                 const existingDeposit = parseFormattedNumber(inputs['existing-deposit'].value);
                 const fixedBankDeposit = parseFormattedNumber(inputs['bank-deposit'].value);
                 const duelYear = parseInt(inputs['duel-year'].value) || 25;
-                const maxYear = 30; // 固定最大顯示年期
-
+                
+                // 動態推算至 100 歲的最長遠年份
                 const startAge = parseInt(inputs['start-age'].value) || 30;
+                let maxYear = 100 - startAge;
+                if (maxYear < 30) maxYear = 30; // 保底最少顯示30年
+
                 const targetAge = startAge + maxYear - 1;
                 document.getElementById('goose-target-year-display').textContent = `第 ${maxYear} 年 (即 ${targetAge} 歲)`;
 
@@ -1097,7 +1085,7 @@
                 document.getElementById('cash-total').textContent = `$${formatNumber(totalCashWithInterest)}`;
                 document.getElementById('cash-real-value').textContent = `$${formatNumber(adjustedCashValue)}`;
                 
-                // 改為顯示維持購買力需倒貼的正數
+                // 顯示維持購買力需倒貼的正數
                 const inflationGap = totalCashWithInterest - adjustedCashValue;
                 document.getElementById('cash-loss').textContent = `$${formatNumber(inflationGap)}`;
 
@@ -1112,23 +1100,25 @@
                     document.getElementById('group-plan4') && document.getElementById('group-plan4').style.display !== 'none'
                 ];
 
-                // 表格改為 5 年為一單位
-                const reportingYears = [5, 10, 15, 20, 25, 30];
+                // 表格嚴格按照每 5 年跳動顯示至終極年期
+                const reportingYears = [];
+                for (let y = 5; y <= maxYear; y += 5) {
+                    reportingYears.push(y);
+                }
 
                 const hiddenClass = showPurchasingPower ? '' : 'hidden-col';
                 tableHead.innerHTML = `<tr><th>年份 (歲數)</th><th>累計供款</th><th>被動收入</th><th>累積被動收入</th><th>戶口增長</th><th>總利益</th><th class="${hiddenClass}">實際購買力</th></tr>`;
                 tableBody.innerHTML = '';
                 
-                // 為了圖表平滑，圖表數據依然每年計算一次
                 const chartData = { labels: [], datasets: { plan1_value: [], plan2_value: [], plan3_value: [], plan4_value: [], plan1_withdrawn: [], plan2_withdrawn: [], plan3_withdrawn: [], plan4_withdrawn: [] }, adjBenefit: [], adjCash: [] };
                 
                 let eggTotalIncome = 0;
                 let eggTotalWithdrawn = 0;
                 let eggTotalValue = 0;
 
-                // Loop 1 至 30 年準備圖表及表格數據
+                // Loop 1 至 最長遠年份
                 for (let year = 1; year <= maxYear; year++) {
-                    chartData.labels.push(`${year}年 (${parseInt(inputs['start-age'].value) + year - 1}歲)`);
+                    
                     let rV = 0, rW = 0, rC = 0, rA = 0;
 
                     [1, 6, 11, 16].forEach((sY, i) => {
@@ -1150,8 +1140,12 @@
                             if(pA < 5 && strategy !== 'none') cV = Math.min(pA, 5) * aC;
                         }
                         rV += cV; rW += cW; rA += cA;
-                        
-                        chartData.datasets[`plan${i+1}_value`].push(Math.round(cV)); chartData.datasets[`plan${i+1}_withdrawn`].push(Math.round(cW));
+
+                        // 圖表只擷取第 10 年起嘅數據
+                        if (year >= 10) {
+                            chartData.datasets[`plan${i+1}_value`].push(Math.round(cV)); 
+                            chartData.datasets[`plan${i+1}_withdrawn`].push(Math.round(cW));
+                        }
 
                         if (year === maxYear) {
                             const incomeEl = document.getElementById(`goose-plan${i+1}-income`);
@@ -1163,14 +1157,18 @@
                         }
                     });
 
+                    // 填充圖表所需嘅總數據 (過濾第10年開始)
+                    if (year >= 10) {
+                        chartData.labels.push(`${year}年 (${parseInt(inputs['start-age'].value) + year - 1}歲)`);
+                        chartData.adjBenefit.push(Math.round((rV + rW) / Math.pow(1 + inflationRate, year)));
+                        chartData.adjCash.push(Math.round(calculateCompoundInterest(existingDeposit, fixedBankDeposit, bankInterestRate, year) / Math.pow(1 + inflationRate, year)));
+                    }
+
                     if (year === maxYear) {
                         eggTotalIncome = rA;
                         eggTotalWithdrawn = rW;
                         eggTotalValue = rV;
                     }
-
-                    chartData.adjBenefit.push(Math.round((rV + rW) / Math.pow(1 + inflationRate, year)));
-                    chartData.adjCash.push(Math.round(calculateCompoundInterest(existingDeposit, fixedBankDeposit, bankInterestRate, year) / Math.pow(1 + inflationRate, year)));
 
                     // 只在指定的 5 年區間寫入表格
                     if (reportingYears.includes(year)) {
@@ -1232,7 +1230,7 @@
                 
                 document.getElementById('inf-calc-amount').addEventListener('blur', function(e) { this.value = formatNumber(parseFormattedNumber(this.value)); updateMiniInflation(); });
                 document.getElementById('edu-current-cost').addEventListener('blur', function(e) { this.value = formatNumber(parseFormattedNumber(this.value)); updateEduFund(); });
-                
+
                 updateMiniInflation();
                 updateEduFund();
                 calculateAndDisplay();
