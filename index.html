@@ -401,7 +401,7 @@
             
             <div id="privacy-notice" style="text-align: center; margin-top: 3rem; padding: 1rem; border: 2px dashed var(--primary-color); background-color: #e7f3ff; border-radius: 8px;">
                 <p style="margin: 0; font-weight: 500; color: var(--primary-color);">🔒 絕對保密：所有資料只會儲存在您的瀏覽器內，不會上傳到任何伺服器。</p>
-                <p style="margin-top: 10px; font-size: 0.8rem; color: #999;">系統版本: v1.8 (強制更新機制已啟動)</p>
+                <p style="margin-top: 10px; font-size: 0.8rem; color: #999;">系統版本: v1.9 (強制更新機制已啟動)</p>
             </div>
         </div>
     </div>
@@ -438,7 +438,7 @@
                     <input type="checkbox" id="promo2-check" class="promo-checkbox" checked>
                     <div class="promo-content">
                         <h4>優惠 2：續保保費折扣</h4>
-                        <p>第 2 年起續保即減 5%。如同時配置指定危疾或人壽產品，再額外減 3%（合共 8%）。</p>
+                        <p>第 2 年續保即減 5%。如同時配置指定危疾或人壽產品，再額外減 3%（合共 8%）。</p>
                         <select id="promo2-select" style="margin-top:8px; width:100%; max-width:300px; padding:6px; border-radius:6px; border:1px solid #ccc;">
                             <option value="0.05">基本續保折扣 (減 5%)</option>
                             <option value="0.08" selected>同時配置指定危疾/人壽 (合共減 8%)</option>
@@ -451,13 +451,13 @@
                     <input type="checkbox" id="promo3-check" class="promo-checkbox" checked>
                     <div class="promo-content">
                         <h4>優惠 3：預繳保費保證利率</h4>
-                        <p>一筆過預繳未來保費，即享保證年利率回報！詳情參考 <i>PIR-promotion-May2026-tc.pdf</i>。</p>
+                        <p>於投保時一筆過預繳未來保費，即享保證年利率回報！滿期後以現金形式退回保證利息。</p>
                         <div style="margin-top:8px; display:flex; align-items:center; gap:10px;">
                             <span>保證年利率：</span>
                             <input type="number" id="promo3-rate" value="4.0" step="0.1" style="width:80px; padding:5px; border:1px solid #ccc; border-radius:4px; text-align:center;"> %
                         </div>
                         <div id="promo3-desc" style="margin-top:10px; background:#e7f3ff; padding:10px; border-radius:6px; font-size:0.9rem; color:#0056b3; line-height:1.5;"></div>
-                        <div class="promo-tag" style="background:#d4edda; color:#155724; display:block; max-width:fit-content;">預繳賺取利息：<span id="promo3-saved">$0</span></div>
+                        <div class="promo-tag" style="background:#d4edda; color:#155724; display:block; max-width:fit-content;">保單滿期總發還金額：<span id="promo3-saved">$0</span></div>
                     </div>
                 </div>
             </div>
@@ -469,11 +469,16 @@
                     <div class="big-savings" id="promo-total-savings">$0</div>
                 </div>
                 <div style="background: rgba(0,0,0,0.1); padding: 10px; border-radius: 8px;">
-                    <span style="font-size: 1rem;">實際只需付出總額：<strong id="promo-actual-outlay" style="font-size: 1.5rem;">$0</strong></span>
+                    <span style="font-size: 1rem;">實際淨付出總額：<strong id="promo-actual-outlay" style="font-size: 1.5rem;">$0</strong></span>
                 </div>
             </div>
         </div>
     </div>
+
+    <div id="tab-education" class="tab-section"></div>
+    <div id="tab-strategy" class="tab-section"></div>
+    <div id="tab-inflation" class="tab-section"></div>
+    <div id="tab-triangle" class="tab-section"></div>
 
     <div id="share-modal" class="modal-overlay">
         <div class="modal-content">
@@ -493,7 +498,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         // --- Version Control & Force Update ---
-        const APP_VERSION = '1.8';
+        const APP_VERSION = '1.9';
         if (localStorage.getItem('APP_VERSION') !== APP_VERSION) {
             localStorage.setItem('APP_VERSION', APP_VERSION);
             if ('serviceWorker' in navigator) {
@@ -679,7 +684,7 @@
                 slider.style.display = slider.style.display === 'none' ? 'block' : 'none';
             });
 
-            // --- 附屬優惠計算機邏輯 ---
+            // --- 精確的預繳保費及次年折扣邏輯 ---
             function calculatePromo() {
                 const P = parseFormattedNumber(document.getElementById('promo-annual-premium').value) || 0;
                 const N = parseInt(document.getElementById('promo-term').value) || 5;
@@ -690,30 +695,43 @@
                 const usePromo3 = document.getElementById('promo3-check').checked;
                 const rate = parseFloat(document.getElementById('promo3-rate').value) / 100 || 0.04;
 
+                // 優惠 1：首年折扣
                 let d1 = 0;
                 if (usePromo1) {
                     d1 = Math.floor(P / 5000) * 500;
                 }
 
+                // 優惠 2：續保折扣 (只針對第 2 年)
                 const d2Rate = usePromo2 ? parseFloat(promo2Type) : 0;
                 let d2 = 0;
-                let Pren = P;
-                if (N > 1) {
-                    d2 = P * (N - 1) * d2Rate;
-                    Pren = P * (1 - d2Rate); // 折扣後的續保保費
+                if (usePromo2 && N >= 2) {
+                    d2 = P * d2Rate; 
                 }
 
-                let d3 = 0;
-                let prepaidRequired = 0;
+                // 優惠 3：預繳保證利息計算 (一筆過繳付所有保費)
+                let totalInterest = 0;
+                let finalBalance = 0;
+                let prepayAmount = P * (N - 1);
+                
                 if (usePromo3 && N > 1) {
+                    let balance = prepayAmount;
                     for (let t = 2; t <= N; t++) {
-                        prepaidRequired += Pren / Math.pow(1 + rate, t - 1);
+                        // 年尾生息
+                        let interest = balance * rate;
+                        totalInterest += interest;
+                        balance += interest;
+                        
+                        // 扣除當年所需保費 (第2年扣除折後保費，其餘扣正價)
+                        let deduct = (t === 2 && usePromo2) ? (P - d2) : P;
+                        balance -= deduct;
                     }
-                    d3 = (Pren * (N - 1)) - prepaidRequired;
+                    // 滿期後，戶口剩餘的錢 (包含滾存利息 + 未扣除的第2年折扣本金) 將全數退回
+                    finalBalance = balance;
                 }
 
                 const originalTotal = P * N;
-                const totalSavings = d1 + d2 + d3;
+                // 經濟學上真正慳咗嘅錢 = d1(首年直接減) + d2(第二年少交) + totalInterest(保證賺取嘅純利息)
+                const totalSavings = d1 + d2 + totalInterest;
                 const actualOutlay = originalTotal - totalSavings;
 
                 document.getElementById('promo-original-total').textContent = '$' + formatNumber(originalTotal);
@@ -722,14 +740,20 @@
                 
                 document.getElementById('promo1-saved').textContent = '$' + formatNumber(d1);
                 document.getElementById('promo2-saved').textContent = '$' + formatNumber(d2);
-                document.getElementById('promo3-saved').textContent = '$' + formatNumber(d3);
+                document.getElementById('promo3-saved').textContent = '$' + formatNumber(finalBalance); // 顯示期滿發還總額
                 
                 // 動態產生解說文字
+                const descEl = document.getElementById('promo3-desc');
                 if(usePromo3 && N > 1) {
-                    document.getElementById('promo3-desc').innerHTML = `💡 <strong>計算詳情：</strong><br>第 2 至 ${N} 年的折後保費為每年 $${formatNumber(Pren)}。<br>透過 ${parseFloat(document.getElementById('promo3-rate').value).toFixed(1)}% 保證年利率貼現，您今日只需預繳 <strong>$${formatNumber(prepaidRequired)}</strong>，系統會自動滾存並全數抵銷未來 ${N-1} 年保費，變相為您賺取 <strong>$${formatNumber(d3)}</strong> 嘅保證利息！`;
-                    document.getElementById('promo3-desc').style.display = 'block';
+                    let initialPay = P * N - d1;
+                    descEl.innerHTML = `💡 <strong>預繳計算詳情：</strong><br>
+                    您於投保時一次過繳付 ${N} 年保費。扣除首年優惠後，當日實繳： <strong style="color:#d84315;">$${formatNumber(initialPay)}</strong>。<br>
+                    其中 <strong>$${formatNumber(prepayAmount)}</strong> 作為預繳本金，每年按 ${parseFloat(document.getElementById('promo3-rate').value).toFixed(1)}% 保證生息並自動扣除保費。<br>
+                    保單滿期後，系統會將剩餘的 <strong>$${formatNumber(finalBalance)}</strong> 以現金形式全數退回給您！<br>
+                    <span style="font-size:0.85rem; color:#666;">(滿期退回金額 = 第 2 年慳咗嘅 $${formatNumber(d2)} 本金連利息滾存 + 預繳純利息 $${formatNumber(totalInterest)})</span>`;
+                    descEl.style.display = 'block';
                 } else {
-                    document.getElementById('promo3-desc').style.display = 'none';
+                    descEl.style.display = 'none';
                 }
             }
 
