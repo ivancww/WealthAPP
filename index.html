@@ -128,30 +128,6 @@
         .promo-result-box h3 { margin: 0 0 10px 0; font-size: 1.2rem; opacity: 0.9; }
         .promo-result-box .big-savings { font-size: 3rem; font-weight: 900; line-height: 1; margin-bottom: 10px; }
         
-        /* 4隻金雞 3合1 佈局樣式 */
-        .goose-3in1-wrapper { display: flex; flex-wrap: wrap; gap: 2rem; margin-top: 2rem; align-items: stretch; }
-        .goose-egg-side { flex: 1; min-width: 280px; background: linear-gradient(135deg, #fff9c4, #ffecb3); border-radius: 12px; padding: 2rem; text-align: center; display: flex; flex-direction: column; justify-content: center; border: 2px solid #ffca28; box-shadow: 0 6px 16px rgba(255, 202, 40, 0.2); }
-        .goose-egg-side h3 { color: #e65100; font-size: 1.5rem; margin-top: 0; }
-        .goose-egg-side .eggs { font-size: 4rem; letter-spacing: 5px; margin: 0.5rem 0; text-shadow: 2px 2px 4px rgba(0,0,0,0.1); }
-        .goose-egg-summary-item { background: rgba(255,255,255,0.8); padding: 1rem; border-radius: 8px; margin-bottom: 1rem; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-        .goose-egg-summary-item span { display: block; font-size: 0.9rem; color: #666; font-weight: bold; }
-        .goose-egg-summary-item strong { display: block; font-size: 1.6rem; color: #d84315; margin-top: 5px; }
-
-        .goose-geese-side { flex: 2; min-width: 300px; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.2rem; }
-        .goose-card { background: #fffdf5; border: 1px solid #ffe082; border-radius: 12px; padding: 1.5rem; position: relative; box-shadow: 0 4px 8px rgba(0,0,0,0.03); display: flex; flex-direction: column; transition: transform 0.2s; }
-        .goose-card:hover { transform: translateY(-5px); border-color: #ffca28; box-shadow: 0 8px 16px rgba(255, 202, 40, 0.15); }
-        .goose-card-header { display: flex; align-items: center; gap: 10px; margin-bottom: 1rem; border-bottom: 1px dashed #ffe082; padding-bottom: 10px; }
-        .goose-card .icon { font-size: 2rem; line-height: 1; }
-        .goose-card h4 { margin: 0; color: #f57f17; font-size: 1.1rem; }
-        .goose-tag { background: #ffe082; color: #d84315; padding: 2px 8px; border-radius: 12px; font-size: 0.8rem; font-weight: bold; margin-left: auto; }
-        
-        .goose-select { width: 100%; padding: 8px; border: 1px solid #ffca28; border-radius: 6px; font-size: 0.95rem; text-align-last: center; background: #fff; color: #d84315; font-weight: bold; margin-bottom: 1rem; outline: none; cursor: pointer; }
-        
-        .goose-stats { display: flex; flex-direction: column; gap: 8px; }
-        .goose-stat-row { display: flex; justify-content: space-between; align-items: center; font-size: 0.95rem; color: #555; }
-        .goose-stat-row strong { font-size: 1.1rem; color: #333; }
-        .goose-stat-row.highlight strong { color: #28a745; font-size: 1.2rem; }
-
         /* Modal & 升級 QR Code (保證長按掃描功能) */
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6); z-index: 2000; align-items: center; justify-content: center; padding: 1rem; }
         .modal-content { background: #fff; padding: 2.5rem; border-radius: 12px; max-width: 400px; width: 100%; text-align: center; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
@@ -178,20 +154,16 @@
 <body>
 
     <nav class="bottom-nav">
-        <div class="nav-item active" onclick="switchTab('tab-calculator', this)"><span class="nav-icon">🗺️</span>財富藍圖</div>
-        <div class="nav-item" onclick="switchTab('tab-promo', this)"><span class="nav-icon">✨</span>專屬禮遇</div>
-        <div class="nav-item" onclick="switchTab('tab-education', this)"><span class="nav-icon">👼</span>伴你成長</div>
-        <div class="nav-item" onclick="switchTab('tab-strategy', this)"><span class="nav-icon">🏖️</span>悠閒長糧</div>
-        <div class="nav-item" onclick="switchTab('tab-inflation', this)"><span class="nav-icon">🛡️</span>保衛戰</div>
-        <div class="nav-item" onclick="switchTab('tab-triangle', this)"><span class="nav-icon">⚖️</span>穩健導航</div>
+        <div class="nav-item active" onclick="switchTab('tab-calculator', this)"><span class="nav-icon">📊</span>計算推演</div>
+        <div class="nav-item" onclick="switchTab('tab-promo', this)"><span class="nav-icon">🎁</span>保費優惠</div>
     </nav>
 
     <div id="tab-calculator" class="tab-section active">
         <div class="calculator-container">
             <header>
                 <div id="default-header-content">
-                    <h1>為您描繪的理想人生藍圖</h1>
-                    <p id="main-subtitle">理財，是為了讓未來的自己擁有選擇的自由。讓我們一起將時間化為盟友，提早鎖定您與家人的安穩歲月。</p>
+                    <h1>時光複利：寫給未來自己的理想人生藍圖</h1>
+                    <p id="main-subtitle">與時間結盟，創造被動收入的自由</p>
                 </div>
                 <h2 id="client-view-title" style="display:none; color: var(--primary-color); font-size: 1.7rem; margin: 10px 0 0 0; padding-bottom: 10px;"></h2>
             </header>
@@ -219,7 +191,7 @@
             </div>
             
             <div class="section">
-                <h2>⏳ 停留在舒適圈的隱形代價</h2>
+                <h2>錢放銀行的真相</h2>
                 <div class="duel-inputs">
                     <div class="input-group" id="group-existing-deposit"><label>現有銀行存款</label><input type="text" id="existing-deposit" value="500,000" inputmode="numeric"></div>
                     <div class="input-group" id="group-bank-deposit"><label>每年銀行儲蓄</label><input type="text" id="bank-deposit" value="100,000" inputmode="numeric"></div>
@@ -234,7 +206,7 @@
                     <div class="summary-item reveal-mask hidden" onclick="this.classList.remove('hidden')"><span class="summary-value value-text" id="cash-real-value">-</span><span class="summary-label">剩餘購買力</span></div>
                     <div class="summary-item reveal-mask hidden" onclick="this.classList.remove('hidden')">
                         <span class="summary-value value-text" id="cash-loss" style="color: #007bff; font-weight: 900; font-size: 2.5rem;">-</span>
-                        <span class="summary-label" style="color: #007bff; font-weight: bold; font-size: 1.15rem; line-height: 1.3; margin-top: 5px;">歲月神偷帶走的價值<br><span style="font-size:0.85rem; font-weight:normal;">(讓我們及早為此築起防線)</span></span>
+                        <span class="summary-label" style="color: #007bff; font-weight: bold; font-size: 1.15rem; line-height: 1.3; margin-top: 5px;">無形通脹成本<br><span style="font-size:0.85rem; font-weight:normal;">(維持同等購買力需倒貼)</span></span>
                     </div>
                 </div>
             </div>
@@ -244,9 +216,9 @@
                 <div class="plan-grid">
                     <div class="emoji-toggle-bar">
                         <span style="font-size: 0.95rem; color: #555; font-weight: bold; margin-right: 5px;">點擊公仔埋下更多時光錦囊：</span>
-                        <div id="btn-toggle-plan2" class="emoji-toggle" onclick="toggleEngine('plan2')" title="啟用/隱藏 時光錦囊二 (第6年供)">🐓</div>
-                        <div id="btn-toggle-plan3" class="emoji-toggle" onclick="toggleEngine('plan3')" title="啟用/隱藏 時光錦囊三 (第11年供)">🐣</div>
-                        <div id="btn-toggle-plan4" class="emoji-toggle" onclick="toggleEngine('plan4')" title="啟用/隱藏 時光錦囊四 (第16年供)">🥚</div>
+                        <div id="btn-toggle-plan2" class="emoji-toggle" onclick="toggleEngine('plan2')" title="啟用/隱藏 二號時光錦囊 (第6年供)">🐓</div>
+                        <div id="btn-toggle-plan3" class="emoji-toggle" onclick="toggleEngine('plan3')" title="啟用/隱藏 三號時光錦囊 (第11年供)">🐣</div>
+                        <div id="btn-toggle-plan4" class="emoji-toggle" onclick="toggleEngine('plan4')" title="啟用/隱藏 四號時光錦囊 (第16年供)">🥚</div>
                     </div>
 
                     <div class="input-group">
@@ -429,15 +401,15 @@
             
             <div id="privacy-notice" style="text-align: center; margin-top: 3rem; padding: 1rem; border: 2px dashed var(--primary-color); background-color: #e7f3ff; border-radius: 8px;">
                 <p style="margin: 0; font-weight: 500; color: var(--primary-color);">🔒 絕對保密：所有資料只會儲存在您的瀏覽器內，不會上傳到任何伺服器。</p>
-                <p style="margin-top: 10px; font-size: 0.8rem; color: #999;">系統版本: v1.6 (強制更新機制已啟動)</p>
+                <p style="margin-top: 10px; font-size: 0.8rem; color: #999;">系統版本: v1.8 (強制更新機制已啟動)</p>
             </div>
         </div>
     </div>
 
     <div id="tab-promo" class="tab-section">
         <div class="lazy-bag-container">
-            <h2>✨ 專屬保費禮遇計算</h2>
-            <p class="intro-text">為您度身訂造最輕鬆的投保策略，將每一分錢的效益極大化！</p>
+            <h2>🎁 專屬保費優惠計算</h2>
+            <p class="intro-text">為您度身訂造最慳錢嘅投保策略，將每一分錢嘅效益極大化！</p>
             
             <div class="promo-card" style="background:#f8f9fa;">
                 <div class="top-input-grid" style="margin-bottom: 0;">
@@ -456,7 +428,7 @@
                 <div class="promo-row">
                     <input type="checkbox" id="promo1-check" class="promo-checkbox" checked>
                     <div class="promo-content">
-                        <h4>優惠 1：首年保費回贈</h4>
+                        <h4>優惠 1：首年保費大減價</h4>
                         <p>首年保費每滿 $5,000 即減 $500。</p>
                         <div class="promo-tag">已為您慳下：<span id="promo1-saved">$0</span></div>
                     </div>
@@ -503,254 +475,6 @@
         </div>
     </div>
 
-    <div id="tab-triangle" class="tab-section">
-        <div class="lazy-bag-container">
-            <h2>⚖️ 理財鐵三角：解構真實屬性</h2>
-            <p class="intro-text">在投資世界，<strong>時間、風險、回報</strong>構成一個「理財鐵三角」，<br>您永遠無法同時擁有「低風險」、「高回報」和「短時間」。</p>
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem; margin-top: 2rem;">
-                <div style="background: #fff; border: 1px solid var(--border-color); border-radius: 8px; padding: 1.5rem; text-align: center;"><h4>🚀 股票 (個股)</h4><div style="font-size: 2.5rem; margin-bottom: 1rem;">📈💣</div><p>高回報潛力，極高風險。可能一飛沖天，也可能粉身碎骨。</p></div>
-                <div style="background: #fff; border: 1px solid var(--border-color); border-radius: 8px; padding: 1.5rem; text-align: center;"><h4>✈️ 指數 / ETF</h4><div style="font-size: 2.5rem; margin-bottom: 1rem;">📊🎢</div><p>中高回報，高風險。如同搭飛機，需經歷強烈的氣流顛簸。</p></div>
-                <div style="background: #f8fbff; border: 2px solid var(--primary-color); border-radius: 8px; padding: 1.5rem; text-align: center;"><h4>🚄 儲蓄保險</h4><div style="font-size: 2.5rem; margin-bottom: 1rem;">🛡️⏳</div><p>穩定回報，中低風險。以最安穩的方式，準時到達目的地。</p></div>
-                <div style="background: #fff; border: 1px solid var(--border-color); border-radius: 8px; padding: 1.5rem; text-align: center;"><h4>🚲 定期存款</h4><div style="font-size: 2.5rem; margin-bottom: 1rem;">🏦📉</div><p>極低回報，極低風險。速度太慢，真實購買力會縮水。</p></div>
-            </div>
-        </div>
-
-        <div class="lazy-bag-container" style="margin-top: 2rem;">
-            <h2>🔓 靈活性的迷思：能隨時提取就夠嗎？</h2>
-            <p class="intro-text">很多人認為「靈活性 = 隨時可以攞錢」。<br>但我們往往忽略了一個致命的盲點：<br><strong>「如果攞錢嗰陣，本金少咗，咁仲算唔算係真正嘅靈活？」</strong></p>
-
-            <div class="flexibility-card bank">
-                <div class="flex-icon">🏦</div>
-                <div class="flex-content">
-                    <h3>銀行活期：看似最靈活</h3>
-                    <p>你確實可以隨時去 ATM 提款，數字一分沒少。</p>
-                    <span class="highlight-text">致命傷：購買力越取越薄</span>
-                    <p style="margin-top: 5px;">由於利息遠低於通脹，雖然你拿回了 100% 的本金，但這些錢能買到的東西可能只剩下當年的 70%。這不是靈活，是無形貶值。</p>
-                </div>
-            </div>
-
-            <div class="flexibility-card stock">
-                <div class="flex-icon">📉</div>
-                <div class="flex-content">
-                    <h3>股票 / 基金：高流動性的幻覺</h3>
-                    <p>只要在交易日，你隨時可以按個掣賣出套現。</p>
-                    <span class="highlight-text">致命傷：要看市場面色</span>
-                    <p style="margin-top: 5px;">當你急需用錢（例如失業、生病），往往也是宏觀經濟最差、股市大跌的時候。此時套現，等於「被迫割肉蝕讓」。這叫無可奈何，不叫靈活。</p>
-                </div>
-            </div>
-
-            <div class="flexibility-card">
-                <div class="flex-icon">🔒</div>
-                <div class="flex-content">
-                    <h3>定期存款：被鎖死的資金</h3>
-                    <p>為了比活期高一點點的利息，資金被設定了死期。</p>
-                    <span class="highlight-text">致命傷：提早取款要罰息</span>
-                    <p style="margin-top: 5px;">在到期日前根本不具備隨時提取的條件，一旦遇上突發需要，不但沒利息，甚至可能要倒扣手續費。</p>
-                </div>
-            </div>
-
-            <div class="flex-conclusion">
-                <h3>💎 重新定義：甚麼是高級的靈活性？</h3>
-                <p>真正的靈活性，並不僅僅是「可以拿錢」，而是——<br><br>
-                <strong>「當你需要錢的時候，這筆錢不但隨時準備好為你效勞，而且它的真實價值，比你當初放進去的時候還要多！」</strong><br><br>
-                這就是為甚麼我們需要配置能對抗通脹、隔離市場波動作「保本增值」，並能隨時提供強大現金流的「自製長糧」策略。</p>
-            </div>
-        </div>
-    </div>
-
-    <div id="tab-inflation" class="tab-section">
-        <div class="lazy-bag-container">
-            <h2>💸 購買力被偷走的真相：人生降級</h2>
-            <p class="intro-text" style="color:#dc3545; font-weight:bold;">通脹最恐怖的地方，不是東西變貴，<br>而是你的存款沒變，但生活質素卻被迫「斷崖式下跌」！</p>
-            
-            <div style="display: flex; flex-direction: column; gap: 1.5rem; margin-top: 1rem;">
-                <div style="background: #fff; border-radius: 12px; padding: 2rem; text-align: center; border-top: 5px solid #28a745; position: relative; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
-                    <span style="position: absolute; top: 15px; right: 15px; background: #28a745; color: white; padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: bold;">今日的 100 萬</span>
-                    <h3 style="margin:0 0 1rem 0;">✈️ 享受「頭等艙」生活</h3>
-                    <div style="font-size: 3.5rem; letter-spacing: 0.5rem; margin: 1rem 0;">🥩🍷🏖️</div>
-                    <p style="font-weight: bold; color: #555; margin:0;">去旅行、食好西、享受人生</p>
-                </div>
-                <div style="text-align: center; font-size: 2.5rem; color: #dc3545;">⬇️ 20 年後 ⬇️</div>
-                <div style="background: #fffafb; border-radius: 12px; padding: 2rem; text-align: center; border-top: 5px solid #dc3545; position: relative; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
-                    <span style="position: absolute; top: 15px; right: 15px; background: #dc3545; color: white; padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: bold;">只剩下約 50 萬購買力</span>
-                    <h3 style="margin:0 0 1rem 0; color:#dc3545;">🚌 淪為「經濟艙」生存</h3>
-                    <div style="font-size: 3.5rem; letter-spacing: 0.5rem; margin: 1rem 0;">🍞💧🏥</div>
-                    <p style="font-weight: bold; color: #555; margin:0;">算住使、睇價錢、擔心醫藥費</p>
-                </div>
-            </div>
-
-            <div class="interactive-calc">
-                <h3>🔍 專屬通脹破壞力計算機</h3>
-                <p style="text-align:center; color:#555; font-size:0.9rem;">輸入一筆資金，睇下將來購買力剩返幾多</p>
-                <div class="top-input-grid" style="margin-bottom: 1rem;">
-                    <div class="input-group"><label>現有資金</label><input type="text" id="inf-calc-amount" value="1,000,000" inputmode="numeric"></div>
-                    <div class="input-group"><label>年期 (年)</label><input type="number" id="inf-calc-years" value="20"></div>
-                    <div class="input-group"><label>通脹率 (%)</label><input type="number" id="inf-calc-rate" value="3.5" step="0.1"></div>
-                </div>
-                <div style="text-align:center; font-size: 1.1rem; font-weight: bold;">
-                    該筆資金在將來的「實際購買力」只相等於今日的：<br>
-                    <span id="inf-calc-result" style="display:inline-block; margin-top:10px; color: #dc3545; font-size: 2rem; background: #ffebee; padding: 5px 20px; border-radius: 8px;">$502,566</span>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="tab-strategy" class="tab-section">
-        <div class="lazy-bag-container">
-            <h2>🏖️ 悠閒長糧：專屬您的時光錦囊</h2>
-            <p class="intro-text">資料已與「財富藍圖」同步。以下顯示在 <strong id="goose-target-year-display" style="color:var(--primary-color);">最長遠終點</strong> 時的預期長糧收成。<br>您可以直接喺度更改每個錦囊嘅提取策略！</p>
-
-            <div class="goose-3in1-wrapper">
-                <div class="goose-egg-side">
-                    <h3>🎯 您的未來自由現金流</h3>
-                    <div class="eggs">🥚🧺</div>
-                    
-                    <div class="goose-egg-summary-item" style="border-left: 5px solid #28a745;">
-                        <span>✨ 每年總被動收入 (自製長糧)</span>
-                        <strong id="egg-total-income" style="color:#28a745;">$0</strong>
-                    </div>
-                    
-                    <div class="goose-egg-summary-item" style="border-left: 5px solid #d84315;">
-                        <span>💰 歷年累積已落袋 (享受生活)</span>
-                        <strong id="egg-total-withdrawn">$0</strong>
-                    </div>
-                    
-                    <div class="goose-egg-summary-item" style="border-left: 5px solid #6f42c1;">
-                        <span>🏦 傳承後代的安穩基石 (依然健在的本金)</span>
-                        <strong id="egg-total-value" style="color:#6f42c1;">$0</strong>
-                    </div>
-
-                    <p style="font-size: 0.95rem; color: #666; font-weight: bold; margin-top: 10px;">每年長糧入袋，本金依然穩健增長<br>更可無限期傳承給下一代！</p>
-                </div>
-
-                <div class="goose-geese-side">
-                    <div class="emoji-toggle-bar">
-                        <span style="font-size: 0.95rem; color: #555; font-weight: bold; margin-right: 5px;">點擊公仔埋下更多時光錦囊：</span>
-                        <div id="goose-btn-toggle-plan2" class="emoji-toggle" onclick="toggleEngine('plan2')" title="啟用/隱藏 時光錦囊二 (第6年供)">🐓</div>
-                        <div id="goose-btn-toggle-plan3" class="emoji-toggle" onclick="toggleEngine('plan3')" title="啟用/隱藏 時光錦囊三 (第11年供)">🐣</div>
-                        <div id="goose-btn-toggle-plan4" class="emoji-toggle" onclick="toggleEngine('plan4')" title="啟用/隱藏 時光錦囊四 (第16年供)">🥚</div>
-                    </div>
-
-                    <div class="goose-card">
-                        <div class="goose-card-header">
-                            <div class="icon">🐔</div>
-                            <h4>一號時光錦囊</h4>
-                            <span class="goose-tag">5年期 • 第1年供</span>
-                        </div>
-                        <select id="goose-plan1-strategy" class="goose-select">
-                            <option value="none">滾存不提取</option>
-                            <option value="withdraw8_from8">第8年開始 取8%</option>
-                            <option value="withdraw13_from15">第15年開始 取13%</option>
-                            <option value="withdraw18_from20">第20年開始 取18%</option>
-                            <option value="withdraw23_from25">第25年開始 取23%</option>
-                            <option value="withdraw29_from30">第30年開始 取29%</option>
-                        </select>
-                        <div class="goose-stats">
-                            <div class="goose-stat-row highlight"><span>每年派息:</span><strong id="goose-plan1-income">$0</strong></div>
-                            <div class="goose-stat-row"><span>累積已取:</span><strong id="goose-plan1-withdrawn">$0</strong></div>
-                            <div class="goose-stat-row"><span>戶口剩餘:</span><strong id="goose-plan1-value">$0</strong></div>
-                        </div>
-                    </div>
-
-                    <div class="goose-card extra-goose" id="goose-group-plan2" style="display:none; position:relative;">
-                        <button class="remove-engine-btn" onclick="toggleEngine('plan2')" title="移除此錦囊">❌</button>
-                        <div class="goose-card-header">
-                            <div class="icon">🐓</div>
-                            <h4>二號時光錦囊</h4>
-                            <span class="goose-tag">5年期 • 第6年供</span>
-                        </div>
-                        <select id="goose-plan2-strategy" class="goose-select">
-                            <option value="none">滾存不提取</option>
-                            <option value="withdraw8_from8">第8年開始 取8%</option>
-                            <option value="withdraw13_from15">第15年開始 取13%</option>
-                            <option value="withdraw18_from20">第20年開始 取18%</option>
-                            <option value="withdraw23_from25">第25年開始 取23%</option>
-                            <option value="withdraw29_from30">第30年開始 取29%</option>
-                        </select>
-                        <div class="goose-stats">
-                            <div class="goose-stat-row highlight"><span>每年派息:</span><strong id="goose-plan2-income">$0</strong></div>
-                            <div class="goose-stat-row"><span>累積已取:</span><strong id="goose-plan2-withdrawn">$0</strong></div>
-                            <div class="goose-stat-row"><span>戶口剩餘:</span><strong id="goose-plan2-value">$0</strong></div>
-                        </div>
-                    </div>
-
-                    <div class="goose-card extra-goose" id="goose-group-plan3" style="display:none; position:relative;">
-                        <button class="remove-engine-btn" onclick="toggleEngine('plan3')" title="移除此錦囊">❌</button>
-                        <div class="goose-card-header">
-                            <div class="icon">🐣</div>
-                            <h4>三號時光錦囊</h4>
-                            <span class="goose-tag">5年期 • 第11年供</span>
-                        </div>
-                        <select id="goose-plan3-strategy" class="goose-select">
-                            <option value="none">滾存不提取</option>
-                            <option value="withdraw8_from8">第8年開始 取8%</option>
-                            <option value="withdraw13_from15">第15年開始 取13%</option>
-                            <option value="withdraw18_from20">第20年開始 取18%</option>
-                            <option value="withdraw23_from25">第25年開始 取23%</option>
-                            <option value="withdraw29_from30">第30年開始 取29%</option>
-                        </select>
-                        <div class="goose-stats">
-                            <div class="goose-stat-row highlight"><span>每年派息:</span><strong id="goose-plan3-income">$0</strong></div>
-                            <div class="goose-stat-row"><span>累積已取:</span><strong id="goose-plan3-withdrawn">$0</strong></div>
-                            <div class="goose-stat-row"><span>戶口剩餘:</span><strong id="goose-plan3-value">$0</strong></div>
-                        </div>
-                    </div>
-
-                    <div class="goose-card extra-goose" id="goose-group-plan4" style="display:none; position:relative;">
-                        <button class="remove-engine-btn" onclick="toggleEngine('plan4')" title="移除此錦囊">❌</button>
-                        <div class="goose-card-header">
-                            <div class="icon">🥚</div>
-                            <h4>四號時光錦囊</h4>
-                            <span class="goose-tag">5年期 • 第16年供</span>
-                        </div>
-                        <select id="goose-plan4-strategy" class="goose-select">
-                            <option value="none">滾存不提取</option>
-                            <option value="withdraw8_from8">第8年開始 取8%</option>
-                            <option value="withdraw13_from15">第15年開始 取13%</option>
-                            <option value="withdraw18_from20">第20年開始 取18%</option>
-                            <option value="withdraw23_from25">第25年開始 取23%</option>
-                            <option value="withdraw29_from30">第30年開始 取29%</option>
-                        </select>
-                        <div class="goose-stats">
-                            <div class="goose-stat-row highlight"><span>每年派息:</span><strong id="goose-plan4-income">$0</strong></div>
-                            <div class="goose-stat-row"><span>累積已取:</span><strong id="goose-plan4-withdrawn">$0</strong></div>
-                            <div class="goose-stat-row"><span>戶口剩餘:</span><strong id="goose-plan4-value">$0</strong></div>
-                        </div>
-                    </div>
-                    
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="tab-education" class="tab-section">
-        <div class="lazy-bag-container">
-            <h2>👼 伴你成長：教育藍圖規劃</h2>
-            <p class="intro-text">教育通脹往往比一般通脹更嚴峻。及早規劃，讓我們為孩子釐清未來的資金路徑。</p>
-            
-            <div style="background: #fdfdfd; border: 1px solid var(--border-color); border-radius: 12px; padding: 1.5rem;">
-                <div class="top-input-grid" style="margin-bottom: 0;">
-                    <div class="input-group"><label>小朋友現時歲數</label><input type="number" id="edu-current-age" value="0"></div>
-                    <div class="input-group"><label>預期入讀大學歲數</label><input type="number" id="edu-target-age" value="18"></div>
-                    <div class="input-group"><label>現時 4 年總學費+生活費</label><input type="text" id="edu-current-cost" value="1,000,000" inputmode="numeric"></div>
-                    <div class="input-group"><label>預期教育通脹率 (%)</label><input type="number" id="edu-inflation" value="5" step="0.1"></div>
-                </div>
-            </div>
-
-            <div class="duel-summary" style="margin-top: 2rem; background: #fff; border: 2px solid #e7f3ff; box-shadow: 0 4px 15px rgba(0,123,255,0.05);">
-                <div class="summary-item" style="width: 100%; text-align: center; border-bottom: 1px solid #eee; padding-bottom: 15px; margin-bottom: 5px;">
-                    <span class="summary-label" style="font-size: 1.1rem;">📈 將來入學時實際所需總額</span>
-                    <span class="summary-value" id="edu-future-cost" style="color: #dc3545; font-size: 2.2rem;">-</span>
-                </div>
-                <div class="summary-item" style="padding-top: 15px;">
-                    <span class="summary-label">💡 為了這份給孩子的承諾，若單靠儲蓄，您每年需預留：</span>
-                    <span class="summary-value" id="edu-yearly-save-bank" style="font-size: 1.8rem; color: var(--secondary-color); margin-top: 5px;">-</span>
-                    <div style="font-size:0.85rem; color:#666; margin-top:10px;">別擔心，透過合適的增值工具，這個擔子可以輕省得多。</div>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <div id="share-modal" class="modal-overlay">
         <div class="modal-content">
             <span class="close-modal" id="close-modal-icon">&times;</span>
@@ -769,7 +493,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         // --- Version Control & Force Update ---
-        const APP_VERSION = '1.6';
+        const APP_VERSION = '1.8';
         if (localStorage.getItem('APP_VERSION') !== APP_VERSION) {
             localStorage.setItem('APP_VERSION', APP_VERSION);
             if ('serviceWorker' in navigator) {
@@ -779,14 +503,11 @@
             }
         }
 
-        // 獨立開關特定引擎的邏輯 (公仔微交互版)
+        // 獨立開關特定錦囊的邏輯 (公仔微交互版)
         window.toggleEngine = function(engineId) {
             const group = document.getElementById(`group-${engineId}`);
-            const gooseGroup = document.getElementById(`goose-group-${engineId}`);
             
-            // Tab 1 及 Tab 3 嘅公仔按鈕
             const btn1 = document.getElementById(`btn-toggle-${engineId}`);
-            const btn3 = document.getElementById(`goose-btn-toggle-${engineId}`);
             
             if (!group) return;
 
@@ -794,14 +515,10 @@
             
             if (isCurrentlyHidden) {
                 if(group) group.style.display = 'block';
-                if(gooseGroup) gooseGroup.style.display = 'flex';
                 if(btn1) btn1.classList.add('active');
-                if(btn3) btn3.classList.add('active');
             } else {
                 if(group) group.style.display = 'none';
-                if(gooseGroup) gooseGroup.style.display = 'none';
                 if(btn1) btn1.classList.remove('active');
-                if(btn3) btn3.classList.remove('active');
             }
             
             calculateAndDisplay();
@@ -873,7 +590,7 @@
                     clientTitleDisplay.innerHTML = `💼 <strong>${clientName}</strong> 的專屬理財方案`;
                     clientTitleDisplay.style.display = 'block';
 
-                    // 如果客戶資料中有啟用引擎2/3/4，自動展開並著色
+                    // 如果客戶資料中有啟用錦囊2/3/4，自動展開並著色
                     [2, 3, 4].forEach(i => {
                         if(sharedData[`plan${i}-contribution`] && parseFloat(sharedData[`plan${i}-contribution`]) > 0) {
                             const group = document.getElementById(`group-plan${i}`);
@@ -888,21 +605,7 @@
                 } catch (e) { console.error("解析分享連結失敗", e); }
             }
 
-            // --- 同步下拉選單 (Tab 1 與 Tab 3 聯動) ---
-            [1, 2, 3, 4].forEach(i => {
-                const mainSelect = document.getElementById(`plan${i}-strategy`);
-                const gooseSelect = document.getElementById(`goose-plan${i}-strategy`);
-                if(mainSelect && gooseSelect) {
-                    gooseSelect.addEventListener('change', (e) => {
-                        mainSelect.value = e.target.value;
-                        calculateAndDisplay();
-                    });
-                    mainSelect.addEventListener('change', (e) => {
-                        gooseSelect.value = e.target.value;
-                    });
-                }
-            });
-
+            // --- 資料管理邏輯 ---
             document.getElementById('share-btn').addEventListener('click', () => {
                 if (window.location.protocol === 'file:') {
                     alert('⚠️ 溫馨提示：您目前正在電腦本機 (file://) 開啟檔案，產生的分享連結無法在手機上開啟。\n請將檔案上傳至伺服器或 GitHub Pages 後再使用分享功能！');
@@ -919,7 +622,7 @@
                     }
                 });
                 
-                // 清理被隱藏引擎的數據，避免分享無用資料
+                // 清理被隱藏錦囊的數據，避免分享無用資料
                 [2, 3, 4].forEach(i => {
                     const group = document.getElementById(`group-plan${i}`);
                     if (group && group.style.display === 'none') {
@@ -1030,42 +733,8 @@
                 }
             }
 
-            // --- 其他附屬計算機邏輯 ---
-            function updateMiniInflation() {
-                const amt = parseFormattedNumber(document.getElementById('inf-calc-amount').value);
-                const years = parseFloat(document.getElementById('inf-calc-years').value);
-                const rate = parseFloat(document.getElementById('inf-calc-rate').value) / 100;
-                if(amt && years && rate) {
-                    const result = amt / Math.pow(1 + rate, years);
-                    document.getElementById('inf-calc-result').textContent = '$' + formatNumber(result);
-                }
-            }
-
-            function updateEduFund() {
-                const cAge = parseFloat(document.getElementById('edu-current-age').value) || 0;
-                const tAge = parseFloat(document.getElementById('edu-target-age').value) || 18;
-                const cost = parseFormattedNumber(document.getElementById('edu-current-cost').value) || 1000000;
-                const inf = parseFloat(document.getElementById('edu-inflation').value) / 100 || 0.05;
-                
-                const years = tAge - cAge;
-                if (years <= 0) {
-                    document.getElementById('edu-future-cost').textContent = '-';
-                    document.getElementById('edu-yearly-save-bank').textContent = '-';
-                    return;
-                }
-
-                const futureCost = cost * Math.pow(1 + inf, years);
-                document.getElementById('edu-future-cost').textContent = '$' + formatNumber(futureCost);
-
-                const bankSave = futureCost / years;
-                document.getElementById('edu-yearly-save-bank').textContent = '$' + formatNumber(bankSave);
-            }
-
             ['promo-annual-premium', 'promo-term', 'promo3-rate'].forEach(id => { document.getElementById(id).addEventListener('input', calculatePromo); });
             ['promo1-check', 'promo2-check', 'promo2-select', 'promo3-check'].forEach(id => { document.getElementById(id).addEventListener('change', calculatePromo); });
-
-            ['inf-calc-amount', 'inf-calc-years', 'inf-calc-rate'].forEach(id => { document.getElementById(id).addEventListener('input', updateMiniInflation); });
-            ['edu-current-age', 'edu-target-age', 'edu-current-cost', 'edu-inflation'].forEach(id => { document.getElementById(id).addEventListener('input', updateEduFund); });
 
             // --- 主計算機邏輯 ---
             const returnMultipliers_none = { 10: 1.32, 15: 1.86, 20: 2.71, 25: 4.11, 30: 5.85, 35: 8.02, 40: 10.99, 45: 15.06, 50: 20.63, 55: 28.27, 60: 38.73, 65: 53.06, 70: 72.69 };
@@ -1097,15 +766,6 @@
                 let maxYear = 100 - startAge;
                 if (maxYear < 30) maxYear = 30; // 保底最少顯示30年
 
-                const targetAge = startAge + maxYear - 1;
-                document.getElementById('goose-target-year-display').textContent = `第 ${maxYear} 年 (即 ${targetAge} 歲)`;
-
-                [1, 2, 3, 4].forEach(i => {
-                    const mainSelect = document.getElementById(`plan${i}-strategy`);
-                    const gooseSelect = document.getElementById(`goose-plan${i}-strategy`);
-                    if(mainSelect && gooseSelect) gooseSelect.value = mainSelect.value;
-                });
-
                 document.getElementById('inflation-value').textContent = `${parseFloat(inputs['inflation-rate'].value).toFixed(1)}%`;
                 document.getElementById('bank-interest-value').textContent = `${parseFloat(inputs['bank-interest'].value).toFixed(1)}%`;
                 
@@ -1123,9 +783,9 @@
                 const planContributions = [inputs['plan1-contribution'], inputs['plan2-contribution'], inputs['plan3-contribution'], inputs['plan4-contribution']].map(input => parseFormattedNumber(input.value));
                 const planStrategies = [inputs['plan1-strategy'], inputs['plan2-strategy'], inputs['plan3-strategy'], inputs['plan4-strategy']].map(input => input.value);
                 
-                // 判斷哪些引擎是啟用狀態
+                // 判斷哪些錦囊是啟用狀態
                 const isEngineActive = [
-                    true, // 引擎1常駐
+                    true, // 錦囊1常駐
                     document.getElementById('group-plan2') && document.getElementById('group-plan2').style.display !== 'none',
                     document.getElementById('group-plan3') && document.getElementById('group-plan3').style.display !== 'none',
                     document.getElementById('group-plan4') && document.getElementById('group-plan4').style.display !== 'none'
@@ -1143,10 +803,6 @@
                 
                 const chartData = { labels: [], datasets: { plan1_value: [], plan2_value: [], plan3_value: [], plan4_value: [], plan1_withdrawn: [], plan2_withdrawn: [], plan3_withdrawn: [], plan4_withdrawn: [] }, adjBenefit: [], adjCash: [] };
                 
-                let eggTotalIncome = 0;
-                let eggTotalWithdrawn = 0;
-                let eggTotalValue = 0;
-
                 // Loop 1 至 最長遠年份
                 for (let year = 1; year <= maxYear; year++) {
                     
@@ -1177,15 +833,6 @@
                             chartData.datasets[`plan${i+1}_value`].push(Math.round(cV)); 
                             chartData.datasets[`plan${i+1}_withdrawn`].push(Math.round(cW));
                         }
-
-                        if (year === maxYear) {
-                            const incomeEl = document.getElementById(`goose-plan${i+1}-income`);
-                            if(incomeEl) {
-                                document.getElementById(`goose-plan${i+1}-income`).textContent = '$' + formatNumber(cA);
-                                document.getElementById(`goose-plan${i+1}-withdrawn`).textContent = '$' + formatNumber(cW);
-                                document.getElementById(`goose-plan${i+1}-value`).textContent = '$' + formatNumber(cV);
-                            }
-                        }
                     });
 
                     // 填充圖表所需嘅總數據 (過濾第10年開始)
@@ -1195,12 +842,6 @@
                         chartData.adjCash.push(Math.round(calculateCompoundInterest(existingDeposit, fixedBankDeposit, bankInterestRate, year) / Math.pow(1 + inflationRate, year)));
                     }
 
-                    if (year === maxYear) {
-                        eggTotalIncome = rA;
-                        eggTotalWithdrawn = rW;
-                        eggTotalValue = rV;
-                    }
-
                     // 寫入表格 (第10年開始每5年顯示)
                     if (reportingYears.includes(year)) {
                         const row = document.createElement('tr');
@@ -1208,10 +849,6 @@
                         tableBody.appendChild(row);
                     }
                 }
-                
-                document.getElementById('egg-total-income').textContent = '$' + formatNumber(eggTotalIncome);
-                document.getElementById('egg-total-withdrawn').textContent = '$' + formatNumber(eggTotalWithdrawn);
-                document.getElementById('egg-total-value').textContent = '$' + formatNumber(eggTotalValue);
 
                 if(document.getElementById('section-chart').style.display !== 'none') {
                     drawMainChart(chartData);
@@ -1248,7 +885,6 @@
             });
 
             function initialize() {
-                updateDropdown();
                 Object.values(inputs).forEach(input => {
                     if (!input) return;
                     const eType = (input.tagName === 'SELECT' || input.type === 'checkbox' || input.type === 'range') ? 'change' : 'input';
@@ -1259,11 +895,6 @@
                     }
                 });
                 
-                document.getElementById('inf-calc-amount').addEventListener('blur', function(e) { this.value = formatNumber(parseFormattedNumber(this.value)); updateMiniInflation(); });
-                document.getElementById('edu-current-cost').addEventListener('blur', function(e) { this.value = formatNumber(parseFormattedNumber(this.value)); updateEduFund(); });
-
-                updateMiniInflation();
-                updateEduFund();
                 calculatePromo();
                 calculateAndDisplay();
             }
@@ -1272,4 +903,3 @@
     </script>
 </body>
 </html>
-#
