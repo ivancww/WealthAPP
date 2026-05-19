@@ -289,119 +289,9 @@
                 <div class="chart-container"><canvas id="savings-chart"></canvas></div>
             </div>
             
-            <div class="appendix-toggle-btn" onclick="document.getElementById('appendix-data').classList.toggle('show');">
-                📂 點擊展開：完整歷史市場數據參考 (附錄)
-            </div>
-            
-            <div id="appendix-data" class="appendix-content appendix">
-                 <p>以下數據旨在提供一個市場參照，用以比較不同策略在過去的歷史表現。<strong>過去的表現不代表未來的回報。</strong></p>
-                
-                <h3>策略一：投資指數/ETF (分散風險)</h3>
-                <p>假設從2005年底起，<strong>每年投入$50,000，持續20年至2025年底</strong> (總投入$1,000,000)。</p>
-                <ul>
-                    <li><strong>美國市場 (S&P 500 ETF)</strong>：總投入$1,000,000，最終價值推算約 <span class="highlight">$2,550,000</span>。</li>
-                    <li><strong>香港市場 (盈富基金)</strong>：總投入$1,000,000，最終價值推算約 <span class="highlight">$1,300,000</span>。</li>
-                </ul>
-
-                <h3>策略二：定期存款 (鎖定利息)</h3>
-                <p>風險極低，但回報也相對有限，且受宏觀利率環境影響巨大。</p>
-                <div class="table-wrapper">
-                    <table>
-                        <thead><tr><th>時期</th><th>市場環境</th><th>一年期港元定存利率 (約)</th><th>結論</th></tr></thead>
-                        <tbody>
-                            <tr><td>2009 - 2021</td><td>全球量化寬鬆</td><td>長期徘徊於 <strong>0.1% - 0.8%</strong></td><td>長達12年，回報遠低於通脹。</td></tr>
-                            <tr><td>2022 - 2025</td><td>美國急劇加息</td><td>一度高達 <strong>4% - 5%</strong></td><td>歷史罕見的短期高息，能否持續是問號。</td></tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <h3>市場真實回報模擬：分期投入策略 (2004-2025)</h3>
-                <p>以下數據模擬從2004年至2025年，每年初固定投入HK$50,000於香港及美國市場的資產變化。此策略展示了即使經歷市場大幅波動，長期堅持的複利效果。</p>
-                
-                <h4 style="margin-top: 2rem;">香港市場 (恒生指數)</h4>
-                <p class="data-source-note">由2004年至2025年，總投入本金為 HK$1,100,000。</p>
-                <div class="table-wrapper">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>年份</th>
-                                <th>年度回報率</th>
-                                <th style="text-align: left;">升跌原因 (≥±10%)</th>
-                                <th>年初總資產</th>
-                                <th>年末資產餘額</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr><td>2004</td><td class="highlight">+13.15%</td><td class="reason-cell">中國經濟強勁增長，「自由行」政策刺激</td><td>$50,000</td><td class="highlight">$56,575</td></tr>
-                            <tr><td>2005</td><td>+4.54%</td><td class="reason-cell">-</td><td>$106,575</td><td>$111,427</td></tr>
-                            <tr><td>2006</td><td class="highlight">+34.20%</td><td class="reason-cell">全球流動性充裕，H股上市熱潮</td><td>$161,427</td><td class="highlight">$216,634</td></tr>
-                            <tr><td>2007</td><td class="highlight">+39.31%</td><td class="reason-cell">「港股直通車」憧憬，牛市氣氛熾熱</td><td>$266,634</td><td class="highlight">$371,595</td></tr>
-                            <tr><td>2008</td><td class="risk">-48.27%</td><td class="reason-cell">環球金融海嘯全面爆發</td><td>$421,595</td><td class="risk">$218,088</td></tr>
-                            <tr><td>2009</td><td class="highlight">+52.02%</td><td class="reason-cell">各國推量化寬鬆，海嘯後強勁反彈</td><td>$268,088</td><td class="highlight">$407,549</td></tr>
-                            <tr><td>2010</td><td>+5.32%</td><td class="reason-cell">-</td><td>$457,549</td><td>$481,902</td></tr>
-                            <tr><td>2011</td><td class="risk">-19.97%</td><td class="reason-cell">歐債危機升級，市場恐慌情緒蔓延</td><td>$531,902</td><td class="risk">$425,681</td></tr>
-                            <tr><td>2012</td><td class="highlight">+22.91%</td><td class="reason-cell">歐美推出新一輪量化寬鬆 (QE)</td><td>$475,681</td><td class="highlight">$584,660</td></tr>
-                            <tr><td>2013</td><td>+2.86%</td><td class="reason-cell">-</td><td>$634,660</td><td>$652,878</td></tr>
-                            <tr><td>2014</td><td>+1.28%</td><td class="reason-cell">-</td><td>$702,878</td><td>$711,878</td></tr>
-                            <tr><td>2015</td><td class="risk">-7.16%</td><td class="reason-cell">-</td><td>$761,878</td><td class="risk">$707,315</td></tr>
-                            <tr><td>2016</td><td>+0.39%</td><td class="reason-cell">-</td><td>$757,315</td><td>$760,266</td></tr>
-                            <tr><td>2017</td><td class="highlight">+35.99%</td><td class="reason-cell">全球經濟同步復甦，「北水」持續南下</td><td>$810,266</td><td class="highlight">$1,101,882</td></tr>
-                            <tr><td>2018</td><td class="risk">-13.61%</td><td class="reason-cell">中美貿易戰爆發，聯儲局加息週期</td><td>$1,151,882</td><td class="risk">$995,094</td></tr>
-                            <tr><td>2019</td><td>+9.07%</td><td class="reason-cell">-</td><td>$1,045,094</td><td>$1,139,837</td></tr>
-                            <tr><td>2020</td><td class="risk">-3.40%</td><td class="reason-cell">-</td><td>$1,189,837</td><td class="risk">$1,149,383</td></tr>
-                            <tr><td>2021</td><td class="risk">-14.08%</td><td class="reason-cell">中國對科網及教育行業監管收緊</td><td>$1,199,383</td><td class="risk">$1,030,486</td></tr>
-                            <tr><td>2022</td><td class="risk">-15.46%</td><td class="reason-cell">聯儲局「暴力式」加息，內地疫情封控</td><td>$1,080,486</td><td class="risk">$913,520</td></tr>
-                            <tr><td>2023</td><td class="risk">-13.82%</td><td class="reason-cell">中國經濟復甦乏力，房地產行業危機</td><td>$963,520</td><td class="risk">$829,985</td></tr>
-                            <tr><td>2024</td><td>+8.50%</td><td class="reason-cell">-</td><td>$879,985</td><td>$954,784</td></tr>
-                            <tr><td style="font-weight: bold;">2025</td><td class="highlight" style="font-weight: bold;">+27.77%</td><td class="reason-cell" style="font-weight: bold;">聯儲局降息及中國救市政策刺激</td><td style="font-weight: bold;">$1,004,784</td><td class="highlight" style="font-weight: bold;">$1,283,813</td></tr>
-                        </tbody>
-                    </table>
-                </div>
-                
-                <h4 style="margin-top: 3rem;">美國市場 (S&P 500)</h4>
-                <p class="data-source-note">由2004年至2025年，總投入本金為 HK$1,100,000 (此數據未考慮匯率波動，假設與港元掛鈎)。</p>
-                <div class="table-wrapper">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>年份</th>
-                                <th>年度總回報率</th>
-                                <th style="text-align: left;">升跌原因及市況</th>
-                                <th>年初總資產</th>
-                                <th>年末資產餘額</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr><td>2004</td><td class="highlight">+10.88%</td><td class="reason-cell">全球經濟復甦</td><td>$50,000</td><td class="highlight">$55,440</td></tr>
-                            <tr><td>2005</td><td class="highlight">+4.91%</td><td class="reason-cell">-</td><td>$105,440</td><td class="highlight">$110,617</td></tr>
-                            <tr><td>2006</td><td class="highlight">+15.79%</td><td class="reason-cell">經濟強勁，企業獲利增長</td><td>$160,617</td><td class="highlight">$185,979</td></tr>
-                            <tr><td>2007</td><td class="highlight">+5.49%</td><td class="reason-cell">-</td><td>$235,979</td><td class="highlight">$248,934</td></tr>
-                            <tr><td>2008</td><td class="risk">-37.00%</td><td class="reason-cell">環球金融海嘯全面爆發</td><td>$298,934</td><td class="risk">$188,328</td></tr>
-                            <tr><td>2009</td><td class="highlight">+26.46%</td><td class="reason-cell">量化寬鬆政策啟動 (QE1)</td><td>$238,328</td><td class="highlight">$301,390</td></tr>
-                            <tr><td>2010</td><td class="highlight">+15.06%</td><td class="reason-cell">-</td><td>$351,390</td><td class="highlight">$404,309</td></tr>
-                            <tr><td>2011</td><td class="highlight">+2.11%</td><td class="reason-cell">歐債危機帶來震盪，但美股展現韌性</td><td>$454,309</td><td class="highlight">$463,895</td></tr>
-                            <tr><td>2012</td><td class="highlight">+16.00%</td><td class="reason-cell">-</td><td>$513,895</td><td class="highlight">$596,118</td></tr>
-                            <tr><td>2013</td><td class="highlight">+32.39%</td><td class="reason-cell">聯儲局持續QE，經濟強勁復甦</td><td>$646,118</td><td class="highlight">$855,396</td></tr>
-                            <tr><td>2014</td><td class="highlight">+13.69%</td><td class="reason-cell">-</td><td>$905,396</td><td class="highlight">$1,029,345</td></tr>
-                            <tr><td>2015</td><td class="highlight">+1.38%</td><td class="reason-cell">-</td><td>$1,079,345</td><td class="highlight">$1,094,240</td></tr>
-                            <tr><td>2016</td><td class="highlight">+11.96%</td><td class="reason-cell">-</td><td>$1,144,240</td><td class="highlight">$1,281,091</td></tr>
-                            <tr><td>2017</td><td class="highlight">+21.83%</td><td class="reason-cell">美國稅改法案通過，企業盈利預期大增</td><td>$1,331,091</td><td class="highlight">$1,621,668</td></tr>
-                            <tr><td>2018</td><td class="risk">-4.38%</td><td class="reason-cell">中美貿易戰，聯儲局加息</td><td>$1,671,668</td><td class="risk">$1,598,449</td></tr>
-                            <tr><td>2019</td><td class="highlight">+31.49%</td><td class="reason-cell">聯儲局預防性降息</td><td>$1,648,449</td><td class="highlight">$2,167,546</td></tr>
-                            <tr><td>2020</td><td class="highlight">+18.40%</td><td class="reason-cell">疫情後無限QE釋放流動性</td><td>$2,217,546</td><td class="highlight">$2,625,574</td></tr>
-                            <tr><td>2021</td><td class="highlight">+28.71%</td><td class="reason-cell">疫後強勁復甦，科技股強勢</td><td>$2,675,574</td><td class="highlight">$3,443,731</td></tr>
-                            <tr><td>2022</td><td class="risk">-18.11%</td><td class="reason-cell">聯儲局「暴力式」加息抗通脹</td><td>$3,493,731</td><td class="risk">$2,861,017</td></tr>
-                            <tr><td>2023</td><td class="highlight">+26.29%</td><td class="reason-cell">AI 熱潮帶動科技巨頭大漲</td><td>$2,911,017</td><td class="highlight">$3,676,323</td></tr>
-                            <tr><td>2024</td><td class="highlight">+25.02%</td><td class="reason-cell">AI 應用落地，降息預期發酵</td><td>$3,726,323</td><td class="highlight">$4,658,649</td></tr>
-                            <tr><td style="font-weight: bold;">2025</td><td class="highlight" style="font-weight: bold;">+17.88%</td><td class="reason-cell" style="font-weight: bold;">市場表現持續穩健</td><td style="font-weight: bold;">$4,708,649</td><td class="highlight" style="font-weight: bold;">$5,550,555</td></tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            
             <div id="privacy-notice" style="text-align: center; margin-top: 3rem; padding: 1rem; border: 2px dashed var(--primary-color); background-color: #e7f3ff; border-radius: 8px;">
                 <p style="margin: 0; font-weight: 500; color: var(--primary-color);">🔒 絕對保密：所有資料只會儲存在您的瀏覽器內，不會上傳到任何伺服器。</p>
-                <p style="margin-top: 10px; font-size: 0.8rem; color: #999;">系統版本: v1.10 (強制更新機制已啟動)</p>
+                <p style="margin-top: 10px; font-size: 0.8rem; color: #999;">系統版本: v1.11 (強制更新機制已啟動)</p>
             </div>
         </div>
     </div>
@@ -457,7 +347,7 @@
                             <input type="number" id="promo3-rate" value="3.8" step="0.1" style="width:80px; padding:5px; border:1px solid #ccc; border-radius:4px; text-align:center;"> %
                         </div>
                         <div id="promo3-desc" style="margin-top:10px; background:#e7f3ff; padding:10px; border-radius:6px; font-size:0.9rem; color:#0056b3; line-height:1.5;"></div>
-                        <div class="promo-tag" style="background:#d4edda; color:#155724; display:block; max-width:fit-content;">保單滿期總發還金額：<span id="promo3-saved">$0</span></div>
+                        <div class="promo-tag" style="background:#d4edda; color:#155724; display:block; max-width:fit-content;">保證預繳純利息：<span id="promo3-saved">$0</span></div>
                     </div>
                 </div>
             </div>
@@ -465,7 +355,7 @@
             <div class="promo-result-box">
                 <h3>原本總保費：<span id="promo-original-total" style="text-decoration:line-through; font-size:1.1rem; opacity:0.8;">$0</span></h3>
                 <div style="margin: 15px 0;">
-                    <span style="font-size: 1.1rem;">💰 您總共慳咗及賺取利息達：</span>
+                    <span style="font-size: 1.1rem;">💰 您總共慳咗及保證賺取利息達：</span>
                     <div class="big-savings" id="promo-total-savings">$0</div>
                 </div>
                 <div style="background: rgba(0,0,0,0.1); padding: 10px; border-radius: 8px;">
@@ -493,7 +383,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         // --- Version Control & Force Update ---
-        const APP_VERSION = '1.10';
+        const APP_VERSION = '1.11';
         if (localStorage.getItem('APP_VERSION') !== APP_VERSION) {
             localStorage.setItem('APP_VERSION', APP_VERSION);
             if ('serviceWorker' in navigator) {
@@ -575,7 +465,6 @@
                     // --- 啟動客戶專屬報告模式 ---
                     document.querySelector('.management-section').style.display = 'none';
                     document.getElementById('section-chart').style.display = 'none';
-                    document.querySelector('.appendix-toggle-btn').style.display = 'none';
                     
                     const privacyEl = document.getElementById('privacy-notice');
                     if(privacyEl) privacyEl.style.display = 'none';
@@ -678,7 +567,7 @@
                 slider.style.display = slider.style.display === 'none' ? 'block' : 'none';
             });
 
-            // --- 精確預繳保費及次年折扣邏輯 (完全吻合 AIA 全額預繳算法) ---
+            // --- 精確預繳保費及次年折扣邏輯 (完全對齊手工精算邏輯) ---
             function calculatePromo() {
                 const P = parseFormattedNumber(document.getElementById('promo-annual-premium').value) || 0;
                 const N = parseInt(document.getElementById('promo-term').value) || 5;
@@ -702,9 +591,8 @@
                     d2 = P * d2Rate; 
                 }
 
-                // 優惠 3：全額預繳滾存及扣費 (按照客人計算邏輯)
+                // 優惠 3：全額預繳滾存及扣費 (完全按照基本保費扣除，分開處理折扣)
                 let totalInterest = 0;
-                let finalBalance = 0;
                 let prepayAmount = 0;
 
                 if (usePromo3 && N > 1) {
@@ -712,23 +600,16 @@
                     let balance = prepayAmount;
 
                     for (let t = 2; t <= N; t++) {
-                        // 年尾生息
                         let interest = balance * rate;
                         totalInterest += interest;
                         balance += interest;
-
-                        // 扣除保費 (如果是第2年且有優惠，扣少啲，保留本金繼續滾)
-                        let deduct = P;
-                        if (t === 2 && usePromo2) {
-                            deduct = P - d2;
-                        }
-                        balance -= deduct;
+                        // 每年嚴格扣除基本全額保費，令利息計算與保單建議書完美吻合
+                        balance -= P;
                     }
-                    finalBalance = balance;
                 }
 
                 const originalTotal = P * N;
-                // 經濟學上真正慳咗嘅錢 = d1(首年直接減) + d2(第二年少交) + totalInterest(保證賺取嘅純利息)
+                // 經濟學上真正慳咗嘅錢 = d1(首年直接減) + d2(第二年折扣) + totalInterest(保證賺取嘅純利息)
                 const totalSavings = d1 + d2 + totalInterest;
                 const actualOutlay = originalTotal - totalSavings;
 
@@ -738,17 +619,19 @@
                 
                 document.getElementById('promo1-saved').textContent = '$' + formatNumber(d1);
                 document.getElementById('promo2-saved').textContent = '$' + formatNumber(d2);
-                document.getElementById('promo3-saved').textContent = '$' + formatNumber(finalBalance);
+                document.getElementById('promo3-saved').textContent = '$' + formatNumber(totalInterest);
                 
-                // 動態產生解說文字
+                // 動態產生解說文字，清晰區分利息與退回現金
                 const descEl = document.getElementById('promo3-desc');
                 if(usePromo3 && N > 1) {
                     let initialPay = P + prepayAmount - d1;
+                    let refundAmount = totalInterest + d2; // 滿期退回嘅錢 = 純利息 + 優惠2慳返未扣嘅本金
+                    
                     descEl.innerHTML = `💡 <strong>預繳計算詳情：</strong><br>
                     您於投保時一次過繳付首年及預繳保費。扣除首年優惠後，當日實繳： <strong style="color:#d84315;">$${formatNumber(initialPay)}</strong>。<br>
-                    其中 <strong>$${formatNumber(prepayAmount)}</strong> 作為預繳本金，每年按 ${parseFloat(document.getElementById('promo3-rate').value).toFixed(1)}% 保證生息並自動扣除保費。<br>
-                    保單滿期後，系統會將剩餘的 <strong>$${formatNumber(finalBalance)}</strong> 以現金形式全數退回給您！<br>
-                    <span style="font-size:0.85rem; color:#666;">(滿期退回金額 = 預繳純利息 $${formatNumber(totalInterest)}${usePromo2 ? ` + 續保折扣慳返嘅本金滾存` : ''})</span>`;
+                    其中 <strong>$${formatNumber(prepayAmount)}</strong> 作為預繳本金，每年按 ${parseFloat(document.getElementById('promo3-rate').value).toFixed(1)}% 保證生息並自動扣除基本保費。<br>
+                    保單滿期後，系統會將 <strong>$${formatNumber(refundAmount)}</strong> 以現金形式全數退回給您！<br>
+                    <span style="font-size:0.85rem; color:#666;">(滿期退回金額 = 預繳累積純利息 $${formatNumber(totalInterest)}${usePromo2 ? ` + 優惠2慳返未扣除嘅本金 $${formatNumber(d2)}` : ''})</span>`;
                     descEl.style.display = 'block';
                 } else {
                     descEl.style.display = 'none';
@@ -786,7 +669,7 @@
                 // 動態推算至 100 歲的最長遠年份
                 const startAge = parseInt(inputs['start-age'].value) || 30;
                 let maxYear = 100 - startAge;
-                if (maxYear < 30) maxYear = 30;
+                if (maxYear < 30) maxYear = 30; // 保底最少顯示30年
 
                 document.getElementById('inflation-value').textContent = `${parseFloat(inputs['inflation-rate'].value).toFixed(1)}%`;
                 document.getElementById('bank-interest-value').textContent = `${parseFloat(inputs['bank-interest'].value).toFixed(1)}%`;
@@ -798,19 +681,22 @@
                 document.getElementById('cash-total').textContent = `$${formatNumber(totalCashWithInterest)}`;
                 document.getElementById('cash-real-value').textContent = `$${formatNumber(adjustedCashValue)}`;
                 
+                // 顯示維持購買力需倒貼的正數
                 const inflationGap = totalCashWithInterest - adjustedCashValue;
                 document.getElementById('cash-loss').textContent = `$${formatNumber(inflationGap)}`;
 
                 const planContributions = [inputs['plan1-contribution'], inputs['plan2-contribution'], inputs['plan3-contribution'], inputs['plan4-contribution']].map(input => parseFormattedNumber(input.value));
                 const planStrategies = [inputs['plan1-strategy'], inputs['plan2-strategy'], inputs['plan3-strategy'], inputs['plan4-strategy']].map(input => input.value);
                 
+                // 判斷哪些錦囊是啟用狀態
                 const isEngineActive = [
-                    true,
+                    true, // 錦囊1常駐
                     document.getElementById('group-plan2') && document.getElementById('group-plan2').style.display !== 'none',
                     document.getElementById('group-plan3') && document.getElementById('group-plan3').style.display !== 'none',
                     document.getElementById('group-plan4') && document.getElementById('group-plan4').style.display !== 'none'
                 ];
 
+                // 表格嚴格按照由第 10 年開始，每 5 年跳動顯示至終極年期
                 const reportingYears = [];
                 for (let y = 10; y <= maxYear; y += 5) {
                     reportingYears.push(y);
@@ -822,13 +708,14 @@
                 
                 const chartData = { labels: [], datasets: { plan1_value: [], plan2_value: [], plan3_value: [], plan4_value: [], plan1_withdrawn: [], plan2_withdrawn: [], plan3_withdrawn: [], plan4_withdrawn: [] }, adjBenefit: [], adjCash: [] };
                 
+                // Loop 1 至 最長遠年份
                 for (let year = 1; year <= maxYear; year++) {
                     
                     let rV = 0, rW = 0, rC = 0, rA = 0;
 
                     [1, 6, 11, 16].forEach((sY, i) => {
                         const pA = year - (sY - 1);
-                        const aC = isEngineActive[i] ? planContributions[i] : 0;
+                        const aC = isEngineActive[i] ? planContributions[i] : 0; // 若被隱藏則當作 0
                         const strategy = planStrategies[i];
                         const tP = 5 * aC;
                         let cV = 0, cW = 0, cA = 0;
@@ -846,18 +733,21 @@
                         }
                         rV += cV; rW += cW; rA += cA;
 
+                        // 圖表只擷取第 10 年起嘅數據
                         if (year >= 10) {
                             chartData.datasets[`plan${i+1}_value`].push(Math.round(cV)); 
                             chartData.datasets[`plan${i+1}_withdrawn`].push(Math.round(cW));
                         }
                     });
 
+                    // 填充圖表所需嘅總數據 (過濾第10年開始)
                     if (year >= 10) {
                         chartData.labels.push(`${year}年 (${parseInt(inputs['start-age'].value) + year - 1}歲)`);
                         chartData.adjBenefit.push(Math.round((rV + rW) / Math.pow(1 + inflationRate, year)));
                         chartData.adjCash.push(Math.round(calculateCompoundInterest(existingDeposit, fixedBankDeposit, bankInterestRate, year) / Math.pow(1 + inflationRate, year)));
                     }
 
+                    // 寫入表格 (第10年開始每5年顯示)
                     if (reportingYears.includes(year)) {
                         const row = document.createElement('tr');
                         row.innerHTML = `<td>${year} (${parseInt(inputs['start-age'].value)+year-1})</td><td>$${formatNumber(rC)}</td><td>$${formatNumber(rA)}</td><td style="color:var(--gain-color); font-weight:bold;">$${formatNumber(rW)}</td><td style="color:#6f42c1; font-weight:bold;">$${formatNumber(rV)}</td><td style="color:var(--primary-color); font-weight:bold;">$${formatNumber(rV+rW)}</td><td class="risk ${hiddenClass}">$${formatNumber((rV+rW)/Math.pow(1+inflationRate,year))}</td>`;
