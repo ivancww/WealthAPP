@@ -34,15 +34,15 @@
             --plan-line-color: #6f42c1; --bank-line-color: #fd7e14;
         }
         
-        body { font-family: 'Noto Sans TC', sans-serif; background-color: var(--bg-color); color: var(--text-color); margin: 0; padding: 0; padding-bottom: 80px; box-sizing: border-box; }
+        body { font-family: 'Noto Sans TC', sans-serif; background-color: var(--bg-color); color: var(--text-color); margin: 0; padding: 0; padding-bottom: 20px; box-sizing: border-box; }
         
         /* 頁面切換控制 */
         .tab-section { display: none; padding: 1.5rem; max-width: 1100px; margin: 0 auto; animation: fadeIn 0.4s; }
         .tab-section.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* 底部導航列 */
-        .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: #ffffff; box-shadow: 0 -2px 10px rgba(0,0,0,0.08); display: flex; justify-content: space-around; padding: 8px 0; z-index: 1000; padding-bottom: calc(8px + env(safe-area-inset-bottom)); flex-wrap: nowrap; overflow-x: auto; }
+        /* 底部導航列 (暫時隱藏) */
+        .bottom-nav { display: none !important; position: fixed; bottom: 0; left: 0; width: 100%; background: #ffffff; box-shadow: 0 -2px 10px rgba(0,0,0,0.08); justify-content: space-around; padding: 8px 0; z-index: 1000; padding-bottom: calc(8px + env(safe-area-inset-bottom)); flex-wrap: nowrap; overflow-x: auto; }
         .nav-item { text-align: center; color: var(--label-color); font-size: 0.65rem; cursor: pointer; flex: 1; min-width: 60px; transition: 0.2s; user-select: none; }
         .nav-item.active { color: var(--primary-color); font-weight: bold; transform: translateY(-2px); }
         .nav-icon { font-size: 1.3rem; display: block; margin-bottom: 2px; }
@@ -57,7 +57,7 @@
         .appendix h3 { color: var(--primary-color); border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem; margin-top: 2.5rem; font-size: 1.1rem; justify-content: flex-start; }
         .top-input-grid, .duel-inputs { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; align-items: end; margin-bottom: 2rem; }
         
-        /* 錢罌並排樣式 */
+        /* 引擎並排樣式 */
         .plan-grid { display: grid; gap: 1.5rem; align-items: end; margin-bottom: 2rem; }
         @media (min-width: 900px) { .plan-grid { grid-template-columns: repeat(4, 1fr); } } 
         @media (max-width: 899px) { .plan-grid { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); } }
@@ -235,55 +235,59 @@
             </div>
 
             <div class="section">
-                <h2>複利增值：各錢罌的獨立策略</h2>
+                <h2>複利增值：各引擎的獨立策略</h2>
                 <div class="plan-grid">
                     <div class="input-group">
-                        <label style="color:var(--plan1-color); font-weight:bold;">錢罌一 (第1年供)</label>
+                        <label style="color:var(--plan1-color); font-weight:bold;">財富引擎一 (5年期 • 第1年供)</label>
                         <input type="text" id="plan1-contribution" value="40,000" inputmode="numeric">
                         <select id="plan1-strategy">
                             <option value="none">滾存不提取</option>
-                            <option value="withdraw8_from8">第8年取8%</option>
-                            <option value="withdraw13_from15">第15年取13%</option>
-                            <option value="withdraw18_from20">第20年取18%</option>
-                            <option value="withdraw23_from25">第25年取23%</option>
-                            <option value="withdraw29_from30">第30年取29%</option>
+                            <option value="withdraw8_from8">第8年開始 取8%</option>
+                            <option value="withdraw13_from15">第15年開始 取13%</option>
+                            <option value="withdraw18_from20">第20年開始 取18%</option>
+                            <option value="withdraw23_from25">第25年開始 取23%</option>
+                            <option value="withdraw29_from30">第30年開始 取29%</option>
                         </select>
                     </div>
-                     <div class="input-group">
-                        <label style="color:var(--plan2-color); font-weight:bold;">錢罌二 (第6年供)</label>
+                     <div class="input-group extra-jar" style="display:none;">
+                        <label style="color:var(--plan2-color); font-weight:bold;">財富引擎二 (5年期 • 第6年供)</label>
                         <input type="text" id="plan2-contribution" value="50,000" inputmode="numeric">
                         <select id="plan2-strategy">
                            <option value="none">滾存不提取</option>
-                            <option value="withdraw8_from8">第8年取8%</option>
-                            <option value="withdraw13_from15">第15年取13%</option>
-                            <option value="withdraw18_from20">第20年取18%</option>
-                            <option value="withdraw23_from25">第25年取23%</option>
-                            <option value="withdraw29_from30">第30年取29%</option>
+                            <option value="withdraw8_from8">第8年開始 取8%</option>
+                            <option value="withdraw13_from15">第15年開始 取13%</option>
+                            <option value="withdraw18_from20">第20年開始 取18%</option>
+                            <option value="withdraw23_from25">第25年開始 取23%</option>
+                            <option value="withdraw29_from30">第30年開始 取29%</option>
                         </select>
                     </div>
-                     <div class="input-group">
-                        <label style="color:var(--plan3-color); font-weight:bold;">錢罌三 (第11年供)</label>
+                     <div class="input-group extra-jar" style="display:none;">
+                        <label style="color:var(--plan3-color); font-weight:bold;">財富引擎三 (5年期 • 第11年供)</label>
                         <input type="text" id="plan3-contribution" value="60,000" inputmode="numeric">
                         <select id="plan3-strategy">
                            <option value="none">滾存不提取</option>
-                            <option value="withdraw8_from8">第8年取8%</option>
-                            <option value="withdraw13_from15">第15年取13%</option>
-                            <option value="withdraw18_from20">第20年取18%</option>
-                            <option value="withdraw23_from25">第25年取23%</option>
-                            <option value="withdraw29_from30">第30年取29%</option>
+                            <option value="withdraw8_from8">第8年開始 取8%</option>
+                            <option value="withdraw13_from15">第15年開始 取13%</option>
+                            <option value="withdraw18_from20">第20年開始 取18%</option>
+                            <option value="withdraw23_from25">第25年開始 取23%</option>
+                            <option value="withdraw29_from30">第30年開始 取29%</option>
                         </select>
                     </div>
-                     <div class="input-group">
-                        <label style="color:var(--plan4-color); font-weight:bold;">錢罌四 (第16年供)</label>
+                     <div class="input-group extra-jar" style="display:none;">
+                        <label style="color:var(--plan4-color); font-weight:bold;">財富引擎四 (5年期 • 第16年供)</label>
                         <input type="text" id="plan4-contribution" value="70,000" inputmode="numeric">
                         <select id="plan4-strategy">
                            <option value="none">滾存不提取</option>
-                            <option value="withdraw8_from8">第8年取8%</option>
-                            <option value="withdraw13_from15">第15年取13%</option>
-                            <option value="withdraw18_from20">第20年取18%</option>
-                            <option value="withdraw23_from25">第25年取23%</option>
-                            <option value="withdraw29_from30">第30年取29%</option>
+                            <option value="withdraw8_from8">第8年開始 取8%</option>
+                            <option value="withdraw13_from15">第15年開始 取13%</option>
+                            <option value="withdraw18_from20">第20年開始 取18%</option>
+                            <option value="withdraw23_from25">第25年開始 取23%</option>
+                            <option value="withdraw29_from30">第30年開始 取29%</option>
                         </select>
+                    </div>
+                    
+                    <div class="input-group" style="display: flex; align-items: flex-end;">
+                        <button id="toggle-jars-btn" class="btn btn-secondary" style="height: 48px; border: 1px dashed var(--secondary-color); background: transparent; color: var(--secondary-color);">➕ 展開更多引擎</button>
                     </div>
                 </div>
                 
@@ -418,7 +422,7 @@
             
             <div id="privacy-notice" style="text-align: center; margin-top: 3rem; padding: 1rem; border: 2px dashed var(--primary-color); background-color: #e7f3ff; border-radius: 8px;">
                 <p style="margin: 0; font-weight: 500; color: var(--primary-color);">🔒 絕對保密：所有資料只會儲存在您的瀏覽器內，不會上傳到任何伺服器。</p>
-                <p style="margin-top: 10px; font-size: 0.8rem; color: #999;">系統版本: v1.1 (強制更新機制已啟動)</p>
+                <p style="margin-top: 10px; font-size: 0.8rem; color: #999;">系統版本: v1.2 (強制更新機制已啟動)</p>
             </div>
         </div>
     </div>
@@ -547,8 +551,8 @@
                     <div class="goose-card">
                         <div class="goose-card-header">
                             <div class="icon">🐔</div>
-                            <h4>錢罌一金雞</h4>
-                            <span class="goose-tag">第 1 年供</span>
+                            <h4>引擎一金雞</h4>
+                            <span class="goose-tag">5年期 • 第1年供</span>
                         </div>
                         <select id="goose-plan1-strategy" class="goose-select">
                             <option value="none">滾存不提取</option>
@@ -565,11 +569,11 @@
                         </div>
                     </div>
 
-                    <div class="goose-card">
+                    <div class="goose-card extra-goose" style="display:none;">
                         <div class="goose-card-header">
                             <div class="icon">🐓</div>
-                            <h4>錢罌二金雞</h4>
-                            <span class="goose-tag">第 6 年供</span>
+                            <h4>引擎二金雞</h4>
+                            <span class="goose-tag">5年期 • 第6年供</span>
                         </div>
                         <select id="goose-plan2-strategy" class="goose-select">
                             <option value="none">滾存不提取</option>
@@ -586,11 +590,11 @@
                         </div>
                     </div>
 
-                    <div class="goose-card">
+                    <div class="goose-card extra-goose" style="display:none;">
                         <div class="goose-card-header">
                             <div class="icon">🐣</div>
-                            <h4>錢罌三金雞</h4>
-                            <span class="goose-tag">第 11 年供</span>
+                            <h4>引擎三金雞</h4>
+                            <span class="goose-tag">5年期 • 第11年供</span>
                         </div>
                         <select id="goose-plan3-strategy" class="goose-select">
                             <option value="none">滾存不提取</option>
@@ -607,11 +611,11 @@
                         </div>
                     </div>
 
-                    <div class="goose-card">
+                    <div class="goose-card extra-goose" style="display:none;">
                         <div class="goose-card-header">
                             <div class="icon">🥚</div>
-                            <h4>錢罌四金雞</h4>
-                            <span class="goose-tag">第 16 年供</span>
+                            <h4>引擎四金雞</h4>
+                            <span class="goose-tag">5年期 • 第16年供</span>
                         </div>
                         <select id="goose-plan4-strategy" class="goose-select">
                             <option value="none">滾存不提取</option>
@@ -627,7 +631,8 @@
                             <div class="goose-stat-row"><span>戶口剩餘:</span><strong id="goose-plan4-value">$0</strong></div>
                         </div>
                     </div>
-
+                    
+                    <button id="toggle-geese-btn" class="btn btn-secondary" style="grid-column: 1 / -1; margin-top: 10px; border: 1px dashed #ffca28; background: #fffdf5; color: #d84315;">➕ 展開更多分段投入金雞</button>
                 </div>
             </div>
         </div>
@@ -686,7 +691,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         // --- Version Control & Force Update ---
-        const APP_VERSION = '1.1';
+        const APP_VERSION = '1.2';
         if (localStorage.getItem('APP_VERSION') !== APP_VERSION) {
             localStorage.setItem('APP_VERSION', APP_VERSION);
             if ('serviceWorker' in navigator) {
@@ -701,7 +706,7 @@
             document.querySelectorAll('.tab-section').forEach(tab => tab.classList.remove('active'));
             document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
             document.getElementById(tabId).classList.add('active');
-            element.classList.add('active');
+            if(element) element.classList.add('active');
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
@@ -1008,8 +1013,11 @@
                 const planContributions = [inputs['plan1-contribution'], inputs['plan2-contribution'], inputs['plan3-contribution'], inputs['plan4-contribution']].map(input => parseFormattedNumber(input.value));
                 const planStrategies = [inputs['plan1-strategy'], inputs['plan2-strategy'], inputs['plan3-strategy'], inputs['plan4-strategy']].map(input => input.value);
                 
-                const baseYears = [10, 15, 20, 25];
-                const reportingYears = Array.from(new Set([...baseYears, customYear])).sort((a, b) => a - b);
+                // 動態產生年份列表
+                const reportingYears = [];
+                for (let y = 1; y <= customYear; y++) {
+                    reportingYears.push(y);
+                }
 
                 const hiddenClass = showPurchasingPower ? '' : 'hidden-col';
                 tableHead.innerHTML = `<tr><th>年份 (歲數)</th><th>累計供款</th><th>被動收入</th><th>累積被動收入</th><th>戶口增長</th><th>總利益</th><th class="${hiddenClass}">實際購買力</th></tr>`;
@@ -1088,14 +1096,14 @@
                         datasets: [
                             { type: 'line', label: '總利益購買力', data: d.adjBenefit, borderColor: colors.getPropertyValue('--plan-line-color').trim(), backgroundColor: 'transparent', fill: false, borderWidth: 3, pointRadius: 5, order: 0 },
                             { type: 'line', label: '銀行購買力', data: d.adjCash, borderColor: colors.getPropertyValue('--bank-line-color').trim(), backgroundColor: 'transparent', fill: false, borderWidth: 3, pointRadius: 5, order: 1 },
-                            { type: 'bar', label: '罌一剩餘', data: d.datasets.plan1_value, backgroundColor: colors.getPropertyValue('--plan1-color').trim(), stack: 'Stack 0', order: 2 },
-                            { type: 'bar', label: '罌二剩餘', data: d.datasets.plan2_value, backgroundColor: colors.getPropertyValue('--plan2-color').trim(), stack: 'Stack 0', order: 2 },
-                            { type: 'bar', label: '罌三剩餘', data: d.datasets.plan3_value, backgroundColor: colors.getPropertyValue('--plan3-color').trim(), stack: 'Stack 0', order: 2 },
-                            { type: 'bar', label: '罌四剩餘', data: d.datasets.plan4_value, backgroundColor: colors.getPropertyValue('--plan4-color').trim(), stack: 'Stack 0', order: 2 },
-                            { type: 'bar', label: '罌一入袋', data: d.datasets.plan1_withdrawn, backgroundColor: colors.getPropertyValue('--plan1-withdraw-color').trim(), stack: 'Stack 0', order: 2 },
-                            { type: 'bar', label: '罌二入袋', data: d.datasets.plan2_withdrawn, backgroundColor: colors.getPropertyValue('--plan2-withdraw-color').trim(), stack: 'Stack 0', order: 2 },
-                            { type: 'bar', label: '罌三入袋', data: d.datasets.plan3_withdrawn, backgroundColor: colors.getPropertyValue('--plan3-withdraw-color').trim(), stack: 'Stack 0', order: 2 },
-                            { type: 'bar', label: '罌四入袋', data: d.datasets.plan4_withdrawn, backgroundColor: colors.getPropertyValue('--plan4-withdraw-color').trim(), stack: 'Stack 0', order: 2 }
+                            { type: 'bar', label: '引擎一剩餘', data: d.datasets.plan1_value, backgroundColor: colors.getPropertyValue('--plan1-color').trim(), stack: 'Stack 0', order: 2 },
+                            { type: 'bar', label: '引擎二剩餘', data: d.datasets.plan2_value, backgroundColor: colors.getPropertyValue('--plan2-color').trim(), stack: 'Stack 0', order: 2 },
+                            { type: 'bar', label: '引擎三剩餘', data: d.datasets.plan3_value, backgroundColor: colors.getPropertyValue('--plan3-color').trim(), stack: 'Stack 0', order: 2 },
+                            { type: 'bar', label: '引擎四剩餘', data: d.datasets.plan4_value, backgroundColor: colors.getPropertyValue('--plan4-color').trim(), stack: 'Stack 0', order: 2 },
+                            { type: 'bar', label: '引擎一入袋', data: d.datasets.plan1_withdrawn, backgroundColor: colors.getPropertyValue('--plan1-withdraw-color').trim(), stack: 'Stack 0', order: 2 },
+                            { type: 'bar', label: '引擎二入袋', data: d.datasets.plan2_withdrawn, backgroundColor: colors.getPropertyValue('--plan2-withdraw-color').trim(), stack: 'Stack 0', order: 2 },
+                            { type: 'bar', label: '引擎三入袋', data: d.datasets.plan3_withdrawn, backgroundColor: colors.getPropertyValue('--plan3-withdraw-color').trim(), stack: 'Stack 0', order: 2 },
+                            { type: 'bar', label: '引擎四入袋', data: d.datasets.plan4_withdrawn, backgroundColor: colors.getPropertyValue('--plan4-withdraw-color').trim(), stack: 'Stack 0', order: 2 }
                         ]
                     },
                     options: { responsive: true, maintainAspectRatio: false, scales: { x: { stacked: true, grid: { display: false } }, y: { stacked: true, beginAtZero: true, ticks: { callback: v => v>=1e6?`${v/1e6}M`:v>=1e3?`${v/1e3}K`:v } } }, plugins: { tooltip: { mode: 'index', intersect: false, callbacks: { label: c => `${c.dataset.label||''}: $${formatNumber(c.raw)}` } }, legend: { position: 'bottom' } } }
@@ -1122,6 +1130,26 @@
                 document.getElementById('inf-calc-amount').addEventListener('blur', function(e) { this.value = formatNumber(parseFormattedNumber(this.value)); updateMiniInflation(); });
                 document.getElementById('edu-current-cost').addEventListener('blur', function(e) { this.value = formatNumber(parseFormattedNumber(this.value)); updateEduFund(); });
                 
+                const toggleJarsBtn = document.getElementById('toggle-jars-btn');
+                if(toggleJarsBtn) {
+                    toggleJarsBtn.addEventListener('click', function() {
+                        const extraJars = document.querySelectorAll('.extra-jar');
+                        const isHidden = extraJars[0].style.display === 'none';
+                        extraJars.forEach(jar => jar.style.display = isHidden ? 'block' : 'none');
+                        this.innerHTML = isHidden ? '➖ 隱藏額外引擎' : '➕ 展開更多引擎';
+                    });
+                }
+                
+                const toggleGeeseBtn = document.getElementById('toggle-geese-btn');
+                if(toggleGeeseBtn) {
+                    toggleGeeseBtn.addEventListener('click', function() {
+                        const extraGeese = document.querySelectorAll('.extra-goose');
+                        const isHidden = extraGeese[0].style.display === 'none';
+                        extraGeese.forEach(goose => goose.style.display = isHidden ? 'flex' : 'none');
+                        this.innerHTML = isHidden ? '➖ 隱藏額外金雞' : '➕ 展開更多分段投入金雞';
+                    });
+                }
+
                 updateMiniInflation();
                 updateEduFund();
                 calculateAndDisplay();
