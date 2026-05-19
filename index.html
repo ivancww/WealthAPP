@@ -7,7 +7,7 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
     
-    <title>顛覆認知的理財策略</title>
+    <title>時光複利：寫給未來自己的理想人生藍圖</title>
 
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="icon-192x192.png">
@@ -18,7 +18,7 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
@@ -34,15 +34,15 @@
             --plan-line-color: #6f42c1; --bank-line-color: #fd7e14;
         }
         
-        body { font-family: 'Noto Sans TC', sans-serif; background-color: var(--bg-color); color: var(--text-color); margin: 0; padding: 0; padding-bottom: 20px; box-sizing: border-box; }
+        body { font-family: 'Noto Sans TC', sans-serif; background-color: var(--bg-color); color: var(--text-color); margin: 0; padding: 0; padding-bottom: 80px; box-sizing: border-box; }
         
         /* 頁面切換控制 */
         .tab-section { display: none; padding: 1.5rem; max-width: 1100px; margin: 0 auto; animation: fadeIn 0.4s; }
         .tab-section.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* 底部導航列 (暫時隱藏) */
-        .bottom-nav { display: none !important; position: fixed; bottom: 0; left: 0; width: 100%; background: #ffffff; box-shadow: 0 -2px 10px rgba(0,0,0,0.08); justify-content: space-around; padding: 8px 0; z-index: 1000; padding-bottom: calc(8px + env(safe-area-inset-bottom)); flex-wrap: nowrap; overflow-x: auto; }
+        /* 底部導航列 */
+        .bottom-nav { display: flex; position: fixed; bottom: 0; left: 0; width: 100%; background: #ffffff; box-shadow: 0 -2px 10px rgba(0,0,0,0.08); justify-content: space-around; padding: 8px 0; z-index: 1000; padding-bottom: calc(8px + env(safe-area-inset-bottom)); flex-wrap: nowrap; overflow-x: auto; }
         .nav-item { text-align: center; color: var(--label-color); font-size: 0.65rem; cursor: pointer; flex: 1; min-width: 60px; transition: 0.2s; user-select: none; }
         .nav-item.active { color: var(--primary-color); font-weight: bold; transform: translateY(-2px); }
         .nav-icon { font-size: 1.3rem; display: block; margin-bottom: 2px; }
@@ -68,13 +68,17 @@
         .input-group select { text-align-last: center; margin-top: 0.5rem; border-color: var(--primary-color); font-size: 0.9rem; }
         #inflation-value, #bank-interest-value { font-weight: bold; color: var(--primary-color); }
         
+        /* 獨立隱藏框樣式 */
+        .engine-placeholder { border: 2px dashed #ccc; border-radius: 8px; padding: 1rem; text-align: center; cursor: pointer; height: 100%; display: flex; align-items: center; justify-content: center; flex-direction: column; opacity: 0.6; transition: 0.2s; min-height: 120px; }
+        .engine-placeholder:hover { opacity: 1; transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.05); }
+        .remove-engine-btn { position: absolute; top: -10px; right: -10px; background: #dee2e6; color: #495057; border: none; border-radius: 50%; width: 26px; height: 26px; cursor: pointer; font-size: 12px; z-index: 10; display: flex; align-items: center; justify-content: center; transition: 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .remove-engine-btn:hover { background: #dc3545; color: white; }
+
         /* 公仔開關按鈕樣式 */
         .emoji-toggle-bar { grid-column: 1 / -1; display: flex; gap: 15px; align-items: center; justify-content: center; background: #f8f9fa; padding: 12px; border-radius: 8px; border: 1px dashed var(--border-color); margin-bottom: 0.5rem; flex-wrap: wrap; }
         .emoji-toggle { cursor: pointer; font-size: 1.8rem; opacity: 0.3; filter: grayscale(100%); transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); padding: 5px; border-radius: 50%; background: #e9ecef; width: 45px; height: 45px; display: flex; align-items: center; justify-content: center; box-shadow: inset 0 2px 4px rgba(0,0,0,0.05); user-select: none; }
         .emoji-toggle:hover { opacity: 0.7; transform: scale(1.05); }
         .emoji-toggle.active { opacity: 1; filter: none; background: #fff3cd; box-shadow: 0 4px 10px rgba(255, 193, 7, 0.3); transform: scale(1.15); border: 2px solid #ffca28; }
-        .remove-engine-btn { position: absolute; top: -10px; right: -10px; background: #dee2e6; color: #495057; border: none; border-radius: 50%; width: 26px; height: 26px; cursor: pointer; font-size: 12px; z-index: 10; display: flex; align-items: center; justify-content: center; transition: 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-        .remove-engine-btn:hover { background: #dc3545; color: white; }
 
         .table-wrapper { overflow-x: auto; -webkit-overflow-scrolling: touch; }
         table { width: 100%; border-collapse: collapse; white-space: nowrap; margin-top: 1rem; }
@@ -87,21 +91,15 @@
         .summary-item { text-align: center; position: relative; padding: 0.5rem; min-width: 150px; }
         .summary-item .summary-value { font-size: 1.5rem; font-weight: 700; display: block; }
         .summary-item .summary-label { font-size: 0.9rem; color: var(--label-color); display: block; }
-        .summary-item .loss { color: #dc3545; }
         .reveal-mask { cursor: pointer; transition: all 0.3s; position: relative; }
         .reveal-mask.hidden .value-text { filter: blur(5px); opacity: 0.3; }
         .reveal-mask.hidden::after { content: '👁️ 點擊揭曉'; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 0.8rem; color: var(--primary-color); background: rgba(255,255,255,0.8); padding: 2px 8px; border-radius: 4px; white-space: nowrap; font-weight: bold; z-index: 2; }
         .chart-container { position: relative; height: 500px; width: 100%; margin-top: 1.5rem; }
         
-        /* 管理區按鈕 */
-        .management-section { background-color: #e9ecef; padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem; }
-        .management-section h3 { text-align: center; color: var(--secondary-color); margin-top: 0; margin-bottom: 1.5rem; }
-        .management-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 1rem; align-items: end; }
-        .btn { cursor: pointer; font-weight: 500; transition: background-color 0.2s; border: 1px solid var(--border-color); border-radius: 8px; padding: 0.75rem; width: 100%; }
-        .btn-primary { background-color: var(--primary-color); color: white; border-color: var(--primary-color); }
-        .btn-success { background-color: var(--gain-color); color: white; border-color: var(--gain-color); }
-        .btn-danger { background-color: var(--inflation-color); color: white; border-color: var(--inflation-color); }
-        .btn-secondary { background-color: var(--secondary-color); color: white; border-color: var(--secondary-color); }
+        /* 管理區按鈕 (極簡版) */
+        .management-section { background: linear-gradient(135deg, #e7f3ff, #f1f8ff); padding: 1.5rem; border-radius: 12px; margin-bottom: 2rem; border: 1px solid #cce5ff; }
+        .btn { cursor: pointer; font-weight: 500; transition: background-color 0.2s; border: 1px solid var(--border-color); border-radius: 8px; padding: 0.75rem; width: 100%; font-size: 1rem; }
+        .btn-success { background-color: var(--gain-color); color: white; border-color: var(--gain-color); font-weight: bold; }
 
         /* 附錄展開及內容樣式 */
         .appendix-toggle-btn { margin-top: 4rem; background-color: #e7f3ff; color: var(--primary-color); padding: 1rem; text-align: center; border-radius: 8px; border: 2px dashed var(--primary-color); cursor: pointer; font-weight: bold; font-size: 1.1rem; transition: background 0.2s; }
@@ -117,18 +115,19 @@
         .lazy-bag-container h2 { color: var(--primary-color); text-align: center; margin-bottom: 2rem; font-size: 1.8rem; border-bottom: 2px solid #f0f2f5; padding-bottom: 1rem; }
         .intro-text { text-align: center; color: #555; font-size: 1.1rem; line-height: 1.6; margin-bottom: 2rem; }
 
-        /* 靈活性懶人包專屬樣式 */
-        .flexibility-card { background: #fffafb; border: 1px solid #fce4e4; border-radius: 12px; padding: 1.5rem; margin-bottom: 1.5rem; display: flex; align-items: flex-start; gap: 1rem; box-shadow: 0 2px 8px rgba(0,0,0,0.02); }
-        .flexibility-card.bank { background: #f8fbff; border-color: #cce5ff; }
-        .flexibility-card.stock { background: #fffdf5; border-color: #ffe082; }
-        .flex-icon { font-size: 2.5rem; line-height: 1; }
-        .flex-content h3 { margin: 0 0 0.5rem 0; color: var(--secondary-color); font-size: 1.2rem; }
-        .flex-content p { margin: 0; color: var(--label-color); line-height: 1.5; font-size: 0.95rem; }
-        .flex-content .highlight-text { font-weight: bold; color: #dc3545; display: inline-block; margin-top: 8px; }
-        .flex-conclusion { background: linear-gradient(135deg, #e7f3ff, #f1f8ff); padding: 2rem; border-radius: 12px; border-left: 6px solid var(--primary-color); margin-top: 2rem; }
-        .flex-conclusion h3 { color: var(--primary-color); margin-top: 0; font-size: 1.4rem; }
-        .flex-conclusion p { margin: 0; color: #333; font-size: 1.05rem; line-height: 1.6; font-weight: 500; }
-
+        /* 優惠頁面專屬樣式 */
+        .promo-card { background: #fdfdfd; border: 1px solid #dee2e6; border-radius: 12px; padding: 1.5rem; margin-bottom: 1.5rem; }
+        .promo-row { display: flex; align-items: flex-start; gap: 15px; margin-bottom: 1.2rem; padding-bottom: 1.2rem; border-bottom: 1px dashed #eee; }
+        .promo-row:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+        .promo-checkbox { width: 24px; height: 24px; margin-top: 2px; cursor: pointer; accent-color: var(--primary-color); }
+        .promo-content { flex: 1; }
+        .promo-content h4 { margin: 0 0 5px 0; color: var(--primary-color); font-size: 1.1rem; }
+        .promo-content p { margin: 0; color: #555; font-size: 0.9rem; line-height: 1.4; }
+        .promo-tag { background: #ffecb3; color: #d84315; padding: 2px 8px; border-radius: 4px; font-size: 0.8rem; font-weight: bold; display: inline-block; margin-top: 5px; }
+        .promo-result-box { background: linear-gradient(135deg, #28a745 0%, #20c997 100%); color: white; padding: 1.5rem; border-radius: 12px; text-align: center; box-shadow: 0 8px 16px rgba(40, 167, 69, 0.2); }
+        .promo-result-box h3 { margin: 0 0 10px 0; font-size: 1.2rem; opacity: 0.9; }
+        .promo-result-box .big-savings { font-size: 3rem; font-weight: 900; line-height: 1; margin-bottom: 10px; }
+        
         /* 4隻金雞 3合1 佈局樣式 */
         .goose-3in1-wrapper { display: flex; flex-wrap: wrap; gap: 2rem; margin-top: 2rem; align-items: stretch; }
         .goose-egg-side { flex: 1; min-width: 280px; background: linear-gradient(135deg, #fff9c4, #ffecb3); border-radius: 12px; padding: 2rem; text-align: center; display: flex; flex-direction: column; justify-content: center; border: 2px solid #ffca28; box-shadow: 0 6px 16px rgba(255, 202, 40, 0.2); }
@@ -153,10 +152,6 @@
         .goose-stat-row strong { font-size: 1.1rem; color: #333; }
         .goose-stat-row.highlight strong { color: #28a745; font-size: 1.2rem; }
 
-        /* 通脹互動計算機 */
-        .interactive-calc { background: #fdfdfd; padding: 1.5rem; border-radius: 12px; margin-top: 2rem; border: 2px dashed #dc3545; }
-        .interactive-calc h3 { color: #dc3545; margin-top: 0; text-align: center; }
-
         /* Modal & 升級 QR Code (保證長按掃描功能) */
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6); z-index: 2000; align-items: center; justify-content: center; padding: 1rem; }
         .modal-content { background: #fff; padding: 2.5rem; border-radius: 12px; max-width: 400px; width: 100%; text-align: center; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
@@ -168,20 +163,11 @@
             display: inline-block; text-align: center;
         }
         
-        /* 極致防封鎖設定，確保任何手機都可以長按 img 叫出選單 */
         .qr-container img { 
-            display: block !important; 
-            margin: 0 auto; 
-            width: 250px; 
-            height: 250px; 
-            pointer-events: auto !important; 
-            -webkit-touch-callout: default !important; 
-            -webkit-user-select: auto !important;
-            user-select: auto !important;
+            display: block !important; margin: 0 auto; width: 250px; height: 250px; 
+            pointer-events: auto !important; -webkit-touch-callout: default !important; -webkit-user-select: auto !important; user-select: auto !important;
         }
-        .qr-container canvas {
-            display: none !important; /* 強制隱藏 canvas，只顯示 Base64 img */
-        }
+        .qr-container canvas { display: none !important; }
         
         .close-modal { position: absolute; top: 15px; right: 15px; font-size: 1.5rem; cursor: pointer; color: #aaa; transition: 0.2s; }
         .close-modal:hover { color: #333; }
@@ -191,28 +177,33 @@
 </head>
 <body>
 
+    <nav class="bottom-nav">
+        <div class="nav-item active" onclick="switchTab('tab-calculator', this)"><span class="nav-icon">🗺️</span>財富藍圖</div>
+        <div class="nav-item" onclick="switchTab('tab-promo', this)"><span class="nav-icon">✨</span>專屬禮遇</div>
+        <div class="nav-item" onclick="switchTab('tab-education', this)"><span class="nav-icon">👼</span>伴你成長</div>
+        <div class="nav-item" onclick="switchTab('tab-strategy', this)"><span class="nav-icon">🏖️</span>悠閒長糧</div>
+        <div class="nav-item" onclick="switchTab('tab-inflation', this)"><span class="nav-icon">🛡️</span>保衛戰</div>
+        <div class="nav-item" onclick="switchTab('tab-triangle', this)"><span class="nav-icon">⚖️</span>穩健導航</div>
+    </nav>
+
     <div id="tab-calculator" class="tab-section active">
         <div class="calculator-container">
             <header>
                 <div id="default-header-content">
-                    <h1>顛覆認知的理財策略</h1>
-                    <p id="main-subtitle">揭示「複利增值」與「現金貶值」之間的巨大鴻溝，量化您每一個決策的未來價值。</p>
+                    <h1>為您描繪的理想人生藍圖</h1>
+                    <p id="main-subtitle">理財，是為了讓未來的自己擁有選擇的自由。讓我們一起將時間化為盟友，提早鎖定您與家人的安穩歲月。</p>
                 </div>
                 <h2 id="client-view-title" style="display:none; color: var(--primary-color); font-size: 1.7rem; margin: 10px 0 0 0; padding-bottom: 10px;"></h2>
             </header>
 
             <div class="management-section">
-                <h3>客戶及資料管理</h3>
-                <div class="management-grid">
-                    <div class="input-group"><label>客戶名稱</label><input type="text" id="client-name" placeholder="輸入客戶名稱"></div>
-                    <div class="input-group"><label>方案管理</label><select id="load-client"><option value="">-- 選擇已儲存方案 --</option></select></div>
-                    <div class="input-group"><button id="save-client" class="btn btn-primary">儲存</button></div>
-                    <div class="input-group"><button id="delete-client" class="btn btn-danger">刪除</button></div>
-                    <div class="input-group"><button id="share-btn" class="btn btn-success">📤 分享</button></div>
-                    <div class="input-group"><button id="export-btn" class="btn btn-secondary">匯出備份</button></div>
-                    <div class="input-group">
-                        <button onclick="document.getElementById('import-file').click()" class="btn btn-secondary">匯入還原</button>
-                        <input type="file" id="import-file" style="display:none;" accept=".json">
+                <h3 style="margin-bottom: 1rem; color: var(--primary-color);">💼 客戶專屬報告建立</h3>
+                <div style="display: flex; gap: 10px; max-width: 500px; margin: 0 auto; align-items: center;">
+                    <div class="input-group" style="flex: 2; margin: 0;">
+                        <input type="text" id="client-name" placeholder="輸入客戶名稱" style="padding: 0.9rem; font-weight: bold; font-size: 1.1rem;">
+                    </div>
+                    <div class="input-group" style="flex: 1; margin: 0;">
+                        <button id="share-btn" class="btn btn-success" style="padding: 0.9rem; font-size: 1rem;">📤 建立分享</button>
                     </div>
                 </div>
             </div>
@@ -228,7 +219,7 @@
             </div>
             
             <div class="section">
-                <h2>錢放銀行的真相</h2>
+                <h2>⏳ 停留在舒適圈的隱形代價</h2>
                 <div class="duel-inputs">
                     <div class="input-group" id="group-existing-deposit"><label>現有銀行存款</label><input type="text" id="existing-deposit" value="500,000" inputmode="numeric"></div>
                     <div class="input-group" id="group-bank-deposit"><label>每年銀行儲蓄</label><input type="text" id="bank-deposit" value="100,000" inputmode="numeric"></div>
@@ -241,22 +232,25 @@
                 <div class="duel-summary">
                     <div class="summary-item"><span class="summary-value" id="cash-total">-</span><span class="summary-label">本息總額</span></div>
                     <div class="summary-item reveal-mask hidden" onclick="this.classList.remove('hidden')"><span class="summary-value value-text" id="cash-real-value">-</span><span class="summary-label">剩餘購買力</span></div>
-                    <div class="summary-item reveal-mask hidden" onclick="this.classList.remove('hidden')"><span class="summary-value loss value-text" id="cash-loss">-</span><span class="summary-label">無形通脹成本<br><span style="font-size:0.75rem; color:#999; font-weight:normal;">(維持同等購買力需倒貼)</span></span></div>
+                    <div class="summary-item reveal-mask hidden" onclick="this.classList.remove('hidden')">
+                        <span class="summary-value value-text" id="cash-loss" style="color: #007bff; font-weight: 900; font-size: 2.5rem;">-</span>
+                        <span class="summary-label" style="color: #007bff; font-weight: bold; font-size: 1.15rem; line-height: 1.3; margin-top: 5px;">歲月神偷帶走的價值<br><span style="font-size:0.85rem; font-weight:normal;">(讓我們及早為此築起防線)</span></span>
+                    </div>
                 </div>
             </div>
 
             <div class="section">
-                <h2>複利增值：各引擎的獨立策略</h2>
+                <h2>複利增值：各時光錦囊的獨立策略</h2>
                 <div class="plan-grid">
                     <div class="emoji-toggle-bar">
-                        <span style="font-size: 0.95rem; color: #555; font-weight: bold; margin-right: 5px;">點擊公仔啟用分段投入：</span>
-                        <div id="btn-toggle-plan2" class="emoji-toggle" onclick="toggleEngine('plan2')" title="啟用/隱藏 引擎二 (第6年供)">🐓</div>
-                        <div id="btn-toggle-plan3" class="emoji-toggle" onclick="toggleEngine('plan3')" title="啟用/隱藏 引擎三 (第11年供)">🐣</div>
-                        <div id="btn-toggle-plan4" class="emoji-toggle" onclick="toggleEngine('plan4')" title="啟用/隱藏 引擎四 (第16年供)">🥚</div>
+                        <span style="font-size: 0.95rem; color: #555; font-weight: bold; margin-right: 5px;">點擊公仔埋下更多時光錦囊：</span>
+                        <div id="btn-toggle-plan2" class="emoji-toggle" onclick="toggleEngine('plan2')" title="啟用/隱藏 時光錦囊二 (第6年供)">🐓</div>
+                        <div id="btn-toggle-plan3" class="emoji-toggle" onclick="toggleEngine('plan3')" title="啟用/隱藏 時光錦囊三 (第11年供)">🐣</div>
+                        <div id="btn-toggle-plan4" class="emoji-toggle" onclick="toggleEngine('plan4')" title="啟用/隱藏 時光錦囊四 (第16年供)">🥚</div>
                     </div>
 
                     <div class="input-group">
-                        <label style="color:var(--plan1-color); font-weight:bold;">財富引擎一 (5年期 • 第1年供)</label>
+                        <label style="color:var(--plan1-color); font-weight:bold;">一號時光錦囊 (5年期 • 第1年供)</label>
                         <input type="text" id="plan1-contribution" value="40,000" inputmode="numeric">
                         <select id="plan1-strategy">
                             <option value="none">滾存不提取</option>
@@ -269,8 +263,8 @@
                     </div>
 
                     <div class="input-group extra-jar" id="group-plan2" style="display:none; position:relative;">
-                        <button class="remove-engine-btn" onclick="toggleEngine('plan2')" title="移除此引擎">❌</button>
-                        <label style="color:var(--plan2-color); font-weight:bold;">財富引擎二 (5年期 • 第6年供)</label>
+                        <button class="remove-engine-btn" onclick="toggleEngine('plan2')" title="移除此錦囊">❌</button>
+                        <label style="color:var(--plan2-color); font-weight:bold;">二號時光錦囊 (5年期 • 第6年供)</label>
                         <input type="text" id="plan2-contribution" value="50,000" inputmode="numeric">
                         <select id="plan2-strategy">
                            <option value="none">滾存不提取</option>
@@ -283,8 +277,8 @@
                     </div>
 
                     <div class="input-group extra-jar" id="group-plan3" style="display:none; position:relative;">
-                        <button class="remove-engine-btn" onclick="toggleEngine('plan3')" title="移除此引擎">❌</button>
-                        <label style="color:var(--plan3-color); font-weight:bold;">財富引擎三 (5年期 • 第11年供)</label>
+                        <button class="remove-engine-btn" onclick="toggleEngine('plan3')" title="移除此錦囊">❌</button>
+                        <label style="color:var(--plan3-color); font-weight:bold;">三號時光錦囊 (5年期 • 第11年供)</label>
                         <input type="text" id="plan3-contribution" value="60,000" inputmode="numeric">
                         <select id="plan3-strategy">
                            <option value="none">滾存不提取</option>
@@ -297,8 +291,8 @@
                     </div>
 
                     <div class="input-group extra-jar" id="group-plan4" style="display:none; position:relative;">
-                        <button class="remove-engine-btn" onclick="toggleEngine('plan4')" title="移除此引擎">❌</button>
-                        <label style="color:var(--plan4-color); font-weight:bold;">財富引擎四 (5年期 • 第16年供)</label>
+                        <button class="remove-engine-btn" onclick="toggleEngine('plan4')" title="移除此錦囊">❌</button>
+                        <label style="color:var(--plan4-color); font-weight:bold;">四號時光錦囊 (5年期 • 第16年供)</label>
                         <input type="text" id="plan4-contribution" value="70,000" inputmode="numeric">
                         <select id="plan4-strategy">
                            <option value="none">滾存不提取</option>
@@ -435,7 +429,76 @@
             
             <div id="privacy-notice" style="text-align: center; margin-top: 3rem; padding: 1rem; border: 2px dashed var(--primary-color); background-color: #e7f3ff; border-radius: 8px;">
                 <p style="margin: 0; font-weight: 500; color: var(--primary-color);">🔒 絕對保密：所有資料只會儲存在您的瀏覽器內，不會上傳到任何伺服器。</p>
-                <p style="margin-top: 10px; font-size: 0.8rem; color: #999;">系統版本: v1.4 (強制更新機制已啟動)</p>
+                <p style="margin-top: 10px; font-size: 0.8rem; color: #999;">系統版本: v1.6 (強制更新機制已啟動)</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="tab-promo" class="tab-section">
+        <div class="lazy-bag-container">
+            <h2>✨ 專屬保費禮遇計算</h2>
+            <p class="intro-text">為您度身訂造最輕鬆的投保策略，將每一分錢的效益極大化！</p>
+            
+            <div class="promo-card" style="background:#f8f9fa;">
+                <div class="top-input-grid" style="margin-bottom: 0;">
+                    <div class="input-group">
+                        <label>首年 / 每年保費金額 ($)</label>
+                        <input type="text" id="promo-annual-premium" value="50,000" inputmode="numeric" style="font-weight:bold; color:var(--primary-color);">
+                    </div>
+                    <div class="input-group">
+                        <label>供款年期 (年)</label>
+                        <input type="number" id="promo-term" value="5">
+                    </div>
+                </div>
+            </div>
+
+            <div class="promo-card">
+                <div class="promo-row">
+                    <input type="checkbox" id="promo1-check" class="promo-checkbox" checked>
+                    <div class="promo-content">
+                        <h4>優惠 1：首年保費回贈</h4>
+                        <p>首年保費每滿 $5,000 即減 $500。</p>
+                        <div class="promo-tag">已為您慳下：<span id="promo1-saved">$0</span></div>
+                    </div>
+                </div>
+                
+                <div class="promo-row">
+                    <input type="checkbox" id="promo2-check" class="promo-checkbox" checked>
+                    <div class="promo-content">
+                        <h4>優惠 2：續保保費折扣</h4>
+                        <p>第 2 年起續保即減 5%。如同時配置指定危疾或人壽產品，再額外減 3%（合共 8%）。</p>
+                        <select id="promo2-select" style="margin-top:8px; width:100%; max-width:300px; padding:6px; border-radius:6px; border:1px solid #ccc;">
+                            <option value="0.05">基本續保折扣 (減 5%)</option>
+                            <option value="0.08" selected>同時配置指定危疾/人壽 (合共減 8%)</option>
+                        </select>
+                        <div class="promo-tag" style="display:block; max-width:fit-content;">已為您慳下：<span id="promo2-saved">$0</span></div>
+                    </div>
+                </div>
+
+                <div class="promo-row">
+                    <input type="checkbox" id="promo3-check" class="promo-checkbox" checked>
+                    <div class="promo-content">
+                        <h4>優惠 3：預繳保費保證利率</h4>
+                        <p>一筆過預繳未來保費，即享保證年利率回報！詳情參考 <i>PIR-promotion-May2026-tc.pdf</i>。</p>
+                        <div style="margin-top:8px; display:flex; align-items:center; gap:10px;">
+                            <span>保證年利率：</span>
+                            <input type="number" id="promo3-rate" value="4.0" step="0.1" style="width:80px; padding:5px; border:1px solid #ccc; border-radius:4px; text-align:center;"> %
+                        </div>
+                        <div id="promo3-desc" style="margin-top:10px; background:#e7f3ff; padding:10px; border-radius:6px; font-size:0.9rem; color:#0056b3; line-height:1.5;"></div>
+                        <div class="promo-tag" style="background:#d4edda; color:#155724; display:block; max-width:fit-content;">預繳賺取利息：<span id="promo3-saved">$0</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="promo-result-box">
+                <h3>原本總保費：<span id="promo-original-total" style="text-decoration:line-through; font-size:1.1rem; opacity:0.8;">$0</span></h3>
+                <div style="margin: 15px 0;">
+                    <span style="font-size: 1.1rem;">💰 您總共慳咗及賺取利息達：</span>
+                    <div class="big-savings" id="promo-total-savings">$0</div>
+                </div>
+                <div style="background: rgba(0,0,0,0.1); padding: 10px; border-radius: 8px;">
+                    <span style="font-size: 1rem;">實際只需付出總額：<strong id="promo-actual-outlay" style="font-size: 1.5rem;">$0</strong></span>
+                </div>
             </div>
         </div>
     </div>
@@ -534,12 +597,12 @@
 
     <div id="tab-strategy" class="tab-section">
         <div class="lazy-bag-container">
-            <h2>🐔 黃金農場：四合一金雞佈局</h2>
-            <p class="intro-text">資料已與「計算推演」同步。以下顯示在 <strong id="goose-target-year-display" style="color:var(--primary-color);">最長遠終點</strong> 時的預期金蛋收成。<br>您可以直接喺度更改每隻金雞嘅提取策略！</p>
+            <h2>🏖️ 悠閒長糧：專屬您的時光錦囊</h2>
+            <p class="intro-text">資料已與「財富藍圖」同步。以下顯示在 <strong id="goose-target-year-display" style="color:var(--primary-color);">最長遠終點</strong> 時的預期長糧收成。<br>您可以直接喺度更改每個錦囊嘅提取策略！</p>
 
             <div class="goose-3in1-wrapper">
                 <div class="goose-egg-side">
-                    <h3>🎯 您的退休金蛋總結</h3>
+                    <h3>🎯 您的未來自由現金流</h3>
                     <div class="eggs">🥚🧺</div>
                     
                     <div class="goose-egg-summary-item" style="border-left: 5px solid #28a745;">
@@ -548,30 +611,30 @@
                     </div>
                     
                     <div class="goose-egg-summary-item" style="border-left: 5px solid #d84315;">
-                        <span>💰 歷年累積已落袋金蛋 (總提取)</span>
+                        <span>💰 歷年累積已落袋 (享受生活)</span>
                         <strong id="egg-total-withdrawn">$0</strong>
                     </div>
                     
                     <div class="goose-egg-summary-item" style="border-left: 5px solid #6f42c1;">
-                        <span>🏦 戶口總剩餘價值 (依然健在嘅本金)</span>
+                        <span>🏦 傳承後代的安穩基石 (依然健在的本金)</span>
                         <strong id="egg-total-value" style="color:#6f42c1;">$0</strong>
                     </div>
 
-                    <p style="font-size: 0.95rem; color: #666; font-weight: bold; margin-top: 10px;">拿走金蛋，本金健在<br>更可無限期傳承給下一代！</p>
+                    <p style="font-size: 0.95rem; color: #666; font-weight: bold; margin-top: 10px;">每年長糧入袋，本金依然穩健增長<br>更可無限期傳承給下一代！</p>
                 </div>
 
                 <div class="goose-geese-side">
                     <div class="emoji-toggle-bar">
-                        <span style="font-size: 0.95rem; color: #555; font-weight: bold; margin-right: 5px;">點擊公仔啟用分段投入：</span>
-                        <div id="goose-btn-toggle-plan2" class="emoji-toggle" onclick="toggleEngine('plan2')" title="啟用/隱藏 引擎二 (第6年供)">🐓</div>
-                        <div id="goose-btn-toggle-plan3" class="emoji-toggle" onclick="toggleEngine('plan3')" title="啟用/隱藏 引擎三 (第11年供)">🐣</div>
-                        <div id="goose-btn-toggle-plan4" class="emoji-toggle" onclick="toggleEngine('plan4')" title="啟用/隱藏 引擎四 (第16年供)">🥚</div>
+                        <span style="font-size: 0.95rem; color: #555; font-weight: bold; margin-right: 5px;">點擊公仔埋下更多時光錦囊：</span>
+                        <div id="goose-btn-toggle-plan2" class="emoji-toggle" onclick="toggleEngine('plan2')" title="啟用/隱藏 時光錦囊二 (第6年供)">🐓</div>
+                        <div id="goose-btn-toggle-plan3" class="emoji-toggle" onclick="toggleEngine('plan3')" title="啟用/隱藏 時光錦囊三 (第11年供)">🐣</div>
+                        <div id="goose-btn-toggle-plan4" class="emoji-toggle" onclick="toggleEngine('plan4')" title="啟用/隱藏 時光錦囊四 (第16年供)">🥚</div>
                     </div>
 
                     <div class="goose-card">
                         <div class="goose-card-header">
                             <div class="icon">🐔</div>
-                            <h4>引擎一金雞</h4>
+                            <h4>一號時光錦囊</h4>
                             <span class="goose-tag">5年期 • 第1年供</span>
                         </div>
                         <select id="goose-plan1-strategy" class="goose-select">
@@ -590,10 +653,10 @@
                     </div>
 
                     <div class="goose-card extra-goose" id="goose-group-plan2" style="display:none; position:relative;">
-                        <button class="remove-engine-btn" onclick="toggleEngine('plan2')" title="移除此引擎">❌</button>
+                        <button class="remove-engine-btn" onclick="toggleEngine('plan2')" title="移除此錦囊">❌</button>
                         <div class="goose-card-header">
                             <div class="icon">🐓</div>
-                            <h4>引擎二金雞</h4>
+                            <h4>二號時光錦囊</h4>
                             <span class="goose-tag">5年期 • 第6年供</span>
                         </div>
                         <select id="goose-plan2-strategy" class="goose-select">
@@ -612,10 +675,10 @@
                     </div>
 
                     <div class="goose-card extra-goose" id="goose-group-plan3" style="display:none; position:relative;">
-                        <button class="remove-engine-btn" onclick="toggleEngine('plan3')" title="移除此引擎">❌</button>
+                        <button class="remove-engine-btn" onclick="toggleEngine('plan3')" title="移除此錦囊">❌</button>
                         <div class="goose-card-header">
                             <div class="icon">🐣</div>
-                            <h4>引擎三金雞</h4>
+                            <h4>三號時光錦囊</h4>
                             <span class="goose-tag">5年期 • 第11年供</span>
                         </div>
                         <select id="goose-plan3-strategy" class="goose-select">
@@ -634,10 +697,10 @@
                     </div>
 
                     <div class="goose-card extra-goose" id="goose-group-plan4" style="display:none; position:relative;">
-                        <button class="remove-engine-btn" onclick="toggleEngine('plan4')" title="移除此引擎">❌</button>
+                        <button class="remove-engine-btn" onclick="toggleEngine('plan4')" title="移除此錦囊">❌</button>
                         <div class="goose-card-header">
                             <div class="icon">🥚</div>
-                            <h4>引擎四金雞</h4>
+                            <h4>四號時光錦囊</h4>
                             <span class="goose-tag">5年期 • 第16年供</span>
                         </div>
                         <select id="goose-plan4-strategy" class="goose-select">
@@ -662,8 +725,8 @@
 
     <div id="tab-education" class="tab-section">
         <div class="lazy-bag-container">
-            <h2>🎓 仔女教育基金計算機</h2>
-            <p class="intro-text">教育通脹往往比一般通脹更嚴峻。及早規劃，釐清未來的資金缺口。</p>
+            <h2>👼 伴你成長：教育藍圖規劃</h2>
+            <p class="intro-text">教育通脹往往比一般通脹更嚴峻。及早規劃，讓我們為孩子釐清未來的資金路徑。</p>
             
             <div style="background: #fdfdfd; border: 1px solid var(--border-color); border-radius: 12px; padding: 1.5rem;">
                 <div class="top-input-grid" style="margin-bottom: 0;">
@@ -679,21 +742,14 @@
                     <span class="summary-label" style="font-size: 1.1rem;">📈 將來入學時實際所需總額</span>
                     <span class="summary-value" id="edu-future-cost" style="color: #dc3545; font-size: 2.2rem;">-</span>
                 </div>
-                <div class="summary-item">
-                    <span class="summary-label">🏦 若無任何增值，您每年最少需儲備</span>
-                    <span class="summary-value" id="edu-yearly-save-bank" style="font-size: 1.8rem; color: var(--secondary-color)">-</span>
+                <div class="summary-item" style="padding-top: 15px;">
+                    <span class="summary-label">💡 為了這份給孩子的承諾，若單靠儲蓄，您每年需預留：</span>
+                    <span class="summary-value" id="edu-yearly-save-bank" style="font-size: 1.8rem; color: var(--secondary-color); margin-top: 5px;">-</span>
+                    <div style="font-size:0.85rem; color:#666; margin-top:10px;">別擔心，透過合適的增值工具，這個擔子可以輕省得多。</div>
                 </div>
             </div>
         </div>
     </div>
-
-    <nav class="bottom-nav">
-        <div class="nav-item active" onclick="switchTab('tab-calculator', this)"><span class="nav-icon">📊</span>計算推演</div>
-        <div class="nav-item" onclick="switchTab('tab-education', this)"><span class="nav-icon">🎓</span>教育基金</div>
-        <div class="nav-item" onclick="switchTab('tab-strategy', this)"><span class="nav-icon">🐔</span>生金蛋</div>
-        <div class="nav-item" onclick="switchTab('tab-inflation', this)"><span class="nav-icon">💸</span>通脹真相</div>
-        <div class="nav-item" onclick="switchTab('tab-triangle', this)"><span class="nav-icon">⚖️</span>鐵三角</div>
-    </nav>
 
     <div id="share-modal" class="modal-overlay">
         <div class="modal-content">
@@ -713,7 +769,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         // --- Version Control & Force Update ---
-        const APP_VERSION = '1.4';
+        const APP_VERSION = '1.6';
         if (localStorage.getItem('APP_VERSION') !== APP_VERSION) {
             localStorage.setItem('APP_VERSION', APP_VERSION);
             if ('serviceWorker' in navigator) {
@@ -771,14 +827,14 @@
             const allInputIds = [
                 'client-name', 'start-age', 'inflation-rate', 'existing-deposit', 'bank-deposit', 'bank-interest', 
                 'duel-year', 'plan1-contribution', 'plan2-contribution', 'plan3-contribution', 
-                'plan4-contribution', 'plan1-strategy', 'plan2-strategy', 'plan3-strategy', 'plan4-strategy'
+                'plan4-contribution', 'plan1-strategy', 'plan2-strategy', 'plan3-strategy', 'plan4-strategy',
+                'promo-annual-premium', 'promo-term', 'promo1-check', 'promo2-check', 'promo2-select', 'promo3-check', 'promo3-rate'
             ];
             const inputs = {};
             allInputIds.forEach(id => { if(document.getElementById(id)) inputs[id] = document.getElementById(id); });
             
             const tableHead = document.getElementById('results-table-head');
             const tableBody = document.getElementById('results-table-body');
-            const loadSelect = document.getElementById('load-client');
             const mainChartCanvas = document.getElementById('savings-chart').getContext('2d');
             let mainChart;
 
@@ -789,9 +845,13 @@
                     const sharedData = JSON.parse(decodeURIComponent(atob(urlParams.get('data'))));
                     Object.keys(sharedData).forEach(id => {
                         if (inputs[id]) { 
-                            inputs[id].value = sharedData[id]; 
-                            if(inputs[id].tagName === 'INPUT' && inputs[id].getAttribute('inputmode') === 'numeric'){
-                                inputs[id].value = formatNumber(sharedData[id]);
+                            if(inputs[id].type === 'checkbox') {
+                                inputs[id].checked = sharedData[id];
+                            } else {
+                                inputs[id].value = sharedData[id]; 
+                                if(inputs[id].tagName === 'INPUT' && inputs[id].getAttribute('inputmode') === 'numeric'){
+                                    inputs[id].value = formatNumber(sharedData[id]);
+                                }
                             }
                         }
                     });
@@ -800,7 +860,9 @@
                     document.querySelector('.management-section').style.display = 'none';
                     document.getElementById('section-chart').style.display = 'none';
                     document.querySelector('.appendix-toggle-btn').style.display = 'none';
-                    document.getElementById('privacy-notice').style.display = 'none';
+                    
+                    const privacyEl = document.getElementById('privacy-notice');
+                    if(privacyEl) privacyEl.style.display = 'none';
                     
                     const eyeBtnContainer = document.getElementById('eye-icon-container');
                     if(eyeBtnContainer) eyeBtnContainer.style.display = 'none';
@@ -821,7 +883,7 @@
                         }
                     });
 
-                    setTimeout(() => { calculateAndDisplay(); }, 100);
+                    setTimeout(() => { calculateAndDisplay(); calculatePromo(); }, 100);
                     setTimeout(() => alert('✅ 已成功載入專屬理財報告！您可以自由修改數字進行試算。'), 500);
                 } catch (e) { console.error("解析分享連結失敗", e); }
             }
@@ -841,105 +903,21 @@
                 }
             });
 
-            // --- 資料管理邏輯 ---
-            function updateDropdown() {
-                const plans = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
-                loadSelect.innerHTML = '<option value="">-- 選擇已儲存方案 --</option>';
-                Object.keys(plans).sort().forEach(name => {
-                    const opt = document.createElement('option'); opt.value = name; opt.textContent = name;
-                    loadSelect.appendChild(opt);
-                });
-            }
-
-            document.getElementById('save-client').addEventListener('click', () => {
-                const name = inputs['client-name'].value.trim();
-                if (!name) return alert('請輸入客戶名稱！');
-                const plans = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
-                const currentData = {};
-                allInputIds.forEach(id => { if(inputs[id]) currentData[id] = parseFormattedNumber(inputs[id].value) || inputs[id].value; });
-                plans[name] = currentData;
-                localStorage.setItem(STORAGE_KEY, JSON.stringify(plans));
-                updateDropdown(); loadSelect.value = name; alert('方案已儲存！');
-            });
-
-            loadSelect.addEventListener('change', (e) => {
-                const name = e.target.value; if (!name) return;
-                const plans = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
-                const data = plans[name];
-                if (data) {
-                    Object.keys(data).forEach(id => {
-                        if (inputs[id]) {
-                            inputs[id].value = data[id];
-                            if(inputs[id].tagName === 'INPUT' && inputs[id].getAttribute('inputmode') === 'numeric'){
-                                inputs[id].value = formatNumber(data[id]);
-                            }
-                            inputs[id].dispatchEvent(new Event('input'));
-                        }
-                    });
-                    
-                    // 自動展開已填資料的引擎並著色
-                    [2, 3, 4].forEach(i => {
-                        const hasVal = data[`plan${i}-contribution`] && parseFloat(data[`plan${i}-contribution`]) > 0;
-                        const group = document.getElementById(`group-plan${i}`);
-                        if(hasVal && group && group.style.display === 'none') {
-                            toggleEngine(`plan${i}`);
-                        } else if (!hasVal && group && group.style.display !== 'none') {
-                            toggleEngine(`plan${i}`);
-                        }
-                    });
-
-                    calculateAndDisplay();
-                }
-            });
-
-            document.getElementById('delete-client').addEventListener('click', () => {
-                const name = loadSelect.value;
-                if (!name) return alert('請先選擇要刪除的方案！');
-                if (confirm(`確定要刪除「${name}」的方案嗎？`)) {
-                    const plans = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
-                    delete plans[name];
-                    localStorage.setItem(STORAGE_KEY, JSON.stringify(plans));
-                    updateDropdown();
-                    alert('已刪除！');
-                }
-            });
-
-            document.getElementById('export-btn').addEventListener('click', () => {
-                const data = localStorage.getItem(STORAGE_KEY) || '{}';
-                const blob = new Blob([data], { type: 'application/json' });
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = `理財方案備份_${new Date().toISOString().slice(0,10)}.json`;
-                a.click();
-            });
-
-            document.getElementById('import-file').addEventListener('change', (e) => {
-                const file = e.target.files[0];
-                if (!file) return;
-                const reader = new FileReader();
-                reader.onload = (event) => {
-                    try {
-                        const importedData = JSON.parse(event.target.result);
-                        const existingData = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
-                        const mergedData = { ...existingData, ...importedData };
-                        localStorage.setItem(STORAGE_KEY, JSON.stringify(mergedData));
-                        updateDropdown();
-                        alert('匯入成功！');
-                    } catch (err) {
-                        alert('檔案格式錯誤，匯入失敗。');
-                    }
-                };
-                reader.readAsText(file);
-            });
-
             document.getElementById('share-btn').addEventListener('click', () => {
                 if (window.location.protocol === 'file:') {
                     alert('⚠️ 溫馨提示：您目前正在電腦本機 (file://) 開啟檔案，產生的分享連結無法在手機上開啟。\n請將檔案上傳至伺服器或 GitHub Pages 後再使用分享功能！');
                 }
 
                 const currentData = {};
-                allInputIds.forEach(id => { if(inputs[id]) currentData[id] = parseFormattedNumber(inputs[id].value) || inputs[id].value; });
+                allInputIds.forEach(id => { 
+                    if(inputs[id]) {
+                        if(inputs[id].type === 'checkbox') {
+                            currentData[id] = inputs[id].checked;
+                        } else {
+                            currentData[id] = parseFormattedNumber(inputs[id].value) || inputs[id].value; 
+                        }
+                    }
+                });
                 
                 // 清理被隱藏引擎的數據，避免分享無用資料
                 [2, 3, 4].forEach(i => {
@@ -998,7 +976,61 @@
                 slider.style.display = slider.style.display === 'none' ? 'block' : 'none';
             });
 
-            // --- 附屬計算機邏輯 ---
+            // --- 附屬優惠計算機邏輯 ---
+            function calculatePromo() {
+                const P = parseFormattedNumber(document.getElementById('promo-annual-premium').value) || 0;
+                const N = parseInt(document.getElementById('promo-term').value) || 5;
+                
+                const usePromo1 = document.getElementById('promo1-check').checked;
+                const usePromo2 = document.getElementById('promo2-check').checked;
+                const promo2Type = document.getElementById('promo2-select').value;
+                const usePromo3 = document.getElementById('promo3-check').checked;
+                const rate = parseFloat(document.getElementById('promo3-rate').value) / 100 || 0.04;
+
+                let d1 = 0;
+                if (usePromo1) {
+                    d1 = Math.floor(P / 5000) * 500;
+                }
+
+                const d2Rate = usePromo2 ? parseFloat(promo2Type) : 0;
+                let d2 = 0;
+                let Pren = P;
+                if (N > 1) {
+                    d2 = P * (N - 1) * d2Rate;
+                    Pren = P * (1 - d2Rate); // 折扣後的續保保費
+                }
+
+                let d3 = 0;
+                let prepaidRequired = 0;
+                if (usePromo3 && N > 1) {
+                    for (let t = 2; t <= N; t++) {
+                        prepaidRequired += Pren / Math.pow(1 + rate, t - 1);
+                    }
+                    d3 = (Pren * (N - 1)) - prepaidRequired;
+                }
+
+                const originalTotal = P * N;
+                const totalSavings = d1 + d2 + d3;
+                const actualOutlay = originalTotal - totalSavings;
+
+                document.getElementById('promo-original-total').textContent = '$' + formatNumber(originalTotal);
+                document.getElementById('promo-total-savings').textContent = '$' + formatNumber(totalSavings);
+                document.getElementById('promo-actual-outlay').textContent = '$' + formatNumber(actualOutlay);
+                
+                document.getElementById('promo1-saved').textContent = '$' + formatNumber(d1);
+                document.getElementById('promo2-saved').textContent = '$' + formatNumber(d2);
+                document.getElementById('promo3-saved').textContent = '$' + formatNumber(d3);
+                
+                // 動態產生解說文字
+                if(usePromo3 && N > 1) {
+                    document.getElementById('promo3-desc').innerHTML = `💡 <strong>計算詳情：</strong><br>第 2 至 ${N} 年的折後保費為每年 $${formatNumber(Pren)}。<br>透過 ${parseFloat(document.getElementById('promo3-rate').value).toFixed(1)}% 保證年利率貼現，您今日只需預繳 <strong>$${formatNumber(prepaidRequired)}</strong>，系統會自動滾存並全數抵銷未來 ${N-1} 年保費，變相為您賺取 <strong>$${formatNumber(d3)}</strong> 嘅保證利息！`;
+                    document.getElementById('promo3-desc').style.display = 'block';
+                } else {
+                    document.getElementById('promo3-desc').style.display = 'none';
+                }
+            }
+
+            // --- 其他附屬計算機邏輯 ---
             function updateMiniInflation() {
                 const amt = parseFormattedNumber(document.getElementById('inf-calc-amount').value);
                 const years = parseFloat(document.getElementById('inf-calc-years').value);
@@ -1029,12 +1061,11 @@
                 document.getElementById('edu-yearly-save-bank').textContent = '$' + formatNumber(bankSave);
             }
 
-            ['inf-calc-amount', 'inf-calc-years', 'inf-calc-rate'].forEach(id => {
-                document.getElementById(id).addEventListener('input', updateMiniInflation);
-            });
-            ['edu-current-age', 'edu-target-age', 'edu-current-cost', 'edu-inflation'].forEach(id => {
-                document.getElementById(id).addEventListener('input', updateEduFund);
-            });
+            ['promo-annual-premium', 'promo-term', 'promo3-rate'].forEach(id => { document.getElementById(id).addEventListener('input', calculatePromo); });
+            ['promo1-check', 'promo2-check', 'promo2-select', 'promo3-check'].forEach(id => { document.getElementById(id).addEventListener('change', calculatePromo); });
+
+            ['inf-calc-amount', 'inf-calc-years', 'inf-calc-rate'].forEach(id => { document.getElementById(id).addEventListener('input', updateMiniInflation); });
+            ['edu-current-age', 'edu-target-age', 'edu-current-cost', 'edu-inflation'].forEach(id => { document.getElementById(id).addEventListener('input', updateEduFund); });
 
             // --- 主計算機邏輯 ---
             const returnMultipliers_none = { 10: 1.32, 15: 1.86, 20: 2.71, 25: 4.11, 30: 5.85, 35: 8.02, 40: 10.99, 45: 15.06, 50: 20.63, 55: 28.27, 60: 38.73, 65: 53.06, 70: 72.69 };
@@ -1100,9 +1131,9 @@
                     document.getElementById('group-plan4') && document.getElementById('group-plan4').style.display !== 'none'
                 ];
 
-                // 表格嚴格按照每 5 年跳動顯示至終極年期
+                // 表格嚴格按照由第 10 年開始，每 5 年跳動顯示至終極年期
                 const reportingYears = [];
-                for (let y = 5; y <= maxYear; y += 5) {
+                for (let y = 10; y <= maxYear; y += 5) {
                     reportingYears.push(y);
                 }
 
@@ -1170,7 +1201,7 @@
                         eggTotalValue = rV;
                     }
 
-                    // 只在指定的 5 年區間寫入表格
+                    // 寫入表格 (第10年開始每5年顯示)
                     if (reportingYears.includes(year)) {
                         const row = document.createElement('tr');
                         row.innerHTML = `<td>${year} (${parseInt(inputs['start-age'].value)+year-1})</td><td>$${formatNumber(rC)}</td><td>$${formatNumber(rA)}</td><td style="color:var(--gain-color); font-weight:bold;">$${formatNumber(rW)}</td><td style="color:#6f42c1; font-weight:bold;">$${formatNumber(rV)}</td><td style="color:var(--primary-color); font-weight:bold;">$${formatNumber(rV+rW)}</td><td class="risk ${hiddenClass}">$${formatNumber((rV+rW)/Math.pow(1+inflationRate,year))}</td>`;
@@ -1197,14 +1228,14 @@
                         datasets: [
                             { type: 'line', label: '總利益購買力', data: d.adjBenefit, borderColor: colors.getPropertyValue('--plan-line-color').trim(), backgroundColor: 'transparent', fill: false, borderWidth: 3, pointRadius: 5, order: 0 },
                             { type: 'line', label: '銀行購買力', data: d.adjCash, borderColor: colors.getPropertyValue('--bank-line-color').trim(), backgroundColor: 'transparent', fill: false, borderWidth: 3, pointRadius: 5, order: 1 },
-                            { type: 'bar', label: '引擎一剩餘', data: d.datasets.plan1_value, backgroundColor: colors.getPropertyValue('--plan1-color').trim(), stack: 'Stack 0', order: 2 },
-                            { type: 'bar', label: '引擎二剩餘', data: d.datasets.plan2_value, backgroundColor: colors.getPropertyValue('--plan2-color').trim(), stack: 'Stack 0', order: 2 },
-                            { type: 'bar', label: '引擎三剩餘', data: d.datasets.plan3_value, backgroundColor: colors.getPropertyValue('--plan3-color').trim(), stack: 'Stack 0', order: 2 },
-                            { type: 'bar', label: '引擎四剩餘', data: d.datasets.plan4_value, backgroundColor: colors.getPropertyValue('--plan4-color').trim(), stack: 'Stack 0', order: 2 },
-                            { type: 'bar', label: '引擎一入袋', data: d.datasets.plan1_withdrawn, backgroundColor: colors.getPropertyValue('--plan1-withdraw-color').trim(), stack: 'Stack 0', order: 2 },
-                            { type: 'bar', label: '引擎二入袋', data: d.datasets.plan2_withdrawn, backgroundColor: colors.getPropertyValue('--plan2-withdraw-color').trim(), stack: 'Stack 0', order: 2 },
-                            { type: 'bar', label: '引擎三入袋', data: d.datasets.plan3_withdrawn, backgroundColor: colors.getPropertyValue('--plan3-withdraw-color').trim(), stack: 'Stack 0', order: 2 },
-                            { type: 'bar', label: '引擎四入袋', data: d.datasets.plan4_withdrawn, backgroundColor: colors.getPropertyValue('--plan4-withdraw-color').trim(), stack: 'Stack 0', order: 2 }
+                            { type: 'bar', label: '錦囊一剩餘', data: d.datasets.plan1_value, backgroundColor: colors.getPropertyValue('--plan1-color').trim(), stack: 'Stack 0', order: 2 },
+                            { type: 'bar', label: '錦囊二剩餘', data: d.datasets.plan2_value, backgroundColor: colors.getPropertyValue('--plan2-color').trim(), stack: 'Stack 0', order: 2 },
+                            { type: 'bar', label: '錦囊三剩餘', data: d.datasets.plan3_value, backgroundColor: colors.getPropertyValue('--plan3-color').trim(), stack: 'Stack 0', order: 2 },
+                            { type: 'bar', label: '錦囊四剩餘', data: d.datasets.plan4_value, backgroundColor: colors.getPropertyValue('--plan4-color').trim(), stack: 'Stack 0', order: 2 },
+                            { type: 'bar', label: '錦囊一入袋', data: d.datasets.plan1_withdrawn, backgroundColor: colors.getPropertyValue('--plan1-withdraw-color').trim(), stack: 'Stack 0', order: 2 },
+                            { type: 'bar', label: '錦囊二入袋', data: d.datasets.plan2_withdrawn, backgroundColor: colors.getPropertyValue('--plan2-withdraw-color').trim(), stack: 'Stack 0', order: 2 },
+                            { type: 'bar', label: '錦囊三入袋', data: d.datasets.plan3_withdrawn, backgroundColor: colors.getPropertyValue('--plan3-withdraw-color').trim(), stack: 'Stack 0', order: 2 },
+                            { type: 'bar', label: '錦囊四入袋', data: d.datasets.plan4_withdrawn, backgroundColor: colors.getPropertyValue('--plan4-withdraw-color').trim(), stack: 'Stack 0', order: 2 }
                         ]
                     },
                     options: { responsive: true, maintainAspectRatio: false, scales: { x: { stacked: true, grid: { display: false } }, y: { stacked: true, beginAtZero: true, ticks: { callback: v => v>=1e6?`${v/1e6}M`:v>=1e3?`${v/1e3}K`:v } } }, plugins: { tooltip: { mode: 'index', intersect: false, callbacks: { label: c => `${c.dataset.label||''}: $${formatNumber(c.raw)}` } }, legend: { position: 'bottom' } } }
@@ -1220,11 +1251,11 @@
                 updateDropdown();
                 Object.values(inputs).forEach(input => {
                     if (!input) return;
-                    const eType = (input.tagName === 'SELECT' || input.type === 'range') ? 'change' : 'input';
+                    const eType = (input.tagName === 'SELECT' || input.type === 'checkbox' || input.type === 'range') ? 'change' : 'input';
                     input.addEventListener(eType, calculateAndDisplay);
                      if (input.getAttribute('inputmode') === 'numeric' && input.type !== 'number') {
                          input.addEventListener('focus', (e) => { e.target.value = parseFormattedNumber(e.target.value) || ''; });
-                        input.addEventListener('blur', (e) => { e.target.value = formatNumber(parseFormattedNumber(e.target.value)) || '0'; calculateAndDisplay(); });
+                        input.addEventListener('blur', (e) => { e.target.value = formatNumber(parseFormattedNumber(e.target.value)) || '0'; calculateAndDisplay(); calculatePromo(); });
                     }
                 });
                 
@@ -1233,6 +1264,7 @@
 
                 updateMiniInflation();
                 updateEduFund();
+                calculatePromo();
                 calculateAndDisplay();
             }
             initialize();
@@ -1240,3 +1272,4 @@
     </script>
 </body>
 </html>
+#
