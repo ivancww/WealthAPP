@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- 強制瀏覽器不快取，確保客戶載入最新版本 -->
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
@@ -108,7 +107,7 @@
         .lazy-bag-container h2 { color: var(--primary-color); text-align: center; margin-bottom: 2rem; font-size: 1.8rem; border-bottom: 2px solid #f0f2f5; padding-bottom: 1rem; }
         .intro-text { text-align: center; color: #555; font-size: 1.1rem; line-height: 1.6; margin-bottom: 2rem; }
 
-        /* 願景懶人包專屬樣式 (溫暖放大版) */
+        /* 願景懶人包專屬樣式 */
         .vision-intro { background: linear-gradient(135deg, #fffdf5, #fff5e6); padding: 2.5rem; border-radius: 16px; border-left: 8px solid #ffca28; margin-bottom: 2.5rem; position: relative; box-shadow: 0 4px 15px rgba(0,0,0,0.03); }
         .vision-intro .quote-mark { font-size: 5rem; color: rgba(255, 193, 7, 0.2); position: absolute; top: -15px; left: 15px; font-family: serif; line-height: 1; }
         .vision-intro h3 { color: #d84315; margin-top: 0; margin-bottom: 1rem; font-size: 1.4rem; position: relative; z-index: 1; font-weight: 900; }
@@ -158,19 +157,16 @@
 </head>
 <body>
 
-    <!-- 導航列 -->
-    <nav class="bottom-nav">
+    <nav class="bottom-nav" id="main-nav">
         <div class="nav-item" onclick="switchTab('tab-vision', this)"><span class="nav-icon">🤝</span>願景對話</div>
         <div class="nav-item active" onclick="switchTab('tab-calculator', this)"><span class="nav-icon">📊</span>計算推演</div>
         <div class="nav-item" onclick="switchTab('tab-promo', this)"><span class="nav-icon">🎁</span>保費優惠</div>
     </nav>
 
-    <!-- 願景對話 (Tab Vision) -->
     <div id="tab-vision" class="tab-section">
         <div class="lazy-bag-container" style="background: #fdfdfd;">
             <h2 style="color: var(--primary-color);">🤝 理財，是一場時光之旅</h2>
             
-            <!-- 專業與溫度並重 引言區 -->
             <div class="vision-intro">
                 <span class="quote-mark">"</span>
                 <h3>專業與溫度並重</h3>
@@ -182,10 +178,8 @@
                 <div class="author">— Ivan</div>
             </div>
 
-            <!-- 催眠式場景對話卡片 -->
             <div style="display: flex; flex-direction: column; gap: 0.5rem;">
                 
-                <!-- 場景一：羅馬非一日建成 -->
                 <div class="flexibility-card card-rome">
                     <div class="flex-icon">🏛️</div>
                     <div class="flex-content">
@@ -198,7 +192,6 @@
                     </div>
                 </div>
 
-                <!-- 場景二：不確定性與錦上添花 -->
                 <div class="flexibility-card card-shield" style="background: #fffafb;">
                     <div class="flex-icon">🛡️</div>
                     <div class="flex-content">
@@ -211,7 +204,6 @@
                     </div>
                 </div>
 
-                <!-- 場景三：啟動資金 -->
                 <div class="flexibility-card card-rocket" style="background: #f8fbff;">
                     <div class="flex-icon">🚀</div>
                     <div class="flex-content">
@@ -226,9 +218,8 @@
 
             </div>
             
-            <!-- 引導進入計算機的按鈕 -->
             <div style="text-align: center; margin-top: 3rem;">
-                <button class="btn btn-primary" style="padding: 1rem 2rem; font-size: 1.2rem; border-radius: 50px; box-shadow: 0 4px 15px rgba(0,123,255,0.3);" onclick="switchTab('tab-calculator', this.parentElement)">
+                <button class="btn btn-primary" style="padding: 1rem 2rem; font-size: 1.2rem; border-radius: 50px; box-shadow: 0 4px 15px rgba(0,123,255,0.3);" onclick="switchTab('tab-calculator', document.querySelector('.nav-item:nth-child(2)'))">
                     ✍️ 立即與我一起量化這幅藍圖
                 </button>
             </div>
@@ -236,7 +227,6 @@
         </div>
     </div>
 
-    <!-- 計算推演 (Tab 1) -->
     <div id="tab-calculator" class="tab-section active">
         <div class="calculator-container">
             <header>
@@ -247,13 +237,12 @@
                 <h2 id="client-view-title" style="display:none; color: var(--primary-color); font-size: 1.7rem; margin: 10px 0 0 0; padding-bottom: 10px;"></h2>
             </header>
 
-            <div class="management-section">
+            <div class="management-section" id="management-section">
                 <h3 style="margin-bottom: 1rem; color: var(--primary-color);">💼 客戶專屬報告建立</h3>
                 <div style="display: flex; gap: 10px; max-width: 600px; margin: 0 auto; align-items: center; flex-wrap: wrap;">
                     <div class="input-group" style="flex: 2; margin: 0; min-width: 200px;">
                         <input type="text" id="client-name" placeholder="輸入客戶名稱" style="padding: 0.9rem; font-weight: bold; font-size: 1.1rem;">
                     </div>
-                    <!-- 規劃情境選項 -->
                     <div class="input-group" style="flex: 1; margin: 0; min-width: 120px;">
                         <select id="plan-mode" style="padding: 0.9rem; font-size: 1rem; font-weight: bold; border-color: var(--primary-color);">
                             <option value="retirement">🏖️ 退休規劃</option>
@@ -300,14 +289,13 @@
             <div class="section">
                 <h2>複利增值：各時光錦囊的獨立策略</h2>
                 <div class="plan-grid">
-                    <div class="emoji-toggle-bar">
+                    <div class="emoji-toggle-bar" id="emoji-bar">
                         <span style="font-size: 0.95rem; color: #555; font-weight: bold; margin-right: 5px;">點擊公仔啟用分段投入：</span>
                         <div id="btn-toggle-plan2" class="emoji-toggle" onclick="toggleEngine('plan2')" title="啟用/隱藏 二號時光錦囊 (第6年供)">🐓</div>
                         <div id="btn-toggle-plan3" class="emoji-toggle" onclick="toggleEngine('plan3')" title="啟用/隱藏 三號時光錦囊 (第11年供)">🐣</div>
                         <div id="btn-toggle-plan4" class="emoji-toggle" onclick="toggleEngine('plan4')" title="啟用/隱藏 四號時光錦囊 (第16年供)">🥚</div>
                     </div>
 
-                    <!-- 錦囊一 -->
                     <div class="input-group">
                         <label style="color:var(--plan1-color); font-weight:bold;">一號時光錦囊 (5年期 • 第1年供)</label>
                         <input type="text" id="plan1-contribution" value="40,000" inputmode="numeric">
@@ -321,7 +309,6 @@
                         </select>
                     </div>
 
-                    <!-- 錦囊二 -->
                     <div class="input-group extra-jar" id="group-plan2" style="display:none; position:relative;">
                         <button class="remove-engine-btn" onclick="toggleEngine('plan2')" title="移除此錦囊">❌</button>
                         <label style="color:var(--plan2-color); font-weight:bold;">二號時光錦囊 (5年期 • 第6年供)</label>
@@ -336,7 +323,6 @@
                         </select>
                     </div>
 
-                    <!-- 錦囊三 -->
                     <div class="input-group extra-jar" id="group-plan3" style="display:none; position:relative;">
                         <button class="remove-engine-btn" onclick="toggleEngine('plan3')" title="移除此錦囊">❌</button>
                         <label style="color:var(--plan3-color); font-weight:bold;">三號時光錦囊 (5年期 • 第11年供)</label>
@@ -351,7 +337,6 @@
                         </select>
                     </div>
 
-                    <!-- 錦囊四 -->
                     <div class="input-group extra-jar" id="group-plan4" style="display:none; position:relative;">
                         <button class="remove-engine-btn" onclick="toggleEngine('plan4')" title="移除此錦囊">❌</button>
                         <label style="color:var(--plan4-color); font-weight:bold;">四號時光錦囊 (5年期 • 第16年供)</label>
@@ -381,18 +366,16 @@
             
             <div id="privacy-notice" style="text-align: center; margin-top: 3rem; padding: 1rem; border: 2px dashed var(--primary-color); background-color: #e7f3ff; border-radius: 8px;">
                 <p style="margin: 0; font-weight: 500; color: var(--primary-color);">🔒 絕對保密：所有資料只會儲存在您的瀏覽器內，不會上傳到任何伺服器。</p>
-                <p style="margin-top: 10px; font-size: 0.8rem; color: #999;">系統版本: v1.17 (解決 QR Code 本機掃描限制)</p>
+                <p style="margin-top: 10px; font-size: 0.8rem; color: #999;">系統版本: v1.18 (安全短網址及純淨客戶模式)</p>
             </div>
         </div>
     </div>
 
-    <!-- 全新優惠專區 (Tab Promo) -->
     <div id="tab-promo" class="tab-section">
         <div class="lazy-bag-container">
             <h2>🎁 專屬保費優惠計算</h2>
             <p class="intro-text">為您度身訂造最慳錢嘅投保策略，將每一分錢嘅效益極大化！</p>
             
-            <!-- 基礎設定 -->
             <div class="promo-card" style="background:#f8f9fa;">
                 <div class="top-input-grid" style="margin-bottom: 0;">
                     <div class="input-group">
@@ -406,7 +389,6 @@
                 </div>
             </div>
 
-            <!-- 優惠選項 -->
             <div class="promo-card">
                 <div class="promo-row">
                     <input type="checkbox" id="promo1-check" class="promo-checkbox" checked>
@@ -445,7 +427,6 @@
                 </div>
             </div>
 
-            <!-- 結果總結 -->
             <div class="promo-result-box">
                 <h3>原本總保費：<span id="promo-original-total" style="text-decoration:line-through; font-size:1.1rem; opacity:0.8;">$0</span></h3>
                 <div style="margin: 15px 0;">
@@ -459,7 +440,6 @@
         </div>
     </div>
 
-    <!-- Modal: Share QR -->
     <div id="share-modal" class="modal-overlay">
         <div class="modal-content">
             <span class="close-modal" id="close-modal-icon">&times;</span>
@@ -478,7 +458,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         // --- Version Control & Force Update ---
-        const APP_VERSION = '1.17';
+        const APP_VERSION = '1.18';
         if (localStorage.getItem('APP_VERSION') !== APP_VERSION) {
             localStorage.setItem('APP_VERSION', APP_VERSION);
             if ('serviceWorker' in navigator) {
@@ -518,19 +498,24 @@
         }
 
         let showPurchasingPower = false;
-        const STORAGE_KEY = 'FINANCIAL_PLANS';
         let shareUrlGlobal = ''; 
 
         function formatNumber(value) { return new Intl.NumberFormat('en-US', {maximumFractionDigits: 0}).format(value); }
         function parseFormattedNumber(str) { return parseFloat(String(str).replace(/,/g, '')) || 0; }
 
         document.addEventListener('DOMContentLoaded', function() {
-            const allInputIds = [
+            // 定義純淨版只需嘅數據 Key (移除 promo 相關，令 QR Code 極簡)
+            const pureShareIds = [
                 'client-name', 'plan-mode', 'start-age', 'inflation-rate', 'existing-deposit', 'bank-deposit', 'bank-interest', 
-                'duel-year', 'plan1-contribution', 'plan2-contribution', 'plan3-contribution', 
-                'plan4-contribution', 'plan1-strategy', 'plan2-strategy', 'plan3-strategy', 'plan4-strategy',
+                'duel-year', 'plan1-contribution', 'plan2-contribution', 'plan3-contribution', 'plan4-contribution', 
+                'plan1-strategy', 'plan2-strategy', 'plan3-strategy', 'plan4-strategy'
+            ];
+            
+            const allInputIds = [
+                ...pureShareIds,
                 'promo-annual-premium', 'promo-term', 'promo1-check', 'promo2-check', 'promo2-select', 'promo3-check', 'promo3-rate'
             ];
+            
             const inputs = {};
             allInputIds.forEach(id => { if(document.getElementById(id)) inputs[id] = document.getElementById(id); });
             
@@ -543,62 +528,69 @@
             const urlParams = new URLSearchParams(window.location.search);
             if (urlParams.has('data')) {
                 try {
-                    const safeData = urlParams.get('data').replace(/ /g, '+');
-                    const sharedData = JSON.parse(decodeURIComponent(atob(safeData)));
+                    // ★ v1.18 更新：使用 URL-safe Base64 解碼技術，防止符號丟失
+                    let base64 = urlParams.get('data').replace(/-/g, '+').replace(/_/g, '/');
+                    while (base64.length % 4) base64 += '=';
+                    
+                    const decodedStr = decodeURIComponent(escape(atob(base64)));
+                    const sharedData = JSON.parse(decodedStr);
+                    
                     Object.keys(sharedData).forEach(id => {
                         if (inputs[id]) { 
-                            if(inputs[id].type === 'checkbox') {
-                                inputs[id].checked = sharedData[id];
-                            } else {
-                                inputs[id].value = sharedData[id]; 
-                                if(inputs[id].tagName === 'INPUT' && inputs[id].getAttribute('inputmode') === 'numeric'){
-                                    inputs[id].value = formatNumber(sharedData[id]);
-                                }
+                            inputs[id].value = sharedData[id]; 
+                            if(inputs[id].tagName === 'INPUT' && inputs[id].getAttribute('inputmode') === 'numeric'){
+                                inputs[id].value = formatNumber(sharedData[id]);
                             }
                         }
                     });
                     
-                    // --- 啟動客戶專屬報告模式 ---
-                    document.querySelector('.management-section').style.display = 'none';
-                    document.getElementById('section-chart').style.display = 'none';
-                    
-                    const privacyEl = document.getElementById('privacy-notice');
-                    if(privacyEl) privacyEl.style.display = 'none';
+                    // --- 啟動「純淨」客戶專屬報告模式 ---
+                    document.getElementById('management-section').style.display = 'none'; // 隱藏管理區
+                    document.getElementById('privacy-notice').style.display = 'none'; // 隱藏隱私條款
+                    document.getElementById('emoji-bar').style.display = 'none'; // 隱藏客人加公仔掣
+                    document.getElementById('main-subtitle').style.display = 'none'; // 隱藏副標題
                     
                     const eyeBtnContainer = document.getElementById('eye-icon-container');
                     if(eyeBtnContainer) eyeBtnContainer.style.display = 'none';
                     
-                    document.getElementById('main-subtitle').style.display = 'none';
+                    // ★ 徹底隱藏底部導航列，客人只能睇「計算推演」
+                    const mainNav = document.getElementById('main-nav');
+                    if(mainNav) mainNav.style.display = 'none';
+                    
+                    // 顯示客人稱呼
                     const clientName = sharedData['client-name'] || '尊貴客戶';
                     const clientTitleDisplay = document.getElementById('client-view-title');
                     clientTitleDisplay.innerHTML = `💼 <strong>${clientName}</strong> 的專屬理財方案`;
                     clientTitleDisplay.style.display = 'block';
 
+                    // 只展開有供款嘅錦囊，並隱藏刪除掣
                     [2, 3, 4].forEach(i => {
+                        const group = document.getElementById(`group-plan${i}`);
+                        const removeBtn = group ? group.querySelector('.remove-engine-btn') : null;
+                        if(removeBtn) removeBtn.style.display = 'none'; // 客人無得刪除
+
                         if(sharedData[`plan${i}-contribution`] && parseFloat(sharedData[`plan${i}-contribution`]) > 0) {
-                            const group = document.getElementById(`group-plan${i}`);
                             if(group && group.style.display === 'none') {
-                                toggleEngine(`plan${i}`);
+                                group.style.display = 'block';
                             }
                         }
                     });
+                    
+                    // 確保只停留喺 Tab 1
+                    switchTab('tab-calculator');
 
-                    setTimeout(() => { calculateAndDisplay(); calculatePromo(); }, 100);
-                    setTimeout(() => alert('✅ 已成功載入專屬理財報告！您可以自由修改數字進行試算。'), 500);
+                    setTimeout(() => { calculateAndDisplay(); }, 100);
                 } catch (e) { console.error("解析分享連結失敗", e); }
             }
 
             // --- 資料管理邏輯 ---
             document.getElementById('share-btn').addEventListener('click', () => {
 
+                // ★ v1.18 更新：只抽取 Tab 1 嘅資料，令 QR Code 極致精簡
                 const currentData = {};
-                allInputIds.forEach(id => { 
+                pureShareIds.forEach(id => { 
                     if(inputs[id]) {
-                        if(inputs[id].type === 'checkbox') {
-                            currentData[id] = inputs[id].checked;
-                        } else {
-                            currentData[id] = parseFormattedNumber(inputs[id].value) || inputs[id].value; 
-                        }
+                        currentData[id] = parseFormattedNumber(inputs[id].value) || inputs[id].value; 
                     }
                 });
                 
@@ -609,29 +601,30 @@
                     }
                 });
 
-                const encodedData = encodeURIComponent(btoa(encodeURIComponent(JSON.stringify(currentData))));
+                // ★ v1.18 更新：URL-Safe Base64 加密，確保不會有 +, /, = 令手機誤判為文字
+                const jsonStr = JSON.stringify(currentData);
+                const base64Str = btoa(unescape(encodeURIComponent(jsonStr)));
+                const safeEncodedData = base64Str.replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
                 
-                // ★ 智能偵測本機環境，防止手機掃描變純文字
                 let baseUrl = window.location.href.split('?')[0];
                 if (baseUrl.startsWith('file:') || baseUrl.startsWith('C:') || baseUrl.startsWith('D:')) {
                     alert('⚠️ 溫馨提示：您目前正在「電腦本機」開啟檔案，手機無法直接連線到您的電腦 Harddisk。\n\n系統已暫時用「示範網址」產生 QR Code 俾您測試手機掃描效果。真正見客前，請先將檔案上傳至 GitHub 或伺服器！');
-                    baseUrl = 'https://ivan-wealth-planning.vercel.app/index.html'; // 替換為安全的虛擬示範網址
+                    baseUrl = 'https://ivan-wealth-planning.vercel.app/index.html'; 
                 }
 
-                const shareUrl = baseUrl + '?data=' + encodedData;
+                const shareUrl = baseUrl + '?data=' + safeEncodedData;
                 shareUrlGlobal = shareUrl;
 
                 const qrContainer = document.getElementById('qr-code-display');
                 qrContainer.innerHTML = '';
                 
-                // 降低容錯率 (CorrectLevel.L) 以容納更多字元，防止 QR Code 過於密集而無法掃描
                 new QRCode(qrContainer, { 
                     text: shareUrl, 
                     width: 250, 
                     height: 250, 
                     colorDark : "#0056b3",
                     colorLight: "#ffffff",
-                    correctLevel : QRCode.CorrectLevel.L 
+                    correctLevel : QRCode.CorrectLevel.M 
                 });
                 
                 setTimeout(() => {
