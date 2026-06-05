@@ -291,7 +291,7 @@
             
             <div id="privacy-notice" style="text-align: center; margin-top: 3rem; padding: 1rem; border: 2px dashed var(--primary-color); background-color: #e7f3ff; border-radius: 8px;">
                 <p style="margin: 0; font-weight: 500; color: var(--primary-color);">🔒 絕對保密：所有資料只會儲存在您的瀏覽器內，不會上傳到任何伺服器。</p>
-                <p style="margin-top: 10px; font-size: 0.8rem; color: #999;">系統版本: v1.11 (強制更新機制已啟動)</p>
+                <p style="margin-top: 10px; font-size: 0.8rem; color: #999;">系統版本: v1.12 (強制更新機制已啟動)</p>
             </div>
         </div>
     </div>
@@ -383,7 +383,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         // --- Version Control & Force Update ---
-        const APP_VERSION = '1.11';
+        const APP_VERSION = '1.12';
         if (localStorage.getItem('APP_VERSION') !== APP_VERSION) {
             localStorage.setItem('APP_VERSION', APP_VERSION);
             if ('serviceWorker' in navigator) {
@@ -642,8 +642,10 @@
             ['promo1-check', 'promo2-check', 'promo2-select', 'promo3-check'].forEach(id => { document.getElementById(id).addEventListener('change', calculatePromo); });
 
             // --- 主計算機邏輯 ---
-            const returnMultipliers_none = { 10: 1.32, 15: 1.86, 20: 2.71, 25: 4.11, 30: 5.85, 35: 8.02, 40: 10.99, 45: 15.06, 50: 20.63, 55: 28.27, 60: 38.73, 65: 53.06, 70: 72.69 };
-            const returnMultipliers_withdraw8_from8 = { 10: 1.0658, 15: 1.0606, 20: 1.0931, 25: 1.186, 30: 1.237, 35: 1.229, 40: 1.22, 45: 1.226, 50: 1.235, 55: 1.241, 60: 1.248, 65: 1.259, 70: 1.269 };
+            // ★ v1.12 更新：加入第 8 年精確數據 (1.16 倍及 1.08 倍)
+            const returnMultipliers_none = { 8: 1.16, 10: 1.32, 15: 1.86, 20: 2.71, 25: 4.11, 30: 5.85, 35: 8.02, 40: 10.99, 45: 15.06, 50: 20.63, 55: 28.27, 60: 38.73, 65: 53.06, 70: 72.69 };
+            const returnMultipliers_withdraw8_from8 = { 8: 1.08, 10: 1.0658, 15: 1.0606, 20: 1.0931, 25: 1.186, 30: 1.237, 35: 1.229, 40: 1.22, 45: 1.226, 50: 1.235, 55: 1.241, 60: 1.248, 65: 1.259, 70: 1.269 };
+            
             const returnMultipliers_withdraw13_from15 = { 15: 1.731, 20: 1.784, 25: 1.94, 30: 2.0272, 35: 2.0196, 40: 2.0143, 45: 2.0353, 50: 2.068, 55: 2.0995, 60: 2.142, 65: 2.199, 70: 2.276 };
             const returnMultipliers_withdraw18_from20 = { 20: 2.527, 25: 2.772, 30: 2.93, 35: 2.964, 40: 3.017, 45: 3.133, 50: 3.298, 55: 3.504, 60: 3.786, 65: 4.171, 70: 4.696, 75: 5.416, 80: 6.402, 85: 7.752, 90: 9.6, 95: 12.134, 100: 15.604 };
             const returnMultipliers_withdraw23_from25 = { 25: 3.447, 30: 3.475, 35: 3.492, 40: 3.401, 45: 3.329, 50: 3.23, 55: 3.0943, 60: 2.911 };
@@ -694,14 +696,15 @@
                     document.getElementById('group-plan4') && document.getElementById('group-plan4').style.display !== 'none'
                 ];
 
-                const reportingYears = [];
+                // ★ v1.12 更新：表格由第 8 年起跳，後續接 10, 15, 20...
+                const reportingYears = [8];
                 for (let y = 10; y <= maxYear; y += 5) {
                     reportingYears.push(y);
                 }
 
                 const hiddenClass = showPurchasingPower ? '' : 'hidden-col';
                 
-                // 精確更新表格標題為實際淨收益
+                // 表格標題更新為「實際淨收益」
                 tableHead.innerHTML = `<tr><th>年份 (歲數)</th><th>累計供款</th><th>被動收入</th><th>累積被動收入</th><th>戶口剩餘價值</th><th>實際淨收益</th><th class="${hiddenClass}">實際購買力</th></tr>`;
                 tableBody.innerHTML = '';
                 
@@ -731,13 +734,14 @@
                         }
                         rV += cV; rW += cW; rA += cA;
 
-                        if (year >= 10) {
+                        // ★ 圖表亦同步由第 8 年起跳顯示
+                        if (year >= 8) {
                             chartData.datasets[`plan${i+1}_value`].push(Math.round(cV)); 
                             chartData.datasets[`plan${i+1}_withdrawn`].push(Math.round(cW));
                         }
                     });
 
-                    if (year >= 10) {
+                    if (year >= 8) {
                         chartData.labels.push(`${year}年 (${parseInt(inputs['start-age'].value) + year - 1}歲)`);
                         chartData.adjBenefit.push(Math.round((rV + rW) / Math.pow(1 + inflationRate, year)));
                         chartData.adjCash.push(Math.round(calculateCompoundInterest(existingDeposit, fixedBankDeposit, bankInterestRate, year) / Math.pow(1 + inflationRate, year)));
