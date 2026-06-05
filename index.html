@@ -105,16 +105,9 @@
 
         /* 懶人包共用樣式 */
         .lazy-bag-container { background: #fff; border-radius: 12px; padding: 2.5rem; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
-        .lazy-bag-container h2 { color: var(--primary-color); text-align: center; margin-bottom: 2rem; font-size: 1.8rem; border-bottom: 2px solid #f0f2f5; padding-bottom: 1rem; }
         .intro-text { text-align: center; color: #555; font-size: 1.1rem; line-height: 1.6; margin-bottom: 2rem; }
 
-        /* 願景懶人包專屬樣式 (溫暖放大版) */
-        .vision-intro { background: linear-gradient(135deg, #fffdf5, #fff5e6); padding: 2.5rem; border-radius: 16px; border-left: 8px solid #ffca28; margin-bottom: 2.5rem; position: relative; box-shadow: 0 4px 15px rgba(0,0,0,0.03); }
-        .vision-intro .quote-mark { font-size: 5rem; color: rgba(255, 193, 7, 0.2); position: absolute; top: -15px; left: 15px; font-family: serif; line-height: 1; }
-        .vision-intro h3 { color: #d84315; margin-top: 0; margin-bottom: 1rem; font-size: 1.4rem; position: relative; z-index: 1; font-weight: 900; }
-        .vision-intro p { font-size: 1.15rem; line-height: 1.8; color: #555; font-weight: 500; margin: 0; position: relative; z-index: 1; }
-        .vision-intro .author { text-align: right; margin-top: 20px; font-weight: bold; color: #d84315; font-size: 1.2rem; }
-
+        /* 卡片樣式 */
         .flexibility-card { background: #fff; border: none; border-radius: 16px; padding: 2rem; margin-bottom: 1.5rem; display: flex; align-items: flex-start; gap: 1.5rem; box-shadow: 0 4px 15px rgba(0,0,0,0.04); transition: transform 0.2s; border-bottom: 3px solid transparent; }
         .flexibility-card:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(0,0,0,0.08); }
         .flexibility-card.card-rome { border-bottom-color: #ffca28; }
@@ -168,19 +161,9 @@
     <!-- 願景對話 (Tab Vision) -->
     <div id="tab-vision" class="tab-section">
         <div class="lazy-bag-container" style="background: #fdfdfd;">
-            <h2 style="color: var(--primary-color);">🤝 理財，是一場時光之旅</h2>
             
-            <!-- 專業與溫度並重 引言區 -->
-            <div class="vision-intro">
-                <span class="quote-mark">"</span>
-                <h3>專業與溫度並重</h3>
-                <p>
-                    「作為一名資深的理財顧問，我發現與客戶溝通的精髓，不在於展示產品，而在於傾聽願景。<br><br>
-                    在輕鬆的對談中，我擅長透過具備啟發性的提問，引導客戶描繪理想的藍圖。無論是關於未來退休生活的質素，還是對子女教育藍圖的寄望，我都能敏銳地捕捉到他們內心最在意的價值核心。<br><br>
-                    這份洞察力，讓我能站在客人的角度，將複雜的數據轉化為一份份貼心、穩健且充滿責任感的保障方案。」
-                </p>
-                <div class="author">— Ivan</div>
-            </div>
+            <!-- 動態更新的大標題主題 -->
+            <h2 id="vision-main-title" style="color: var(--primary-color); font-size: 1.8rem; border-bottom: 2px solid #f0f2f5; padding-bottom: 1.5rem; margin-bottom: 2rem;">🏖️ 歲月豐收 ── 享受人生下半場</h2>
 
             <!-- 催眠式場景對話卡片 -->
             <div style="display: flex; flex-direction: column; gap: 0.5rem;">
@@ -382,7 +365,7 @@
             
             <div id="privacy-notice" style="text-align: center; margin-top: 3rem; padding: 1rem; border: 2px dashed var(--primary-color); background-color: #e7f3ff; border-radius: 8px;">
                 <p style="margin: 0; font-weight: 500; color: var(--primary-color);">🔒 絕對保密：所有資料只會儲存在您的瀏覽器內，不會上傳到任何伺服器。</p>
-                <p style="margin-top: 10px; font-size: 0.8rem; color: #999;">系統版本: v1.19 (客端介面隱藏走勢圖)</p>
+                <p style="margin-top: 10px; font-size: 0.8rem; color: #999;">系統版本: v1.20 (動態願景主題切換)</p>
             </div>
         </div>
     </div>
@@ -479,7 +462,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         // --- Version Control & Force Update ---
-        const APP_VERSION = '1.19';
+        const APP_VERSION = '1.20';
         if (localStorage.getItem('APP_VERSION') !== APP_VERSION) {
             localStorage.setItem('APP_VERSION', APP_VERSION);
             if ('serviceWorker' in navigator) {
@@ -767,6 +750,16 @@
                 const duelYear = parseInt(inputs['duel-year'].value) || 25;
                 const planMode = document.getElementById('plan-mode') ? document.getElementById('plan-mode').value : 'retirement';
                 
+                // 動態更新願景主題
+                const visionTitle = document.getElementById('vision-main-title');
+                if (visionTitle) {
+                    if (planMode === 'retirement') {
+                        visionTitle.innerHTML = '🏖️ 歲月豐收 ── 享受人生下半場';
+                    } else {
+                        visionTitle.innerHTML = '🎓 愛的延伸 ── 給孩子一生選擇權';
+                    }
+                }
+
                 const startAge = parseInt(inputs['start-age'].value) || 30;
                 let maxYear = 100 - startAge;
                 if (maxYear < 30) maxYear = 30;
