@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 強制瀏覽器不快取，確保客戶載入最新版本 -->
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
@@ -43,7 +44,7 @@
 
         /* 底部導航列 */
         .bottom-nav { display: flex; position: fixed; bottom: 0; left: 0; width: 100%; background: #ffffff; box-shadow: 0 -2px 10px rgba(0,0,0,0.08); justify-content: space-around; padding: 8px 0; z-index: 1000; padding-bottom: calc(8px + env(safe-area-inset-bottom)); flex-wrap: nowrap; overflow-x: auto; }
-        .nav-item { text-align: center; color: var(--label-color); font-size: 0.65rem; cursor: pointer; flex: 1; min-width: 60px; transition: 0.2s; user-select: none; }
+        .nav-item { text-align: center; color: var(--label-color); font-size: 0.65rem; cursor: pointer; flex: 1; min-width: 50px; transition: 0.2s; user-select: none; }
         .nav-item.active { color: var(--primary-color); font-weight: bold; transform: translateY(-2px); }
         .nav-icon { font-size: 1.3rem; display: block; margin-bottom: 2px; }
 
@@ -99,21 +100,19 @@
         /* 管理區按鈕 (極簡版) */
         .management-section { background: linear-gradient(135deg, #e7f3ff, #f1f8ff); padding: 1.5rem; border-radius: 12px; margin-bottom: 2rem; border: 1px solid #cce5ff; }
         .btn { cursor: pointer; font-weight: 500; transition: background-color 0.2s; border: 1px solid var(--border-color); border-radius: 8px; padding: 0.75rem; width: 100%; font-size: 1rem; }
+        .btn-primary { background-color: var(--primary-color); color: white; border-color: var(--primary-color); }
         .btn-success { background-color: var(--gain-color); color: white; border-color: var(--gain-color); font-weight: bold; }
-
-        /* 附錄展開及內容樣式 */
-        .appendix-toggle-btn { margin-top: 4rem; background-color: #e7f3ff; color: var(--primary-color); padding: 1rem; text-align: center; border-radius: 8px; border: 2px dashed var(--primary-color); cursor: pointer; font-weight: bold; font-size: 1.1rem; transition: background 0.2s; }
-        .appendix-toggle-btn:hover { background-color: #d0e7ff; }
-        .appendix-content { display: none; margin-top: 2rem; padding-top: 1rem; }
-        .appendix-content.show { display: block; animation: fadeIn 0.4s; }
-        .highlight { color: var(--gain-color); font-weight: bold; }
-        .risk { color: var(--inflation-color); font-weight: bold; }
-        .data-source-note { font-size: 0.9rem; margin-top: 1.5rem; text-align: center; color: var(--label-color); }
 
         /* 懶人包共用樣式 */
         .lazy-bag-container { background: #fff; border-radius: 12px; padding: 2.5rem; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
         .lazy-bag-container h2 { color: var(--primary-color); text-align: center; margin-bottom: 2rem; font-size: 1.8rem; border-bottom: 2px solid #f0f2f5; padding-bottom: 1rem; }
         .intro-text { text-align: center; color: #555; font-size: 1.1rem; line-height: 1.6; margin-bottom: 2rem; }
+
+        /* 靈活性懶人包專屬樣式 */
+        .flexibility-card { background: #fffafb; border: 1px solid #fce4e4; border-radius: 12px; padding: 1.5rem; margin-bottom: 1.5rem; display: flex; align-items: flex-start; gap: 1rem; box-shadow: 0 2px 8px rgba(0,0,0,0.02); }
+        .flex-icon { font-size: 2.5rem; line-height: 1; }
+        .flex-content h3 { margin: 0 0 0.5rem 0; color: var(--secondary-color); font-size: 1.2rem; }
+        .flex-content p { margin: 0; color: var(--label-color); line-height: 1.5; font-size: 1.05rem; }
 
         /* 優惠頁面專屬樣式 */
         .promo-card { background: #fdfdfd; border: 1px solid #dee2e6; border-radius: 12px; padding: 1.5rem; margin-bottom: 1.5rem; }
@@ -153,11 +152,84 @@
 </head>
 <body>
 
+    <!-- 導航列 (新增願景對話) -->
     <nav class="bottom-nav">
+        <div class="nav-item" onclick="switchTab('tab-vision', this)"><span class="nav-icon">🤝</span>願景對話</div>
         <div class="nav-item active" onclick="switchTab('tab-calculator', this)"><span class="nav-icon">📊</span>計算推演</div>
         <div class="nav-item" onclick="switchTab('tab-promo', this)"><span class="nav-icon">🎁</span>保費優惠</div>
     </nav>
 
+    <!-- 願景對話 (Tab Vision) -->
+    <div id="tab-vision" class="tab-section">
+        <div class="lazy-bag-container">
+            <h2 style="color: var(--primary-color);">🤝 理財，由聆聽開始</h2>
+            
+            <!-- 顧問引言區 (建立專業與溫度) -->
+            <div style="background: linear-gradient(135deg, #f8f9fa, #e9ecef); padding: 2rem; border-radius: 12px; border-left: 6px solid var(--primary-color); margin-bottom: 2.5rem; position: relative;">
+                <span style="font-size: 4rem; color: rgba(0,123,255,0.1); position: absolute; top: -10px; left: 10px;">"</span>
+                <p style="font-size: 1.1rem; line-height: 1.8; color: #495057; font-weight: 500; margin: 0; position: relative; z-index: 1;">
+                    「作為一名資深的理財顧問，我發現與客戶溝通的精髓，不在於展示產品，而在於傾聽願景。<br><br>
+                    在輕鬆的對談中，我擅長透過具備啟發性的提問，引導客戶描繪理想的藍圖。無論是關於未來退休生活的質素，還是對子女教育藍圖的寄望，我都能敏銳地捕捉到他們內心最在意的價值核心。<br><br>
+                    這份洞察力，讓我能站在客人的角度，將複雜的數據轉化為一份份貼心、穩健且充滿責任感的保障方案。」
+                </p>
+                <div style="text-align: right; margin-top: 15px; font-weight: bold; color: var(--primary-color);">— Ivan</div>
+            </div>
+
+            <!-- 催眠式場景對話卡片 -->
+            <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+                
+                <!-- 場景一：起橋比喻 -->
+                <div class="flexibility-card" style="background: #fffdf5; border-color: #ffe082;">
+                    <div class="flex-icon">🌉</div>
+                    <div class="flex-content">
+                        <h3 style="color: #d84315;">築橋引路：為目標鋪路</h3>
+                        <p style="margin-bottom: 10px;">好多人都擔心將來退休或者仔女出國讀書費用太貴。其實準備呢筆基金就好似起一座橋...</p>
+                        <div style="background: rgba(255,255,255,0.7); padding: 15px; border-radius: 8px; border: 1px dashed #ffca28;">
+                            <strong style="color: #d84315;">💡 啟發提問：</strong><br>
+                            「如果您依家唔開始起，等到要過河嗰陣，就可能要游水喇。您心中有無想像過，最想喺邊度過退休生活，又或者想送小朋友去邊度讀書？」
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 場景二：中斷風險 (融合醫療/維修比喻) -->
+                <div class="flexibility-card" style="background: #fffafb; border-color: #fce4e4;">
+                    <div class="flex-icon">⛈️</div>
+                    <div class="flex-content">
+                        <h3 style="color: #dc3545;">護橋基石：抵禦未知的風雨</h3>
+                        <p style="margin-bottom: 10px;">健康就等同一間屋嘅地基，萬一要進行「大維修」，往往需要動用龐大資金...</p>
+                        <div style="background: rgba(255,255,255,0.7); padding: 15px; border-radius: 8px; border: 1px dashed #f5c6cb;">
+                            <strong style="color: #dc3545;">💡 啟發提問：</strong><br>
+                            「如果呢條『橋』起咗一半，但因為經濟環境或者屋企突然有變故（例如突發嘅醫療維修開支），令這筆基金中斷咗，您覺得對未來嘅影響會係咩呢？」
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 場景三：啟動資金 -->
+                <div class="flexibility-card" style="background: #f8fbff; border-color: #cce5ff;">
+                    <div class="flex-icon">🚀</div>
+                    <div class="flex-content">
+                        <h3 style="color: #007bff;">啟航資金：財務自由的起跑線</h3>
+                        <p style="margin-bottom: 10px;">及早規劃不僅僅是為了解決基本開支，更是賦予未來更多選擇權的底氣...</p>
+                        <div style="background: rgba(255,255,255,0.7); padding: 15px; border-radius: 8px; border: 1px dashed #b8daff;">
+                            <strong style="color: #007bff;">💡 啟發提問：</strong><br>
+                            「除咗應付基本生活或學費，您有冇諗過，喺特定時間（例如退休首日、或者孩子大學畢業），您最想預備一筆點樣嘅『啟動資金』？係去環遊世界、買樓首期，定係一筆無後顧之憂嘅應急儲備？」
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            
+            <!-- 引導進入計算機的按鈕 -->
+            <div style="text-align: center; margin-top: 3rem;">
+                <button class="btn btn-primary" style="padding: 1rem 2rem; font-size: 1.2rem; border-radius: 50px; box-shadow: 0 4px 15px rgba(0,123,255,0.3);" onclick="switchTab('tab-calculator', this.parentElement)">
+                    ✍️ 立即與我一起量化這幅藍圖
+                </button>
+            </div>
+            
+        </div>
+    </div>
+
+    <!-- 計算推演 (Tab 1) -->
     <div id="tab-calculator" class="tab-section active">
         <div class="calculator-container">
             <header>
@@ -170,11 +242,18 @@
 
             <div class="management-section">
                 <h3 style="margin-bottom: 1rem; color: var(--primary-color);">💼 客戶專屬報告建立</h3>
-                <div style="display: flex; gap: 10px; max-width: 500px; margin: 0 auto; align-items: center;">
-                    <div class="input-group" style="flex: 2; margin: 0;">
+                <div style="display: flex; gap: 10px; max-width: 600px; margin: 0 auto; align-items: center; flex-wrap: wrap;">
+                    <div class="input-group" style="flex: 2; margin: 0; min-width: 200px;">
                         <input type="text" id="client-name" placeholder="輸入客戶名稱" style="padding: 0.9rem; font-weight: bold; font-size: 1.1rem;">
                     </div>
-                    <div class="input-group" style="flex: 1; margin: 0;">
+                    <!-- 新增：規劃情境選項 -->
+                    <div class="input-group" style="flex: 1; margin: 0; min-width: 120px;">
+                        <select id="plan-mode" style="padding: 0.9rem; font-size: 1rem; font-weight: bold; border-color: var(--primary-color);">
+                            <option value="retirement">🏖️ 退休規劃</option>
+                            <option value="education">🎓 教育基金</option>
+                        </select>
+                    </div>
+                    <div class="input-group" style="flex: 1; margin: 0; min-width: 120px;">
                         <button id="share-btn" class="btn btn-success" style="padding: 0.9rem; font-size: 1rem;">📤 建立分享</button>
                     </div>
                 </div>
@@ -191,6 +270,7 @@
             </div>
             
             <div class="section">
+                <!-- 舒適圈標題，完美保留 -->
                 <h2>⏳ 停留在舒適圈的隱形代價</h2>
                 <div class="duel-inputs">
                     <div class="input-group" id="group-existing-deposit"><label>現有銀行存款</label><input type="text" id="existing-deposit" value="500,000" inputmode="numeric"></div>
@@ -204,6 +284,7 @@
                 <div class="duel-summary">
                     <div class="summary-item"><span class="summary-value" id="cash-total">-</span><span class="summary-label">本息總額</span></div>
                     <div class="summary-item reveal-mask hidden" onclick="this.classList.remove('hidden')"><span class="summary-value value-text" id="cash-real-value">-</span><span class="summary-label">剩餘購買力</span></div>
+                    <!-- 無形通脹成本加強版 (藍色粗體) -->
                     <div class="summary-item reveal-mask hidden" onclick="this.classList.remove('hidden')">
                         <span class="summary-value value-text" id="cash-loss" style="color: #007bff; font-weight: 900; font-size: 2.5rem;">-</span>
                         <span class="summary-label" style="color: #007bff; font-weight: bold; font-size: 1.15rem; line-height: 1.3; margin-top: 5px;">無形通脹成本<br><span style="font-size:0.85rem; font-weight:normal;">(維持同等購買力需倒貼)</span></span>
@@ -214,6 +295,7 @@
             <div class="section">
                 <h2>複利增值：各時光錦囊的獨立策略</h2>
                 <div class="plan-grid">
+                    <!-- 公仔開關控制區 -->
                     <div class="emoji-toggle-bar">
                         <span style="font-size: 0.95rem; color: #555; font-weight: bold; margin-right: 5px;">點擊公仔啟用分段投入：</span>
                         <div id="btn-toggle-plan2" class="emoji-toggle" onclick="toggleEngine('plan2')" title="啟用/隱藏 二號時光錦囊 (第6年供)">🐓</div>
@@ -221,6 +303,7 @@
                         <div id="btn-toggle-plan4" class="emoji-toggle" onclick="toggleEngine('plan4')" title="啟用/隱藏 四號時光錦囊 (第16年供)">🥚</div>
                     </div>
 
+                    <!-- 錦囊一 (常駐) -->
                     <div class="input-group">
                         <label style="color:var(--plan1-color); font-weight:bold;">一號時光錦囊 (5年期 • 第1年供)</label>
                         <input type="text" id="plan1-contribution" value="40,000" inputmode="numeric">
@@ -234,6 +317,7 @@
                         </select>
                     </div>
 
+                    <!-- 錦囊二 (隱藏區) -->
                     <div class="input-group extra-jar" id="group-plan2" style="display:none; position:relative;">
                         <button class="remove-engine-btn" onclick="toggleEngine('plan2')" title="移除此錦囊">❌</button>
                         <label style="color:var(--plan2-color); font-weight:bold;">二號時光錦囊 (5年期 • 第6年供)</label>
@@ -248,6 +332,7 @@
                         </select>
                     </div>
 
+                    <!-- 錦囊三 (隱藏區) -->
                     <div class="input-group extra-jar" id="group-plan3" style="display:none; position:relative;">
                         <button class="remove-engine-btn" onclick="toggleEngine('plan3')" title="移除此錦囊">❌</button>
                         <label style="color:var(--plan3-color); font-weight:bold;">三號時光錦囊 (5年期 • 第11年供)</label>
@@ -262,6 +347,7 @@
                         </select>
                     </div>
 
+                    <!-- 錦囊四 (隱藏區) -->
                     <div class="input-group extra-jar" id="group-plan4" style="display:none; position:relative;">
                         <button class="remove-engine-btn" onclick="toggleEngine('plan4')" title="移除此錦囊">❌</button>
                         <label style="color:var(--plan4-color); font-weight:bold;">四號時光錦囊 (5年期 • 第16年供)</label>
@@ -291,16 +377,18 @@
             
             <div id="privacy-notice" style="text-align: center; margin-top: 3rem; padding: 1rem; border: 2px dashed var(--primary-color); background-color: #e7f3ff; border-radius: 8px;">
                 <p style="margin: 0; font-weight: 500; color: var(--primary-color);">🔒 絕對保密：所有資料只會儲存在您的瀏覽器內，不會上傳到任何伺服器。</p>
-                <p style="margin-top: 10px; font-size: 0.8rem; color: #999;">系統版本: v1.12 (強制更新機制已啟動)</p>
+                <p style="margin-top: 10px; font-size: 0.8rem; color: #999;">系統版本: v1.13 (加入願景對話及場景動態標題)</p>
             </div>
         </div>
     </div>
 
+    <!-- 全新優惠專區 (Tab Promo) -->
     <div id="tab-promo" class="tab-section">
         <div class="lazy-bag-container">
             <h2>🎁 專屬保費優惠計算</h2>
             <p class="intro-text">為您度身訂造最慳錢嘅投保策略，將每一分錢嘅效益極大化！</p>
             
+            <!-- 基礎設定 -->
             <div class="promo-card" style="background:#f8f9fa;">
                 <div class="top-input-grid" style="margin-bottom: 0;">
                     <div class="input-group">
@@ -314,6 +402,7 @@
                 </div>
             </div>
 
+            <!-- 優惠選項 -->
             <div class="promo-card">
                 <div class="promo-row">
                     <input type="checkbox" id="promo1-check" class="promo-checkbox" checked>
@@ -347,11 +436,13 @@
                             <input type="number" id="promo3-rate" value="3.8" step="0.1" style="width:80px; padding:5px; border:1px solid #ccc; border-radius:4px; text-align:center;"> %
                         </div>
                         <div id="promo3-desc" style="margin-top:10px; background:#e7f3ff; padding:10px; border-radius:6px; font-size:0.9rem; color:#0056b3; line-height:1.5;"></div>
+                        <!-- 文字精準對齊您的計算 -->
                         <div class="promo-tag" style="background:#d4edda; color:#155724; display:block; max-width:fit-content;">保證預繳純利息：<span id="promo3-saved">$0</span></div>
                     </div>
                 </div>
             </div>
 
+            <!-- 結果總結 -->
             <div class="promo-result-box">
                 <h3>原本總保費：<span id="promo-original-total" style="text-decoration:line-through; font-size:1.1rem; opacity:0.8;">$0</span></h3>
                 <div style="margin: 15px 0;">
@@ -365,6 +456,7 @@
         </div>
     </div>
 
+    <!-- Modal: Share QR -->
     <div id="share-modal" class="modal-overlay">
         <div class="modal-content">
             <span class="close-modal" id="close-modal-icon">&times;</span>
@@ -383,7 +475,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         // --- Version Control & Force Update ---
-        const APP_VERSION = '1.12';
+        const APP_VERSION = '1.13';
         if (localStorage.getItem('APP_VERSION') !== APP_VERSION) {
             localStorage.setItem('APP_VERSION', APP_VERSION);
             if ('serviceWorker' in navigator) {
@@ -430,8 +522,9 @@
         function parseFormattedNumber(str) { return parseFloat(String(str).replace(/,/g, '')) || 0; }
 
         document.addEventListener('DOMContentLoaded', function() {
+            // 加入咗 plan-mode
             const allInputIds = [
-                'client-name', 'start-age', 'inflation-rate', 'existing-deposit', 'bank-deposit', 'bank-interest', 
+                'client-name', 'plan-mode', 'start-age', 'inflation-rate', 'existing-deposit', 'bank-deposit', 'bank-interest', 
                 'duel-year', 'plan1-contribution', 'plan2-contribution', 'plan3-contribution', 
                 'plan4-contribution', 'plan1-strategy', 'plan2-strategy', 'plan3-strategy', 'plan4-strategy',
                 'promo-annual-premium', 'promo-term', 'promo1-check', 'promo2-check', 'promo2-select', 'promo3-check', 'promo3-rate'
@@ -667,6 +760,7 @@
                 const existingDeposit = parseFormattedNumber(inputs['existing-deposit'].value);
                 const fixedBankDeposit = parseFormattedNumber(inputs['bank-deposit'].value);
                 const duelYear = parseInt(inputs['duel-year'].value) || 25;
+                const planMode = document.getElementById('plan-mode') ? document.getElementById('plan-mode').value : 'retirement';
                 
                 // 動態推算至 100 歲的最長遠年份
                 const startAge = parseInt(inputs['start-age'].value) || 30;
@@ -696,7 +790,6 @@
                     document.getElementById('group-plan4') && document.getElementById('group-plan4').style.display !== 'none'
                 ];
 
-                // ★ v1.12 更新：表格由第 8 年起跳，後續接 10, 15, 20...
                 const reportingYears = [8];
                 for (let y = 10; y <= maxYear; y += 5) {
                     reportingYears.push(y);
@@ -704,8 +797,14 @@
 
                 const hiddenClass = showPurchasingPower ? '' : 'hidden-col';
                 
-                // 表格標題更新為「實際淨收益」
-                tableHead.innerHTML = `<tr><th>年份 (歲數)</th><th>累計供款</th><th>被動收入</th><th>累積被動收入</th><th>戶口剩餘價值</th><th>實際淨收益</th><th class="${hiddenClass}">實際購買力</th></tr>`;
+                // ★ v1.13 更新：動態修改表頭字眼
+                let headerHtml = '';
+                if (planMode === 'education') {
+                    headerHtml = `<tr><th>年份 (歲數)</th><th>累計供款</th><th>年度教育金</th><th>累積已領教育金</th><th>畢業啟航資金 (戶口剩餘)</th><th>實際淨增長</th><th class="${hiddenClass}">實際購買力</th></tr>`;
+                } else {
+                    headerHtml = `<tr><th>年份 (歲數)</th><th>累計供款</th><th>每年長糧 (年金)</th><th>累積已領長糧</th><th>安老備用金 (戶口剩餘)</th><th>實際淨收益</th><th class="${hiddenClass}">實際購買力</th></tr>`;
+                }
+                tableHead.innerHTML = headerHtml;
                 tableBody.innerHTML = '';
                 
                 const chartData = { labels: [], datasets: { plan1_value: [], plan2_value: [], plan3_value: [], plan4_value: [], plan1_withdrawn: [], plan2_withdrawn: [], plan3_withdrawn: [], plan4_withdrawn: [] }, adjBenefit: [], adjCash: [] };
@@ -734,7 +833,6 @@
                         }
                         rV += cV; rW += cW; rA += cA;
 
-                        // ★ 圖表亦同步由第 8 年起跳顯示
                         if (year >= 8) {
                             chartData.datasets[`plan${i+1}_value`].push(Math.round(cV)); 
                             chartData.datasets[`plan${i+1}_withdrawn`].push(Math.round(cW));
@@ -747,7 +845,6 @@
                         chartData.adjCash.push(Math.round(calculateCompoundInterest(existingDeposit, fixedBankDeposit, bankInterestRate, year) / Math.pow(1 + inflationRate, year)));
                     }
                     
-                    // 根據精算邏輯，實際淨賺 = (剩餘戶口價值 + 已經落袋嘅錢) - 投入本金
                     let netProfit = (rV + rW) - rC;
 
                     if (reportingYears.includes(year)) {
