@@ -381,7 +381,7 @@
             
             <div id="privacy-notice" style="text-align: center; margin-top: 3rem; padding: 1rem; border: 2px dashed var(--primary-color); background-color: #e7f3ff; border-radius: 8px;">
                 <p style="margin: 0; font-weight: 500; color: var(--primary-color);">🔒 絕對保密：所有資料只會儲存在您的瀏覽器內，不會上傳到任何伺服器。</p>
-                <p style="margin-top: 10px; font-size: 0.8rem; color: #999;">系統版本: v1.15 (願景對話升級版及增值紅利字眼)</p>
+                <p style="margin-top: 10px; font-size: 0.8rem; color: #999;">系統版本: v1.16 (解決 QR Code 空格解碼異常)</p>
             </div>
         </div>
     </div>
@@ -478,7 +478,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         // --- Version Control & Force Update ---
-        const APP_VERSION = '1.15';
+        const APP_VERSION = '1.16';
         if (localStorage.getItem('APP_VERSION') !== APP_VERSION) {
             localStorage.setItem('APP_VERSION', APP_VERSION);
             if ('serviceWorker' in navigator) {
@@ -543,7 +543,9 @@
             const urlParams = new URLSearchParams(window.location.search);
             if (urlParams.has('data')) {
                 try {
-                    const sharedData = JSON.parse(decodeURIComponent(atob(urlParams.get('data'))));
+                    // 修正：將 URL 中可能被轉成空格的 '+' 號替換回來，確保解碼正確
+                    const safeData = urlParams.get('data').replace(/ /g, '+');
+                    const sharedData = JSON.parse(decodeURIComponent(atob(safeData)));
                     Object.keys(sharedData).forEach(id => {
                         if (inputs[id]) { 
                             if(inputs[id].type === 'checkbox') {
@@ -626,7 +628,8 @@
                     }
                 });
 
-                const encodedData = btoa(encodeURIComponent(JSON.stringify(currentData)));
+                // 修正：使用 encodeURIComponent 包裝編碼結果，避免特殊字元被吃掉
+                const encodedData = encodeURIComponent(btoa(encodeURIComponent(JSON.stringify(currentData))));
                 const baseUrl = window.location.origin + window.location.pathname;
                 const shareUrl = baseUrl + '?data=' + encodedData;
                 shareUrlGlobal = shareUrl;
@@ -796,7 +799,6 @@
 
                 const hiddenClass = showPurchasingPower ? '' : 'hidden-col';
                 
-                // ★ v1.15 更新：動態修改表頭字眼，移除括號及更改淨收益為紅利/獎賞
                 let headerHtml = '';
                 if (planMode === 'education') {
                     headerHtml = `<tr><th>年份 (歲數)</th><th>累計供款</th><th>年度教育金</th><th>累積已領教育金</th><th>畢業啟航資金</th><th>夢想成真獎賞</th><th class="${hiddenClass}">實際購買力</th></tr>`;
