@@ -1,5 +1,5 @@
 // 每次更新 index.html 內容時，請務必同時更改呢個版本號 (例如改為 v1.2)
-const CACHE_NAME = 'finance-app-v1.12'; 
+const CACHE_NAME = 'finance-app-v1.13'; 
 
 // 需要被緩存的檔案清單 (確保離線時都能開啟)
 const urlsToCache = [
