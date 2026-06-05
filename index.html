@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 強制瀏覽器不快取，確保客戶載入最新版本 -->
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
@@ -107,7 +108,7 @@
         .lazy-bag-container h2 { color: var(--primary-color); text-align: center; margin-bottom: 2rem; font-size: 1.8rem; border-bottom: 2px solid #f0f2f5; padding-bottom: 1rem; }
         .intro-text { text-align: center; color: #555; font-size: 1.1rem; line-height: 1.6; margin-bottom: 2rem; }
 
-        /* 願景懶人包專屬樣式 */
+        /* 願景懶人包專屬樣式 (溫暖放大版) */
         .vision-intro { background: linear-gradient(135deg, #fffdf5, #fff5e6); padding: 2.5rem; border-radius: 16px; border-left: 8px solid #ffca28; margin-bottom: 2.5rem; position: relative; box-shadow: 0 4px 15px rgba(0,0,0,0.03); }
         .vision-intro .quote-mark { font-size: 5rem; color: rgba(255, 193, 7, 0.2); position: absolute; top: -15px; left: 15px; font-family: serif; line-height: 1; }
         .vision-intro h3 { color: #d84315; margin-top: 0; margin-bottom: 1rem; font-size: 1.4rem; position: relative; z-index: 1; font-weight: 900; }
@@ -157,16 +158,19 @@
 </head>
 <body>
 
+    <!-- 導航列 (只保留計算推演及保費優惠) -->
     <nav class="bottom-nav" id="main-nav">
         <div class="nav-item" onclick="switchTab('tab-vision', this)"><span class="nav-icon">🤝</span>願景對話</div>
         <div class="nav-item active" onclick="switchTab('tab-calculator', this)"><span class="nav-icon">📊</span>計算推演</div>
         <div class="nav-item" onclick="switchTab('tab-promo', this)"><span class="nav-icon">🎁</span>保費優惠</div>
     </nav>
 
+    <!-- 願景對話 (Tab Vision) -->
     <div id="tab-vision" class="tab-section">
         <div class="lazy-bag-container" style="background: #fdfdfd;">
             <h2 style="color: var(--primary-color);">🤝 理財，是一場時光之旅</h2>
             
+            <!-- 專業與溫度並重 引言區 -->
             <div class="vision-intro">
                 <span class="quote-mark">"</span>
                 <h3>專業與溫度並重</h3>
@@ -178,8 +182,10 @@
                 <div class="author">— Ivan</div>
             </div>
 
+            <!-- 催眠式場景對話卡片 -->
             <div style="display: flex; flex-direction: column; gap: 0.5rem;">
                 
+                <!-- 場景一：羅馬非一日建成 -->
                 <div class="flexibility-card card-rome">
                     <div class="flex-icon">🏛️</div>
                     <div class="flex-content">
@@ -192,6 +198,7 @@
                     </div>
                 </div>
 
+                <!-- 場景二：不確定性與錦上添花 -->
                 <div class="flexibility-card card-shield" style="background: #fffafb;">
                     <div class="flex-icon">🛡️</div>
                     <div class="flex-content">
@@ -204,6 +211,7 @@
                     </div>
                 </div>
 
+                <!-- 場景三：啟動資金 -->
                 <div class="flexibility-card card-rocket" style="background: #f8fbff;">
                     <div class="flex-icon">🚀</div>
                     <div class="flex-content">
@@ -218,6 +226,7 @@
 
             </div>
             
+            <!-- 引導進入計算機的按鈕 -->
             <div style="text-align: center; margin-top: 3rem;">
                 <button class="btn btn-primary" style="padding: 1rem 2rem; font-size: 1.2rem; border-radius: 50px; box-shadow: 0 4px 15px rgba(0,123,255,0.3);" onclick="switchTab('tab-calculator', document.querySelector('.nav-item:nth-child(2)'))">
                     ✍️ 立即與我一起量化這幅藍圖
@@ -227,6 +236,7 @@
         </div>
     </div>
 
+    <!-- 計算推演 (Tab 1) -->
     <div id="tab-calculator" class="tab-section active">
         <div class="calculator-container">
             <header>
@@ -243,6 +253,7 @@
                     <div class="input-group" style="flex: 2; margin: 0; min-width: 200px;">
                         <input type="text" id="client-name" placeholder="輸入客戶名稱" style="padding: 0.9rem; font-weight: bold; font-size: 1.1rem;">
                     </div>
+                    <!-- 規劃情境選項 -->
                     <div class="input-group" style="flex: 1; margin: 0; min-width: 120px;">
                         <select id="plan-mode" style="padding: 0.9rem; font-size: 1rem; font-weight: bold; border-color: var(--primary-color);">
                             <option value="retirement">🏖️ 退休規劃</option>
@@ -289,6 +300,7 @@
             <div class="section">
                 <h2>複利增值：各時光錦囊的獨立策略</h2>
                 <div class="plan-grid">
+                    <!-- 公仔開關控制區 -->
                     <div class="emoji-toggle-bar" id="emoji-bar">
                         <span style="font-size: 0.95rem; color: #555; font-weight: bold; margin-right: 5px;">點擊公仔啟用分段投入：</span>
                         <div id="btn-toggle-plan2" class="emoji-toggle" onclick="toggleEngine('plan2')" title="啟用/隱藏 二號時光錦囊 (第6年供)">🐓</div>
@@ -296,6 +308,7 @@
                         <div id="btn-toggle-plan4" class="emoji-toggle" onclick="toggleEngine('plan4')" title="啟用/隱藏 四號時光錦囊 (第16年供)">🥚</div>
                     </div>
 
+                    <!-- 錦囊一 (常駐) -->
                     <div class="input-group">
                         <label style="color:var(--plan1-color); font-weight:bold;">一號時光錦囊 (5年期 • 第1年供)</label>
                         <input type="text" id="plan1-contribution" value="40,000" inputmode="numeric">
@@ -309,6 +322,7 @@
                         </select>
                     </div>
 
+                    <!-- 錦囊二 (隱藏區) -->
                     <div class="input-group extra-jar" id="group-plan2" style="display:none; position:relative;">
                         <button class="remove-engine-btn" onclick="toggleEngine('plan2')" title="移除此錦囊">❌</button>
                         <label style="color:var(--plan2-color); font-weight:bold;">二號時光錦囊 (5年期 • 第6年供)</label>
@@ -323,6 +337,7 @@
                         </select>
                     </div>
 
+                    <!-- 錦囊三 (隱藏區) -->
                     <div class="input-group extra-jar" id="group-plan3" style="display:none; position:relative;">
                         <button class="remove-engine-btn" onclick="toggleEngine('plan3')" title="移除此錦囊">❌</button>
                         <label style="color:var(--plan3-color); font-weight:bold;">三號時光錦囊 (5年期 • 第11年供)</label>
@@ -337,6 +352,7 @@
                         </select>
                     </div>
 
+                    <!-- 錦囊四 (隱藏區) -->
                     <div class="input-group extra-jar" id="group-plan4" style="display:none; position:relative;">
                         <button class="remove-engine-btn" onclick="toggleEngine('plan4')" title="移除此錦囊">❌</button>
                         <label style="color:var(--plan4-color); font-weight:bold;">四號時光錦囊 (5年期 • 第16年供)</label>
@@ -366,16 +382,18 @@
             
             <div id="privacy-notice" style="text-align: center; margin-top: 3rem; padding: 1rem; border: 2px dashed var(--primary-color); background-color: #e7f3ff; border-radius: 8px;">
                 <p style="margin: 0; font-weight: 500; color: var(--primary-color);">🔒 絕對保密：所有資料只會儲存在您的瀏覽器內，不會上傳到任何伺服器。</p>
-                <p style="margin-top: 10px; font-size: 0.8rem; color: #999;">系統版本: v1.18 (安全短網址及純淨客戶模式)</p>
+                <p style="margin-top: 10px; font-size: 0.8rem; color: #999;">系統版本: v1.19 (客端介面隱藏走勢圖)</p>
             </div>
         </div>
     </div>
 
+    <!-- 全新優惠專區 (Tab Promo) -->
     <div id="tab-promo" class="tab-section">
         <div class="lazy-bag-container">
             <h2>🎁 專屬保費優惠計算</h2>
             <p class="intro-text">為您度身訂造最慳錢嘅投保策略，將每一分錢嘅效益極大化！</p>
             
+            <!-- 基礎設定 -->
             <div class="promo-card" style="background:#f8f9fa;">
                 <div class="top-input-grid" style="margin-bottom: 0;">
                     <div class="input-group">
@@ -389,6 +407,7 @@
                 </div>
             </div>
 
+            <!-- 優惠選項 -->
             <div class="promo-card">
                 <div class="promo-row">
                     <input type="checkbox" id="promo1-check" class="promo-checkbox" checked>
@@ -427,6 +446,7 @@
                 </div>
             </div>
 
+            <!-- 結果總結 -->
             <div class="promo-result-box">
                 <h3>原本總保費：<span id="promo-original-total" style="text-decoration:line-through; font-size:1.1rem; opacity:0.8;">$0</span></h3>
                 <div style="margin: 15px 0;">
@@ -440,6 +460,7 @@
         </div>
     </div>
 
+    <!-- Modal: Share QR -->
     <div id="share-modal" class="modal-overlay">
         <div class="modal-content">
             <span class="close-modal" id="close-modal-icon">&times;</span>
@@ -458,7 +479,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         // --- Version Control & Force Update ---
-        const APP_VERSION = '1.18';
+        const APP_VERSION = '1.19';
         if (localStorage.getItem('APP_VERSION') !== APP_VERSION) {
             localStorage.setItem('APP_VERSION', APP_VERSION);
             if ('serviceWorker' in navigator) {
@@ -528,7 +549,6 @@
             const urlParams = new URLSearchParams(window.location.search);
             if (urlParams.has('data')) {
                 try {
-                    // ★ v1.18 更新：使用 URL-safe Base64 解碼技術，防止符號丟失
                     let base64 = urlParams.get('data').replace(/-/g, '+').replace(/_/g, '/');
                     while (base64.length % 4) base64 += '=';
                     
@@ -546,6 +566,7 @@
                     
                     // --- 啟動「純淨」客戶專屬報告模式 ---
                     document.getElementById('management-section').style.display = 'none'; // 隱藏管理區
+                    document.getElementById('section-chart').style.display = 'none'; // 隱藏走勢圖 (依據用戶要求)
                     document.getElementById('privacy-notice').style.display = 'none'; // 隱藏隱私條款
                     document.getElementById('emoji-bar').style.display = 'none'; // 隱藏客人加公仔掣
                     document.getElementById('main-subtitle').style.display = 'none'; // 隱藏副標題
@@ -553,7 +574,7 @@
                     const eyeBtnContainer = document.getElementById('eye-icon-container');
                     if(eyeBtnContainer) eyeBtnContainer.style.display = 'none';
                     
-                    // ★ 徹底隱藏底部導航列，客人只能睇「計算推演」
+                    // 隱藏底部導航列，客人只能睇「計算推演」
                     const mainNav = document.getElementById('main-nav');
                     if(mainNav) mainNav.style.display = 'none';
                     
@@ -586,7 +607,7 @@
             // --- 資料管理邏輯 ---
             document.getElementById('share-btn').addEventListener('click', () => {
 
-                // ★ v1.18 更新：只抽取 Tab 1 嘅資料，令 QR Code 極致精簡
+                // 只抽取 Tab 1 嘅資料，令 QR Code 極致精簡
                 const currentData = {};
                 pureShareIds.forEach(id => { 
                     if(inputs[id]) {
@@ -601,7 +622,7 @@
                     }
                 });
 
-                // ★ v1.18 更新：URL-Safe Base64 加密，確保不會有 +, /, = 令手機誤判為文字
+                // URL-Safe Base64 加密
                 const jsonStr = JSON.stringify(currentData);
                 const base64Str = btoa(unescape(encodeURIComponent(jsonStr)));
                 const safeEncodedData = base64Str.replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
