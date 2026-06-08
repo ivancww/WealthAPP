@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- 強制瀏覽器不快取，確保客戶載入最新版本 -->
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
@@ -54,7 +53,8 @@
         header h1 { color: var(--primary-color); margin-bottom: 0.5rem; font-weight: 700; font-size: 1.7rem; }
         header p { color: var(--label-color); font-size: 1rem; max-width: 650px; margin: 0 auto; line-height: 1.6; }
         .section { margin-top: 3rem; }
-        .section h2 { display: flex; align-items: center; justify-content: center; color: var(--secondary-color); margin-bottom: 1.5rem; }
+        .section h2, .appendix h2, .appendix h3 { display: flex; align-items: center; justify-content: center; color: var(--secondary-color); margin-bottom: 1.5rem; }
+        .appendix h3 { color: var(--primary-color); border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem; margin-top: 2.5rem; font-size: 1.1rem; justify-content: flex-start; }
         .top-input-grid, .duel-inputs { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; align-items: end; margin-bottom: 2rem; }
         
         /* 引擎並排樣式 */
@@ -96,7 +96,7 @@
         .reveal-mask.hidden::after { content: '👁️ 點擊揭曉'; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 0.8rem; color: var(--primary-color); background: rgba(255,255,255,0.8); padding: 2px 8px; border-radius: 4px; white-space: nowrap; font-weight: bold; z-index: 2; }
         .chart-container { position: relative; height: 500px; width: 100%; margin-top: 1.5rem; }
         
-        /* 管理區按鈕 */
+        /* 管理區按鈕 (極簡版) */
         .management-section { background: linear-gradient(135deg, #e7f3ff, #f1f8ff); padding: 1.5rem; border-radius: 12px; margin-bottom: 2rem; border: 1px solid #cce5ff; }
         .btn { cursor: pointer; font-weight: 500; transition: background-color 0.2s; border: 1px solid var(--border-color); border-radius: 8px; padding: 0.75rem; width: 100%; font-size: 1rem; }
         .btn-primary { background-color: var(--primary-color); color: white; border-color: var(--primary-color); }
@@ -104,8 +104,21 @@
 
         /* 懶人包共用樣式 */
         .lazy-bag-container { background: #fff; border-radius: 12px; padding: 2.5rem; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
-        .lazy-bag-container h2 { color: var(--primary-color); text-align: center; margin-bottom: 2rem; font-size: 1.8rem; border-bottom: 2px solid #f0f2f5; padding-bottom: 1rem; }
-        .intro-text { text-align: center; color: #555; font-size: 1.1rem; line-height: 1.6; margin-bottom: 2rem; }
+
+        /* 願景懶人包專屬樣式 (溫暖放大版) */
+        .flexibility-card { background: #fff; border: none; border-radius: 16px; padding: 2rem; margin-bottom: 1.5rem; display: flex; align-items: flex-start; gap: 1.5rem; box-shadow: 0 4px 15px rgba(0,0,0,0.04); transition: transform 0.2s; border-bottom: 3px solid transparent; }
+        .flexibility-card:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(0,0,0,0.08); }
+        .flexibility-card.card-rome { border-bottom-color: #ffca28; }
+        .flexibility-card.card-shield { border-bottom-color: #f5c6cb; }
+        .flexibility-card.card-rocket { border-bottom-color: #b8daff; }
+        
+        .flex-icon { font-size: 3.5rem; line-height: 1; display: flex; align-items: center; justify-content: center; width: 90px; height: 90px; background: linear-gradient(135deg, #fff3cd, #ffe8a1); border-radius: 50%; box-shadow: 0 8px 20px rgba(255, 193, 7, 0.25); border: 4px solid #fff; flex-shrink: 0; }
+        .card-shield .flex-icon { background: linear-gradient(135deg, #fce4e4, #f5c6cb); box-shadow: 0 8px 20px rgba(220, 53, 69, 0.15); }
+        .card-rocket .flex-icon { background: linear-gradient(135deg, #e7f3ff, #b8daff); box-shadow: 0 8px 20px rgba(0, 123, 255, 0.15); }
+
+        .flex-content h3 { margin: 0 0 0.8rem 0; font-size: 1.3rem; }
+        .flex-content p { margin: 0; color: #555; line-height: 1.6; font-size: 1.05rem; }
+        .vision-question { background: rgba(255,255,255,0.9); padding: 15px; border-radius: 8px; border: 1px dashed #ccc; margin-top: 15px; }
 
         /* 優惠頁面專屬樣式 */
         .promo-card { background: #fdfdfd; border: 1px solid #dee2e6; border-radius: 12px; padding: 1.5rem; margin-bottom: 1.5rem; }
@@ -124,6 +137,7 @@
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6); z-index: 2000; align-items: center; justify-content: center; padding: 1rem; }
         .modal-content { background: #fff; padding: 2.5rem; border-radius: 12px; max-width: 400px; width: 100%; text-align: center; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
         
+        /* 確保生成的圖片支援長按掃描 */
         .qr-container { margin: 1.5rem auto; padding: 20px; background: #fff; border: 2px solid #e7f3ff; border-radius: 16px; box-shadow: 0 8px 24px rgba(0, 123, 255, 0.15); display: inline-block; text-align: center; }
         .qr-container img { display: block !important; margin: 0 auto; width: 250px; height: 250px; pointer-events: auto !important; -webkit-touch-callout: default !important; -webkit-user-select: auto !important; user-select: auto !important; }
         .qr-container canvas { display: none !important; }
@@ -136,19 +150,73 @@
 </head>
 <body>
 
-    <!-- 導航列 -->
     <nav class="bottom-nav" id="main-nav">
+        <div class="nav-item" onclick="switchTab('tab-vision', this)"><span class="nav-icon">🤝</span>願景對話</div>
         <div class="nav-item active" onclick="switchTab('tab-calculator', this)"><span class="nav-icon">📊</span>計算推演</div>
         <div class="nav-item" onclick="switchTab('tab-promo', this)"><span class="nav-icon">🎁</span>保費優惠</div>
     </nav>
 
-    <!-- 計算推演 (Tab 1) -->
+    <div id="tab-vision" class="tab-section">
+        <div class="lazy-bag-container" style="background: #fdfdfd;">
+            
+            <h2 id="vision-main-title" style="color: var(--primary-color); font-size: 1.8rem; margin-bottom: 0.5rem;">時光複利：歲月豐收</h2>
+            <h3 id="vision-sub-title" style="text-align: center; color: var(--secondary-color); margin-top: 0; margin-bottom: 2rem; border-bottom: 2px solid #f0f2f5; padding-bottom: 1.5rem;">享受人生下半場</h3>
+
+            <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                
+                <div class="flexibility-card card-rome">
+                    <div class="flex-icon">🏛️</div>
+                    <div class="flex-content">
+                        <h3 style="color: #d84315;">時間的魔法：羅馬非一日建成</h3>
+                        <p>無論係理想嘅退休生活，定係仔女海外升學嘅藍圖，都唔可能一蹴而就。財富嘅累積就好似起羅馬城一樣，需要提早規劃同規律嘅堅持...</p>
+                        <div class="vision-question" style="border-color: #ffe082;">
+                            <strong style="color: #d84315;">💡 啟發提問：</strong><br>
+                            「如果時間係我哋最好嘅盟友，您想幾多年後可以去到您心目中嘅『羅馬』？喺嗰度，您最想睇到嘅畫面係點樣？」
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flexibility-card card-shield" style="background: #fffafb;">
+                    <div class="flex-icon">🛡️</div>
+                    <div class="flex-content">
+                        <h3 style="color: #dc3545;">鎖定未來：任憑風浪起，穩坐釣魚船</h3>
+                        <p>人生總充滿不確定性。真正嘅理財防護網，係確保無論外在環境點變，您預留俾未來嘅嗰筆錢（教育或退休）都<strong>絕對不受影響</strong>...</p>
+                        <div class="vision-question" style="border-color: #f5c6cb;">
+                            <strong style="color: #dc3545;">💡 啟發提問：</strong><br>
+                            「試想像，萬一遇上突發狀況，呢筆錢依然安穩咁喺度為您效勞；而如果一切順利，佢更加會成為您人生藍圖上嘅<strong>『錦上添花』</strong>。呢種安穩嘅感覺，對您嚟講有幾重要？」
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flexibility-card card-rocket" style="background: #f8fbff;">
+                    <div class="flex-icon">🚀</div>
+                    <div class="flex-content">
+                        <h3 style="color: #007bff;">選擇權的底氣：未來的啟航資金</h3>
+                        <p>及早規劃不僅僅是為了解決基本開支，更是為未來創造更多選擇的底氣...</p>
+                        <div class="vision-question" style="border-color: #b8daff;">
+                            <strong style="color: #007bff;">💡 啟發提問：</strong><br>
+                            「喺人生嘅重要時刻（例如退休首日、或者孩子大學畢業），您最想擁有一筆點樣嘅『啟動資金』？係去環遊世界、創業、定係買樓首期？」
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            
+            <div style="text-align: center; margin-top: 3rem;">
+                <button class="btn btn-primary" style="padding: 1rem 2rem; font-size: 1.2rem; border-radius: 50px; box-shadow: 0 4px 15px rgba(0,123,255,0.3);" onclick="switchTab('tab-calculator', document.querySelector('.nav-item:nth-child(2)'))">
+                    ✍️ 立即與我一起量化這幅藍圖
+                </button>
+            </div>
+            
+        </div>
+    </div>
+
     <div id="tab-calculator" class="tab-section active">
         <div class="calculator-container">
             <header>
                 <div id="default-header-content">
-                    <h1 id="main-title">時光複利：寫給未來自己的理想人生藍圖</h1>
-                    <p id="main-subtitle">與時間結盟，創造被動收入的自由</p>
+                    <h1 id="main-title">時光複利：歲月豐收</h1>
+                    <p id="main-subtitle">享受人生下半場</p>
                 </div>
                 <h2 id="client-view-title" style="display:none; color: var(--primary-color); font-size: 1.7rem; margin: 10px 0 0 0; padding-bottom: 10px;"></h2>
             </header>
@@ -159,7 +227,6 @@
                     <div class="input-group" style="flex: 2; margin: 0; min-width: 200px;">
                         <input type="text" id="client-name" placeholder="輸入客戶名稱" style="padding: 0.9rem; font-weight: bold; font-size: 1.1rem;">
                     </div>
-                    <!-- 規劃情境選項 -->
                     <div class="input-group" style="flex: 1; margin: 0; min-width: 120px;">
                         <select id="plan-mode" style="padding: 0.9rem; font-size: 1rem; font-weight: bold; border-color: var(--primary-color);">
                             <option value="retirement">🏖️ 退休規劃</option>
@@ -206,7 +273,6 @@
             <div class="section">
                 <h2>複利增值：各時光錦囊的獨立策略</h2>
                 <div class="plan-grid">
-                    <!-- 公仔開關控制區 -->
                     <div class="emoji-toggle-bar" id="emoji-bar">
                         <span style="font-size: 0.95rem; color: #555; font-weight: bold; margin-right: 5px;">點擊公仔啟用分段投入：</span>
                         <div id="btn-toggle-plan2" class="emoji-toggle" onclick="toggleEngine('plan2')" title="啟用/隱藏 二號時光錦囊 (第6年供)">🐓</div>
@@ -214,7 +280,6 @@
                         <div id="btn-toggle-plan4" class="emoji-toggle" onclick="toggleEngine('plan4')" title="啟用/隱藏 四號時光錦囊 (第16年供)">🥚</div>
                     </div>
 
-                    <!-- 錦囊一 (常駐) -->
                     <div class="input-group">
                         <label style="color:var(--plan1-color); font-weight:bold;">一號時光錦囊 (5年期 • 第1年供)</label>
                         <input type="text" id="plan1-contribution" value="40,000" inputmode="numeric">
@@ -228,7 +293,6 @@
                         </select>
                     </div>
 
-                    <!-- 錦囊二 (隱藏區) -->
                     <div class="input-group extra-jar" id="group-plan2" style="display:none; position:relative;">
                         <button class="remove-engine-btn" onclick="toggleEngine('plan2')" title="移除此錦囊">❌</button>
                         <label style="color:var(--plan2-color); font-weight:bold;">二號時光錦囊 (5年期 • 第6年供)</label>
@@ -243,7 +307,6 @@
                         </select>
                     </div>
 
-                    <!-- 錦囊三 (隱藏區) -->
                     <div class="input-group extra-jar" id="group-plan3" style="display:none; position:relative;">
                         <button class="remove-engine-btn" onclick="toggleEngine('plan3')" title="移除此錦囊">❌</button>
                         <label style="color:var(--plan3-color); font-weight:bold;">三號時光錦囊 (5年期 • 第11年供)</label>
@@ -258,7 +321,6 @@
                         </select>
                     </div>
 
-                    <!-- 錦囊四 (隱藏區) -->
                     <div class="input-group extra-jar" id="group-plan4" style="display:none; position:relative;">
                         <button class="remove-engine-btn" onclick="toggleEngine('plan4')" title="移除此錦囊">❌</button>
                         <label style="color:var(--plan4-color); font-weight:bold;">四號時光錦囊 (5年期 • 第16年供)</label>
@@ -288,18 +350,16 @@
             
             <div id="privacy-notice" style="text-align: center; margin-top: 3rem; padding: 1rem; border: 2px dashed var(--primary-color); background-color: #e7f3ff; border-radius: 8px;">
                 <p style="margin: 0; font-weight: 500; color: var(--primary-color);">🔒 絕對保密：所有資料只會儲存在您的瀏覽器內，不會上傳到任何伺服器。</p>
-                <p style="margin-top: 10px; font-size: 0.8rem; color: #999;">系統版本: v1.21 (自動切換主題版)</p>
+                <p style="margin-top: 10px; font-size: 0.8rem; color: #999;">系統版本: v1.22 (重啟願景對話及終極修復QR掃描)</p>
             </div>
         </div>
     </div>
 
-    <!-- 全新優惠專區 (Tab Promo) -->
     <div id="tab-promo" class="tab-section">
         <div class="lazy-bag-container">
             <h2>🎁 專屬保費優惠計算</h2>
             <p class="intro-text">為您度身訂造最慳錢嘅投保策略，將每一分錢嘅效益極大化！</p>
             
-            <!-- 基礎設定 -->
             <div class="promo-card" style="background:#f8f9fa;">
                 <div class="top-input-grid" style="margin-bottom: 0;">
                     <div class="input-group">
@@ -313,7 +373,6 @@
                 </div>
             </div>
 
-            <!-- 優惠選項 -->
             <div class="promo-card">
                 <div class="promo-row">
                     <input type="checkbox" id="promo1-check" class="promo-checkbox" checked>
@@ -352,7 +411,6 @@
                 </div>
             </div>
 
-            <!-- 結果總結 -->
             <div class="promo-result-box">
                 <h3>原本總保費：<span id="promo-original-total" style="text-decoration:line-through; font-size:1.1rem; opacity:0.8;">$0</span></h3>
                 <div style="margin: 15px 0;">
@@ -366,7 +424,6 @@
         </div>
     </div>
 
-    <!-- Modal: Share QR -->
     <div id="share-modal" class="modal-overlay">
         <div class="modal-content">
             <span class="close-modal" id="close-modal-icon">&times;</span>
@@ -385,7 +442,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         // --- Version Control & Force Update ---
-        const APP_VERSION = '1.21';
+        const APP_VERSION = '1.22';
         if (localStorage.getItem('APP_VERSION') !== APP_VERSION) {
             localStorage.setItem('APP_VERSION', APP_VERSION);
             if ('serviceWorker' in navigator) {
@@ -431,7 +488,7 @@
         function parseFormattedNumber(str) { return parseFloat(String(str).replace(/,/g, '')) || 0; }
 
         document.addEventListener('DOMContentLoaded', function() {
-            // 定義純淨版只需嘅數據 Key (移除 promo 相關，令 QR Code 極簡)
+            // 定義純淨版只需嘅數據 Key
             const pureShareIds = [
                 'client-name', 'plan-mode', 'start-age', 'inflation-rate', 'existing-deposit', 'bank-deposit', 'bank-interest', 
                 'duel-year', 'plan1-contribution', 'plan2-contribution', 'plan3-contribution', 'plan4-contribution', 
@@ -463,16 +520,20 @@
                     
                     Object.keys(sharedData).forEach(id => {
                         if (inputs[id]) { 
-                            inputs[id].value = sharedData[id]; 
-                            if(inputs[id].tagName === 'INPUT' && inputs[id].getAttribute('inputmode') === 'numeric'){
-                                inputs[id].value = formatNumber(sharedData[id]);
+                            if(inputs[id].type === 'checkbox') {
+                                inputs[id].checked = sharedData[id];
+                            } else {
+                                inputs[id].value = sharedData[id]; 
+                                if(inputs[id].tagName === 'INPUT' && inputs[id].getAttribute('inputmode') === 'numeric'){
+                                    inputs[id].value = formatNumber(sharedData[id]);
+                                }
                             }
                         }
                     });
                     
                     // --- 啟動「純淨」客戶專屬報告模式 ---
                     document.getElementById('management-section').style.display = 'none'; // 隱藏管理區
-                    document.getElementById('section-chart').style.display = 'none'; // 隱藏走勢圖 (依據用戶要求)
+                    document.getElementById('section-chart').style.display = 'none'; // 隱藏走勢圖
                     document.getElementById('privacy-notice').style.display = 'none'; // 隱藏隱私條款
                     document.getElementById('emoji-bar').style.display = 'none'; // 隱藏客人加公仔掣
                     
@@ -482,19 +543,6 @@
                     // 隱藏底部導航列，客人只能睇「計算推演」
                     const mainNav = document.getElementById('main-nav');
                     if(mainNav) mainNav.style.display = 'none';
-                    
-                    // --- 動態修改「時光複利」大標題及副標題 ---
-                    const planMode = sharedData['plan-mode'] || 'retirement';
-                    const mainTitle = document.getElementById('main-title');
-                    const mainSubtitle = document.getElementById('main-subtitle');
-
-                    if (planMode === 'retirement') {
-                        mainTitle.textContent = '時光複利：歲月豐收';
-                        mainSubtitle.textContent = '享受人生下半場';
-                    } else if (planMode === 'education') {
-                        mainTitle.textContent = '時光複利：愛的延伸';
-                        mainSubtitle.textContent = '給孩子一生選擇權';
-                    }
                     
                     // 顯示客人稱呼
                     const clientName = sharedData['client-name'] || '尊貴客戶';
@@ -566,17 +614,14 @@
                     correctLevel : QRCode.CorrectLevel.M 
                 });
                 
+                // ★ v1.22 更新：強制將 canvas 轉換為 img 標籤，解決 WeChat/Safari 無法長按掃描問題
                 setTimeout(() => {
                     const canvas = qrContainer.querySelector('canvas');
-                    const img = qrContainer.querySelector('img');
-                    if (canvas && img) {
-                        if (!img.src || img.src === '') {
-                            img.src = canvas.toDataURL('image/png');
-                        }
-                        img.style.display = 'block';
-                        canvas.style.display = 'none';
+                    if (canvas) {
+                        const imgUrl = canvas.toDataURL('image/png');
+                        qrContainer.innerHTML = `<img src="${imgUrl}" alt="QR Code" style="display: block; margin: 0 auto; width: 250px; height: 250px; pointer-events: auto; -webkit-touch-callout: default; user-select: auto;">`;
                     }
-                }, 300);
+                }, 500); // 增加延遲確保 QRCode 生成完畢
                 
                 document.getElementById('share-modal').style.display = 'flex';
                 document.getElementById('copy-success-msg').style.display = 'none';
@@ -685,6 +730,24 @@
                 const duelYear = parseInt(inputs['duel-year'].value) || 25;
                 const planMode = document.getElementById('plan-mode') ? document.getElementById('plan-mode').value : 'retirement';
                 
+                // --- 動態更新願景及主標題 ---
+                const visionTitle = document.getElementById('vision-main-title');
+                const visionSubTitle = document.getElementById('vision-sub-title');
+                const mainTitle = document.getElementById('main-title');
+                const mainSubtitle = document.getElementById('main-subtitle');
+                
+                if (planMode === 'retirement') {
+                    if(visionTitle) visionTitle.innerHTML = '時光複利：歲月豐收';
+                    if(visionSubTitle) visionSubTitle.innerHTML = '享受人生下半場';
+                    if(mainTitle) mainTitle.innerHTML = '時光複利：歲月豐收';
+                    if(mainSubtitle) mainSubtitle.innerHTML = '享受人生下半場';
+                } else {
+                    if(visionTitle) visionTitle.innerHTML = '時光複利：愛的延伸';
+                    if(visionSubTitle) visionSubTitle.innerHTML = '給孩子一生選擇權';
+                    if(mainTitle) mainTitle.innerHTML = '時光複利：愛的延伸';
+                    if(mainSubtitle) mainSubtitle.innerHTML = '給孩子一生選擇權';
+                }
+
                 const startAge = parseInt(inputs['start-age'].value) || 30;
                 let maxYear = 100 - startAge;
                 if (maxYear < 30) maxYear = 30;
