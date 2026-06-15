@@ -7,7 +7,7 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
     
-    <title>時光複利：退休醫保預備金 v1.36</title>
+    <title>時光複利：退休醫保預備金 v1.37</title>
 
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="icon-192x192.png">
@@ -155,6 +155,7 @@
         <div class="lazy-bag-container" style="background: #fdfdfd;">
             <h2>時光複利：歲月豐收</h2>
             <h3 style="text-align: center; color: var(--secondary-color); margin-top: 0; margin-bottom: 2rem; border-bottom: 2px solid #f0f2f5; padding-bottom: 1.5rem;">享受人生下半場</h3>
+
             <div style="display: flex; flex-direction: column; gap: 0.5rem;">
                 <div class="flexibility-card card-rome">
                     <div class="flex-icon">🏛️</div>
@@ -271,7 +272,7 @@
                             <option value="none">滾存不提取</option>
                             <option value="withdraw8_from8">第8年開始 取8%</option>
                             <option value="withdraw13_from15">第15年開始 取13%</option>
-                            <option value="withdraw18_from20">第20年開始 取18%</option>
+                            <option value="withdraw18_from20"> scholarship 第20年開始 取18%</option>
                             <option value="withdraw23_from25">第25年開始 取23%</option>
                             <option value="withdraw29_from30">第30年開始 取29%</option>
                         </select>
@@ -307,7 +308,7 @@
                 </div>
                 
                 <div class="table-wrapper"><table id="results-table"><thead id="results-table-head"></thead><tbody id="results-table-body"></tbody></table></div>
-                <div id="eye-icon-container" style="text-align: right; margin-top: 0.5rem;"><button id="toggle-purchasing-power" style="background: transparent; border: none; font-size: 1.2rem; cursor: pointer; opacity: 0.5;">👁️</button></div>
+                <div id="eye-icon-container" style="text-align: right; margin-top: 0.5rem;"><button id="toggle-purchasing-power" style="background: transparent; border: none; font-size: 1.2rem; cursor: pointer; opacity: 0.5;" title="顯示/隱藏 實際購買能力">👁️</button></div>
             </div>
         </div>
     </div>
@@ -444,14 +445,23 @@
             <div class="promo-card">
                 <div class="promo-row"><input type="checkbox" id="promo1-check" class="promo-checkbox" checked><div class="promo-content"><h4>優惠 1：首年保費大減價</h4><p>首年保費每滿 $5,000 即減 $500。</p><div class="promo-tag">已為您慳下：<span id="promo1-saved">$0</span></div></div></div>
                 <div class="promo-row"><input type="checkbox" id="promo2-check" class="promo-checkbox" checked><div class="promo-content"><h4>優惠 2：續保保費折扣</h4><p>第 2 年續保即減 5%。如同時配置指定危疾或人壽產品，再額外減 3%（合共 8%）。</p><select id="promo2-select" style="margin-top:8px; width:100%; max-width:300px; padding:6px; border-radius:6px; border:1px solid #ccc;"><option value="0.05">基本續保折扣 (減 5%)</option><option value="0.08" selected>同時配置指定危疾/人壽 (合共減 8%)</option></select><div class="promo-tag">已為您慳下：<span id="promo2-saved">$0</span></div></div></div>
-                <div class="promo-row"><input type="checkbox" id="promo3-check" class="promo-checkbox" checked><div class="promo-content"><h4>優惠 3：預繳保費保證利率</h4><p>於投保時一筆過繳付全數原價預繳保費，即享保證年利率回報！滿期後以現金形式退回保證利息。</p><div style="margin-top:8px;"><span>保證年利率：</span><input type="number" id="promo3-rate" value="3.8" step="0.1" style="width:80px; padding:5px; text-align:center;"> %</div><div id="promo3-desc" style="margin-top:10px; background:#e7f3ff; padding:10px; border-radius:6px; font-size:0.9rem; color:#0056b3; line-height:1.5;"></div><div class="promo-tag" style="background:#d4edda; color:#155724;">保證預繳純利息：<span id="promo3-saved">$0</span></div></div></div>
+                
+                <div class="promo-row">
+                    <input type="checkbox" id="promo3-check" class="promo-checkbox" checked>
+                    <div class="promo-content">
+                        <h4>優惠 3：預繳保費保證利率</h4>
+                        <p>於投保時一筆過繳付全數原價預繳保費，即享保證年利率回報！滿期後以現金形式退回保證利息。</p>
+                        <div style="margin-top:8px;">
+                            <span>保證年利率：</span><input type="number" id="promo3-rate" value="3.8" step="0.1" style="width:80px; padding:5px; text-align:center;"> %
+                        </div>
+                        <div id="promo3-desc" style="margin-top:10px; background:#e7f3ff; padding:10px; border-radius:6px; font-size:0.9rem; color:#0056b3; line-height:1.5; display:none;"></div>
+                        <div class="promo-tag" style="background:#d4edda; color:#155724; margin-top:10px;">保證預繳純利息：<span id="promo3-saved">$0</span></div>
+                    </div>
+                </div>
             </div>
             <div class="promo-result-box">
                 <h3>原本總保費：<span id="promo-original-total" style="text-decoration:line-through; font-size:1.1rem; opacity:0.8;">$0</span></h3>
-                <div style="margin: 15px 0;">
-                    <span style="font-size: 1.1rem;">💰 您總共慳咗及保證賺取利息達：</span>
-                    <div class="big-savings" id="promo-total-savings">$0</div>
-                </div>
+                <div style="margin: 15px 0;"><span style="font-size: 1.1rem;">💰 您總共慳咗及保證賺取利息達：</span><div class="big-savings" id="promo-total-savings">$0</div></div>
                 <div style="background: rgba(0,0,0,0.1); padding: 10px; border-radius: 8px;"><span>實際淨付出總額：<strong id="promo-actual-outlay" style="font-size: 1.5rem;">$0</strong></span></div>
             </div>
         </div>
@@ -468,6 +478,7 @@
     </div>
 
     <script>
+        // sw 註冊
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('sw.js').then(reg => reg.update()).catch(e => console.log(e));
@@ -542,7 +553,7 @@
             const tableBody = document.getElementById('results-table-body');
             const medTableBody = document.getElementById('med-results-table-body');
 
-            // 雙頁面同步
+            // 雙分頁聯動綁定
             function syncFields(id1, id2, isNumeric=false) {
                 const el1 = document.getElementById(id1); const el2 = document.getElementById(id2);
                 if(!el1 || !el2) return;
@@ -560,7 +571,7 @@
             syncFields('plan3-strategy', 'med-plan3-strategy');
             syncFields('plan4-strategy', 'med-plan4-strategy');
 
-            // Excel 讀取上載邏輯
+            // Excel 載入
             document.getElementById('med-excel-input').addEventListener('change', (e) => {
                 const file = e.target.files[0];
                 if (!file) return;
@@ -575,7 +586,6 @@
                     json.forEach(row => {
                         let ageKey = row.age !== undefined ? row.age : row['實際年齡'];
                         if (ageKey === undefined) ageKey = row['歲數'];
-                        
                         let premiumKey = row.premium !== undefined ? row.premium : row['年繳保費(港元)'];
                         if (premiumKey === undefined) premiumKey = row['保費'];
                         
@@ -588,7 +598,7 @@
                 reader.readAsArrayBuffer(file);
             });
 
-            // 讀取 URL
+            // 分享載入
             const urlParams = new URLSearchParams(window.location.search);
             if (urlParams.has('data')) {
                 try {
@@ -667,19 +677,20 @@
                 const medRetireAge = parseInt(inputs['med-retire-age'].value) || 65;
                 const medMaxAge = parseInt(inputs['med-max-age'].value) || 99;
 
-                // 修正 1：通脹率拉動監聽刷新文字
+                // 修改 1：實時更新 Slider 的百分比數值顯示（解決拖動沒反應的問題）
                 document.getElementById('med-inflation-value').textContent = `${(medInflationRate*100).toFixed(1)}%`;
+                document.getElementById('inflation-value').textContent = `${(inflationRate*100).toFixed(1)}%`;
 
+                // 舒適圈計算
                 const totalCashWithInterest = existingDeposit * Math.pow(1 + bankInterestRate, duelYear) + fixedBankDeposit * ((Math.pow(1 + bankInterestRate, duelYear) - 1) / bankInterestRate || 1);
                 document.getElementById('cash-total').textContent = `$${formatNumber(totalCashWithInterest)}`;
                 document.getElementById('cash-real-value').textContent = `$${formatNumber(totalCashWithInterest / Math.pow(1 + inflationRate, duelYear))}`;
                 document.getElementById('cash-loss').textContent = `$${formatNumber(totalCashWithInterest - (totalCashWithInterest / Math.pow(1 + inflationRate, duelYear)))}`;
 
-                // 修改 1：【全自動動態精算核心】修復最大加總邊界，保證 Excel 數據能完美加總至「預期保至幾歲」
+                // 全自動加總醫保總保費
                 let totalMedPremiumAccumulated = 0;
                 for (let a = medRetireAge; a <= medMaxAge; a++) {
                     let singlePrem = excelParsedPremiumMap[a] !== undefined ? excelParsedPremiumMap[a] : getFallbackMedicalPremium(a);
-                    // 根據通脹率加權計算 (第1年不計通脹，之後逐年加權)
                     totalMedPremiumAccumulated += singlePrem * Math.pow(1 + medInflationRate, a - startAge);
                 }
                 document.getElementById('med-total-premium').textContent = '$' + formatNumber(totalMedPremiumAccumulated);
@@ -688,22 +699,17 @@
                 const planStrategies = [inputs['plan1-strategy'], inputs['plan2-strategy'], inputs['plan3-strategy'], inputs['plan4-strategy']].map(el => el.value);
                 const isEngineActive = [true, document.getElementById('group-plan2').style.display !== 'none', document.getElementById('group-plan3').style.display !== 'none', document.getElementById('group-plan4').style.display !== 'none'];
 
-                // 修改 2：【表格年期無縫延展】修復 maxYear 邏輯，使最大年期完全由「預期保至幾歲」決定，確保累積表直達最後歲數
+                // 調整邊界：保證去到最後一歲
                 let maxYear = medMaxAge - startAge + 1;
                 if (maxYear < 30) maxYear = 30;
 
-                // 生成每 5 年一行的檢視年份陣列
                 const reportingYears = [8, 10];
                 for (let y = 15; y <= maxYear; y += 5) {
-                    if (y < maxYear) {
-                        reportingYears.push(y);
-                    }
+                    if (y < maxYear) reportingYears.push(y);
                 }
-                // 修改 2：如果陣列內未包含最後一年的最大年期，強制塞入，確保累積表必定去到最後一歲
-                if (!reportingYears.includes(maxYear)) {
-                    reportingYears.push(maxYear);
-                }
+                if (!reportingYears.includes(maxYear)) reportingYears.push(maxYear);
 
+                // 修改 3：完美配置隱藏或顯示實際購買力欄位的控制
                 const hiddenClass = showPurchasingPower ? '' : 'hidden-col';
                 if (planMode === 'education') {
                     tableHead.innerHTML = `<tr><th>年份 (歲數)</th><th>累計供款</th><th>年度教育金</th><th>累積已領教育金</th><th>畢業啟航資金</th><th>夢想成真獎賞</th><th class="${hiddenClass}">實際購買力</th></tr>`;
@@ -750,29 +756,66 @@
                 }
             };
 
-            function calculatePromo() {
+            // 修改 2：完整重寫並加載優惠 3 的提示內容算法功能
+            window.calculatePromo = function() {
                 const P = parseFormattedNumber(inputs['promo-annual-premium'].value) || 0;
                 const N = parseInt(inputs['promo-term'].value) || 5;
-                let d1 = inputs['promo1-check'].checked ? Math.floor(P / 5000) * 500 : 0;
-                let d2 = inputs['promo2-check'].checked ? P * parseFloat(inputs['promo2-select'].value) : 0;
+                
+                const usePromo1 = inputs['promo1-check'].checked;
+                const usePromo2 = inputs['promo2-check'].checked;
+                const promo2Type = inputs['promo2-select'].value;
+                const usePromo3 = inputs['promo3-check'].checked;
+                const rate = parseFloat(inputs['promo3-rate'].value) / 100 || 0.038;
+
+                let d1 = usePromo1 ? Math.floor(P / 5000) * 500 : 0;
+                let d2 = (usePromo2 && N >= 2) ? P * parseFloat(promo2Type) : 0;
                 let totalInterest = 0;
-                if (inputs['promo3-check'].checked && N > 1) {
-                    let balance = P * (N - 1);
-                    for (let t = 2; t <= N; t++) { let interest = balance * (parseFloat(inputs['promo3-rate'].value)/100); totalInterest += interest; balance = balance + interest - P; }
+                let prepayAmount = 0;
+
+                if (usePromo3 && N > 1) {
+                    prepayAmount = P * (N - 1);
+                    let balance = prepayAmount;
+                    for (let t = 2; t <= N; t++) {
+                        let interest = balance * rate;
+                        totalInterest += interest;
+                        balance = balance + interest - P;
+                    }
                 }
+
                 document.getElementById('promo-original-total').textContent = '$' + formatNumber(P * N);
                 document.getElementById('promo-total-savings').textContent = '$' + formatNumber(d1 + d2 + totalInterest);
                 document.getElementById('promo-actual-outlay').textContent = '$' + formatNumber((P * N) - (d1 + d2 + totalInterest));
                 document.getElementById('promo1-saved').textContent = '$' + formatNumber(d1);
                 document.getElementById('promo2-saved').textContent = '$' + formatNumber(d2);
                 document.getElementById('promo3-saved').textContent = '$' + formatNumber(totalInterest);
-            }
+                
+                // 渲染藍色細則提示框文字
+                const descEl = document.getElementById('promo3-desc');
+                if (usePromo3 && N > 1) {
+                    let initialPay = P + prepayAmount - d1;
+                    let refundAmount = totalInterest + d2; 
+                    descEl.innerHTML = `💡 <strong>預繳計算詳情：</strong><br>
+                    您於投保時一次過繳付首年及預繳保費。扣除首年優惠後，當日實繳： <strong style="color:#d84315;">$${formatNumber(initialPay)}</strong>。<br>
+                    其中 <strong>$${formatNumber(prepayAmount)}</strong> 作為預繳本金，每年按 ${parseFloat(inputs['promo3-rate'].value).toFixed(1)}% 保證生息並自動扣除基本保費。<br>
+                    保單滿期後，系統會將 <strong>$${formatNumber(refundAmount)}</strong> 以現金形式全數退回給您！<br>
+                    <span style="font-size:0.85rem; color:#666;">(滿期退回金額 = 預繳累積純利息 $${formatNumber(totalInterest)}${usePromo2 ? ` + 優惠2慳返未扣除嘅本金 $${formatNumber(d2)}` : ''})</span>`;
+                    descEl.style.display = 'block';
+                } else {
+                    descEl.style.display = 'none';
+                }
+            };
 
+            // 附加事件處理器
             Object.values(inputs).forEach(input => {
                 if (!input) return;
                 const eType = (input.tagName === 'SELECT' || input.type === 'checkbox' || input.type === 'range') ? 'change' : 'input';
                 input.addEventListener(eType, () => { calculateAndDisplay(); calculatePromo(); });
             });
+            document.getElementById('toggle-purchasing-power').addEventListener('click', function() {
+                showPurchasingPower = !showPurchasingPower;
+                calculateAndDisplay();
+            });
+
             calculatePromo(); calculateAndDisplay();
         });
     </script>
