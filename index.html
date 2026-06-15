@@ -7,7 +7,7 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
     
-    <title>時光複利：退休醫保預備金 v1.41</title>
+    <title>時光複利：退休醫保預備金 v1.42</title>
 
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="icon-192x192.png">
@@ -326,7 +326,7 @@
                 
                 <div class="table-wrapper"><table id="results-table"><thead id="results-table-head"></thead><tbody id="results-table-body"></tbody></table></div>
                 
-                <div id="eye-icon-container" style="text-align: right; margin-top: 0.5rem;"><button id="toggle-purchasing-power" style="background: transparent; border: none; font-size: 1.2rem; cursor: pointer; opacity: 0.6; font-weight: bold; color: var(--primary-color);">👁️ 點擊全自動解鎖/收藏表格實際購買力防線</button></div>
+                <div id="eye-icon-container" style="text-align: right; margin-top: 0.5rem;"><button id="toggle-purchasing-power" style="background: transparent; border: none; font-size: 1.2rem; cursor: pointer; opacity: 0.6; font-weight: bold; color: var(--primary-color);">👁️ 點擊解鎖/完全收藏表格實際購買力防線</button></div>
             </div>
         </div>
     </div>
@@ -511,7 +511,7 @@
     </div>
 
     <script>
-        // PWA 緩存緩存激活
+        // 激活離線機制
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('sw.js').then(reg => reg.update()).catch(e => console.log(e));
@@ -525,6 +525,18 @@
                 bottomNav.classList.toggle('show');
                 navToggle.innerHTML = bottomNav.classList.contains('show') ? '✖' : '！';
             });
+        }
+
+        // 獨立控制變量：毛玻璃與表格完全收藏徹底拆分
+        let isPurchasingPowerMaskHidden = true; // 舒適圈預設矇查查
+        let showPurchasingPower = false;        // 累積表明細預設完全收藏 (成欄收埋)
+
+        function unlockPurchasingPowerMask() {
+            // 第 1 點修改：點擊舒適圈任何一個框時解鎖毛玻璃效果
+            isPurchasingPowerMaskHidden = false;
+            document.getElementById('mask-real-value').classList.remove('hidden-blur');
+            document.getElementById('mask-loss-value').classList.remove('hidden-blur');
+            calculateAndDisplay();
         }
 
         function switchTab(tabId, element) {
@@ -630,7 +642,7 @@
                 reader.readAsArrayBuffer(file);
             });
 
-            // 網址數據
+            // URL 分享
             const urlParams = new URLSearchParams(window.location.search);
             if (urlParams.has('data')) {
                 try {
@@ -709,24 +721,27 @@
                 const medRetireAge = parseInt(inputs['med-retire-age'].value) || 65;
                 const medMaxAge = parseInt(inputs['med-max-age'].value) || 99;
 
-                // 實時百分比 Slider 文字更新
+                // Slider文字實時跳動
                 document.getElementById('med-inflation-value').textContent = `${(medInflationRate*100).toFixed(1)}%`;
                 document.getElementById('inflation-value').textContent = `${(inflationRate*100).toFixed(1)}%`;
 
+                // 舒適圈代價計算
                 const totalCashWithInterest = existingDeposit * Math.pow(1 + bankInterestRate, duelYear) + fixedBankDeposit * ((Math.pow(1 + bankInterestRate, duelYear) - 1) / bankInterestRate || 1);
                 document.getElementById('cash-total').textContent = `$${formatNumber(totalCashWithInterest)}`;
                 document.getElementById('cash-real-value').textContent = `$${formatNumber(totalCashWithInterest / Math.pow(1 + inflationRate, duelYear))}`;
                 document.getElementById('cash-loss').textContent = `$${formatNumber(totalCashWithInterest - (totalCashWithInterest / Math.pow(1 + inflationRate, duelYear)))}`;
 
-                // 精算醫保總保費
+                // 醫保總保費
                 let totalMedPremiumAccumulated = 0;
+                let totalMedPremiumOriginalPrice = 0;
                 for (let a = medRetireAge; a <= medMaxAge; a++) {
                     let singlePrem = excelParsedPremiumMap[a] !== undefined ? excelParsedPremiumMap[a] : getFallbackMedicalPremium(a);
                     totalMedPremiumAccumulated += singlePrem * Math.pow(1 + medInflationRate, a - startAge);
+                    totalMedPremiumOriginalPrice += singlePrem;
                 }
                 document.getElementById('med-total-premium').textContent = '$' + formatNumber(totalMedPremiumAccumulated);
 
-                // 注入醫保累積表最底部 結局 A 精算數據
+                // 注入醫保累積表最底部決策效益對比
                 document.getElementById('med-loss-a').textContent = `-$${formatNumber(totalMedPremiumAccumulated)}`;
 
                 const planContributions = [inputs['plan1-contribution'], inputs['plan2-contribution'], inputs['plan3-contribution'], inputs['plan4-contribution']].map(el => parseFormattedNumber(el.value));
@@ -742,7 +757,7 @@
                 }
                 if (!reportingYears.includes(maxYear)) reportingYears.push(maxYear);
 
-                // 修改 3：【完美完全收藏規格修正】最右側一欄預設為完全不渲染 (不霸佔排版空間)
+                // 第 2 點修改：【完全收藏排版規格】最右側一欄若 showPurchasingPower 爲 false，則在 HTML 階段直接不渲染，完全不霸佔排版空間！
                 if (showPurchasingPower) {
                     if (planMode === 'education') {
                         tableHead.innerHTML = `<tr><th>年份 (歲數)</th><th>累計供款</th><th>年度教育金</th><th>累積已領教育金</th><th>畢業啟航資金</th><th>夢想成真獎賞</th><th>實際購買力</th></tr>`;
@@ -791,7 +806,7 @@
 
                     if (reportingYears.includes(year)) {
                         const row = document.createElement('tr');
-                        // 根據 showPurchasingPower 決定是否渲染最右側一欄，完全避免版面佔用
+                        // 根據眼睛開關動態決定是否追加並顯示最右欄
                         if (showPurchasingPower) {
                             row.innerHTML = `<td>${year} (${currentAge})</td><td>$${formatNumber(rC)}</td><td>$${formatNumber(rA)}</td><td style="color:var(--gain-color); font-weight:bold;">$${formatNumber(rW)}</td><td style="color:#6f42c1; font-weight:bold;">$${formatNumber(rV)}</td><td>$${formatNumber(netProfit)}</td><td class="risk">$${formatNumber((rV+rW)/Math.pow(1+inflationRate,year))}</td>`;
                         } else {
@@ -806,12 +821,12 @@
                     }
                 }
 
-                // 結局 B 的終身儲備金保留值與慳返加倒賺的總淨效益
                 document.getElementById('med-loss-b').textContent = `+$${formatNumber(finalMedLineBalance)}`;
                 let totalNetSavedBenefit = totalMedPremiumAccumulated + finalMedLineBalance;
                 document.getElementById('med-total-saved-benefit').textContent = `$${formatNumber(totalNetSavedBenefit)}`;
             };
 
+            // 優惠 3 計算
             window.calculatePromo = function() {
                 const P = parseFormattedNumber(inputs['promo-annual-premium'].value) || 0;
                 const N = parseInt(inputs['promo-term'].value) || 5;
@@ -826,50 +841,4 @@
                 let totalInterest = 0; let prepayAmount = 0;
 
                 if (usePromo3 && N > 1) {
-                    prepayAmount = P * (N - 1);
-                    let balance = prepayAmount;
-                    for (let t = 2; t <= N; t++) {
-                        let interest = balance * rate; totalInterest += interest; balance = balance + interest - P;
-                    }
-                }
-
-                document.getElementById('promo-original-total').textContent = '$' + formatNumber(P * N);
-                document.getElementById('promo-total-savings').textContent = '$' + formatNumber(d1 + d2 + totalInterest);
-                document.getElementById('promo-actual-outlay').textContent = '$' + formatNumber((P * N) - (d1 + d2 + totalInterest));
-                document.getElementById('promo1-saved').textContent = '$' + formatNumber(d1);
-                document.getElementById('promo2-saved').textContent = '$' + formatNumber(d2);
-                document.getElementById('promo3-saved').textContent = '$' + formatNumber(totalInterest);
-                
-                const descEl = document.getElementById('promo3-desc');
-                if (usePromo3 && N > 1) {
-                    let initialPay = P + prepayAmount - d1;
-                    let refundAmount = totalInterest + d2; 
-                    descEl.innerHTML = `💡 <strong>預繳計算詳情：</strong><br>
-                    您於投保時一次過繳付首年及預繳保費。扣除首年優惠後，當日實繳： <strong style="color:#d84315;">$${formatNumber(initialPay)}</strong>。<br>
-                    其中 <strong>$${formatNumber(prepayAmount)}</strong> 作為預繳本金，每年按 ${parseFloat(inputs['promo3-rate'].value).toFixed(1)}% 保證生息並自動扣除基本保費。<br>
-                    保單滿期後，系統會將 <strong>$${formatNumber(refundAmount)}</strong> 以現金形式全數退回給您！<br>
-                    <span style="font-size:0.85rem; color:#666;">(滿期退回金額 = 預繳累積純利息 $${formatNumber(totalInterest)}${usePromo2 ? ` + 優惠2慳返未扣除嘅本金 $${formatNumber(d2)}` : ''})</span>`;
-                    descEl.style.display = 'block';
-                } else {
-                    descEl.style.display = 'none';
-                }
-            };
-
-            Object.values(inputs).forEach(input => {
-                if (!input) return;
-                const eType = (input.tagName === 'SELECT' || input.type === 'checkbox' || input.type === 'range') ? 'change' : 'input';
-                input.addEventListener(eType, () => { calculateAndDisplay(); calculatePromo(); });
-            });
-            
-            // 獨立綁定最底下眼睛 👁️ 按鈕事件：全自動一鍵收藏/顯示實際購買力欄位
-            document.getElementById('toggle-purchasing-power').addEventListener('click', function() {
-                showPurchasingPower = !showPurchasingPower;
-                this.innerHTML = showPurchasingPower ? '🔒 點擊完全收藏實際購買力欄位' : '👁️ 點擊全自動解鎖表格實際購買力防線';
-                calculateAndDisplay();
-            });
-
-            calculatePromo(); calculateAndDisplay();
-        });
-    </script>
-</body>
-</html>
+                    prepayAmount = P *
