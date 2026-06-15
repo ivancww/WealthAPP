@@ -841,4 +841,51 @@
                 let totalInterest = 0; let prepayAmount = 0;
 
                 if (usePromo3 && N > 1) {
-                    prepayAmount = P *
+                    prepayAmount = P * (N - 1);
+                    let balance = prepayAmount;
+                    for (let t = 2; t <= N; t++) {
+                        let interest = balance * rate; totalInterest += interest; balance = balance + interest - P;
+                    }
+                }
+
+                document.getElementById('promo-original-total').textContent = '$' + formatNumber(P * N);
+                document.getElementById('promo-total-savings').textContent = '$' + formatNumber(d1 + d2 + totalInterest);
+                document.getElementById('promo-actual-outlay').textContent = '$' + formatNumber((P * N) - (d1 + d2 + totalInterest));
+                document.getElementById('promo1-saved').textContent = '$' + formatNumber(d1);
+                document.getElementById('promo2-saved').textContent = '$' + formatNumber(d2);
+                document.getElementById('promo3-saved').textContent = '$' + formatNumber(totalInterest);
+                
+                const descEl = document.getElementById('promo3-desc');
+                if (usePromo3 && N > 1) {
+                    let initialPay = P + prepayAmount - d1;
+                    let refundAmount = totalInterest + d2; 
+                    descEl.innerHTML = `💡 <strong>預繳計算詳情：</strong><br>
+                    您於投保時一次過繳付首年及預繳保費。扣除首年優惠後，當日實繳： <strong style="color:#d84315;">$${formatNumber(initialPay)}</strong>。<br>
+                    其中 <strong>$${formatNumber(prepayAmount)}</strong> 作為預繳本金，每年按 ${parseFloat(inputs['promo3-rate'].value).toFixed(1)}% 保證生息並自動扣除基本保費。<br>
+                    保單滿期後，系統會將 <strong>$${formatNumber(refundAmount)}</strong> 以現金形式全數退回給您！<br>
+                    <span style="font-size:0.85rem; color:#666;">(滿期退回金額 = 預繳累積純利息 $${formatNumber(totalInterest)}${usePromo2 ? ` + 優惠2慳返未扣除嘅本金 $${formatNumber(d2)}` : ''})</span>`;
+                    descEl.style.display = 'block';
+                } else {
+                    descEl.style.display = 'none';
+                }
+            };
+
+            // 綁定監聽監聽監聽流
+            Object.values(inputs).forEach(input => {
+                if (!input) return;
+                const eType = (input.tagName === 'SELECT' || input.type === 'checkbox' || input.type === 'range') ? 'change' : 'input';
+                input.addEventListener(eType, () => { calculateAndDisplay(); calculatePromo(); });
+            });
+            
+            // 第 2 點修改：獨立綁定最底眼睛按鈕控制累積表明細最右一欄的「完全收藏與完全展開」
+            document.getElementById('toggle-purchasing-power').addEventListener('click', function() {
+                showPurchasingPower = !showPurchasingPower;
+                this.innerHTML = showPurchasingPower ? '🔒 點擊完全收藏實際購買力欄位' : '👁️ 點擊全自動解鎖表格實際購買力防線';
+                calculateAndDisplay();
+            });
+
+            calculatePromo(); calculateAndDisplay();
+        });
+    </script>
+</body>
+</html>
