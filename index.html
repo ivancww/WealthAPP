@@ -7,7 +7,7 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
     
-    <title>時光複利：退休醫保預備金 v1.31</title>
+    <title>時光複利：退休醫保預備金 v1.32</title>
 
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="icon-192x192.png">
@@ -104,9 +104,10 @@
         .input-group input, .input-group select, .btn { width: 100%; padding: 0.75rem; border: 1px solid var(--border-color); border-radius: 8px; font-size: 1rem; font-family: inherit; box-sizing: border-box; text-align: center; background-color: #fff; color: var(--text-color); }
         .input-group select { text-align-last: center; margin-top: 0.5rem; border-color: var(--primary-color); font-size: 0.9rem; }
         
-        /* 第 2 點：上載 Excel 區外觀 */
+        /* 上載 Excel 區外觀 */
         .excel-upload-box { background: #f8f9fa; border: 2px dashed #007bff; padding: 1.5rem; border-radius: 12px; text-align: center; margin: 1rem 0; cursor: pointer; font-weight: 500; color: #007bff; transition: 0.2s; }
         .excel-upload-box:hover { background: #e7f3ff; }
+        #excel-status-msg { margin-top: 8px; font-weight: bold; color: #28a745; font-size: 0.95rem; }
 
         .table-wrapper { overflow-x: auto; -webkit-overflow-scrolling: touch; }
         table { width: 100%; border-collapse: collapse; white-space: nowrap; margin-top: 1rem; }
@@ -147,7 +148,7 @@
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6); z-index: 2000; align-items: center; justify-content: center; }
         .modal-content { background: #fff; padding: 2.5rem; border-radius: 12px; max-width: 400px; width: 100%; text-align: center; position: relative; }
 
-        /* 第 3 點：手機橫向螢幕專屬全屏且「！」按鈕細 70% 設定 */
+        /* 手機橫向螢幕專屬全屏且「！」按鈕細 70% 設定 */
         @media screen and (max-width: 950px) and (orientation: landscape) {
             .bottom-nav { display: none !important; }
             body { padding-bottom: 0 !important; }
@@ -155,7 +156,7 @@
             .calculator-container, .lazy-bag-container { padding: 1.5rem !important; }
             .nav-toggle-btn {
                 display: flex !important;
-                width: 35px !important;  /* 原本 55px，縮小約 70% */
+                width: 35px !important;  
                 height: 35px !important;
                 font-size: 1.2rem !important;
                 bottom: 15px !important;
@@ -177,8 +178,8 @@
 
     <div id="tab-vision" class="tab-section">
         <div class="lazy-bag-container" style="background: #fdfdfd;">
-            <h2 id="vision-main-title">時光複利：歲月豐收</h2>
-            <h3 id="vision-sub-title" style="text-align: center; color: var(--secondary-color); margin-top: 0; margin-bottom: 2rem; border-bottom: 2px solid #f0f2f5; padding-bottom: 1.5rem;">享受人生下半場</h3>
+            <h2>時光複利：歲月豐收</h2>
+            <h3 style="text-align: center; color: var(--secondary-color); margin-top: 0; margin-bottom: 2rem; border-bottom: 2px solid #f0f2f5; padding-bottom: 1.5rem;">享受人生下半場</h3>
 
             <div style="display: flex; flex-direction: column; gap: 0.5rem;">
                 <div class="flexibility-card card-rome">
@@ -346,7 +347,7 @@
             <div class="management-section" id="med-management-section">
                 <h3 style="margin-bottom: 1rem; color: var(--primary-color);">💼 醫保對沖專屬報告建立</h3>
                 <div style="display: flex; gap: 10px; max-width: 600px; margin: 0 auto; align-items: center; flex-wrap: wrap;">
-                    <div class="input-group" style="flex: 3; min-width: 250px;"><input type="text" id="med-client-name" placeholder="客戶名稱將連動同步" style="font-weight: bold;" readonly></div>
+                    <div class="input-group" style="flex: 3; min-width: 250px;"><input type="text" id="med-client-name" placeholder="客戶名稱將自動同步" style="font-weight: bold;" readonly></div>
                     <div class="input-group" style="flex: 1; min-width: 120px;"><button id="med-share-btn" class="btn btn-success">📤 建立分享</button></div>
                 </div>
             </div>
@@ -354,7 +355,7 @@
             <div class="section">
                 <div class="excel-upload-box" onclick="document.getElementById('med-excel-input').click()">
                     📂 點擊此處上載醫保保費表 (Excel 格式)
-                    <input type="file" id="med-excel-input" style="display:none;" accept=".xlsx, .xls">
+                    <div id="excel-status-msg"></div> <input type="file" id="med-excel-input" style="display:none;" accept=".xlsx, .xls">
                 </div>
             </div>
 
@@ -491,14 +492,14 @@
     </div>
 
     <script>
-        // --- 第 5 點： 激活 sw.js 離線機制 ---
+        // --- 激活 sw.js 離線緩存機制 ---
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('sw.js').then(reg => reg.update()).catch(e => console.log(e));
             });
         }
 
-        // --- 導航開關切換 ---
+        // --- 導航列彈出控制 ---
         const navToggle = document.getElementById('nav-toggle-btn');
         const bottomNav = document.getElementById('bottom-nav');
         if (navToggle && bottomNav) {
@@ -520,12 +521,12 @@
 
         let showPurchasingPower = false;
         let shareUrlGlobal = ''; 
-        let excelParsedPremiumMap = {}; // 儲存 Excel 解析出的年齡對應保費
+        let excelParsedPremiumMap = {}; // 內存暫存區：關閉 App 後自動完全清空釋放
 
         function formatNumber(value) { return new Intl.NumberFormat('en-US', {maximumFractionDigits: 0}).format(value); }
         function parseFormattedNumber(str) { return parseFloat(String(str).replace(/,/g, '')) || 0; }
 
-        // 跨頁面聯動金庫隱藏開關
+        // 跨頁面雙軌聯動金庫隱藏開關
         window.toggleEngine = function(engineId, tabContext) {
             const isMed = tabContext === 'tab-medical';
             const baseId = engineId.replace('med-', '');
@@ -552,7 +553,6 @@
         };
 
         document.addEventListener('DOMContentLoaded', function() {
-            // 所有輸入欄位元件
             const pureShareIds = [
                 'client-name', 'plan-mode', 'start-age', 'inflation-rate', 'existing-deposit', 'bank-deposit', 'bank-interest', 
                 'duel-year', 'plan1-contribution', 'plan2-contribution', 'plan3-contribution', 'plan4-contribution', 
@@ -569,7 +569,7 @@
             const tableBody = document.getElementById('results-table-body');
             const medTableBody = document.getElementById('med-results-table-body');
 
-            // 雙頁面輸入框雙向連動綁定
+            // 雙頁面雙向實時聯動
             function syncFields(id1, id2, isNumeric=false) {
                 const el1 = document.getElementById(id1); const el2 = document.getElementById(id2);
                 if(!el1 || !el2) return;
@@ -583,14 +583,18 @@
             syncFields('plan3-contribution', 'med-plan3-contribution', true);
             syncFields('plan4-contribution', 'med-plan4-contribution', true);
             syncFields('plan1-strategy', 'med-plan1-strategy');
-            syncFields('syncFields', 'med-plan2-strategy');
+            syncFields('plan2-strategy', 'med-plan2-strategy');
             syncFields('plan3-strategy', 'med-plan3-strategy');
             syncFields('plan4-strategy', 'med-plan4-strategy');
 
-            // --- 第 3 點：自動識別並精算 Excel 醫保保費數據 ---
+            // 第 1 點修改：上載 Excel 後，動態回顯報告名稱；關閉 App 後內存自動釋放不留痕跡
             document.getElementById('med-excel-input').addEventListener('change', (e) => {
                 const file = e.target.files[0];
                 if (!file) return;
+                
+                // 在畫面上即時回顯報告名稱，確保已成功載入
+                document.getElementById('excel-status-msg').innerHTML = `✅ 已成功載入：<span style="color:#007bff;">${file.name}</span>`;
+                
                 const reader = new FileReader();
                 reader.onload = (evt) => {
                     const data = new Uint8Array(evt.target.result);
@@ -600,7 +604,6 @@
                     
                     excelParsedPremiumMap = {};
                     json.forEach(row => {
-                        // 兼容大寫或小寫欄位名稱
                         let ageKey = row.age !== undefined ? row.age : row['歲數'];
                         let premiumKey = row.premium !== undefined ? row.premium : row['保費'];
                         if (ageKey !== undefined && premiumKey !== undefined) {
@@ -612,7 +615,7 @@
                 reader.readAsArrayBuffer(file);
             });
 
-            // 回溯解析 URL 數據
+            // 解析 URL 分享參數
             const urlParams = new URLSearchParams(window.location.search);
             if (urlParams.has('data')) {
                 try {
@@ -637,13 +640,12 @@
                 } catch (e) { console.error(e); }
             }
 
-            // 雙按鈕點擊分享事件（置頂處理）
+            // 分享按鈕置頂邏輯
             const handleShare = () => {
                 const currentData = {};
                 pureShareIds.forEach(id => { if(inputs[id]) currentData[id] = parseFormattedNumber(inputs[id].value) || inputs[id].value; });
                 const base64Str = btoa(unescape(encodeURIComponent(JSON.stringify(currentData)))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
-                const baseUrl = window.location.origin + window.location.pathname;
-                shareUrlGlobal = `${baseUrl}?data=${base64Str}`;
+                shareUrlGlobal = `${window.location.origin}${window.location.pathname}?data=${base64Str}`;
                 const qrContainer = document.getElementById('qr-code-display');
                 qrContainer.innerHTML = '';
                 new QRCode(qrContainer, { text: shareUrlGlobal, width: 250, height: 250, correctLevel : QRCode.CorrectLevel.M });
@@ -656,7 +658,7 @@
             });
             document.getElementById('close-modal-icon').addEventListener('click', () => { document.getElementById('share-modal').style.display = 'none'; });
 
-            // --- 6. 核心精算回報乘數（完全還原 v1.29） ---
+            // 核心複利引擎精算矩陣
             const returnMultipliers_none = { 8: 1.16, 10: 1.32, 15: 1.86, 20: 2.71, 25: 4.11, 30: 5.85, 35: 8.02, 40: 10.99, 45: 15.06, 50: 20.63, 55: 28.27, 60: 38.73, 65: 53.06, 70: 72.69 };
             const returnMultipliers_withdraw8_from8 = { 8: 1.08, 10: 1.0658, 15: 1.0606, 20: 1.0931, 25: 1.186, 30: 1.237, 35: 1.229, 40: 1.22, 45: 1.226, 50: 1.235, 55: 1.241, 60: 1.248, 65: 1.259, 70: 1.269 };
             const returnMultipliers_withdraw13_from15 = { 15: 1.731, 20: 1.784, 25: 1.94, 30: 2.0272, 35: 2.0196, 40: 2.0143, 45: 2.0353, 50: 2.068, 55: 2.0995, 60: 2.142, 65: 2.199, 70: 2.276 };
@@ -673,7 +675,6 @@
                 return multipliersObj[lower] + ((year - lower) / (upper - lower)) * (multipliersObj[upper] - multipliersObj[lower]);
             }
 
-            // 預設公牌基本醫保保費表
             function getFallbackMedicalPremium(age) {
                 if (age < 35) return 12398; if (age < 40) return 18151; if (age < 45) return 26135; if (age < 50) return 37146;
                 if (age < 55) return 52247; if (age < 60) return 72856; if (age < 65) return 100864; if (age < 70) return 138788;
@@ -700,7 +701,7 @@
                 document.getElementById('cash-real-value').textContent = `$${formatNumber(totalCashWithInterest / Math.pow(1 + inflationRate, duelYear))}`;
                 document.getElementById('cash-loss').textContent = `$${formatNumber(totalCashWithInterest - (totalCashWithInterest / Math.pow(1 + inflationRate, duelYear)))}`;
 
-                // 第 3 點：自動加總退休期間醫保總保費（優先調用 Excel 數據）
+                // 第 3 點：自動加總退休期間醫保總保費
                 let totalMedPremiumAccumulated = 0;
                 for (let a = medRetireAge; a <= medMaxAge; a++) {
                     let singlePrem = excelParsedPremiumMap[a] !== undefined ? excelParsedPremiumMap[a] : getFallbackMedicalPremium(a);
@@ -708,14 +709,14 @@
                 }
                 document.getElementById('med-total-premium').textContent = '$' + formatNumber(totalMedPremiumAccumulated);
 
-                // 讀取錢罌設定
+                // 讀取錢罌與策略
                 const planContributions = [inputs['plan1-contribution'], inputs['plan2-contribution'], inputs['plan3-contribution'], inputs['plan4-contribution']].map(el => parseFormattedNumber(el.value));
                 const planStrategies = [inputs['plan1-strategy'], inputs['plan2-strategy'], inputs['plan3-strategy'], inputs['plan4-strategy']].map(el => el.value);
                 const isEngineActive = [true, document.getElementById('group-plan2').style.display !== 'none', document.getElementById('group-plan3').style.display !== 'none', document.getElementById('group-plan4').style.display !== 'none'];
 
                 let maxYear = medMaxAge - startAge + 1; if(maxYear < 30) maxYear = 30;
 
-                // 第 2 點：移走第 7 年，全面由第 8 年及第 10 年開始
+                // 第 2 點修改：累積表完全還原，移走第 7 年，由第 8 年與第 10 年起始
                 const reportingYears = [8, 10];
                 for (let y = 15; y <= maxYear; y += 5) { reportingYears.push(y); }
 
@@ -759,7 +760,7 @@
                         row.innerHTML = `<td>${year} (${currentAge})</td><td>$${formatNumber(rC)}</td><td>$${formatNumber(rA)}</td><td style="color:var(--gain-color); font-weight:bold;">$${formatNumber(rW)}</td><td style="color:#6f42c1; font-weight:bold;">$${formatNumber(rV)}</td><td style="color:var(--primary-color); font-weight:bold;">$${formatNumber(netProfit)}</td><td class="risk ${hiddenClass}">$${formatNumber((rV+rW)/Math.pow(1+inflationRate,year))}</td>`;
                         tableBody.appendChild(row);
 
-                        // 第 6 點：還原退休醫保表（回報與複利金額 100% 同步時光複利）
+                        // 第 6 點修改：還原退休醫保累積表，回報完全同步時光複利
                         let medPremiumCurrentYear = (currentAge >= medRetireAge && currentAge <= medMaxAge) ? (excelParsedPremiumMap[currentAge] !== undefined ? excelParsedPremiumMap[currentAge] : getFallbackMedicalPremium(currentAge)) * Math.pow(1 + medInflationRate, year - 1) : 0;
                         const medRow = document.createElement('tr');
                         medRow.innerHTML = `<td>${year} (${currentAge})</td><td>$${formatNumber(rC)}</td><td style="color:var(--gain-color); font-weight:bold;">$${formatNumber(rA)}</td><td style="color:var(--inflation-color); font-weight:bold;">$${formatNumber(medPremiumCurrentYear)}</td><td style="color:#6f42c1; font-weight:bold;">$${formatNumber(rV)}</td>`;
@@ -786,7 +787,7 @@
                 document.getElementById('promo3-saved').textContent = '$' + formatNumber(totalInterest);
             }
 
-            // 初始化所有事件監聽與初次精算
+            // 初次裝載所有事件
             Object.values(inputs).forEach(input => {
                 if (!input) return;
                 const eType = (input.tagName === 'SELECT' || input.type === 'checkbox' || input.type === 'range') ? 'change' : 'input';
