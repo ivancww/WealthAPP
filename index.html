@@ -7,7 +7,7 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
     
-    <title>時光複利：退休醫保預備金 v1.34</title>
+    <title>時光複利：退休醫保預備金 v1.35</title>
 
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="icon-192x192.png">
@@ -85,7 +85,7 @@
         .input-group input, .input-group select, .btn { width: 100%; padding: 0.75rem; border: 1px solid var(--border-color); border-radius: 8px; font-size: 1rem; font-family: inherit; box-sizing: border-box; text-align: center; background-color: #fff; color: var(--text-color); }
         .input-group select { text-align-last: center; margin-top: 0.5rem; border-color: var(--primary-color); font-size: 0.9rem; }
         
-        /* Excel 上載按鈕樣式 */
+        /* Excel 上載框樣式 */
         .excel-upload-box { background: #f8f9fa; border: 2px dashed #007bff; padding: 1.5rem; border-radius: 12px; text-align: center; margin: 1rem 0; cursor: pointer; font-weight: 500; color: #007bff; transition: 0.2s; }
         .excel-upload-box:hover { background: #e7f3ff; }
         #excel-status-msg { margin-top: 8px; font-weight: bold; color: #28a745; font-size: 0.95rem; }
@@ -103,9 +103,8 @@
         .summary-item { text-align: center; position: relative; padding: 0.5rem; min-width: 150px; }
         .summary-item .summary-value { font-size: 1.5rem; font-weight: 700; display: block; }
         .summary-item .summary-label { font-size: 0.9rem; color: var(--label-color); display: block; }
-        .reveal-mask { cursor: pointer; transition: all 0.3s; position: relative; }
-        .reveal-mask.hidden .value-text { filter: blur(5px); opacity: 0.3; }
-        .reveal-mask.hidden::after { content: '👁️ 點擊揭曉'; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 0.8rem; color: var(--primary-color); background: rgba(255,255,255,0.8); padding: 2px 8px; border-radius: 4px; white-space: nowrap; font-weight: bold; z-index: 2; }
+        .remove-engine-btn { position: absolute; top: -10px; right: -10px; background: #dee2e6; color: #495057; border: none; border-radius: 50%; width: 26px; height: 26px; cursor: pointer; font-size: 12px; z-index: 10; display: flex; align-items: center; justify-content: center; transition: 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .remove-engine-btn:hover { background: #dc3545; color: white; }
         
         .management-section { background: linear-gradient(135deg, #e7f3ff, #f1f8ff); padding: 1.5rem; border-radius: 12px; margin-bottom: 2rem; border: 1px solid #cce5ff; }
         .lazy-bag-container { background: #fff; border-radius: 12px; padding: 2.5rem; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
@@ -121,6 +120,7 @@
 
         .promo-card { background: #fdfdfd; border: 1px solid #dee2e6; border-radius: 12px; padding: 1.5rem; margin-bottom: 1.5rem; }
         .promo-row { display: flex; align-items: flex-start; gap: 15px; margin-bottom: 1.2rem; padding-bottom: 1.2rem; border-bottom: 1px dashed #eee; }
+        .promo-row:last-child { border-bottom: none; }
         .promo-checkbox { width: 24px; height: 24px; accent-color: var(--primary-color); }
         .promo-content { flex: 1; }
         .promo-content h4 { margin: 0 0 5px 0; color: var(--primary-color); font-size: 1.1rem; }
@@ -308,7 +308,7 @@
                 </div>
                 
                 <div class="table-wrapper"><table id="results-table"><thead id="results-table-head"></thead><tbody id="results-table-body"></tbody></table></div>
-                <div id="eye-icon-container" style="text-align: right; margin-top: 0.5rem;"><button id="toggle-purchasing-power" style="transparent; border: none; font-size: 1.2rem; cursor: pointer; opacity: 0.5;">👁️</button></div>
+                <div id="eye-icon-container" style="text-align: right; margin-top: 0.5rem;"><button id="toggle-purchasing-power" style="background: transparent; border: none; font-size: 1.2rem; cursor: pointer; opacity: 0.5;">👁️</button></div>
             </div>
         </div>
     </div>
@@ -416,6 +416,8 @@
                             <option value="withdraw8_from8">第8年開始 取8%</option>
                             <option value="withdraw13_from15">第15年開始 取13%</option>
                             <option value="withdraw18_from20">第20年開始 取18%</option>
+                            <option value="withdraw23_from25">第25年開始 取23%</option>
+                            <option value="withdraw29_from30">第30年開始 取29%</option>
                         </select>
                     </div>
                 </div>
@@ -469,7 +471,7 @@
     </div>
 
     <script>
-        // PWA 快取激活
+        // sw 快取激活
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('sw.js').then(reg => reg.update()).catch(e => console.log(e));
@@ -544,6 +546,7 @@
             const tableBody = document.getElementById('results-table-body');
             const medTableBody = document.getElementById('med-results-table-body');
 
+            // 雙頁面雙向連動同步
             function syncFields(id1, id2, isNumeric=false) {
                 const el1 = document.getElementById(id1); const el2 = document.getElementById(id2);
                 if(!el1 || !el2) return;
@@ -561,7 +564,7 @@
             syncFields('plan3-strategy', 'med-plan3-strategy');
             syncFields('plan4-strategy', 'med-plan4-strategy');
 
-            // Excel 載入監聽
+            // Excel 載入並強制刷新主引擎
             document.getElementById('med-excel-input').addEventListener('change', (e) => {
                 const file = e.target.files[0];
                 if (!file) return;
@@ -580,7 +583,7 @@
                             excelParsedPremiumMap[parseInt(ageKey)] = parseFormattedNumber(premiumKey);
                         }
                     });
-                    calculateAndDisplay(); 
+                    calculateAndDisplay(); // 載入後立刻強制計算
                 };
                 reader.readAsArrayBuffer(file);
             });
@@ -626,6 +629,7 @@
             });
             document.getElementById('close-modal-icon').addEventListener('click', () => { document.getElementById('share-modal').style.display = 'none'; });
 
+            // 複利矩陣
             const returnMultipliers_none = { 8: 1.16, 10: 1.32, 15: 1.86, 20: 2.71, 25: 4.11, 30: 5.85, 35: 8.02, 40: 10.99, 45: 15.06, 50: 20.63, 55: 28.27, 60: 38.73, 65: 53.06, 70: 72.69 };
             const returnMultipliers_withdraw8_from8 = { 8: 1.08, 10: 1.0658, 15: 1.0606, 20: 1.0931, 25: 1.186, 30: 1.237, 35: 1.229, 40: 1.22, 45: 1.226, 50: 1.235, 55: 1.241, 60: 1.248, 65: 1.259, 70: 1.269 };
             const returnMultipliers_withdraw13_from15 = { 15: 1.731, 20: 1.784, 25: 1.94, 30: 2.0272, 35: 2.0196, 40: 2.0143, 45: 2.0353, 50: 2.068, 55: 2.0995, 60: 2.142, 65: 2.199, 70: 2.276 };
@@ -662,7 +666,7 @@
                 const medRetireAge = parseInt(inputs['med-retire-age'].value) || 65;
                 const medMaxAge = parseInt(inputs['med-max-age'].value) || 99;
 
-                // 核心修復 1：通脹率拉動時，Slider 百分比文字會跟隨重新整理
+                // 修改 1：實時同步 Slider 百分比數值文字
                 document.getElementById('med-inflation-value').textContent = `${(medInflationRate*100).toFixed(1)}%`;
 
                 const totalCashWithInterest = existingDeposit * Math.pow(1 + bankInterestRate, duelYear) + fixedBankDeposit * ((Math.pow(1 + bankInterestRate, duelYear) - 1) / bankInterestRate || 1);
@@ -670,11 +674,12 @@
                 document.getElementById('cash-real-value').textContent = `$${formatNumber(totalCashWithInterest / Math.pow(1 + inflationRate, duelYear))}`;
                 document.getElementById('cash-loss').textContent = `$${formatNumber(totalCashWithInterest - (totalCashWithInterest / Math.pow(1 + inflationRate, duelYear)))}`;
 
-                // 核心修復 2：精算總保費（自動抓取 Excel 的退休年齡到預期壽命，並乘上醫療通脹率疊加）
+                // 修改 1：【核心修復】全自動加總醫保總保費（真正完美基於退休年齡到預期壽命作通脹加權）
                 let totalMedPremiumAccumulated = 0;
                 for (let a = medRetireAge; a <= medMaxAge; a++) {
                     let singlePrem = excelParsedPremiumMap[a] !== undefined ? excelParsedPremiumMap[a] : getFallbackMedicalPremium(a);
-                    totalMedPremiumAccumulated += singlePrem * Math.pow(1 + medInflationRate, a - startAge);
+                    let currentYearFromStart = a - startAge + 1;
+                    totalMedPremiumAccumulated += singlePrem * Math.pow(1 + medInflationRate, currentYearFromStart - 1);
                 }
                 document.getElementById('med-total-premium').textContent = '$' + formatNumber(totalMedPremiumAccumulated);
 
@@ -682,10 +687,22 @@
                 const planStrategies = [inputs['plan1-strategy'], inputs['plan2-strategy'], inputs['plan3-strategy'], inputs['plan4-strategy']].map(el => el.value);
                 const isEngineActive = [true, document.getElementById('group-plan2').style.display !== 'none', document.getElementById('group-plan3').style.display !== 'none', document.getElementById('group-plan4').style.display !== 'none'];
 
-                let maxYear = medMaxAge - startAge + 1; if(maxYear < 30) maxYear = 30;
+                // 修改 2：【核心修復】動態設定計算的最大年期，保證報表能夠直達指定的最後防線歲數
+                let maxYear = medMaxAge - startAge + 1;
+                if (maxYear < 30) maxYear = 30;
 
+                // 生成 5 年一跳的檢視年份
                 const reportingYears = [8, 10];
-                for (let y = 15; y <= maxYear; y += 5) { reportingYears.push(y); }
+                for (let y = 15; y <= maxYear; y += 5) {
+                    // 如果這一步驟已經大於等於最大年期，就交給後續的強制最後一行邏輯處理
+                    if (y < maxYear) {
+                        reportingYears.push(y);
+                    }
+                }
+                // 修改 2：強制將最後一年（例如 99 歲對應的 maxYear）塞入陣列中，保證累積表必定去到最後一歲
+                if (!reportingYears.includes(maxYear)) {
+                    reportingYears.push(maxYear);
+                }
 
                 const hiddenClass = showPurchasingPower ? '' : 'hidden-col';
                 if (planMode === 'education') {
