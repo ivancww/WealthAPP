@@ -20,7 +20,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
     
-    <!-- 引入二維碼核心與 Excel 解析核心 -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 
@@ -38,15 +37,15 @@
         
         body { font-family: 'Noto Sans TC', sans-serif; background-color: var(--bg-color); color: var(--text-color); margin: 0; padding: 0; padding-bottom: 20px; box-sizing: border-box; overflow-x: hidden; }
         
-        /* 頁面切換 */
+        /* 頁面切換控制 */
         .tab-section { display: none; padding: 1.5rem; max-width: 1100px; margin: 0 auto; animation: fadeIn 0.4s; }
         .tab-section.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* 隱藏式導航按鈕 */
+        /* 隱藏式懸浮導航按鈕 */
         .nav-toggle-btn {
             position: fixed;
-            bottom: calc(20px + env(safe-area-inset-bottom));
+            bottom: calc(20px + env(safe-area-inset(bottom));
             right: 20px;
             width: 55px;
             height: 55px;
@@ -87,7 +86,7 @@
         .nav-item.active { color: var(--primary-color); font-weight: bold; transform: translateY(-3px); }
         .nav-icon { font-size: 1.5rem; display: block; margin-bottom: 4px; }
 
-        /* 計算機樣式 */
+        /* 計算機及卡片樣式 */
         .calculator-container { background: var(--card-bg-color); border-radius: 12px; border: 1px solid var(--border-color); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); padding: 2.5rem; }
         header { text-align: center; border-bottom: 1px solid var(--border-color); padding-bottom: 1.5rem; margin-bottom: 2rem; }
         header h1 { color: var(--primary-color); margin-bottom: 0.5rem; font-weight: 700; font-size: 1.7rem; }
@@ -146,12 +145,23 @@
         .promo-result-box { background: linear-gradient(135deg, #28a745 0%, #20c997 100%); color: white; padding: 1.5rem; border-radius: 12px; text-align: center; }
         .promo-result-box .big-savings { font-size: 3rem; font-weight: 900; }
         
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6); z-index: 2000; align-items: center; justify-content: center; }
+        .modal-content { background: #fff; padding: 2.5rem; border-radius: 12px; max-width: 400px; width: 100%; text-align: center; position: relative; }
+
+        /* 手機橫向螢幕專屬全屏且「！」按鈕細 70% 設定 */
         @media screen and (max-width: 950px) and (orientation: landscape) {
             .bottom-nav { display: none !important; }
             body { padding-bottom: 0 !important; }
             .tab-section { padding: 1rem !important; }
             .calculator-container, .lazy-bag-container { padding: 1.5rem !important; }
-            .nav-toggle-btn { display: flex !important; width: 35px !important; height: 35px !important; font-size: 1.2rem !important; bottom: 15px !important; right: 15px !important; }
+            .nav-toggle-btn {
+                display: flex !important;
+                width: 35px !important;  
+                height: 35px !important;
+                font-size: 1.2rem !important;
+                bottom: 15px !important;
+                right: 15px !important;
+            }
         }
     </style>
 </head>
@@ -166,11 +176,11 @@
         <div class="nav-item" onclick="switchTab('tab-promo', this)"><span class="nav-icon">🎁</span>保費優惠</div>
     </nav>
 
-    <!-- 🤝 願景對話分頁 -->
     <div id="tab-vision" class="tab-section">
         <div class="lazy-bag-container" style="background: #fdfdfd;">
             <h2>時光複利：歲月豐收</h2>
             <h3 style="text-align: center; color: var(--secondary-color); margin-top: 0; margin-bottom: 2rem; border-bottom: 2px solid #f0f2f5; padding-bottom: 1.5rem;">享受人生下半場</h3>
+
             <div style="display: flex; flex-direction: column; gap: 0.5rem;">
                 <div class="flexibility-card card-rome">
                     <div class="flex-icon">🏛️</div>
@@ -209,7 +219,6 @@
         </div>
     </div>
 
-    <!-- 📊 時光複利分頁 -->
     <div id="tab-calculator" class="tab-section active">
         <div class="calculator-container">
             <header>
@@ -329,14 +338,12 @@
         </div>
     </div>
 
-    <!-- 🏥 退休醫保預備金分頁 -->
     <div id="tab-medical" class="tab-section">
         <div class="calculator-container">
             <header>
                 <h1>退休醫保預備金</h1>
             </header>
 
-            <!-- 修改 4：將「醫保對沖專屬報告」改名為「退休醫保預備金報告」 -->
             <div class="management-section" id="med-management-section">
                 <h3 style="margin-bottom: 1rem; color: var(--primary-color);">💼 退休醫保預備金報告</h3>
                 <div style="display: flex; gap: 10px; max-width: 600px; margin: 0 auto; align-items: center; flex-wrap: wrap;">
@@ -345,7 +352,6 @@
                 </div>
             </div>
 
-            <!-- Excel 上載功能 (不留痕跡內存技術) -->
             <div class="section">
                 <div class="excel-upload-box" onclick="document.getElementById('med-excel-input').click()">
                     📂 點擊此處上載醫保保費表 (Excel 格式)
@@ -357,7 +363,6 @@
             <div class="section">
                 <div class="top-input-grid">
                     <div class="input-group"><label>開始歲數</label><input type="number" id="med-start-age" value="30"></div>
-                    <!-- 修改 1：修正通脹拖動重新精算邏輯，與 Slider 全面完美雙向實時同步 -->
                     <div class="input-group">
                         <label>預期醫療通脹率: <span id="med-inflation-value">5.0%</span></label>
                         <input type="range" id="med-inflation-rate" min="1" max="10" value="5" step="0.1">
@@ -376,7 +381,6 @@
                 </div>
             </div>
 
-            <!-- 修改 3：對齊最新圖表規格，改名為「退休醫保備用金」 -->
             <div class="section">
                 <h2>退休醫保備用金</h2>
                 <div class="plan-grid">
@@ -437,11 +441,12 @@
                             <option value="withdraw8_from8">第8年開始 取8%</option>
                             <option value="withdraw13_from15">第15年開始 取13%</option>
                             <option value="withdraw18_from20">第20年開始 取18%</option>
+                            <option value="withdraw23_from25">第25年開始 取23%</option>
+                            <option value="withdraw29_from30">第30年開始 取29%</option>
                         </select>
                     </div>
                 </div>
 
-                <!-- 修改 2：將累積表表頭及數據欄改名為「醫保保費預備金 (提取)」與「醫保防線結餘」 -->
                 <div class="table-wrapper">
                     <table id="med-results-table">
                         <thead>
@@ -454,7 +459,6 @@
         </div>
     </div>
 
-    <!-- 🎁 保費優惠分頁 -->
     <div id="tab-promo" class="tab-section">
         <div class="lazy-bag-container">
             <h2>🎁 專屬保費優惠計算</h2>
@@ -472,13 +476,15 @@
             </div>
             <div class="promo-result-box">
                 <h3>原本總保費：<span id="promo-original-total" style="text-decoration:line-through; font-size:1.1rem; opacity:0.8;">$0</span></h3>
-                <div style="margin: 15px 0;"><span style="font-size: 1.1rem;">💰 您總共慳咗及保證賺取利息達：</span><div class="big-savings" id="promo-total-savings">$0</div></div>
+                <div style="margin: 15px 0;">
+                    <span style="font-size: 1.1rem;">💰 您總共慳咗及保證賺取利息達：</span>
+                    <div class="big-savings" id="promo-total-savings">$0</div>
+                </div>
                 <div style="background: rgba(0,0,0,0.1); padding: 10px; border-radius: 8px;"><span>實際淨付出總額：<strong id="promo-actual-outlay" style="font-size: 1.5rem;">$0</strong></span></div>
             </div>
         </div>
     </div>
 
-    <!-- Modal -->
     <div id="share-modal" class="modal-overlay">
         <div class="modal-content">
             <span class="close-modal" id="close-modal-icon">&times;</span>
@@ -518,11 +524,12 @@
 
         let showPurchasingPower = false;
         let shareUrlGlobal = ''; 
-        let excelParsedPremiumMap = {}; 
+        let excelParsedPremiumMap = {}; // 內存暫存區：關閉或重整網頁後，保證安全清空不留痕跡
 
         function formatNumber(value) { return new Intl.NumberFormat('en-US', {maximumFractionDigits: 0}).format(value); }
         function parseFormattedNumber(str) { return parseFloat(String(str).replace(/,/g, '')) || 0; }
 
+        // 跨頁面雙軌聯動金庫隱藏開關
         window.toggleEngine = function(engineId, tabContext) {
             const isMed = tabContext === 'tab-medical';
             const baseId = engineId.replace('med-', '');
@@ -565,6 +572,7 @@
             const tableBody = document.getElementById('results-table-body');
             const medTableBody = document.getElementById('med-results-table-body');
 
+            // 雙頁面同步
             function syncFields(id1, id2, isNumeric=false) {
                 const el1 = document.getElementById(id1); const el2 = document.getElementById(id2);
                 if(!el1 || !el2) return;
@@ -582,6 +590,7 @@
             syncFields('plan3-strategy', 'med-plan3-strategy');
             syncFields('plan4-strategy', 'med-plan4-strategy');
 
+            // Excel 載入提示名稱
             document.getElementById('med-excel-input').addEventListener('change', (e) => {
                 const file = e.target.files[0];
                 if (!file) return;
@@ -600,11 +609,12 @@
                             excelParsedPremiumMap[parseInt(ageKey)] = parseFormattedNumber(premiumKey);
                         }
                     });
-                    calculateAndDisplay();
+                    calculateAndDisplay(); // 核心：載入後立刻驅動主刷新流去全自動計算
                 };
                 reader.readAsArrayBuffer(file);
             });
 
+            // 讀取 URL
             const urlParams = new URLSearchParams(window.location.search);
             if (urlParams.has('data')) {
                 try {
@@ -646,7 +656,7 @@
             });
             document.getElementById('close-modal-icon').addEventListener('click', () => { document.getElementById('share-modal').style.display = 'none'; });
 
-            // 複利矩陣矩陣
+            // 複利矩陣
             const returnMultipliers_none = { 8: 1.16, 10: 1.32, 15: 1.86, 20: 2.71, 25: 4.11, 30: 5.85, 35: 8.02, 40: 10.99, 45: 15.06, 50: 20.63, 55: 28.27, 60: 38.73, 65: 53.06, 70: 72.69 };
             const returnMultipliers_withdraw8_from8 = { 8: 1.08, 10: 1.0658, 15: 1.0606, 20: 1.0931, 25: 1.186, 30: 1.237, 35: 1.229, 40: 1.22, 45: 1.226, 50: 1.235, 55: 1.241, 60: 1.248, 65: 1.259, 70: 1.269 };
             const returnMultipliers_withdraw13_from15 = { 15: 1.731, 20: 1.784, 25: 1.94, 30: 2.0272, 35: 2.0196, 40: 2.0143, 45: 2.0353, 50: 2.068, 55: 2.0995, 60: 2.142, 65: 2.199, 70: 2.276 };
@@ -663,6 +673,13 @@
                 return multipliersObj[lower] + ((year - lower) / (upper - lower)) * (multipliersObj[upper] - multipliersObj[lower]);
             }
 
+            function getFallbackMedicalPremium(age) {
+                if (age < 35) return 12398; if (age < 40) return 18151; if (age < 45) return 26135; if (age < 50) return 37146;
+                if (age < 55) return 52247; if (age < 60) return 72856; if (age < 65) return 100864; if (age < 70) return 138788;
+                if (age < 75) return 189969; if (age < 80) return 258836; if (age < 85) return 351255; if (age < 90) return 474985;
+                if (age < 95) return 640272; return 860633;
+            }
+
             window.calculateAndDisplay = function() {
                 const startAge = parseInt(inputs['start-age'].value) || 30;
                 const inflationRate = parseFloat(inputs['inflation-rate'].value) / 100;
@@ -676,7 +693,7 @@
                 const medRetireAge = parseInt(inputs['med-retire-age'].value) || 65;
                 const medMaxAge = parseInt(inputs['med-max-age'].value) || 99;
 
-                // 第 1 點修改：更新 Slider 上面顯示嘅醫療通脹率文字百分比數值
+                // 第 1 點修改：Slider 數值刷新現在完全由主刷新流控制
                 document.getElementById('med-inflation-value').textContent = `${(medInflationRate*100).toFixed(1)}%`;
 
                 const totalCashWithInterest = existingDeposit * Math.pow(1 + bankInterestRate, duelYear) + fixedBankDeposit * ((Math.pow(1 + bankInterestRate, duelYear) - 1) / bankInterestRate || 1);
@@ -684,7 +701,7 @@
                 document.getElementById('cash-real-value').textContent = `$${formatNumber(totalCashWithInterest / Math.pow(1 + inflationRate, duelYear))}`;
                 document.getElementById('cash-loss').textContent = `$${formatNumber(totalCashWithInterest - (totalCashWithInterest / Math.pow(1 + inflationRate, duelYear)))}`;
 
-                // 全自動精算 Excel 動態醫療總保費功能
+                // 核心：全自動加總退休期間醫保總保費 (直接把計算邏輯寫入主刷新流)
                 let totalMedPremiumAccumulated = 0;
                 for (let a = medRetireAge; a <= medMaxAge; a++) {
                     let singlePrem = excelParsedPremiumMap[a] !== undefined ? excelParsedPremiumMap[a] : getFallbackMedicalPremium(a);
@@ -739,7 +756,7 @@
                         row.innerHTML = `<td>${year} (${currentAge})</td><td>$${formatNumber(rC)}</td><td>$${formatNumber(rA)}</td><td style="color:var(--gain-color); font-weight:bold;">$${formatNumber(rW)}</td><td style="color:#6f42c1; font-weight:bold;">$${formatNumber(rV)}</td><td style="color:var(--primary-color); font-weight:bold;">$${formatNumber(netProfit)}</td><td class="risk ${hiddenClass}">$${formatNumber((rV+rW)/Math.pow(1+inflationRate,year))}</td>`;
                         tableBody.appendChild(row);
 
-                        // 第 2 點修改：退休醫保表內核，欄位完全改名為「醫保保費預備金」及「醫保防線結餘」
+                        // 退休醫保累積表，完全自動調用 Excel 對應年齡數據 + 通脹加權
                         let medPremiumCurrentYear = (currentAge >= medRetireAge && currentAge <= medMaxAge) ? (excelParsedPremiumMap[currentAge] !== undefined ? excelParsedPremiumMap[currentAge] : getFallbackMedicalPremium(currentAge)) * Math.pow(1 + medInflationRate, year - 1) : 0;
                         const medRow = document.createElement('tr');
                         medRow.innerHTML = `<td>${year} (${currentAge})</td><td>$${formatNumber(rC)}</td><td style="color:var(--gain-color); font-weight:bold;">$${formatNumber(rA)}</td><td style="color:var(--inflation-color); font-weight:bold;">$${formatNumber(medPremiumCurrentYear)}</td><td style="color:#6f42c1; font-weight:bold;">$${formatNumber(rV)}</td>`;
@@ -763,10 +780,10 @@
                 document.getElementById('promo-actual-outlay').textContent = '$' + formatNumber((P * N) - (d1 + d2 + totalInterest));
                 document.getElementById('promo1-saved').textContent = '$' + formatNumber(d1);
                 document.getElementById('promo2-saved').textContent = '$' + formatNumber(d2);
-                document.getElementById('promo-total-savings').textContent = '$' + formatNumber(d1 + d2 + totalInterest);
+                document.getElementById('promo3-saved').textContent = '$' + formatNumber(totalInterest);
             }
 
-            // 第 1 點修改：保證拉動 Slider 能完美自動變更數據
+            //Slider與所有元件加載監聽
             Object.values(inputs).forEach(input => {
                 if (!input) return;
                 const eType = (input.tagName === 'SELECT' || input.type === 'checkbox' || input.type === 'range') ? 'change' : 'input';
