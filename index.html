@@ -37,36 +37,19 @@
         
         body { font-family: 'Noto Sans TC', sans-serif; background-color: var(--bg-color); color: var(--text-color); margin: 0; padding: 0; padding-bottom: 20px; box-sizing: border-box; overflow-x: hidden; }
         
-        /* 頁面切換控制 */
         .tab-section { display: none; padding: 1.5rem; max-width: 1100px; margin: 0 auto; animation: fadeIn 0.4s; }
         .tab-section.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* 隱藏式懸浮導航按鈕 */
         .nav-toggle-btn {
-            position: fixed;
-            bottom: calc(20px + env(safe-area-inset(bottom));
-            right: 20px;
-            width: 55px;
-            height: 55px;
-            background: linear-gradient(135deg, var(--primary-color), #0056b3);
-            color: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.8rem;
-            font-weight: bold;
-            box-shadow: 0 4px 15px rgba(0, 123, 255, 0.4);
-            cursor: pointer;
-            z-index: 1001;
-            transition: transform 0.3s, background 0.3s;
-            border: 2px solid #fff;
-            user-select: none;
+            position: fixed; bottom: calc(20px + env(safe-area-inset-bottom)); right: 20px;
+            width: 55px; height: 55px; background: linear-gradient(135deg, var(--primary-color), #0056b3);
+            color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-size: 1.8rem; font-weight: bold; box-shadow: 0 4px 15px rgba(0, 123, 255, 0.4);
+            cursor: pointer; z-index: 1001; transition: transform 0.3s, background 0.3s; border: 2px solid #fff; user-select: none;
         }
         .nav-toggle-btn:active { transform: scale(0.9); }
 
-        /* 底部導航列 */
         .bottom-nav { 
             position: fixed; bottom: 0; left: 0; width: 100%; 
             background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
@@ -86,11 +69,9 @@
         .nav-item.active { color: var(--primary-color); font-weight: bold; transform: translateY(-3px); }
         .nav-icon { font-size: 1.5rem; display: block; margin-bottom: 4px; }
 
-        /* 計算機及卡片樣式 */
         .calculator-container { background: var(--card-bg-color); border-radius: 12px; border: 1px solid var(--border-color); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); padding: 2.5rem; }
         header { text-align: center; border-bottom: 1px solid var(--border-color); padding-bottom: 1.5rem; margin-bottom: 2rem; }
         header h1 { color: var(--primary-color); margin-bottom: 0.5rem; font-weight: 700; font-size: 1.7rem; }
-        header p { color: var(--label-color); font-size: 1rem; max-width: 650px; margin: 0 auto; line-height: 1.6; }
         .section { margin-top: 3rem; }
         .section h2 { display: flex; align-items: center; justify-content: center; color: var(--secondary-color); margin-bottom: 1.5rem; font-size: 1.5rem; }
         .top-input-grid, .duel-inputs { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; align-items: end; margin-bottom: 2rem; }
@@ -104,7 +85,7 @@
         .input-group input, .input-group select, .btn { width: 100%; padding: 0.75rem; border: 1px solid var(--border-color); border-radius: 8px; font-size: 1rem; font-family: inherit; box-sizing: border-box; text-align: center; background-color: #fff; color: var(--text-color); }
         .input-group select { text-align-last: center; margin-top: 0.5rem; border-color: var(--primary-color); font-size: 0.9rem; }
         
-        /* 上載 Excel */
+        /* Excel 上載按鈕樣式 */
         .excel-upload-box { background: #f8f9fa; border: 2px dashed #007bff; padding: 1.5rem; border-radius: 12px; text-align: center; margin: 1rem 0; cursor: pointer; font-weight: 500; color: #007bff; transition: 0.2s; }
         .excel-upload-box:hover { background: #e7f3ff; }
         #excel-status-msg { margin-top: 8px; font-weight: bold; color: #28a745; font-size: 0.95rem; }
@@ -113,8 +94,11 @@
         table { width: 100%; border-collapse: collapse; white-space: nowrap; margin-top: 1rem; }
         th, td { padding: 0.9rem 1rem; text-align: right; border-bottom: 1px solid var(--border-color); }
         th { font-weight: 500; color: var(--label-color); background-color: #f8f9fa; vertical-align: bottom; }
-        td[data-label="實際購買能力"] { font-weight: 700; }
         
+        .emoji-toggle-bar { grid-column: 1 / -1; display: flex; gap: 15px; align-items: center; justify-content: center; background: #f8f9fa; padding: 12px; border-radius: 8px; border: 1px dashed var(--border-color); margin-bottom: 0.5rem; flex-wrap: wrap; }
+        .emoji-toggle { cursor: pointer; font-size: 1.8rem; opacity: 0.3; filter: grayscale(100%); transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); padding: 5px; border-radius: 50%; background: #e9ecef; width: 45px; height: 45px; display: flex; align-items: center; justify-content: center; box-shadow: inset 0 2px 4px rgba(0,0,0,0.05); user-select: none; }
+        .emoji-toggle.active { opacity: 1; filter: none; background: #fff3cd; box-shadow: 0 4px 10px rgba(255, 193, 7, 0.3); transform: scale(1.15); border: 2px solid #ffca28; }
+
         .duel-summary { display: flex; justify-content: space-around; flex-wrap: wrap; gap: 1rem; margin-top: 1rem; padding: 1rem; background-color: #f8f9fa; border-radius: 8px; }
         .summary-item { text-align: center; position: relative; padding: 0.5rem; min-width: 150px; }
         .summary-item .summary-value { font-size: 1.5rem; font-weight: 700; display: block; }
@@ -137,7 +121,6 @@
 
         .promo-card { background: #fdfdfd; border: 1px solid #dee2e6; border-radius: 12px; padding: 1.5rem; margin-bottom: 1.5rem; }
         .promo-row { display: flex; align-items: flex-start; gap: 15px; margin-bottom: 1.2rem; padding-bottom: 1.2rem; border-bottom: 1px dashed #eee; }
-        .promo-row:last-child { border-bottom: none; }
         .promo-checkbox { width: 24px; height: 24px; accent-color: var(--primary-color); }
         .promo-content { flex: 1; }
         .promo-content h4 { margin: 0 0 5px 0; color: var(--primary-color); font-size: 1.1rem; }
@@ -148,20 +131,12 @@
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6); z-index: 2000; align-items: center; justify-content: center; }
         .modal-content { background: #fff; padding: 2.5rem; border-radius: 12px; max-width: 400px; width: 100%; text-align: center; position: relative; }
 
-        /* 手機橫向螢幕專屬全屏且「！」按鈕細 70% 設定 */
         @media screen and (max-width: 950px) and (orientation: landscape) {
             .bottom-nav { display: none !important; }
             body { padding-bottom: 0 !important; }
             .tab-section { padding: 1rem !important; }
             .calculator-container, .lazy-bag-container { padding: 1.5rem !important; }
-            .nav-toggle-btn {
-                display: flex !important;
-                width: 35px !important;  
-                height: 35px !important;
-                font-size: 1.2rem !important;
-                bottom: 15px !important;
-                right: 15px !important;
-            }
+            .nav-toggle-btn { display: flex !important; width: 35px !important; height: 35px !important; font-size: 1.2rem !important; bottom: 15px !important; right: 15px !important; }
         }
     </style>
 </head>
@@ -333,7 +308,7 @@
                 </div>
                 
                 <div class="table-wrapper"><table id="results-table"><thead id="results-table-head"></thead><tbody id="results-table-body"></tbody></table></div>
-                <div id="eye-icon-container" style="text-align: right; margin-top: 0.5rem;"><button id="toggle-purchasing-power" style="background: transparent; border: none; font-size: 1.2rem; cursor: pointer; opacity: 0.5;">👁️</button></div>
+                <div id="eye-icon-container" style="text-align: right; margin-top: 0.5rem;"><button id="toggle-purchasing-power" style="transparent; border: none; font-size: 1.2rem; cursor: pointer; opacity: 0.5;">👁️</button></div>
             </div>
         </div>
     </div>
@@ -365,7 +340,7 @@
                     <div class="input-group"><label>開始歲數</label><input type="number" id="med-start-age" value="30"></div>
                     <div class="input-group">
                         <label>預期醫療通脹率: <span id="med-inflation-value">5.0%</span></label>
-                        <input type="range" id="med-inflation-rate" min="1" max="10" value="5" step="0.1">
+                        <input type="range" id="med-inflation-rate" min="0" max="7" value="5" step="0.1">
                     </div>
                     <div class="input-group"><label>預計退休年齡</label><input type="number" id="med-retire-age" value="65"></div>
                     <div class="input-group"><label>預期保至幾歲</label><input type="number" id="med-max-age" value="99"></div>
@@ -441,8 +416,6 @@
                             <option value="withdraw8_from8">第8年開始 取8%</option>
                             <option value="withdraw13_from15">第15年開始 取13%</option>
                             <option value="withdraw18_from20">第20年開始 取18%</option>
-                            <option value="withdraw23_from25">第25年開始 取23%</option>
-                            <option value="withdraw29_from30">第30年開始 取29%</option>
                         </select>
                     </div>
                 </div>
@@ -496,7 +469,7 @@
     </div>
 
     <script>
-        // sw緩存激活
+        // PWA 快取激活
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('sw.js').then(reg => reg.update()).catch(e => console.log(e));
@@ -524,12 +497,11 @@
 
         let showPurchasingPower = false;
         let shareUrlGlobal = ''; 
-        let excelParsedPremiumMap = {}; // 內存暫存區：關閉或重整網頁後，保證安全清空不留痕跡
+        let excelParsedPremiumMap = {}; 
 
         function formatNumber(value) { return new Intl.NumberFormat('en-US', {maximumFractionDigits: 0}).format(value); }
         function parseFormattedNumber(str) { return parseFloat(String(str).replace(/,/g, '')) || 0; }
 
-        // 跨頁面雙軌聯動金庫隱藏開關
         window.toggleEngine = function(engineId, tabContext) {
             const isMed = tabContext === 'tab-medical';
             const baseId = engineId.replace('med-', '');
@@ -572,7 +544,6 @@
             const tableBody = document.getElementById('results-table-body');
             const medTableBody = document.getElementById('med-results-table-body');
 
-            // 雙頁面同步
             function syncFields(id1, id2, isNumeric=false) {
                 const el1 = document.getElementById(id1); const el2 = document.getElementById(id2);
                 if(!el1 || !el2) return;
@@ -590,7 +561,7 @@
             syncFields('plan3-strategy', 'med-plan3-strategy');
             syncFields('plan4-strategy', 'med-plan4-strategy');
 
-            // Excel 載入提示名稱
+            // Excel 載入監聽
             document.getElementById('med-excel-input').addEventListener('change', (e) => {
                 const file = e.target.files[0];
                 if (!file) return;
@@ -609,12 +580,11 @@
                             excelParsedPremiumMap[parseInt(ageKey)] = parseFormattedNumber(premiumKey);
                         }
                     });
-                    calculateAndDisplay(); // 核心：載入後立刻驅動主刷新流去全自動計算
+                    calculateAndDisplay(); 
                 };
                 reader.readAsArrayBuffer(file);
             });
 
-            // 讀取 URL
             const urlParams = new URLSearchParams(window.location.search);
             if (urlParams.has('data')) {
                 try {
@@ -656,7 +626,6 @@
             });
             document.getElementById('close-modal-icon').addEventListener('click', () => { document.getElementById('share-modal').style.display = 'none'; });
 
-            // 複利矩陣
             const returnMultipliers_none = { 8: 1.16, 10: 1.32, 15: 1.86, 20: 2.71, 25: 4.11, 30: 5.85, 35: 8.02, 40: 10.99, 45: 15.06, 50: 20.63, 55: 28.27, 60: 38.73, 65: 53.06, 70: 72.69 };
             const returnMultipliers_withdraw8_from8 = { 8: 1.08, 10: 1.0658, 15: 1.0606, 20: 1.0931, 25: 1.186, 30: 1.237, 35: 1.229, 40: 1.22, 45: 1.226, 50: 1.235, 55: 1.241, 60: 1.248, 65: 1.259, 70: 1.269 };
             const returnMultipliers_withdraw13_from15 = { 15: 1.731, 20: 1.784, 25: 1.94, 30: 2.0272, 35: 2.0196, 40: 2.0143, 45: 2.0353, 50: 2.068, 55: 2.0995, 60: 2.142, 65: 2.199, 70: 2.276 };
@@ -693,7 +662,7 @@
                 const medRetireAge = parseInt(inputs['med-retire-age'].value) || 65;
                 const medMaxAge = parseInt(inputs['med-max-age'].value) || 99;
 
-                // 第 1 點修改：Slider 數值刷新現在完全由主刷新流控制
+                // 核心修復 1：通脹率拉動時，Slider 百分比文字會跟隨重新整理
                 document.getElementById('med-inflation-value').textContent = `${(medInflationRate*100).toFixed(1)}%`;
 
                 const totalCashWithInterest = existingDeposit * Math.pow(1 + bankInterestRate, duelYear) + fixedBankDeposit * ((Math.pow(1 + bankInterestRate, duelYear) - 1) / bankInterestRate || 1);
@@ -701,7 +670,7 @@
                 document.getElementById('cash-real-value').textContent = `$${formatNumber(totalCashWithInterest / Math.pow(1 + inflationRate, duelYear))}`;
                 document.getElementById('cash-loss').textContent = `$${formatNumber(totalCashWithInterest - (totalCashWithInterest / Math.pow(1 + inflationRate, duelYear)))}`;
 
-                // 核心：全自動加總退休期間醫保總保費 (直接把計算邏輯寫入主刷新流)
+                // 核心修復 2：精算總保費（自動抓取 Excel 的退休年齡到預期壽命，並乘上醫療通脹率疊加）
                 let totalMedPremiumAccumulated = 0;
                 for (let a = medRetireAge; a <= medMaxAge; a++) {
                     let singlePrem = excelParsedPremiumMap[a] !== undefined ? excelParsedPremiumMap[a] : getFallbackMedicalPremium(a);
@@ -756,7 +725,6 @@
                         row.innerHTML = `<td>${year} (${currentAge})</td><td>$${formatNumber(rC)}</td><td>$${formatNumber(rA)}</td><td style="color:var(--gain-color); font-weight:bold;">$${formatNumber(rW)}</td><td style="color:#6f42c1; font-weight:bold;">$${formatNumber(rV)}</td><td style="color:var(--primary-color); font-weight:bold;">$${formatNumber(netProfit)}</td><td class="risk ${hiddenClass}">$${formatNumber((rV+rW)/Math.pow(1+inflationRate,year))}</td>`;
                         tableBody.appendChild(row);
 
-                        // 退休醫保累積表，完全自動調用 Excel 對應年齡數據 + 通脹加權
                         let medPremiumCurrentYear = (currentAge >= medRetireAge && currentAge <= medMaxAge) ? (excelParsedPremiumMap[currentAge] !== undefined ? excelParsedPremiumMap[currentAge] : getFallbackMedicalPremium(currentAge)) * Math.pow(1 + medInflationRate, year - 1) : 0;
                         const medRow = document.createElement('tr');
                         medRow.innerHTML = `<td>${year} (${currentAge})</td><td>$${formatNumber(rC)}</td><td style="color:var(--gain-color); font-weight:bold;">$${formatNumber(rA)}</td><td style="color:var(--inflation-color); font-weight:bold;">$${formatNumber(medPremiumCurrentYear)}</td><td style="color:#6f42c1; font-weight:bold;">$${formatNumber(rV)}</td>`;
@@ -783,7 +751,6 @@
                 document.getElementById('promo3-saved').textContent = '$' + formatNumber(totalInterest);
             }
 
-            //Slider與所有元件加載監聽
             Object.values(inputs).forEach(input => {
                 if (!input) return;
                 const eType = (input.tagName === 'SELECT' || input.type === 'checkbox' || input.type === 'range') ? 'change' : 'input';
