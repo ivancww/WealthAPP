@@ -7,7 +7,7 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
     
-    <title>時光複利：退休醫保預備金 v1.35</title>
+    <title>時光複利：退休醫保預備金 v1.36</title>
 
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="icon-192x192.png">
@@ -155,7 +155,6 @@
         <div class="lazy-bag-container" style="background: #fdfdfd;">
             <h2>時光複利：歲月豐收</h2>
             <h3 style="text-align: center; color: var(--secondary-color); margin-top: 0; margin-bottom: 2rem; border-bottom: 2px solid #f0f2f5; padding-bottom: 1.5rem;">享受人生下半場</h3>
-
             <div style="display: flex; flex-direction: column; gap: 0.5rem;">
                 <div class="flexibility-card card-rome">
                     <div class="flex-icon">🏛️</div>
@@ -416,8 +415,6 @@
                             <option value="withdraw8_from8">第8年開始 取8%</option>
                             <option value="withdraw13_from15">第15年開始 取13%</option>
                             <option value="withdraw18_from20">第20年開始 取18%</option>
-                            <option value="withdraw23_from25">第25年開始 取23%</option>
-                            <option value="withdraw29_from30">第30年開始 取29%</option>
                         </select>
                     </div>
                 </div>
@@ -471,7 +468,6 @@
     </div>
 
     <script>
-        // sw 快取激活
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('sw.js').then(reg => reg.update()).catch(e => console.log(e));
@@ -546,7 +542,7 @@
             const tableBody = document.getElementById('results-table-body');
             const medTableBody = document.getElementById('med-results-table-body');
 
-            // 雙頁面雙向連動同步
+            // 雙頁面同步
             function syncFields(id1, id2, isNumeric=false) {
                 const el1 = document.getElementById(id1); const el2 = document.getElementById(id2);
                 if(!el1 || !el2) return;
@@ -564,7 +560,7 @@
             syncFields('plan3-strategy', 'med-plan3-strategy');
             syncFields('plan4-strategy', 'med-plan4-strategy');
 
-            // Excel 載入並強制刷新主引擎
+            // Excel 讀取上載邏輯
             document.getElementById('med-excel-input').addEventListener('change', (e) => {
                 const file = e.target.files[0];
                 if (!file) return;
@@ -577,17 +573,22 @@
                     
                     excelParsedPremiumMap = {};
                     json.forEach(row => {
-                        let ageKey = row.age !== undefined ? row.age : row['歲數'];
-                        let premiumKey = row.premium !== undefined ? row.premium : row['保費'];
+                        let ageKey = row.age !== undefined ? row.age : row['實際年齡'];
+                        if (ageKey === undefined) ageKey = row['歲數'];
+                        
+                        let premiumKey = row.premium !== undefined ? row.premium : row['年繳保費(港元)'];
+                        if (premiumKey === undefined) premiumKey = row['保費'];
+                        
                         if (ageKey !== undefined && premiumKey !== undefined) {
                             excelParsedPremiumMap[parseInt(ageKey)] = parseFormattedNumber(premiumKey);
                         }
                     });
-                    calculateAndDisplay(); // 載入後立刻強制計算
+                    calculateAndDisplay(); 
                 };
                 reader.readAsArrayBuffer(file);
             });
 
+            // 讀取 URL
             const urlParams = new URLSearchParams(window.location.search);
             if (urlParams.has('data')) {
                 try {
@@ -666,7 +667,7 @@
                 const medRetireAge = parseInt(inputs['med-retire-age'].value) || 65;
                 const medMaxAge = parseInt(inputs['med-max-age'].value) || 99;
 
-                // 修改 1：實時同步 Slider 百分比數值文字
+                // 修正 1：通脹率拉動監聽刷新文字
                 document.getElementById('med-inflation-value').textContent = `${(medInflationRate*100).toFixed(1)}%`;
 
                 const totalCashWithInterest = existingDeposit * Math.pow(1 + bankInterestRate, duelYear) + fixedBankDeposit * ((Math.pow(1 + bankInterestRate, duelYear) - 1) / bankInterestRate || 1);
@@ -674,12 +675,12 @@
                 document.getElementById('cash-real-value').textContent = `$${formatNumber(totalCashWithInterest / Math.pow(1 + inflationRate, duelYear))}`;
                 document.getElementById('cash-loss').textContent = `$${formatNumber(totalCashWithInterest - (totalCashWithInterest / Math.pow(1 + inflationRate, duelYear)))}`;
 
-                // 修改 1：【核心修復】全自動加總醫保總保費（真正完美基於退休年齡到預期壽命作通脹加權）
+                // 修改 1：【全自動動態精算核心】修復最大加總邊界，保證 Excel 數據能完美加總至「預期保至幾歲」
                 let totalMedPremiumAccumulated = 0;
                 for (let a = medRetireAge; a <= medMaxAge; a++) {
                     let singlePrem = excelParsedPremiumMap[a] !== undefined ? excelParsedPremiumMap[a] : getFallbackMedicalPremium(a);
-                    let currentYearFromStart = a - startAge + 1;
-                    totalMedPremiumAccumulated += singlePrem * Math.pow(1 + medInflationRate, currentYearFromStart - 1);
+                    // 根據通脹率加權計算 (第1年不計通脹，之後逐年加權)
+                    totalMedPremiumAccumulated += singlePrem * Math.pow(1 + medInflationRate, a - startAge);
                 }
                 document.getElementById('med-total-premium').textContent = '$' + formatNumber(totalMedPremiumAccumulated);
 
@@ -687,19 +688,18 @@
                 const planStrategies = [inputs['plan1-strategy'], inputs['plan2-strategy'], inputs['plan3-strategy'], inputs['plan4-strategy']].map(el => el.value);
                 const isEngineActive = [true, document.getElementById('group-plan2').style.display !== 'none', document.getElementById('group-plan3').style.display !== 'none', document.getElementById('group-plan4').style.display !== 'none'];
 
-                // 修改 2：【核心修復】動態設定計算的最大年期，保證報表能夠直達指定的最後防線歲數
+                // 修改 2：【表格年期無縫延展】修復 maxYear 邏輯，使最大年期完全由「預期保至幾歲」決定，確保累積表直達最後歲數
                 let maxYear = medMaxAge - startAge + 1;
                 if (maxYear < 30) maxYear = 30;
 
-                // 生成 5 年一跳的檢視年份
+                // 生成每 5 年一行的檢視年份陣列
                 const reportingYears = [8, 10];
                 for (let y = 15; y <= maxYear; y += 5) {
-                    // 如果這一步驟已經大於等於最大年期，就交給後續的強制最後一行邏輯處理
                     if (y < maxYear) {
                         reportingYears.push(y);
                     }
                 }
-                // 修改 2：強制將最後一年（例如 99 歲對應的 maxYear）塞入陣列中，保證累積表必定去到最後一歲
+                // 修改 2：如果陣列內未包含最後一年的最大年期，強制塞入，確保累積表必定去到最後一歲
                 if (!reportingYears.includes(maxYear)) {
                     reportingYears.push(maxYear);
                 }
