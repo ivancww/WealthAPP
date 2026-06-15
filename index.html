@@ -7,7 +7,7 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
     
-    <title>時光複利：退休醫保預備金 v1.37</title>
+    <title>時光複利：退休醫保預備金 v1.38</title>
 
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="icon-192x192.png">
@@ -130,6 +130,7 @@
         
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6); z-index: 2000; align-items: center; justify-content: center; }
         .modal-content { background: #fff; padding: 2.5rem; border-radius: 12px; max-width: 400px; width: 100%; text-align: center; position: relative; }
+        .hidden-col { display: none !important; }
 
         @media screen and (max-width: 950px) and (orientation: landscape) {
             .bottom-nav { display: none !important; }
@@ -272,7 +273,7 @@
                             <option value="none">滾存不提取</option>
                             <option value="withdraw8_from8">第8年開始 取8%</option>
                             <option value="withdraw13_from15">第15年開始 取13%</option>
-                            <option value="withdraw18_from20"> scholarship 第20年開始 取18%</option>
+                            <option value="withdraw18_from20">第20年開始 取18%</option>
                             <option value="withdraw23_from25">第25年開始 取23%</option>
                             <option value="withdraw29_from30">第30年開始 取29%</option>
                         </select>
@@ -383,7 +384,7 @@
                         <button class="remove-engine-btn" onclick="toggleEngine('plan2', 'tab-medical')">❌</button>
                         <label style="color:var(--plan2-color); font-weight:bold;">儲備金庫二 (第6年供)</label>
                         <input type="text" id="med-plan2-contribution" value="50,000" inputmode="numeric">
-                        <select id="med-plan2-strategy">
+                        <select id="group-med-plan2-strategy">
                             <option value="none">滾存不提取</option>
                             <option value="withdraw8_from8">第8年開始 取8%</option>
                             <option value="withdraw13_from15">第15年開始 取13%</option>
@@ -397,7 +398,7 @@
                         <button class="remove-engine-btn" onclick="toggleEngine('plan3', 'tab-medical')">❌</button>
                         <label style="color:var(--plan3-color); font-weight:bold;">儲備金庫三 (第11年供)</label>
                         <input type="text" id="med-plan3-contribution" value="60,000" inputmode="numeric">
-                        <select id="med-plan3-strategy">
+                        <select id="group-med-plan3-strategy">
                             <option value="none">滾存不提取</option>
                             <option value="withdraw8_from8">第8年開始 取8%</option>
                             <option value="withdraw13_from15">第15年開始 取13%</option>
@@ -411,7 +412,7 @@
                         <button class="remove-engine-btn" onclick="toggleEngine('plan4', 'tab-medical')">❌</button>
                         <label style="color:var(--plan4-color); font-weight:bold;">儲備金庫四 (第16年供)</label>
                         <input type="text" id="med-plan4-contribution" value="70,000" inputmode="numeric">
-                        <select id="med-plan4-strategy">
+                        <select id="group-med-plan4-strategy">
                             <option value="none">滾存不提取</option>
                             <option value="withdraw8_from8">第8年開始 取8%</option>
                             <option value="withdraw13_from15">第15年開始 取13%</option>
@@ -461,7 +462,10 @@
             </div>
             <div class="promo-result-box">
                 <h3>原本總保費：<span id="promo-original-total" style="text-decoration:line-through; font-size:1.1rem; opacity:0.8;">$0</span></h3>
-                <div style="margin: 15px 0;"><span style="font-size: 1.1rem;">💰 您總共慳咗及保證賺取利息達：</span><div class="big-savings" id="promo-total-savings">$0</div></div>
+                <div style="margin: 15px 0;">
+                    <span style="font-size: 1.1rem;">💰 您總共慳咗及保證賺取利息達：</span>
+                    <div class="big-savings" id="promo-total-savings">$0</div>
+                </div>
                 <div style="background: rgba(0,0,0,0.1); padding: 10px; border-radius: 8px;"><span>實際淨付出總額：<strong id="promo-actual-outlay" style="font-size: 1.5rem;">$0</strong></span></div>
             </div>
         </div>
@@ -478,7 +482,6 @@
     </div>
 
     <script>
-        // sw 註冊
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('sw.js').then(reg => reg.update()).catch(e => console.log(e));
@@ -553,7 +556,7 @@
             const tableBody = document.getElementById('results-table-body');
             const medTableBody = document.getElementById('med-results-table-body');
 
-            // 雙分頁聯動綁定
+            // 雙頁面雙向實時聯動綁定
             function syncFields(id1, id2, isNumeric=false) {
                 const el1 = document.getElementById(id1); const el2 = document.getElementById(id2);
                 if(!el1 || !el2) return;
@@ -598,7 +601,7 @@
                 reader.readAsArrayBuffer(file);
             });
 
-            // 分享載入
+            // 網址數據
             const urlParams = new URLSearchParams(window.location.search);
             if (urlParams.has('data')) {
                 try {
@@ -640,7 +643,7 @@
             });
             document.getElementById('close-modal-icon').addEventListener('click', () => { document.getElementById('share-modal').style.display = 'none'; });
 
-            // 複利矩陣
+            // 複利乘數
             const returnMultipliers_none = { 8: 1.16, 10: 1.32, 15: 1.86, 20: 2.71, 25: 4.11, 30: 5.85, 35: 8.02, 40: 10.99, 45: 15.06, 50: 20.63, 55: 28.27, 60: 38.73, 65: 53.06, 70: 72.69 };
             const returnMultipliers_withdraw8_from8 = { 8: 1.08, 10: 1.0658, 15: 1.0606, 20: 1.0931, 25: 1.186, 30: 1.237, 35: 1.229, 40: 1.22, 45: 1.226, 50: 1.235, 55: 1.241, 60: 1.248, 65: 1.259, 70: 1.269 };
             const returnMultipliers_withdraw13_from15 = { 15: 1.731, 20: 1.784, 25: 1.94, 30: 2.0272, 35: 2.0196, 40: 2.0143, 45: 2.0353, 50: 2.068, 55: 2.0995, 60: 2.142, 65: 2.199, 70: 2.276 };
@@ -677,17 +680,17 @@
                 const medRetireAge = parseInt(inputs['med-retire-age'].value) || 65;
                 const medMaxAge = parseInt(inputs['med-max-age'].value) || 99;
 
-                // 修改 1：實時更新 Slider 的百分比數值顯示（解決拖動沒反應的問題）
+                // 修改 1：時光複利頁與退休醫保頁的通脹百分比文字現在會跟隨 Slider 拉動完全跳動更新！
                 document.getElementById('med-inflation-value').textContent = `${(medInflationRate*100).toFixed(1)}%`;
                 document.getElementById('inflation-value').textContent = `${(inflationRate*100).toFixed(1)}%`;
 
-                // 舒適圈計算
+                // 舒適圈精算
                 const totalCashWithInterest = existingDeposit * Math.pow(1 + bankInterestRate, duelYear) + fixedBankDeposit * ((Math.pow(1 + bankInterestRate, duelYear) - 1) / bankInterestRate || 1);
                 document.getElementById('cash-total').textContent = `$${formatNumber(totalCashWithInterest)}`;
                 document.getElementById('cash-real-value').textContent = `$${formatNumber(totalCashWithInterest / Math.pow(1 + inflationRate, duelYear))}`;
                 document.getElementById('cash-loss').textContent = `$${formatNumber(totalCashWithInterest - (totalCashWithInterest / Math.pow(1 + inflationRate, duelYear)))}`;
 
-                // 全自動加總醫保總保費
+                // 醫保總保費全自動通脹精算
                 let totalMedPremiumAccumulated = 0;
                 for (let a = medRetireAge; a <= medMaxAge; a++) {
                     let singlePrem = excelParsedPremiumMap[a] !== undefined ? excelParsedPremiumMap[a] : getFallbackMedicalPremium(a);
@@ -699,7 +702,7 @@
                 const planStrategies = [inputs['plan1-strategy'], inputs['plan2-strategy'], inputs['plan3-strategy'], inputs['plan4-strategy']].map(el => el.value);
                 const isEngineActive = [true, document.getElementById('group-plan2').style.display !== 'none', document.getElementById('group-plan3').style.display !== 'none', document.getElementById('group-plan4').style.display !== 'none'];
 
-                // 調整邊界：保證去到最後一歲
+                // 年期動態延伸：保證累積表明細直達設定的預期壽命（例如 99 歲）
                 let maxYear = medMaxAge - startAge + 1;
                 if (maxYear < 30) maxYear = 30;
 
@@ -709,7 +712,7 @@
                 }
                 if (!reportingYears.includes(maxYear)) reportingYears.push(maxYear);
 
-                // 修改 3：完美配置隱藏或顯示實際購買力欄位的控制
+                // 修改 3：完美配置隱藏或顯示「實際購買力」欄位的核心切換開關
                 const hiddenClass = showPurchasingPower ? '' : 'hidden-col';
                 if (planMode === 'education') {
                     tableHead.innerHTML = `<tr><th>年份 (歲數)</th><th>累計供款</th><th>年度教育金</th><th>累積已領教育金</th><th>畢業啟航資金</th><th>夢想成真獎賞</th><th class="${hiddenClass}">實際購買力</th></tr>`;
@@ -756,7 +759,7 @@
                 }
             };
 
-            // 修改 2：完整重寫並加載優惠 3 的提示內容算法功能
+            // 修改 2：【提示框回歸修正】完美重建優惠 3 藍色詳細生息提示文字
             window.calculatePromo = function() {
                 const P = parseFormattedNumber(inputs['promo-annual-premium'].value) || 0;
                 const N = parseInt(inputs['promo-term'].value) || 5;
@@ -789,7 +792,6 @@
                 document.getElementById('promo2-saved').textContent = '$' + formatNumber(d2);
                 document.getElementById('promo3-saved').textContent = '$' + formatNumber(totalInterest);
                 
-                // 渲染藍色細則提示框文字
                 const descEl = document.getElementById('promo3-desc');
                 if (usePromo3 && N > 1) {
                     let initialPay = P + prepayAmount - d1;
@@ -805,12 +807,14 @@
                 }
             };
 
-            // 附加事件處理器
+            // 完美重新封裝與綁定所有動態監聽
             Object.values(inputs).forEach(input => {
                 if (!input) return;
                 const eType = (input.tagName === 'SELECT' || input.type === 'checkbox' || input.type === 'range') ? 'change' : 'input';
                 input.addEventListener(eType, () => { calculateAndDisplay(); calculatePromo(); });
             });
+            
+            // 獨立附加實際購買力開關事件
             document.getElementById('toggle-purchasing-power').addEventListener('click', function() {
                 showPurchasingPower = !showPurchasingPower;
                 calculateAndDisplay();
