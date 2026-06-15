@@ -7,7 +7,7 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
     
-    <title>時光複利：退休醫保預備金 v1.42</title>
+    <title>時光複利：退休醫保預備金 v1.43</title>
 
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="icon-192x192.png">
@@ -89,7 +89,7 @@
         .excel-upload-box:hover { background: #e7f3ff; }
         #excel-status-msg { margin-top: 8px; font-weight: bold; color: #28a745; font-size: 0.95rem; }
 
-        .table-wrapper { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+        .table-wrapper { overflow-x: auto; -webkit-overflow-scrolling: touch; position: relative; }
         table { width: 100%; border-collapse: collapse; white-space: nowrap; margin-top: 1rem; }
         th, td { padding: 0.9rem 1rem; text-align: right; border-bottom: 1px solid var(--border-color); }
         th { font-weight: 500; color: var(--label-color); background-color: #f8f9fa; vertical-align: bottom; }
@@ -105,13 +105,18 @@
         .remove-engine-btn { position: absolute; top: -10px; right: -10px; background: #dee2e6; color: #495057; border: none; border-radius: 50%; width: 26px; height: 26px; cursor: pointer; font-size: 12px; z-index: 10; display: flex; align-items: center; justify-content: center; transition: 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
         .remove-engine-btn:hover { background: #dc3545; color: white; }
         
-        /* 舒適圈專屬：毛玻璃模糊遮罩 (Blur Mask) 類別 */
+        /* 舒適圈：毛玻璃模糊遮罩 (Blur Mask) 類別 */
         .reveal-mask { cursor: pointer; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); position: relative; }
         .reveal-mask.hidden-blur .summary-value { filter: blur(6px); opacity: 0.15; user-select: none; pointer-events: none; }
         .reveal-mask.hidden-blur::after { content: '👁️ 點擊揭曉真相'; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 0.8rem; color: var(--primary-color); background: rgba(255,255,255,0.9); padding: 4px 10px; border-radius: 6px; white-space: nowrap; font-weight: bold; box-shadow: 0 2px 8px rgba(0,0,0,0.1); z-index: 2; pointer-events: auto; }
 
-        /* 累積表最右一欄：完全收藏欄位控制類別 */
+        /* 累積表最右一欄：完全收藏控制 */
         .hidden-col { display: none !important; }
+
+        /* 修改 2：右下角細細個「👁️」眼睛解鎖按鈕專屬樣式 */
+        .mini-eye-btn { background: #f8f9fa; border: 1px solid var(--border-color); border-radius: 6px; font-size: 1rem; padding: 4px 8px; cursor: pointer; opacity: 0.4; transition: 0.2s; user-select: none; }
+        .mini-eye-btn:hover { opacity: 1; background: #e9ecef; }
+        .mini-eye-btn.active { opacity: 1; color: var(--primary-color); background: #e7f3ff; border-color: var(--primary-color); }
 
         .management-section { background: linear-gradient(135deg, #e7f3ff, #f1f8ff); padding: 1.5rem; border-radius: 12px; margin-bottom: 2rem; border: 1px solid #cce5ff; }
         .lazy-bag-container { background: #fff; border-radius: 12px; padding: 2.5rem; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
@@ -236,7 +241,7 @@
                     <div class="input-group"><label>現有銀行存款</label><input type="text" id="existing-deposit" value="500,000" inputmode="numeric"></div>
                     <div class="input-group"><label>每年銀行儲蓄</label><input type="text" id="bank-deposit" value="100,000" inputmode="numeric"></div>
                     <div class="input-group">
-                        <label>銀行年利率: <span id="bank-interest-value">0.5%</span> <span id="toggle-interest" style="cursor:pointer; color:var(--primary-color);">⚙️修改</span></label>
+                        <label>銀行年利率: <span id="bank-interest-value">0.5%</span> <span id="toggle-interest" style="cursor:pointer; color:var(--primary-color); font-weight: bold;">⚙️修改</span></label>
                         <input type="range" id="bank-interest" min="0" max="2" value="0.5" step="0.1" style="display:none; margin-top:10px;">
                     </div>
                     <div class="input-group"><label>檢視年期</label><input type="number" id="duel-year" value="25"></div>
@@ -324,9 +329,12 @@
                     </div>
                 </div>
                 
-                <div class="table-wrapper"><table id="results-table"><thead id="results-table-head"></thead><tbody id="results-table-body"></tbody></table></div>
-                
-                <div id="eye-icon-container" style="text-align: right; margin-top: 0.5rem;"><button id="toggle-purchasing-power" style="background: transparent; border: none; font-size: 1.2rem; cursor: pointer; opacity: 0.6; font-weight: bold; color: var(--primary-color);">👁️ 點擊解鎖/完全收藏表格實際購買力防線</button></div>
+                <div class="table-wrapper">
+                    <table id="results-table"><thead id="results-table-head"></thead><tbody id="results-table-body"></tbody></table>
+                    <div style="text-align: right; margin-top: 0.5rem;">
+                        <button id="toggle-purchasing-power" class="mini-eye-btn" title="顯示/完全收藏 實際購買力防線">👁️</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -414,7 +422,7 @@
                     <div class="input-group extra-jar" id="group-med-plan3" style="display:none; position:relative;">
                         <button class="remove-engine-btn" onclick="toggleEngine('plan3', 'tab-medical')">❌</button>
                         <label style="color:var(--plan3-color); font-weight:bold;">儲備金庫三 (第11年供)</label>
-                        <input type="text" id="med-plan3-contribution" value="60,000" inputmode="numeric">
+                        <input type="text" id="group-med-plan3-contribution" value="60,000" inputmode="numeric">
                         <select id="group-med-plan3-strategy">
                             <option value="none">滾存不提取</option>
                             <option value="withdraw8_from8">第8年開始 取8%</option>
@@ -478,7 +486,6 @@
             <div class="promo-card">
                 <div class="promo-row"><input type="checkbox" id="promo1-check" class="promo-checkbox" checked><div class="promo-content"><h4>優惠 1：首年保費大減價</h4><p>首年保費每滿 $5,000 即減 $500。</p><div class="promo-tag">已為您慳下：<span id="promo1-saved">$0</span></div></div></div>
                 <div class="promo-row"><input type="checkbox" id="promo2-check" class="promo-checkbox" checked><div class="promo-content"><h4>優惠 2：續保保費折扣</h4><p>第 2 年續保即減 5%。如同時配置指定危疾或人壽產品，再額外減 3%（合共 8%）。</p><select id="promo2-select" style="margin-top:8px; width:100%; max-width:300px; padding:6px; border-radius:6px; border:1px solid #ccc;"><option value="0.05">基本續保折扣 (減 5%)</option><option value="0.08" selected>同時配置指定危疾/人壽 (合共減 8%)</option></select><div class="promo-tag">已為您慳下：<span id="promo2-saved">$0</span></div></div></div>
-                
                 <div class="promo-row">
                     <input type="checkbox" id="promo3-check" class="promo-checkbox" checked>
                     <div class="promo-content">
@@ -511,74 +518,17 @@
     </div>
 
     <script>
-        // 激活離線機制
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('sw.js').then(reg => reg.update()).catch(e => console.log(e));
-            });
-        }
-
-        const navToggle = document.getElementById('nav-toggle-btn');
-        const bottomNav = document.getElementById('bottom-nav');
-        if (navToggle && bottomNav) {
-            navToggle.addEventListener('click', () => {
-                bottomNav.classList.toggle('show');
-                navToggle.innerHTML = bottomNav.classList.contains('show') ? '✖' : '！';
-            });
-        }
-
-        // 獨立控制變量：毛玻璃與表格完全收藏徹底拆分
         let isPurchasingPowerMaskHidden = true; // 舒適圈預設矇查查
-        let showPurchasingPower = false;        // 累積表明細預設完全收藏 (成欄收埋)
+        let showPurchasingPower = false;        // 累積表實際購買力最右一欄預設「完全收藏（收埋）」
 
         function unlockPurchasingPowerMask() {
-            // 第 1 點修改：點擊舒適圈任何一個框時解鎖毛玻璃效果
             isPurchasingPowerMaskHidden = false;
             document.getElementById('mask-real-value').classList.remove('hidden-blur');
             document.getElementById('mask-loss-value').classList.remove('hidden-blur');
             calculateAndDisplay();
         }
 
-        function switchTab(tabId, element) {
-            document.querySelectorAll('.tab-section').forEach(tab => tab.classList.remove('active'));
-            document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
-            document.getElementById(tabId).classList.add('active');
-            if(element) element.classList.add('active');
-            if(bottomNav) bottomNav.classList.remove('show');
-            if(navToggle) navToggle.innerHTML = '！';
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        let shareUrlGlobal = ''; 
-        let excelParsedPremiumMap = {}; 
-
-        function formatNumber(value) { return new Intl.NumberFormat('en-US', {maximumFractionDigits: 0}).format(value); }
-        function parseFormattedNumber(str) { return parseFloat(String(str).replace(/,/g, '')) || 0; }
-
-        window.toggleEngine = function(engineId, tabContext) {
-            const isMed = tabContext === 'tab-medical';
-            const baseId = engineId.replace('med-', '');
-            
-            const groupCalc = document.getElementById(`group-${baseId}`);
-            const groupMed = document.getElementById(`group-med-${baseId}`);
-            const btnCalc = document.getElementById(`btn-toggle-${baseId}`);
-            const btnMed = document.getElementById(`btn-med-toggle-${baseId}`);
-
-            const isCurrentlyHidden = isMed ? (groupMed.style.display === 'none') : (groupCalc.style.display === 'none');
-            const displayStyle = isCurrentlyHidden ? 'block' : 'none';
-
-            if(groupCalc) groupCalc.style.display = displayStyle;
-            if(groupMed) groupMed.style.display = displayStyle;
-
-            if(isCurrentlyHidden) {
-                if(btnCalc) btnCalc.classList.add('active');
-                if(btnMed) btnMed.classList.add('active');
-            } else {
-                if(btnCalc) btnCalc.classList.remove('active');
-                if(btnMed) btnMed.classList.remove('active');
-            }
-            calculateAndDisplay();
-        };
+        const reader = new FileReader(); // 預先配置 Excel 檔案處理器
 
         document.addEventListener('DOMContentLoaded', function() {
             const pureShareIds = [
@@ -597,7 +547,7 @@
             const tableBody = document.getElementById('results-table-body');
             const medTableBody = document.getElementById('med-results-table-body');
 
-            // 雙頁面同步
+            // 雙向雙頁面連動同步
             function syncFields(id1, id2, isNumeric=false) {
                 const el1 = document.getElementById(id1); const el2 = document.getElementById(id2);
                 if(!el1 || !el2) return;
@@ -614,6 +564,12 @@
             syncFields('plan2-strategy', 'med-plan2-strategy');
             syncFields('plan3-strategy', 'med-plan3-strategy');
             syncFields('plan4-strategy', 'med-plan4-strategy');
+
+            // 修改 3：【利率修改功能切換】點擊修改彈出 Slider 監聽處理
+            document.getElementById('toggle-interest').addEventListener('click', function() {
+                const slider = document.getElementById('bank-interest');
+                slider.style.display = (slider.style.display === 'none') ? 'block' : 'none';
+            });
 
             // Excel 載入
             document.getElementById('med-excel-input').addEventListener('change', (e) => {
@@ -642,7 +598,7 @@
                 reader.readAsArrayBuffer(file);
             });
 
-            // URL 分享
+            // URL 分享載入
             const urlParams = new URLSearchParams(window.location.search);
             if (urlParams.has('data')) {
                 try {
@@ -701,13 +657,6 @@
                 return multipliersObj[lower] + ((year - lower) / (upper - lower)) * (multipliersObj[upper] - multipliersObj[lower]);
             }
 
-            function getFallbackMedicalPremium(age) {
-                if (age < 35) return 12398; if (age < 40) return 18151; if (age < 45) return 26135; if (age < 50) return 37146;
-                if (age < 55) return 52247; if (age < 60) return 72856; if (age < 65) return 100864; if (age < 70) return 138788;
-                if (age < 75) return 189969; if (age < 80) return 258836; if (age < 85) return 351255; if (age < 90) return 474985;
-                if (age < 95) return 640272; return 860633;
-            }
-
             window.calculateAndDisplay = function() {
                 const startAge = parseInt(inputs['start-age'].value) || 30;
                 const inflationRate = parseFloat(inputs['inflation-rate'].value) / 100;
@@ -721,17 +670,13 @@
                 const medRetireAge = parseInt(inputs['med-retire-age'].value) || 65;
                 const medMaxAge = parseInt(inputs['med-max-age'].value) || 99;
 
-                // Slider文字實時跳動
-                document.getElementById('med-inflation-value').textContent = `${(medInflationRate*100).toFixed(1)}%`;
-                document.getElementById('inflation-value').textContent = `${(inflationRate*100).toFixed(1)}%`;
-
-                // 舒適圈代價計算
+                // 舒適圈代價
                 const totalCashWithInterest = existingDeposit * Math.pow(1 + bankInterestRate, duelYear) + fixedBankDeposit * ((Math.pow(1 + bankInterestRate, duelYear) - 1) / bankInterestRate || 1);
                 document.getElementById('cash-total').textContent = `$${formatNumber(totalCashWithInterest)}`;
                 document.getElementById('cash-real-value').textContent = `$${formatNumber(totalCashWithInterest / Math.pow(1 + inflationRate, duelYear))}`;
                 document.getElementById('cash-loss').textContent = `$${formatNumber(totalCashWithInterest - (totalCashWithInterest / Math.pow(1 + inflationRate, duelYear)))}`;
 
-                // 醫保總保費
+                // 醫保大加總
                 let totalMedPremiumAccumulated = 0;
                 let totalMedPremiumOriginalPrice = 0;
                 for (let a = medRetireAge; a <= medMaxAge; a++) {
@@ -740,8 +685,6 @@
                     totalMedPremiumOriginalPrice += singlePrem;
                 }
                 document.getElementById('med-total-premium').textContent = '$' + formatNumber(totalMedPremiumAccumulated);
-
-                // 注入醫保累積表最底部決策效益對比
                 document.getElementById('med-loss-a').textContent = `-$${formatNumber(totalMedPremiumAccumulated)}`;
 
                 const planContributions = [inputs['plan1-contribution'], inputs['plan2-contribution'], inputs['plan3-contribution'], inputs['plan4-contribution']].map(el => parseFormattedNumber(el.value));
@@ -757,7 +700,7 @@
                 }
                 if (!reportingYears.includes(maxYear)) reportingYears.push(maxYear);
 
-                // 第 2 點修改：【完全收藏排版規格】最右側一欄若 showPurchasingPower 爲 false，則在 HTML 階段直接不渲染，完全不霸佔排版空間！
+                // 實際購買力完全收藏排版控制
                 if (showPurchasingPower) {
                     if (planMode === 'education') {
                         tableHead.innerHTML = `<tr><th>年份 (歲數)</th><th>累計供款</th><th>年度教育金</th><th>累積已領教育金</th><th>畢業啟航資金</th><th>夢想成真獎賞</th><th>實際購買力</th></tr>`;
@@ -800,17 +743,15 @@
                     });
                     
                     let netProfit = (rV + rW) - rC;
-                    if (year === maxYear) {
-                        finalMedLineBalance = rV; 
-                    }
+                    if (year === maxYear) { finalMedLineBalance = rV; }
 
                     if (reportingYears.includes(year)) {
                         const row = document.createElement('tr');
-                        // 根據眼睛開關動態決定是否追加並顯示最右欄
+                        // 修改 1：紅利位置變番原汁原味主題藍色粗字呈現 (var(--primary-color))
                         if (showPurchasingPower) {
-                            row.innerHTML = `<td>${year} (${currentAge})</td><td>$${formatNumber(rC)}</td><td>$${formatNumber(rA)}</td><td style="color:var(--gain-color); font-weight:bold;">$${formatNumber(rW)}</td><td style="color:#6f42c1; font-weight:bold;">$${formatNumber(rV)}</td><td>$${formatNumber(netProfit)}</td><td class="risk">$${formatNumber((rV+rW)/Math.pow(1+inflationRate,year))}</td>`;
+                            row.innerHTML = `<td>${year} (${currentAge})</td><td>$${formatNumber(rC)}</td><td>$${formatNumber(rA)}</td><td style="color:var(--gain-color); font-weight:bold;">$${formatNumber(rW)}</td><td style="color:#6f42c1; font-weight:bold;">$${formatNumber(rV)}</td><td style="color:var(--primary-color); font-weight:900;">$${formatNumber(netProfit)}</td><td class="risk">$${formatNumber((rV+rW)/Math.pow(1+inflationRate,year))}</td>`;
                         } else {
-                            row.innerHTML = `<td>${year} (${currentAge})</td><td>$${formatNumber(rC)}</td><td>$${formatNumber(rA)}</td><td style="color:var(--gain-color); font-weight:bold;">$${formatNumber(rW)}</td><td style="color:#6f42c1; font-weight:bold;">$${formatNumber(rV)}</td><td>$${formatNumber(netProfit)}</td>`;
+                            row.innerHTML = `<td>${year} (${currentAge})</td><td>$${formatNumber(rC)}</td><td>$${formatNumber(rA)}</td><td style="color:var(--gain-color); font-weight:bold;">$${formatNumber(rW)}</td><td style="color:#6f42c1; font-weight:bold;">$${formatNumber(rV)}</td><td style="color:var(--primary-color); font-weight:900;">$${formatNumber(netProfit)}</td>`;
                         }
                         tableBody.appendChild(row);
 
@@ -870,17 +811,17 @@
                 }
             };
 
-            // 綁定監聽監聽監聽流
+            // 全功能自動刷新流綁定
             Object.values(inputs).forEach(input => {
                 if (!input) return;
                 const eType = (input.tagName === 'SELECT' || input.type === 'checkbox' || input.type === 'range') ? 'change' : 'input';
                 input.addEventListener(eType, () => { calculateAndDisplay(); calculatePromo(); });
             });
             
-            // 第 2 點修改：獨立綁定最底眼睛按鈕控制累積表明細最右一欄的「完全收藏與完全展開」
+            // 修改 2：獨立附加細細個眼睛解鎖/完全收藏欄位開關事件
             document.getElementById('toggle-purchasing-power').addEventListener('click', function() {
                 showPurchasingPower = !showPurchasingPower;
-                this.innerHTML = showPurchasingPower ? '🔒 點擊完全收藏實際購買力欄位' : '👁️ 點擊全自動解鎖表格實際購買力防線';
+                this.classList.toggle('active', showPurchasingPower);
                 calculateAndDisplay();
             });
 
