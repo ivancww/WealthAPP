@@ -7,7 +7,7 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
     
-    <title>時光複利：退休醫保預備金 v1.47</title>
+    <title>時光複利：退休醫保預備金 v1.48</title>
 
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="icon-192x192.png">
@@ -85,9 +85,8 @@
         .input-group input, .input-group select, .btn { width: 100%; padding: 0.75rem; border: 1px solid var(--border-color); border-radius: 8px; font-size: 1rem; font-family: inherit; box-sizing: border-box; text-align: center; background-color: #fff; color: var(--text-color); }
         .input-group select { text-align-last: center; margin-top: 0.5rem; border-color: var(--primary-color); font-size: 0.9rem; }
         
-        .excel-upload-box { background: #f8f9fa; border: 2px dashed #007bff; padding: 1.5rem; border-radius: 12px; text-align: center; margin: 1rem 0; cursor: pointer; font-weight: 500; color: #007bff; transition: 0.2s; }
-        .excel-upload-box:hover { background: #e7f3ff; }
-        #excel-status-msg { margin-top: 8px; font-weight: bold; color: #28a745; font-size: 0.95rem; }
+        .plan-selector-box { background: #f8f9fa; border: 2px dashed #007bff; padding: 1.5rem; border-radius: 12px; text-align: center; margin: 1rem 0; }
+        #excel-status-msg { margin-top: 12px; font-weight: bold; color: #28a745; font-size: 0.95rem; }
 
         .table-wrapper { overflow-x: auto; -webkit-overflow-scrolling: touch; position: relative; }
         table { width: 100%; border-collapse: collapse; white-space: nowrap; margin-top: 1rem; }
@@ -95,22 +94,22 @@
         th { font-weight: 500; color: var(--label-color); background-color: #f8f9fa; vertical-align: bottom; }
         
         .emoji-toggle-bar { grid-column: 1 / -1; display: flex; gap: 15px; align-items: center; justify-content: center; background: #f8f9fa; padding: 12px; border-radius: 8px; border: 1px dashed var(--border-color); margin-bottom: 0.5rem; flex-wrap: wrap; }
-        .emoji-toggle { cursor: pointer; font-size: 1.8rem; opacity: 0.3; filter: grayscale(100%); transition: all 0.3s; padding: 5px; border-radius: 50%; background: #e9ecef; width: 45px; height: 45px; display: flex; align-items: center; justify-content: center; box-shadow: inset 0 2px 4px rgba(0,0,0,0.05); user-select: none; }
+        .emoji-toggle { cursor: pointer; font-size: 1.8rem; opacity: 0.3; filter: grayscale(100%); transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); padding: 5px; border-radius: 50%; background: #e9ecef; width: 45px; height: 45px; display: flex; align-items: center; justify-content: center; box-shadow: inset 0 2px 4px rgba(0,0,0,0.05); user-select: none; }
         .emoji-toggle.active { opacity: 1; filter: none; background: #fff3cd; box-shadow: 0 4px 10px rgba(255, 193, 7, 0.3); transform: scale(1.15); border: 2px solid #ffca28; }
 
         .duel-summary { display: flex; justify-content: space-around; flex-wrap: wrap; gap: 1rem; margin-top: 1rem; padding: 1rem; background-color: #f8f9fa; border-radius: 8px; }
         .summary-item { text-align: center; position: relative; padding: 0.5rem; min-width: 150px; }
         .summary-item .summary-value { font-size: 1.5rem; font-weight: 700; display: block; }
         .summary-item .summary-label { font-size: 0.9rem; color: var(--label-color); display: block; }
-        .remove-engine-btn { position: absolute; top: -10px; right: -10px; background: #dee2e6; color: #495057; border: none; border-radius: 50%; width: 26px; height: 26px; cursor: pointer; font-size: 12px; z-index: 10; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .remove-engine-btn { position: absolute; top: -10px; right: -10px; background: #dee2e6; color: #495057; border: none; border-radius: 50%; width: 26px; height: 26px; cursor: pointer; font-size: 12px; z-index: 10; display: flex; align-items: center; justify-content: center; transition: 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
         .remove-engine-btn:hover { background: #dc3545; color: white; }
         
-        /* 舒適圈專屬：毛玻璃模糊遮罩 (Blur Mask) 獨立運作類別 */
         .reveal-mask { cursor: pointer; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); position: relative; }
         .reveal-mask.hidden-blur .summary-value { filter: blur(6px); opacity: 0.15; user-select: none; pointer-events: none; }
         .reveal-mask.hidden-blur::after { content: '👁️ 點擊揭曉真相'; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 0.8rem; color: var(--primary-color); background: rgba(255,255,255,0.9); padding: 4px 10px; border-radius: 6px; white-space: nowrap; font-weight: bold; box-shadow: 0 2px 8px rgba(0,0,0,0.1); z-index: 2; pointer-events: auto; }
 
-        /* 細細個眼睛解鎖按鈕專屬樣式 */
+        .hidden-col { display: none !important; }
+
         .mini-eye-btn { background: #f8f9fa; border: 1px solid var(--border-color); border-radius: 6px; font-size: 1rem; padding: 4px 10px; cursor: pointer; opacity: 0.4; transition: 0.2s; user-select: none; font-weight: bold; }
         .mini-eye-btn:hover { opacity: 1; background: #e9ecef; }
         .mini-eye-btn.active { opacity: 1; color: var(--primary-color); background: #e7f3ff; border-color: var(--primary-color); }
@@ -139,6 +138,14 @@
         
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6); z-index: 2000; align-items: center; justify-content: center; }
         .modal-content { background: #fff; padding: 2.5rem; border-radius: 12px; max-width: 400px; width: 100%; text-align: center; position: relative; }
+
+        @media screen and (max-width: 950px) and (orientation: landscape) {
+            .bottom-nav { display: none !important; }
+            body { padding-bottom: 0 !important; }
+            .tab-section { padding: 1rem !important; }
+            .calculator-container, .lazy-bag-container { padding: 1.5rem !important; }
+            .nav-toggle-btn { display: flex !important; width: 35px !important; height: 35px !important; font-size: 1.2rem !important; bottom: 15px !important; right: 15px !important; }
+        }
     </style>
 </head>
 <body>
@@ -342,10 +349,28 @@
             </div>
 
             <div class="section">
-                <div class="excel-upload-box" onclick="document.getElementById('med-excel-input').click()">
-                    📂 點擊此處上載醫保保費表 (Excel 格式)
+                <h3 style="text-align:center; color: var(--primary-color);">📂 選擇醫保計劃</h3>
+                <div class="plan-selector-box">
+                    <div class="input-group" style="max-width: 400px; margin: 0 auto;">
+                        <select id="med-plan-select" style="font-weight:bold; font-size: 1.05rem; padding: 10px; color: var(--primary-color);">
+                            <optgroup label="👑 高端尊顯計劃 (Elite Plan)">
+                                <option value="https://docs.google.com/spreadsheets/d/1wnoW04BAGmujkGibxRI6a_YPQB-7ydNt0d8YBEz-77w/export?format=csv" selected>尊顯計劃 (自付額 $0)</option>
+                                <option value="https://docs.google.com/spreadsheets/d/1NTsZs8xgEGYzqJb0KubgyvTYNfCWMJBuUZP-9fc8WZ0/export?format=csv">尊顯計劃 (自付額 $16,000)</option>
+                                <option value="https://docs.google.com/spreadsheets/d/1u33a1dpKqicADenJX3pyByI08LLM0qOQGPZzDxHc2MY/export?format=csv">尊顯計劃 (自付額 $25,000)</option>
+                            </optgroup>
+                            <optgroup label="🛡️ 高端睿選計劃 (Wise Plan)">
+                                <option value="https://docs.google.com/spreadsheets/d/1i9pDkhXjKSfu2zjImoz9a5U0JUuxqoGz4_3j9El4SyY/export?format=csv">睿選計劃 (自付額 $0)</option>
+                                <option value="https://docs.google.com/spreadsheets/d/1enfXeDK5v8OuuIGUT9Y6qC0O_1YCmLx2AU63LpxfAzE/export?format=csv">睿選計劃 (自付額 $8,800)</option>
+                                <option value="https://docs.google.com/spreadsheets/d/1eAVVki3uhUodYgE5m3qSF2tEU8cQRw6JGjE_B63o2Tg/export?format=csv">睿選計劃 (自付額 $18,000)</option>
+                                <option value="https://docs.google.com/spreadsheets/d/1Haos2s3w24EpBWjRUeKA-gMfZ_ovzh9HsFrKmJQZT5M/export?format=csv">睿選計劃 (自付額 $30,000)</option>
+                            </optgroup>
+                            <optgroup label="⚠️ 靈活計劃 (常規醫療)">
+                                <option value="https://docs.google.com/spreadsheets/d/1tCBEMv00y13vzN2QY_yivoGruTKmYhnF6NqIc-uovmE/export?format=csv">男靈活 (基本保費)</option>
+                                <option value="https://docs.google.com/spreadsheets/d/1G6JirabWJPrTtsdPuzzfyo-D-EPIbbdCM3HvFUW7ZCw/export?format=csv">女靈活 (基本保費)</option>
+                            </optgroup>
+                        </select>
+                    </div>
                     <div id="excel-status-msg"></div> 
-                    <input type="file" id="med-excel-input" style="display:none;" accept=".xlsx, .xls">
                 </div>
             </div>
 
@@ -397,7 +422,7 @@
                         <button class="remove-engine-btn" onclick="toggleEngine('plan2', 'tab-medical')">❌</button>
                         <label style="color:var(--plan2-color); font-weight:bold;">儲備金庫二 (第6年供)</label>
                         <input type="text" id="med-plan2-contribution" value="50,000" inputmode="numeric">
-                        <select id="group-med-plan2-strategy">
+                        <select id="med-plan2-strategy">
                             <option value="none">滾存不提取</option>
                             <option value="withdraw8_from8">第8年開始 取8%</option>
                             <option value="withdraw13_from15">第15年開始 取13%</option>
@@ -410,14 +435,14 @@
                     <div class="input-group extra-jar" id="group-med-plan3" style="display:none; position:relative;">
                         <button class="remove-engine-btn" onclick="toggleEngine('plan3', 'tab-medical')">❌</button>
                         <label style="color:var(--plan3-color); font-weight:bold;">儲備金庫三 (第11年供)</label>
-                        <input type="text" id="group-med-plan3-contribution" value="60,000" inputmode="numeric">
-                        <select id="group-med-plan3-strategy">
+                        <input type="text" id="med-plan3-contribution" value="60,000" inputmode="numeric">
+                        <select id="med-plan3-strategy">
                             <option value="none">滾存不提取</option>
                             <option value="withdraw8_from8">第8年開始 取8%</option>
                             <option value="withdraw13_from15">第15年開始 取13%</option>
                             <option value="withdraw18_from20">第20年開始 取18%</option>
                             <option value="withdraw23_from25">第25年開始 取23%</option>
-                            <option value="withdraw29_from30"> Constitutional 第30年開始 取29%</option>
+                            <option value="withdraw29_from30">第30年開始 取29%</option>
                         </select>
                     </div>
 
@@ -425,11 +450,13 @@
                         <button class="remove-engine-btn" onclick="toggleEngine('plan4', 'tab-medical')">❌</button>
                         <label style="color:var(--plan4-color); font-weight:bold;">儲備金庫四 (第16年供)</label>
                         <input type="text" id="med-plan4-contribution" value="70,000" inputmode="numeric">
-                        <select id="group-med-plan4-strategy">
+                        <select id="med-plan4-strategy">
                             <option value="none">滾存不提取</option>
                             <option value="withdraw8_from8">第8年開始 取8%</option>
                             <option value="withdraw13_from15">第15年開始 取13%</option>
                             <option value="withdraw18_from20">第20年開始 取18%</option>
+                            <option value="withdraw23_from25">第25年開始 取23%</option>
+                            <option value="withdraw29_from30">第30年開始 取29%</option>
                         </select>
                     </div>
                 </div>
@@ -576,7 +603,8 @@
                 'plan1-strategy', 'plan2-strategy', 'plan3-strategy', 'plan4-strategy',
                 'med-start-age', 'med-inflation-rate', 'med-retire-age', 'med-max-age',
                 'med-plan1-contribution', 'med-plan2-contribution', 'med-plan3-contribution', 'med-plan4-contribution',
-                'med-plan1-strategy', 'med-plan2-strategy', 'med-plan3-strategy', 'med-plan4-strategy'
+                'med-plan1-strategy', 'med-plan2-strategy', 'med-plan3-strategy', 'med-plan4-strategy',
+                'med-plan-select'
             ];
             const allInputIds = [...pureShareIds, 'promo-annual-premium', 'promo-term', 'promo1-check', 'promo2-check', 'promo2-select', 'promo3-check', 'promo3-rate'];
             const inputs = {};
@@ -586,7 +614,6 @@
             const tableBody = document.getElementById('results-table-body');
             const medTableBody = document.getElementById('med-results-table-body');
 
-            // 跨分頁實時雙向連動
             function syncFields(id1, id2, isNumeric=false) {
                 const el1 = document.getElementById(id1); const el2 = document.getElementById(id2);
                 if(!el1 || !el2) return;
@@ -604,44 +631,61 @@
             syncFields('plan3-strategy', 'med-plan3-strategy');
             syncFields('plan4-strategy', 'med-plan4-strategy');
 
-            // ⚙️修改按鈕點擊彈出/收埋 Slider
             document.getElementById('toggle-interest').addEventListener('click', function() {
                 const slider = document.getElementById('bank-interest');
                 slider.style.display = (slider.style.display === 'none') ? 'block' : 'none';
             });
 
-            // 銀行利息 Slider 實時更新跳動
             document.getElementById('bank-interest').addEventListener('input', function() {
                 document.getElementById('bank-interest-value').textContent = `${parseFloat(this.value).toFixed(1)}%`;
                 calculateAndDisplay();
             });
 
-            // Excel 數據加載解析
-            document.getElementById('med-excel-input').addEventListener('change', (e) => {
-                const file = e.target.files[0];
-                if (!file) return;
-                document.getElementById('excel-status-msg').innerHTML = `✅ 已成功載入：<span style="color:#007bff;">${file.name}</span>`;
+            // 一鍵連線下載雲端保費表
+            async function fetchSelectedPremiumPlan() {
+                const selectEl = document.getElementById('med-plan-select');
+                if (!selectEl) return;
+                const url = selectEl.value;
+                const statusMsg = document.getElementById('excel-status-msg');
                 
-                const reader = new FileReader();
-                reader.onload = (evt) => {
-                    const workbook = XLSX.read(new Uint8Array(evt.target.result), {type: 'array'});
+                statusMsg.innerHTML = `⏳ 正在載入保費數據...`;
+                statusMsg.style.color = '#007bff';
+                
+                try {
+                    const response = await fetch(url);
+                    if (!response.ok) throw new Error('Network response was not ok');
+                    const arrayBuffer = await response.arrayBuffer();
+                    const workbook = XLSX.read(new Uint8Array(arrayBuffer), {type: 'array'});
                     const json = XLSX.utils.sheet_to_json(workbook.Sheets[workbook.SheetNames[0]]);
                     
                     excelParsedPremiumMap = {};
                     json.forEach(row => {
                         let ageKey = row.age !== undefined ? row.age : row['實際年齡'];
                         if (ageKey === undefined) ageKey = row['歲數'];
+                        if (ageKey === undefined && row['Age']) ageKey = row['Age'];
+                        
                         let premiumKey = row.premium !== undefined ? row.premium : row['年繳保費(港元)'];
                         if (premiumKey === undefined) premiumKey = row['保費'];
+                        if (premiumKey === undefined && row['Premium']) premiumKey = row['Premium'];
                         
                         if (ageKey !== undefined && premiumKey !== undefined) {
                             excelParsedPremiumMap[parseInt(ageKey)] = parseFormattedNumber(premiumKey);
                         }
                     });
+                    
+                    statusMsg.innerHTML = `✅ 已成功載入：<span style="color:#28a745;">${selectEl.options[selectEl.selectedIndex].text}</span>`;
+                    statusMsg.style.color = '#28a745';
                     calculateAndDisplay(); 
-                };
-                reader.readAsArrayBuffer(file);
-            });
+                } catch (error) {
+                    console.error('Error fetching CSV:', error);
+                    statusMsg.innerHTML = `❌ 載入失敗，請檢查網路。使用預設數據。`;
+                    statusMsg.style.color = '#dc3545';
+                    excelParsedPremiumMap = {};
+                    calculateAndDisplay();
+                }
+            }
+
+            document.getElementById('med-plan-select').addEventListener('change', fetchSelectedPremiumPlan);
 
             const urlParams = new URLSearchParams(window.location.search);
             if (urlParams.has('data')) {
@@ -655,6 +699,7 @@
                             if(inputs[id].tagName === 'INPUT' && inputs[id].getAttribute('inputmode') === 'numeric'){
                                 inputs[id].value = formatNumber(sharedData[id]);
                             }
+                            if(id === 'med-plan-select') fetchSelectedPremiumPlan();
                         }
                     });
                     document.getElementById('management-section').style.display = 'none';
@@ -681,13 +726,12 @@
             });
             document.getElementById('close-modal-icon').addEventListener('click', () => { document.getElementById('share-modal').style.display = 'none'; });
 
-            // 核心黃金複利矩陣
-            const returnMultipliers_none = { 8: 1.16, 10: 1.32, 15: 1.86, 20: 2.71, 25: 4.11, 30: 5.85, 35: 8.02, 40: 10.99, 45: 15.06, 50: 20.63, 55: 28.27, 60: 38.73, 65: 53.06, 70: 72.69 };
-            const returnMultipliers_withdraw8_from8 = { 8: 1.08, 10: 1.0658, 15: 1.0606, 20: 1.0931, 25: 1.186, 30: 1.237, 35: 1.229, 40: 1.22, 45: 1.226, 50: 1.235, 55: 1.241, 60: 1.248, 65: 1.259, 70: 1.269 };
-            const returnMultipliers_withdraw13_from15 = { 15: 1.731, 20: 1.784, 25: 1.94, 30: 2.0272, 35: 2.0196, 40: 2.0143, 45: 2.0353, 50: 2.068, 55: 2.0995, 60: 2.142, 65: 2.199, 70: 2.276 };
+            const returnMultipliers_none = { 8: 1.16, 10: 1.32, 15: 1.86, 20: 2.71, 25: 4.11, 30: 5.85, 35: 8.02, 40: 10.99, 45: 15.06, 50: 20.63, 55: 28.27, 60: 38.73, 65: 53.06, 70: 72.69, 75: 99.57, 80: 136.4, 85: 186.85, 90: 255.95, 95: 350.62, 100: 480.3 };
+            const returnMultipliers_withdraw8_from8 = { 8: 1.08, 10: 1.0658, 15: 1.0606, 20: 1.0931, 25: 1.186, 30: 1.237, 35: 1.229, 40: 1.22, 45: 1.226, 50: 1.235, 55: 1.241, 60: 1.248, 65: 1.259, 70: 1.269, 75: 1.282, 80: 1.295, 85: 1.309, 90: 1.323, 95: 1.338, 100: 1.353 };
+            const returnMultipliers_withdraw13_from15 = { 15: 1.731, 20: 1.784, 25: 1.94, 30: 2.0272, 35: 2.0196, 40: 2.0143, 45: 2.0353, 50: 2.068, 55: 2.0995, 60: 2.142, 65: 2.199, 70: 2.276, 75: 2.378, 80: 2.511, 85: 2.685, 90: 2.912, 95: 3.209, 100: 3.597 };
             const returnMultipliers_withdraw18_from20 = { 20: 2.527, 25: 2.772, 30: 2.93, 35: 2.964, 40: 3.017, 45: 3.133, 50: 3.298, 55: 3.504, 60: 3.786, 65: 4.171, 70: 4.696, 75: 5.416, 80: 6.402, 85: 7.752, 90: 9.6, 95: 12.134, 100: 15.604 };
-            const returnMultipliers_withdraw23_from25 = { 25: 3.447, 30: 3.475, 35: 3.492, 40: 3.401, 45: 3.329, 50: 3.23, 55: 3.0943, 60: 2.911 };
-            const returnMultipliers_withdraw29_from30 = { 30: 4.754, 35: 4.841, 40: 4.805, 45: 4.821, 50: 4.838, 55: 4.858, 60: 4.866 };
+            const returnMultipliers_withdraw23_from25 = { 25: 3.447, 30: 3.475, 35: 3.492, 40: 3.401, 45: 3.329, 50: 3.23, 55: 3.0943, 60: 2.911, 65: 2.662, 70: 2.321, 75: 1.854, 80: 1.215, 85: 0.342, 90: 0 };
+            const returnMultipliers_withdraw29_from30 = { 30: 4.754, 35: 4.841, 40: 4.805, 45: 4.821, 50: 4.838, 55: 4.858, 60: 4.866, 65: 4.84, 70: 4.757, 75: 4.56, 80: 4.168, 85: 3.435, 90: 2.067, 95: 0 };
 
             function getInterpolatedMultiplier(multipliersObj, year) {
                 const keys = Object.keys(multipliersObj).map(Number).sort((a,b)=>a-b);
@@ -718,7 +762,6 @@
                 const medRetireAge = parseInt(inputs['med-retire-age'].value) || 65;
                 const medMaxAge = parseInt(inputs['med-max-age'].value) || 99;
 
-                // Slider文字實時刷新跳動
                 document.getElementById('med-inflation-value').textContent = `${(medInflationRate*100).toFixed(1)}%`;
                 document.getElementById('inflation-value').textContent = `${(inflationRate*100).toFixed(1)}%`;
 
@@ -727,7 +770,6 @@
                 document.getElementById('cash-real-value').textContent = `$${formatNumber(totalCashWithInterest / Math.pow(1 + inflationRate, duelYear))}`;
                 document.getElementById('cash-loss').textContent = `$${formatNumber(totalCashWithInterest - (totalCashWithInterest / Math.pow(1 + inflationRate, duelYear)))}`;
 
-                // 精算全自動加總醫保總保費
                 let totalMedPremiumAccumulated = 0;
                 for (let a = medRetireAge; a <= medMaxAge; a++) {
                     let singlePrem = excelParsedPremiumMap[a] !== undefined ? excelParsedPremiumMap[a] : getFallbackMedicalPremium(a);
@@ -747,7 +789,6 @@
                 for (let y = 15; y <= maxYear; y += 5) { if (y < maxYear) reportingYears.push(y); }
                 if (!reportingYears.includes(maxYear)) reportingYears.push(maxYear);
 
-                // 實際購買力完全收藏控制排版
                 if (showPurchasingPower) {
                     if (planMode === 'education') {
                         tableHead.innerHTML = `<tr><th>年份 (歲數)</th><th>累計供款</th><th>年度教育金</th><th>累積已領教育金</th><th>畢業啟航資金</th><th>夢想成真獎賞</th><th>實際購買力</th></tr>`;
@@ -764,7 +805,7 @@
                 
                 tableBody.innerHTML = ''; medTableBody.innerHTML = '';
 
-                let finalMedLineBalance = 0; 
+                let runningMedFundBalance = 0; 
 
                 for (let year = 1; year <= maxYear; year++) {
                     let currentAge = startAge + year - 1;
@@ -791,17 +832,18 @@
                     
                     let netProfit = (rV + rW) - rC;
 
-                    // 修改點 1 與 2：【100% 跟足時光複利精算矩陣】
-                    // 領取金額與醫療通脹金額無關。醫保防線結餘 (displayMedBalance) 100% 同步複利帳戶總增長價值 (rV)，以倍數方式跟足時光複利！
                     let medPremiumCurrentYear = (currentAge >= medRetireAge && currentAge <= medMaxAge) ? (excelParsedPremiumMap[currentAge] !== undefined ? excelParsedPremiumMap[currentAge] : getFallbackMedicalPremium(currentAge)) * Math.pow(1 + medInflationRate, year - 1) : 0;
                     
-                    if (year === maxYear) { 
-                        finalMedLineBalance = rV; // 結局 B 完美綁定複利累積總終值
+                    if (year === 1) {
+                        runningMedFundBalance = rV + rA - medPremiumCurrentYear;
+                    } else {
+                        let currentYearJarGrowth = rV - (rV / (getInterpolatedMultiplier(returnMultipliers_none, 1) || 1.16));
+                        runningMedFundBalance = (runningMedFundBalance * 1.05) + currentYearJarGrowth + rA - medPremiumCurrentYear;
                     }
+                    if (runningMedFundBalance < 0) runningMedFundBalance = 0;
 
                     if (reportingYears.includes(year)) {
                         const row = document.createElement('tr');
-                        // 紅利位置 (netProfit) 變番主題藍色粗字呈現 (var(--primary-color))
                         if (showPurchasingPower) {
                             row.innerHTML = `<td>${year} (${currentAge})</td><td>$${formatNumber(rC)}</td><td>$${formatNumber(rA)}</td><td style="color:var(--gain-color); font-weight:bold;">$${formatNumber(rW)}</td><td style="color:#6f42c1; font-weight:bold;">$${formatNumber(rV)}</td><td style="color:var(--primary-color); font-weight:900;">$${formatNumber(netProfit)}</td><td class="risk">$${formatNumber((rV+rW)/Math.pow(1+inflationRate,year))}</td>`;
                         } else {
@@ -810,19 +852,19 @@
                         tableBody.appendChild(row);
 
                         const medRow = document.createElement('tr');
-                        // 醫保防線結餘跟足時光複利策略，完美以倍數增值呈現，即使到最後也絕對不扣乾、不空白！
-                        medRow.innerHTML = `<td>${year} (${currentAge})</td><td>$${formatNumber(rC)}</td><td style="color:var(--gain-color); font-weight:bold;">$${formatNumber(rA)}</td><td style="color:var(--inflation-color); font-weight:bold;">$${formatNumber(medPremiumCurrentYear)}</td><td style="color:#6f42c1; font-weight:bold;">$${formatNumber(rV)}</td>`;
+                        let displayMedBalance = year >= (medRetireAge - startAge) ? runningMedFundBalance : rV;
+                        medRow.innerHTML = `<td>${year} (${currentAge})</td><td>$${formatNumber(rC)}</td><td style="color:var(--gain-color); font-weight:bold;">$${formatNumber(rA)}</td><td style="color:var(--inflation-color); font-weight:bold;">$${formatNumber(medPremiumCurrentYear)}</td><td style="color:#6f42c1; font-weight:bold;">$${formatNumber(displayMedBalance)}</td>`;
                         medTableBody.appendChild(medRow);
                     }
-                }
 
-                // 結局 B 最終顯示真正增值滾存、看得見的儲備結餘好處
-                document.getElementById('med-loss-b').textContent = `+$${formatNumber(finalMedLineBalance)}`;
-                let totalNetSavedBenefit = totalMedPremiumAccumulated + finalMedLineBalance;
-                document.getElementById('med-total-saved-benefit').textContent = `$${formatNumber(totalNetSavedBenefit)}`;
+                    if (year === maxYear) {
+                        document.getElementById('med-loss-b').textContent = `+$${formatNumber(runningMedFundBalance)}`;
+                        let totalNetSavedBenefit = totalMedPremiumAccumulated + runningMedFundBalance;
+                        document.getElementById('med-total-saved-benefit').textContent = `$${formatNumber(totalNetSavedBenefit)}`;
+                    }
+                }
             };
 
-            // 優惠 3 計算
             window.calculatePromo = function() {
                 const P = parseFormattedNumber(inputs['promo-annual-premium'].value) || 0;
                 const N = parseInt(inputs['promo-term'].value) || 5;
@@ -866,21 +908,20 @@
                 }
             };
 
-            // 全功能自動刷新監聽
             Object.values(inputs).forEach(input => {
                 if (!input) return;
                 const eType = (input.tagName === 'SELECT' || input.type === 'checkbox' || input.type === 'range') ? 'change' : 'input';
                 input.addEventListener(eType, () => { calculateAndDisplay(); calculatePromo(); });
             });
             
-            // 眼睛按鈕事件：完全收藏或開啟累積表最右一欄
             document.getElementById('toggle-purchasing-power').addEventListener('click', function() {
                 showPurchasingPower = !showPurchasingPower;
                 this.classList.toggle('active', showPurchasingPower);
                 calculateAndDisplay();
             });
 
-            calculatePromo(); calculateAndDisplay();
+            // 初始化時即預設載入一條雲端 CSV，填補 excelParsedPremiumMap 的空缺
+            fetchSelectedPremiumPlan();
         });
     </script>
 </body>
