@@ -7,7 +7,7 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
     
-    <title>時光複利：退休醫保預備金 v1.61</title>
+    <title>時光複利：退休醫保預備金 v1.63</title>
 
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="icon-192x192.png">
@@ -45,12 +45,14 @@
         .tab-section.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
+        /* 更新：手機/iPad 右下角極細形態大頭針切換按鈕樣式 */
         .nav-toggle-btn {
-            position: fixed; bottom: calc(20px + env(safe-area-inset-bottom)); right: 20px;
-            width: 55px; height: 55px; background: linear-gradient(135deg, var(--primary-color), #0056b3);
-            color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            font-size: 1.8rem; font-weight: bold; box-shadow: 0 4px 15px rgba(0, 123, 255, 0.4);
-            cursor: pointer; z-index: 1001; transition: transform 0.3s, background 0.3s; border: 2px solid #fff; user-select: none;
+            position: fixed; bottom: calc(15px + env(safe-area-inset-bottom)); right: 15px;
+            width: 32px; height: 32px; background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px); color: #333; 
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-size: 1.1rem; box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+            cursor: pointer; z-index: 1001; transition: transform 0.2s; border: 1px solid rgba(0,0,0,0.1); user-select: none;
         }
         .nav-toggle-btn:active { transform: scale(0.9); }
 
@@ -142,11 +144,14 @@
         
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6); z-index: 2000; align-items: center; justify-content: center; }
         .modal-content { background: #fff; padding: 2.5rem; border-radius: 12px; max-width: 400px; width: 100%; text-align: center; position: relative; }
+
+        .flex-input-row { display: flex; align-items: center; gap: 8px; margin-top: 8px; flex-wrap: wrap; }
+        .pct-input { width: 70px !important; padding: 4px !important; text-align: center !important; display: inline-block !important; }
     </style>
 </head>
 <body>
 
-    <div id="nav-toggle-btn" class="nav-toggle-btn">！</div>
+    <div id="nav-toggle-btn" class="nav-toggle-btn">📌</div>
 
     <nav class="bottom-nav" id="bottom-nav">
         <div class="nav-item" onclick="switchTab('tab-vision', this)"><span class="nav-icon">🤝</span>願景對話</div>
@@ -157,7 +162,7 @@
 
     <div id="tab-vision" class="tab-section">
         <div class="lazy-bag-container" style="background: #fdfdfd;">
-            <h2>時光複利：歲月豐收 <span style="font-size: 1rem; color: #007bff; vertical-align: middle; background: #e7f3ff; padding: 4px 10px; border-radius: 12px; margin-left: 10px; border: 1px solid #cce5ff;">v1.61</span></h2>
+            <h2>時光複利：歲月豐收 <span style="font-size: 1rem; color: #007bff; vertical-align: middle; background: #e7f3ff; padding: 4px 10px; border-radius: 12px; margin-left: 10px; border: 1px solid #cce5ff;">v1.63</span></h2>
             <h3 style="text-align: center; color: var(--secondary-color); margin-top: 0; margin-bottom: 2rem; border-bottom: 2px solid #f0f2f5; padding-bottom: 1.5rem;">享受人生下半場</h3>
             <div style="display: flex; flex-direction: column; gap: 0.5rem;">
                 <div class="flexibility-card card-rome">
@@ -360,7 +365,7 @@
                                 <option value="睿選30000自付額">睿選30000自付額</option>
                             </optgroup>
                             <optgroup label="👑 高端尊顯計劃 (Elite Plan)">
-                                <option value="尊顯0自付額">尊顯00自付額</option>
+                                <option value="尊顯0自付額">尊顯0自付額</option>
                                 <option value="尊顯16000自付額">尊顯16000自付額</option>
                                 <option value="尊顯25000自付額">尊顯25000自付額</option>
                             </optgroup>
@@ -470,18 +475,18 @@
                                 <td></td>
                             </tr>
                             <tr style="background-color: #f8f9fa; font-size: 0.95rem; border-top: 2px solid var(--border-color);">
-                                <td colspan="4" style="text-align: left; color: var(--label-color); padding: 10px 1rem;">🔴 結局 A • 沒有為自己預備：</td>
+                                <td id="med-outcome-label-col-a" colspan="4" style="text-align: left; color: var(--label-color); padding: 10px 1rem;">🔴 結局 A • 沒有為自己預備：</td>
                                 <td id="med-loss-a" style="color: var(--inflation-color); font-weight: bold; text-align: right;">$0</td>
                             </tr>
                             <tr style="background-color: #f8f9fa; font-size: 0.95rem;">
-                                <td colspan="4" id="med-outcome-label-col" style="text-align: left; color: var(--label-color); padding: 10px 1rem;">
+                                <td id="med-outcome-label-col-b" colspan="4" style="text-align: left; color: var(--label-color); padding: 10px 1rem;">
                                     🟢 結局 B • 提前為自己預備
                                     <button id="toggle-outcome-details" class="mini-eye-btn" style="border-radius:50%; padding:2px 8px; margin-left:10px;" title="點擊顯示詳細算式">？</button>
                                     <div id="outcome-details" style="display:none; margin-top:8px; font-size:0.85rem; color:#555; background:#fff; padding:8px; border-radius:6px; border:1px solid #ccc;">
                                         公式：累計提取 + 結餘 - 累計醫療保費 - 本金<br>
                                         <span id="outcome-formula-values" style="display:block; margin-top:5px; font-weight:bold;"></span>
                                     </div>
-                                </td>
+                                annual-premium
                                 <td id="med-outcome-value" style="color: var(--gain-color); font-weight: bold; text-align: right; font-size:1.1rem;">$0</td>
                             </tr>
                         </tfoot>
@@ -507,7 +512,23 @@
             </div>
             <div class="promo-card">
                 <div class="promo-row"><input type="checkbox" id="promo1-check" class="promo-checkbox" checked><div class="promo-content"><h4>優惠 1：首年保費大減價</h4><p>首年保費每滿 $5,000 即減 $500。</p><div class="promo-tag">已為您慳下：<span id="promo1-saved">$0</span></div></div></div>
-                <div class="promo-row"><input type="checkbox" id="promo2-check" class="promo-checkbox" checked><div class="promo-content"><h4>優惠 2：續保保費折扣</h4><p>第 2 年續保即減 5%。如同時配置指定危疾或人壽產品，再額外減 3%（合共 8%）。</p><select id="promo2-select" style="margin-top:8px; width:100%; max-width:300px; padding:6px; border-radius:6px; border:1px solid #ccc;"><option value="0.05">基本續保折扣 (減 5%)</option><option value="0.08" selected>同時配置指定危疾/人壽 (合共減 8%)</option></select><div class="promo-tag">已為您慳下：<span id="promo2-saved">$0</span></div></div></div>
+                
+                <div class="promo-row">
+                    <input type="checkbox" id="promo2-check" class="promo-checkbox" checked>
+                    <div class="promo-content">
+                        <h4>優惠 2：續保保費折扣</h4>
+                        <div class="flex-input-row">
+                            <span>第 2 年續保即減</span>
+                            <input type="number" id="promo2-base-pct" class="pct-input" value="5" step="0.1"> %
+                        </div>
+                        <div class="flex-input-row">
+                            <span>如同時配置危疾「愛伴航2」/「簡緻。愛伴航」或人壽「活然人生」，額外再減</span>
+                            <input type="number" id="promo2-extra-pct" class="pct-input" value="3" step="0.1"> %
+                        </div>
+                        <div class="promo-tag" style="margin-top:10px;">已為您慳下：<span id="promo2-saved">$0</span></div>
+                    </div>
+                </div>
+
                 <div class="promo-row">
                     <input type="checkbox" id="promo3-check" class="promo-checkbox" checked>
                     <div class="promo-content">
@@ -559,20 +580,23 @@
 
         const navToggle = document.getElementById('nav-toggle-btn');
         const bottomNav = document.getElementById('bottom-nav');
+        
+        // 更新：大頭針展開與關閉的圖案互換邏輯
         if (navToggle && bottomNav) {
             navToggle.addEventListener('click', () => {
                 bottomNav.classList.toggle('show');
-                navToggle.innerHTML = bottomNav.classList.contains('show') ? '✖' : '！';
+                navToggle.innerHTML = bottomNav.classList.contains('show') ? '✖' : '📌';
             });
         }
 
+        // 更新：切換頁面後保持導航控制鈕為大頭針 📌
         function switchTab(tabId, element) {
             document.querySelectorAll('.tab-section').forEach(tab => tab.classList.remove('active'));
             document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
             document.getElementById(tabId).classList.add('active');
             if(element) element.classList.add('active');
-            if(bottomNav) bottomNav.style.display = 'none';
-            if(navToggle) navToggle.innerHTML = '！';
+            if(bottomNav) bottomNav.classList.remove('show');
+            if(navToggle) navToggle.innerHTML = '📌';
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
@@ -727,7 +751,7 @@
                 'med-plan1-contribution', 'med-plan2-contribution', 'med-plan3-contribution', 'med-plan4-contribution',
                 'med-plan1-strategy', 'med-plan2-strategy', 'med-plan3-strategy', 'med-plan4-strategy', 'med-plan-select'
             ];
-            const allInputIds = [...pureShareIds, 'promo-annual-premium', 'promo-term', 'promo1-check', 'promo2-check', 'promo2-select', 'promo3-check', 'promo3-rate'];
+            const allInputIds = [...pureShareIds, 'promo-annual-premium', 'promo-term', 'promo1-check', 'promo2-check', 'promo2-base-pct', 'promo2-extra-pct', 'promo3-check', 'promo3-rate'];
             const inputs = {};
             allInputIds.forEach(id => { if(document.getElementById(id)) inputs[id] = document.getElementById(id); });
             
@@ -785,8 +809,6 @@
                     document.getElementById('med-management-section').style.display = 'none';
                     document.querySelectorAll('.emoji-toggle-bar').forEach(el => el.style.display = 'none');
                     if(document.getElementById('eye-icon-container')) document.getElementById('eye-icon-container').style.display = 'none';
-                    if(bottomNav) bottomNav.style.display = 'none';
-                    if(navToggle) navToggle.style.display = 'none';
                     switchTab('tab-calculator');
                 } catch (e) { console.error(e); }
             }
@@ -867,11 +889,12 @@
                     medTableHead.innerHTML = `<tr><th>保單年度 (歲數)</th><th>累計供款</th><th>醫保保費預備金 (提取)</th><th>醫療保費</th><th>醫保防線結餘</th></tr>`;
                 }
                 
-                const outcomeLabelCol = document.getElementById('med-outcome-label-col');
+                const labelColA = document.getElementById('med-outcome-label-col-a');
+                const labelColB = document.getElementById('med-outcome-label-col-b');
                 if(showActualMedicalPremium) {
-                    outcomeLabelCol.colSpan = 5;
+                    labelColA.colSpan = 5; labelColB.colSpan = 5;
                 } else {
-                    outcomeLabelCol.colSpan = 4;
+                    labelColA.colSpan = 4; labelColB.colSpan = 4;
                 }
 
                 tableBody.innerHTML = '';
@@ -895,7 +918,6 @@
 
                         if (pA > 0 && aC > 0) {
                             rC += Math.min(pA, 5) * aC;
-                            
                             let multiplier = getMultiplierFromExcel(strategy, pA);
                             
                             if (strategy === 'withdraw8_from8' && pA >= 8) { cA = tP * 0.08; cW = cA * (pA - 8 + 1); cV = tP * multiplier; }
@@ -915,7 +937,6 @@
                     let actualMedPremium = rA - medPremiumCurrentYear;
                     cumulativeActualMedPremium += actualMedPremium;
                     
-                    // 結餘 = 複利本金(rV) + 所有累積差額 - 醫保保費預備金(rA)
                     let displayMedBalance = rV + cumulativeActualMedPremium - rA;
                     if (displayMedBalance < 0) displayMedBalance = 0;
 
@@ -961,12 +982,18 @@
                 const N = parseInt(inputs['promo-term'].value) || 5;
                 const usePromo1 = inputs['promo1-check'].checked;
                 const usePromo2 = inputs['promo2-check'].checked;
-                const promo2Type = inputs['promo2-select'].value;
+                
+                const baseDiscountPct = parseFloat(document.getElementById('promo2-base-pct').value) / 100 || 0;
+                const extraDiscountPct = parseFloat(document.getElementById('promo2-extra-pct').value) / 100 || 0;
+                
                 const usePromo3 = inputs['promo3-check'].checked;
                 const rate = parseFloat(inputs['promo3-rate'].value) / 100 || 0.038;
 
                 let d1 = usePromo1 ? Math.floor(P / 5000) * 500 : 0;
-                let d2 = (usePromo2 && N >= 2) ? P * parseFloat(promo2Type) : 0;
+                
+                let totalDiscountRate = baseDiscountPct + extraDiscountPct;
+                let d2 = (usePromo2 && N >= 2) ? P * totalDiscountRate : 0;
+                
                 let totalInterest = 0; let prepayAmount = 0;
                 
                 if (usePromo3 && N > 1) {
@@ -1005,6 +1032,9 @@
                 const eType = (input.tagName === 'SELECT' || input.type === 'checkbox' || input.type === 'range') ? 'change' : 'input';
                 input.addEventListener(eType, () => { calculateAndDisplay(); calculatePromo(); });
             });
+
+            document.getElementById('promo2-base-pct').addEventListener('input', calculatePromo);
+            document.getElementById('promo2-extra-pct').addEventListener('input', calculatePromo);
 
             document.getElementById('toggle-purchasing-power').addEventListener('click', function() {
                 showPurchasingPower = !showPurchasingPower;
