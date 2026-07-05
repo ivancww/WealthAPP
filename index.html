@@ -7,7 +7,7 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
     
-    <title>時光複利：退休醫保預備金 v1.63</title>
+    <title>時光複利：退休醫保預備金 v1.64</title>
 
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="icon-192x192.png">
@@ -45,7 +45,6 @@
         .tab-section.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* 更新：手機/iPad 右下角極細形態大頭針切換按鈕樣式 */
         .nav-toggle-btn {
             position: fixed; bottom: calc(15px + env(safe-area-inset-bottom)); right: 15px;
             width: 32px; height: 32px; background: rgba(255, 255, 255, 0.6);
@@ -147,6 +146,13 @@
 
         .flex-input-row { display: flex; align-items: center; gap: 8px; margin-top: 8px; flex-wrap: wrap; }
         .pct-input { width: 70px !important; padding: 4px !important; text-align: center !important; display: inline-block !important; }
+
+        /* 新增：感性銷售展開式樣式 */
+        .hypnotic-details { margin: 1rem 0; border: 1px solid #ffeeba; background-color: #ffffff; border-radius: 8px; overflow: hidden; }
+        .hypnotic-summary { background-color: #fff3cd; padding: 10px 15px; font-weight: bold; cursor: pointer; user-select: none; display: flex; justify-content: space-between; align-items: center; }
+        .hypnotic-summary::after { content: '▼'; font-size: 0.8rem; color: #856404; }
+        details[open] .hypnotic-summary::after { content: '▲'; }
+        .hypnotic-content { padding: 15px; font-size: 0.95rem; line-height: 1.6; color: #856404; background-color: #fffdf5; border-top: 1px solid #ffeeba; }
     </style>
 </head>
 <body>
@@ -162,7 +168,7 @@
 
     <div id="tab-vision" class="tab-section">
         <div class="lazy-bag-container" style="background: #fdfdfd;">
-            <h2>時光複利：歲月豐收 <span style="font-size: 1rem; color: #007bff; vertical-align: middle; background: #e7f3ff; padding: 4px 10px; border-radius: 12px; margin-left: 10px; border: 1px solid #cce5ff;">v1.63</span></h2>
+            <h2>時光複利：歲月豐收 <span style="font-size: 1rem; color: #007bff; vertical-align: middle; background: #e7f3ff; padding: 4px 10px; border-radius: 12px; margin-left: 10px; border: 1px solid #cce5ff;">v1.64</span></h2>
             <h3 style="text-align: center; color: var(--secondary-color); margin-top: 0; margin-bottom: 2rem; border-bottom: 2px solid #f0f2f5; padding-bottom: 1.5rem;">享受人生下半場</h3>
             <div style="display: flex; flex-direction: column; gap: 0.5rem;">
                 <div class="flexibility-card card-rome">
@@ -242,6 +248,15 @@
                     </div>
                     <div class="input-group"><label>檢視年期</label><input type="number" id="duel-year" value="25"></div>
                 </div>
+
+                <!-- 1 加插展開式請教：探討客人的財富增值方法 -->
+                <details class="hypnotic-details">
+                    <summary class="hypnotic-summary">💬 📌 銷售請教：探索增值防線</summary>
+                    <div class="hypnotic-content">
+                        🙋‍♂️ <strong>「我想特別請教一下您：」</strong><br>
+                        面對出面無聲無息嘅通脹蠶食，除咗將應急現金擺喺銀行收基本利息之外，您目前仲有冇採用啲咩更穩陣、更有效率嘅財富增值方法，去幫自己建立一條可以抵抗時間嘅資產防線？
+                    </div>
+                </details>
                 
                 <div class="duel-summary">
                     <div class="summary-item">
@@ -261,6 +276,15 @@
 
             <div class="section">
                 <h2>時光複利：各時光錦囊的獨立策略</h2>
+                
+                <!-- 2 加插展開式想像一下：智慧聯動退休/仔女主題文字 -->
+                <details class="hypnotic-details">
+                    <summary class="hypnotic-summary">✨ 👁️ 潛意識引導：想像一下未來</summary>
+                    <div class="hypnotic-content" id="hypnotic-dynamic-vision">
+                        <!-- 由 JavaScript 動態注入文字 -->
+                    </div>
+                </details>
+
                 <div class="plan-grid">
                     <div class="emoji-toggle-bar" id="emoji-bar">
                         <span style="font-size: 0.95rem; color: #555; font-weight: bold;">點擊公仔啟用分段投入：</span>
@@ -324,6 +348,15 @@
                         </select>
                     </div>
                 </div>
+
+                <!-- 3 累積表旁加插展開式：不行動的代價 -->
+                <details class="hypnotic-details">
+                    <summary class="hypnotic-summary">⚠️ 🚨 醒覺引導：不作為的真實代價</summary>
+                    <div class="hypnotic-content">
+                        🛑 <strong>「今天停留喺舒服圈，將來就要為舒服而買單：」</strong><br>
+                        好多時候我哋以為保持現狀（放銀行存款）係最安全無痛嘅決定。但真相係，現在貪圖省心、留喺所謂嘅舒適圈，本金就會隨時間慢慢縮水。未來到咗需要用大錢嘅關鍵時刻，我哋反而要被迫付出更高昂、更痛苦嘅代價去為今日嘅『舒服』買單。
+                    </div>
+                </details>
                  
                 <div class="table-wrapper">
                     <table id="results-table"><thead id="results-table-head"></thead><tbody id="results-table-body"></tbody></table>
@@ -486,7 +519,7 @@
                                         公式：累計提取 + 結餘 - 累計醫療保費 - 本金<br>
                                         <span id="outcome-formula-values" style="display:block; margin-top:5px; font-weight:bold;"></span>
                                     </div>
-                                annual-premium
+                                </td>
                                 <td id="med-outcome-value" style="color: var(--gain-color); font-weight: bold; text-align: right; font-size:1.1rem;">$0</td>
                             </tr>
                         </tfoot>
@@ -581,7 +614,6 @@
         const navToggle = document.getElementById('nav-toggle-btn');
         const bottomNav = document.getElementById('bottom-nav');
         
-        // 更新：大頭針展開與關閉的圖案互換邏輯
         if (navToggle && bottomNav) {
             navToggle.addEventListener('click', () => {
                 bottomNav.classList.toggle('show');
@@ -589,7 +621,6 @@
             });
         }
 
-        // 更新：切換頁面後保持導航控制鈕為大頭針 📌
         function switchTab(tabId, element) {
             document.querySelectorAll('.tab-section').forEach(tab => tab.classList.remove('active'));
             document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
@@ -841,6 +872,16 @@
                 const planMode = inputs['plan-mode'].value;
                 const medRetireAge = parseInt(inputs['med-retire-age'].value) || 65;
                 const medMaxAge = parseInt(inputs['med-max-age'].value) || 99;
+
+                // 2 智能動態切換想像區塊的文字內容
+                const dynamicVisionEl = document.getElementById('hypnotic-dynamic-vision');
+                if (planMode === 'education') {
+                    dynamicVisionEl.innerHTML = `🎓 <strong>「想像一下未來的畫面：」</strong><br>
+                    等仔女大咗準備升學嗰陣，您完全唔需要為高昂嘅 <strong>#仔女學費</strong> 同開支苦惱。無論係外國留學嘅 <strong>#生活費用</strong>，定係畢業嗰刻送俾佢哋嘅一筆 <strong>#畢業獎金</strong>，您都已經幫佢哋全自動準備好。這份遠見，會幫下一代換嚟點樣嘅起跑線底氣？`;
+                } else {
+                    dynamicVisionEl.innerHTML = `🏖️ <strong>「想像一下未來的畫面：」</strong><br>
+                    當去到退休嘅年紀，您擁有絕對嘅 <strong>#退休自主</strong> 權力。每個月、每一年都有一筆源源不絕、全自動入帳嘅 <strong>#每年長糧</strong> 供您隨意支配。不管是隨心所欲去 <strong>#旅遊</strong>，定係享受生活，都完全不需要睇任何人面色。這份底氣，您想幾時擁有？`;
+                }
 
                 document.getElementById('med-inflation-value').textContent = `${(medInflationRate*100).toFixed(1)}%`;
                 document.getElementById('inflation-value').textContent = `${(inflationRate*100).toFixed(1)}%`;
