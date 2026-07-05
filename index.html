@@ -7,7 +7,7 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
     
-    <title>時光複利：退休醫保預備金 v1.66</title>
+    <title>時光複利：退休醫保預備金 v1.67</title>
 
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="icon-192x192.png">
@@ -78,7 +78,7 @@
         header { text-align: center; border-bottom: 1px solid var(--border-color); padding-bottom: 1.5rem; margin-bottom: 2rem; }
         header h1 { color: var(--primary-color); margin-bottom: 0.5rem; font-weight: 700; font-size: 1.7rem; }
         .section { margin-top: 3rem; }
-        .section h2 { display: flex; align-items: center; justify-content: center; color: var(--secondary-color); margin-bottom: 1.5rem; font-size: 1.5rem; }
+        .section h2 { display: flex; align-items: center; justify-content: center; color: var(--secondary-color); margin-bottom: 1.5rem; font-size: 1.5rem; flex-wrap: wrap; gap: 8px; }
         .top-input-grid, .duel-inputs { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; align-items: end; margin-bottom: 2rem; }
         
         .plan-grid { display: grid; gap: 1.5rem; align-items: end; margin-bottom: 2rem; }
@@ -147,12 +147,13 @@
         .flex-input-row { display: flex; align-items: center; gap: 8px; margin-top: 8px; flex-wrap: wrap; }
         .pct-input { width: 70px !important; padding: 4px !important; text-align: center !important; display: inline-block !important; }
 
-        /* 展開式對話樣式 */
-        .hypnotic-details { margin: 1rem 0; border: 1px solid #ffeeba; background-color: #ffffff; border-radius: 8px; overflow: hidden; }
-        .hypnotic-summary { background-color: #fff3cd; padding: 10px 15px; font-weight: bold; cursor: pointer; user-select: none; display: flex; justify-content: space-between; align-items: center; }
-        .hypnotic-summary::after { content: '▼'; font-size: 0.8rem; color: #856404; transition: transform 0.3s ease; }
-        details[open] .hypnotic-summary::after { transform: rotate(180deg); }
-        .hypnotic-content { padding: 15px; font-size: 1.05rem; line-height: 1.7; color: #555; background-color: #fffdf5; border-top: 1px solid #ffeeba; }
+        /* 細細 logo 的展開按鈕與隱藏對話框樣式 */
+        .inline-hypnotic-btn { background: none; border: none; font-size: 1.2rem; cursor: pointer; padding: 2px 6px; line-height: 1; user-select: none; display: inline-block; vertical-align: middle; transition: transform 0.2s; border-radius: 50%; }
+        .inline-hypnotic-btn:active { transform: scale(0.85); background-color: rgba(0,0,0,0.05); }
+        .hypnotic-pop-box { display: none; width: 100%; margin: 8px 0 15px 0; padding: 12px 15px; border-radius: 8px; font-size: 0.95rem; line-height: 1.6; text-align: left; white-space: normal; box-sizing: border-box; }
+        .pop-ask { background-color: #e7f3ff; border: 1px solid #b8daff; color: #004085; }
+        .pop-imagine { background-color: #fff3cd; border: 1px solid #ffeeba; color: #856404; }
+        .pop-urgent { background-color: #f8d7da; border: 1px solid #f5c6cb; color: #721c24; }
     </style>
 </head>
 <body>
@@ -168,7 +169,7 @@
 
     <div id="tab-vision" class="tab-section">
         <div class="lazy-bag-container" style="background: #fdfdfd;">
-            <h2>時光複利：歲月豐收 <span style="font-size: 1rem; color: #007bff; vertical-align: middle; background: #e7f3ff; padding: 4px 10px; border-radius: 12px; margin-left: 10px; border: 1px solid #cce5ff;">v1.66</span></h2>
+            <h2>時光複利：歲月豐收 <span style="font-size: 1rem; color: #007bff; vertical-align: middle; background: #e7f3ff; padding: 4px 10px; border-radius: 12px; margin-left: 10px; border: 1px solid #cce5ff;">v1.67</span></h2>
             <h3 style="text-align: center; color: var(--secondary-color); margin-top: 0; margin-bottom: 2rem; border-bottom: 2px solid #f0f2f5; padding-bottom: 1.5rem;">享受人生下半場</h3>
             <div style="display: flex; flex-direction: column; gap: 0.5rem;">
                 <div class="flexibility-card card-rome">
@@ -238,7 +239,16 @@
             </div>
             
             <div class="section">
-                <h2>⏳ 停停留喺舒適圈嘅隱形代價</h2>
+                <!-- 1 停留舒適圈旁加入細細 logo 💡 -->
+                <h2>
+                    ⏳ 停留喺舒適圈嘅隱形代價
+                    <button class="inline-hypnotic-btn" onclick="toggleHypnoticBox('pop-comfort-ask')" title="點擊展開銷售請教">💡</button>
+                </h2>
+                
+                <div id="pop-comfort-ask" class="hypnotic-pop-box pop-ask">
+                    面對無聲無息嘅通脹蠶食 📉，請教一下你有何計劃？ 🤔🛡️
+                </div>
+
                 <div class="duel-inputs">
                     <div class="input-group"><label>現有銀行存款</label><input type="text" id="existing-deposit" value="500,000" inputmode="numeric"></div>
                     <div class="input-group"><label>每年銀行儲蓄</label><input type="text" id="bank-deposit" value="100,000" inputmode="numeric"></div>
@@ -248,15 +258,6 @@
                     </div>
                     <div class="input-group"><label>檢視年期</label><input type="number" id="duel-year" value="25"></div>
                 </div>
-
-                <!-- 1 展開式請教：探討客人的財富增值方法 (Base v1.64) -->
-                <details class="hypnotic-details">
-                    <summary class="hypnotic-summary">💬 銷售請教：探索增值防線</summary>
-                    <div class="hypnotic-content" style="color: #004085; background-color: #e7f3ff; border-top: 1px solid #b8daff;">
-                        🙋‍♂️ <strong>「我想特別請教一下您：」</strong><br>
-                        面對出面無聲無息嘅通脹蠶食 📉，除咗將應急現金擺喺銀行收基本利息之外 🏦，您目前仲有冇採用啲咩更穩陣、更有效率嘅財富增值方法 📈，去幫自己建立一條可以抵抗時間嘅資產防線？🛡️
-                    </div>
-                </details>
                 
                 <div class="duel-summary">
                     <div class="summary-item">
@@ -275,15 +276,15 @@
             </div>
 
             <div class="section">
-                <h2>時光複利：各時光錦囊的獨立策略</h2>
+                <!-- 2 時光複利旁加入細細 logo 👁️ -->
+                <h2>
+                    時光複利：各時光錦囊的獨立策略
+                    <button class="inline-hypnotic-btn" onclick="toggleHypnoticBox('pop-compound-imagine')" title="點擊展開未來想像">👁️</button>
+                </h2>
                 
-                <!-- 2 展開式想像一下：加入大量 Emoji 渲染力 -->
-                <details class="hypnotic-details">
-                    <summary class="hypnotic-summary">✨ 潛意識引導：想像一下未來</summary>
-                    <div class="hypnotic-content" id="hypnotic-dynamic-vision">
-                        <!-- 由 JavaScript 動態注入文字 -->
-                    </div>
-                </details>
+                <div id="pop-compound-imagine" class="hypnotic-pop-box pop-imagine">
+                    <!-- 由 JavaScript 動態注入文字 -->
+                </div>
 
                 <div class="plan-grid">
                     <div class="emoji-toggle-bar" id="emoji-bar">
@@ -294,7 +295,16 @@
                     </div>
 
                     <div class="input-group">
-                        <label style="color:var(--plan1-color); font-weight:bold;">一號時光錦囊 (5年期 • 第1年供)</label>
+                        <!-- 3 一號時光錦囊旁加入細細 logo 🚨 -->
+                        <label style="color:var(--plan1-color); font-weight:bold; display: flex; align-items: center; justify-content: center; gap: 4px;">
+                            一號時光錦囊 (5年期 • 第1年供)
+                            <button class="inline-hypnotic-btn" onclick="event.preventDefault(); toggleHypnoticBox('pop-jar1-urgent')" title="點擊顯示不行動的代價">🚨</button>
+                        </label>
+                        
+                        <div id="pop-jar1-urgent" class="hypnotic-pop-box pop-urgent" style="grid-column: 1 / -1; width: 100%; font-weight: normal; margin-bottom: 15px;">
+                            🛑 試諗下，我地為左唔想麻煩 🙅‍♂️，唔想有改變 🚫，好多時候就會情願停留喺舒服圈 🛋️💤，但到未來須要用錢個日 🏥🌪️，先發現原來我地到時被迫付出更高昂、更心痛嘅代價 💸🩸，去為今日嘅『舒服』找數！💳 您甘心讓辛辛苦苦賺來嘅血汗錢，就咁樣白白流失嗎？ 🫣💨
+                        </div>
+
                         <input type="text" id="plan1-contribution" value="40,000" inputmode="numeric">
                         <select id="plan1-strategy">
                             <option value="none">滾存不提取</option>
@@ -349,16 +359,6 @@
                     </div>
                 </div>
 
-                <!-- 3 展開式不行動的代價：加入大量 Emoji 渲染力 -->
-                <details class="hypnotic-details">
-                    <summary class="hypnotic-summary">⚠️ 🚨 醒覺引導：不作為的真實代價</summary>
-                    <div class="hypnotic-content" style="color: #721c24; background-color: #f8d7da; border-top: 1px solid #f5c6cb;">
-                        🛑 <strong>「今天停留喺舒服圈，將來就要為舒服而買單！」</strong> 💸<br><br>
-                        好多時候，我哋以為保持現狀（放銀行存款）係最安全、最無痛嘅決定 🏦💤。但殘酷嘅真相係... 依家貪圖省心、舒舒服服留喺舒適圈 🛋️，本金就會隨住通脹巨獸無聲無息地慢慢縮水 📉！<br><br>
-                        當未來某日，真正需要用大錢嘅關鍵時刻一到 🏥🌪️，我哋反而要被迫付出更高昂、更心痛嘅代價 🩸，去為今日嘅『舒服』找數！💳 您甘心讓辛辛苦苦賺來嘅血汗錢，就咁樣白白流失嗎？🫣
-                    </div>
-                </details>
-                 
                 <div class="table-wrapper">
                     <table id="results-table"><thead id="results-table-head"></thead><tbody id="results-table-body"></tbody></table>
                     <div style="text-align: right; margin-top: 0.5rem;">
@@ -506,7 +506,7 @@
                                 <td id="med-total-extracted" style="color:blue; font-weight:bold;"></td>
                                 <td id="med-total-premium-col" style="color:purple; font-weight:bold;"></td>
                                 <td id="med-total-actual-premium" style="color:green; font-weight:bold;"></td>
-                                <td id="med-total-dummy-align" style="display:none;"></td>
+                                <td></td>
                             </tr>
                             <tr style="background-color: #f8f9fa; font-size: 0.95rem; border-top: 2px solid var(--border-color);">
                                 <td id="med-outcome-label-col-a" colspan="4" style="text-align: left; color: var(--label-color); padding: 10px 1rem;">🔴 結局 A • 沒有為自己預備：</td>
@@ -631,6 +631,12 @@
             if(navToggle) navToggle.innerHTML = '📌';
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
+
+        window.toggleHypnoticBox = function(boxId) {
+            const box = document.getElementById(boxId);
+            if (!box) return;
+            box.style.display = (box.style.display === 'block') ? 'none' : 'block';
+        };
 
         let shareUrlGlobal = ''; 
         let excelParsedPremiumMap = {};
@@ -874,14 +880,11 @@
                 const medRetireAge = parseInt(inputs['med-retire-age'].value) || 65;
                 const medMaxAge = parseInt(inputs['med-max-age'].value) || 99;
 
-                // 智能動態切換想像區塊的文字內容，加入豐富 Emoji 與紅色粗體樣式
-                const dynamicVisionEl = document.getElementById('hypnotic-dynamic-vision');
+                const dynamicVisionEl = document.getElementById('pop-compound-imagine');
                 if (planMode === 'education') {
-                    dynamicVisionEl.innerHTML = `🎓 <strong>「✨ 想像一下未來的畫面：」</strong><br>
-                    等仔女慢慢長大，準備起飛升學嗰陣 ✈️，您完全唔需要為高昂嘅 <strong style="color:red;">#仔女學費</strong> 💸 而皺眉操心。無論係外國留學必備嘅 <strong style="color:red;">#生活費用</strong> 🌍，定係畢業嗰刻送俾佢哋嘅一筆 <strong style="color:red;">#畢業獎金</strong> 🎁 作為人生第一桶金，您都已經早早幫佢哋全自動準備妥當！✅ <br>這份深謀遠慮，將會為下一代換嚟無可取代嘅 <strong>#底氣</strong> 💪 同一世嘅 <strong>#安全感</strong> 🛡️！`;
+                    dynamicVisionEl.innerHTML = `🎓 <strong>「✨ 想像一下：」</strong><br>等仔女慢慢長大，準備起飛升學嗰陣 ✈️，您完全唔需要為高昂嘅 <strong style="color:red; font-weight:bold;">#仔女學費</strong> 💸 而皺眉操心。無論係外國留學必備嘅 <strong style="color:red; font-weight:bold;">#生活費用</strong> 🌍，定係畢業嗰刻送俾佢哋嘅一筆 <strong style="color:red; font-weight:bold;">#畢業獎金</strong> 🎁 作為人生第一桶金，您都已經早早幫佢哋全自動準備妥當！✅<br>這份深謀遠慮，將會為下一代換嚟無可取代嘅 <strong>#底氣</strong> 💪 同一世嘅 <strong>#安全感</strong> 🛡️！`;
                 } else {
-                    dynamicVisionEl.innerHTML = `🏖️ <strong>「✨ 想像一下未來的畫面：」</strong><br>
-                    當終於去到黃金退休年紀 🌅，您真正擁有絕對嘅 <strong>#退休自主</strong> 權力 👑！每個月、每一年，都有一筆源源不絕、全自動準時入帳嘅 <strong>#每年長糧</strong> 💰 供您隨心支配。不管是說走就走去 <strong>#旅遊</strong> ✈️ 睇遍世界風景，定係純粹享受無憂無慮嘅慢活時光 ☕，都完全不需要睇任何人面色！😎<br>這份從容嘅 <strong>#底氣</strong> 💪 與穩如泰山嘅 <strong>#安全感</strong> 🛡️，您想幾時開始擁有？`;
+                    dynamicVisionEl.innerHTML = `🏖️ <strong>「✨ 想像一下：」</strong><br>去到退休年紀 🌅，您擁有絕對嘅 <strong>#退休自主</strong> 權力 👑！每個月、每一年，都有一筆源源不絕、全自動準時入帳嘅 <strong>#每年長糧</strong> 💰 供您隨心支配。不管是說走就走去 <strong>#旅遊</strong> ✈️ 睇遍世界風景，定係純粹享受無憂無慮嘅慢活時光 ☕，都完全由你話事！😎<br>有呢份從容嘅 <strong>#底氣</strong> 💪 與穩如泰山嘅 <strong>#安全感</strong> 🛡️，您想唔想擁有？`;
                 }
 
                 document.getElementById('med-inflation-value').textContent = `${(medInflationRate*100).toFixed(1)}%`;
