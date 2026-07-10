@@ -7,7 +7,7 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
     
-    <title>時光複利：退休醫保預備金 v1.69 </title>
+    <title>時光複利：退休醫保預備金 v1.70 </title>
 
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="icon-192x192.png">
@@ -188,6 +188,13 @@
         .mini-eye-btn.active { opacity: 1; color: var(--primary-color); background: #e7f3ff; border-color: var(--primary-color);
         }
 
+        /* 標題欄內嵌的 Toggle 按鈕 */
+        .inline-toggle {
+            cursor: pointer; display: inline-block; transition: 0.2s; user-select: none; font-size: 1rem; padding: 2px 4px; vertical-align: middle;
+        }
+        .inline-toggle:active { transform: scale(0.8); }
+        .inline-toggle:hover { opacity: 1 !important; transform: scale(1.1); }
+
         .management-section { background: linear-gradient(135deg, #e7f3ff, #f1f8ff); padding: 1.5rem; border-radius: 12px; margin-bottom: 2rem;
             border: 1px solid #cce5ff; }
         .lazy-bag-container { background: #fff; border-radius: 12px; padding: 2.5rem;
@@ -258,11 +265,11 @@
         }
 
         /* 畫板專區的樣式 */
-        .whiteboard-container { border: 2px solid var(--border-color); border-radius: 8px; overflow: hidden; position: relative; background: #fff; box-shadow: inset 0 2px 5px rgba(0,0,0,0.05); }
+        .whiteboard-container { border: 2px solid var(--border-color); border-radius: 8px; overflow: hidden; position: relative; background: #fff; box-shadow: inset 0 2px 5px rgba(0,0,0,0.05); margin-top: 1rem; }
         canvas { display: block; width: 100%; touch-action: none; cursor: crosshair; }
-        .pen-controls { position: absolute; bottom: 10px; right: 10px; display: flex; gap: 8px; background: rgba(255,255,255,0.9); padding: 5px 10px; border-radius: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
-        .color-btn { width: 24px; height: 24px; border-radius: 50%; border: 2px solid #fff; box-shadow: 0 0 3px rgba(0,0,0,0.3); cursor: pointer; transition: transform 0.2s; }
-        .color-btn.active { transform: scale(1.2); box-shadow: 0 0 6px rgba(0,0,0,0.6); }
+        .pen-controls { position: absolute; bottom: 15px; right: 15px; display: flex; gap: 10px; background: rgba(255,255,255,0.9); padding: 8px 12px; border-radius: 25px; box-shadow: 0 4px 10px rgba(0,0,0,0.15); align-items: center;}
+        .color-btn { width: 28px; height: 28px; border-radius: 50%; border: 2px solid #fff; box-shadow: 0 0 4px rgba(0,0,0,0.3); cursor: pointer; transition: transform 0.2s; }
+        .color-btn.active { transform: scale(1.25); box-shadow: 0 0 6px rgba(0,0,0,0.6); }
     </style>
 </head>
 <body>
@@ -279,7 +286,7 @@
 
     <div id="tab-vision" class="tab-section">
         <div class="lazy-bag-container" style="background: #fdfdfd;">
-            <h2>時光複利：歲月豐收 <span style="font-size: 1rem; color: #007bff; vertical-align: middle; background: #e7f3ff; padding: 4px 10px; border-radius: 12px; margin-left: 10px; border: 1px solid #cce5ff;">v1.69</span></h2>
+            <h2>時光複利：歲月豐收 <span style="font-size: 1rem; color: #007bff; vertical-align: middle; background: #e7f3ff; padding: 4px 10px; border-radius: 12px; margin-left: 10px; border: 1px solid #cce5ff;">v1.70</span></h2>
             <h3 style="text-align: center; color: var(--secondary-color); margin-top: 0; margin-bottom: 2rem; border-bottom: 2px solid #f0f2f5; padding-bottom: 1.5rem;">享受人生下半場</h3>
             <div style="display: flex; flex-direction: column; gap: 0.5rem;">
                 <div class="flexibility-card card-rome">
@@ -467,9 +474,6 @@
 
                 <div class="table-wrapper">
                     <table id="results-table"><thead id="results-table-head"></thead><tbody id="results-table-body"></tbody></table>
-                    <div style="text-align: right; margin-top: 0.5rem;">
-                        <button id="toggle-purchasing-power" class="mini-eye-btn" title="顯示/完全收藏 實際購買力防線">👁️</button>
-                    </div>
                 </div>
             </div>
         </div>
@@ -477,33 +481,20 @@
 
     <div id="tab-interest-draw" class="tab-section">
         <div class="calculator-container">
-            <header>
+            <header style="margin-bottom: 0;">
                 <h1>利率解碼：收益與本金的距離</h1>
-                <p>手寫視覺化講解專區</p>
             </header>
             
             <div class="section" style="margin-top: 1rem;">
-                <p style="text-align:center; color:var(--secondary-color); margin-bottom: 15px; font-weight: bold;">
-                    利用此畫板，向客戶即席勾勒「單利息 vs 複利息」的爆發裂口 📈
-                </p>
                 <div class="whiteboard-container">
-                    <canvas id="drawing-board" height="400"></canvas>
+                    <canvas id="drawing-board" height="600"></canvas>
                     <div class="pen-controls">
-                        <div class="color-btn active" style="background: black;" onclick="setPenColor(this, 'black')"></div>
-                        <div class="color-btn" style="background: #dc3545;" onclick="setPenColor(this, '#dc3545')"></div>
-                        <div class="color-btn" style="background: #007bff;" onclick="setPenColor(this, '#007bff')"></div>
-                        <div style="width: 1px; background: #ccc; margin: 0 5px;"></div>
-                        <button onclick="clearCanvas()" class="btn" style="padding: 2px 10px; font-size: 0.85rem; width: auto; font-weight: bold;">🗑️ 清除</button>
+                        <div class="color-btn active" style="background: black;" onclick="setPenMode(this, 'black')"></div>
+                        <div class="color-btn" style="background: #dc3545;" onclick="setPenMode(this, '#dc3545')"></div>
+                        <div class="color-btn" style="background: #007bff;" onclick="setPenMode(this, '#007bff')"></div>
+                        <div style="width: 1px; background: #ccc; margin: 0 5px; height: 24px;"></div>
+                        <div class="color-btn" style="background: #fff; border: 2px dashed #999; display:flex; align-items:center; justify-content:center; font-size: 14px;" onclick="setPenMode(this, 'eraser')" title="擦膠">🧽</div>
                     </div>
-                </div>
-            </div>
-
-            <div class="section">
-                <div class="lazy-bag-container" style="padding: 1.5rem; background: #fdfdfd; border: 1px dashed #dee2e6;">
-                    <h3 style="color: var(--primary-color); margin-top: 0;">💡 銷售演示建議</h3>
-                    <p><strong>第一步：畫出本金線 ➖</strong> 用黑筆畫一條平穩的直線，代表客人辛苦儲蓄的本金。通脹往往會令這條線的實際購買力慢慢傾斜向下。</p>
-                    <p><strong>第二步：畫出銀行利息線 〰️</strong> 用藍筆畫一條貼住本金線上方的微弱曲線，代表一般存款利息，兩者距離極窄，難以拉開差距。</p>
-                    <p><strong>第三步：畫出時光複利曲線 🚀</strong> 用紅筆畫出一條後期急劇向上的拋物線。向客人展示：前期的「播種期」或許增長不明顯，但突破臨界點後，收益與本金的距離會被大幅拉開，這就是時間帶來的底氣！</p>
                 </div>
             </div>
         </div>
@@ -740,8 +731,11 @@
         const MEDICAL_EXCEL_URL = 'https://docs.google.com/spreadsheets/d/1G6JirabWJPrTtsdPuzzfyo-D-EPIbbdCM3HvFUW7ZCw/export?format=xlsx';
 
         let isPurchasingPowerMaskHidden = true; 
-        let showPurchasingPower = false;
         let showActualMedicalPremium = false; 
+        
+        // 狀態變數：控制紅利與年息顯示
+        let showDividend = true;
+        let showInterest = true;
 
         function unlockPurchasingPowerMask() {
             isPurchasingPowerMaskHidden = false;
@@ -769,7 +763,6 @@
             if(navToggle) navToggle.innerHTML = '📌';
             window.scrollTo({ top: 0, behavior: 'smooth' });
             
-            // 如果切換到畫板分頁，確保重置尺寸
             if (tabId === 'tab-interest-draw') {
                 setTimeout(resizeCanvas, 100);
             }
@@ -779,6 +772,17 @@
             const box = document.getElementById(boxId);
             if (!box) return;
             box.style.display = (box.style.display === 'block') ? 'none' : 'block';
+        };
+
+        // 獨立切換顯示函數
+        window.toggleDividend = function() {
+            showDividend = !showDividend;
+            calculateAndDisplay();
+        };
+
+        window.toggleInterest = function() {
+            showInterest = !showInterest;
+            calculateAndDisplay();
         };
 
         let shareUrlGlobal = '';
@@ -923,18 +927,17 @@
             calculateAndDisplay();
         }
 
-        // 白板功能
+        // 白板功能及擦膠設定
         const canvas = document.getElementById('drawing-board');
         const ctx = canvas.getContext('2d');
         let drawing = false;
         let currentPenColor = 'black';
+        let isEraser = false;
 
         function resizeCanvas() {
             canvas.width = canvas.parentElement.clientWidth;
-            // fixed height already set in HTML attribute, but just in case:
             ctx.lineCap = 'round';
             ctx.lineJoin = 'round';
-            ctx.lineWidth = 3;
         }
 
         function startPosition(e) {
@@ -958,7 +961,10 @@
             const x = clientX - rect.left;
             const y = clientY - rect.top;
 
-            ctx.strokeStyle = currentPenColor;
+            // 如果使用擦膠，畫白色粗線蓋過痕跡
+            ctx.strokeStyle = isEraser ? '#ffffff' : currentPenColor;
+            ctx.lineWidth = isEraser ? 30 : 3;
+
             ctx.lineTo(x, y);
             ctx.stroke();
             ctx.beginPath();
@@ -974,13 +980,16 @@
         canvas.addEventListener('touchmove', draw, {passive: false});
         window.addEventListener('resize', resizeCanvas);
 
-        window.setPenColor = function(element, color) { 
-            currentPenColor = color; 
-            document.querySelectorAll('.color-btn').forEach(btn => btn.classList.remove('active'));
+        window.setPenMode = function(element, modeOrColor) { 
+            document.querySelectorAll('.pen-controls .color-btn').forEach(btn => btn.classList.remove('active'));
             element.classList.add('active');
-        };
-        window.clearCanvas = function() { 
-            ctx.clearRect(0, 0, canvas.width, canvas.height); 
+            
+            if (modeOrColor === 'eraser') {
+                isEraser = true;
+            } else {
+                isEraser = false;
+                currentPenColor = modeOrColor;
+            }
         };
 
         document.addEventListener('DOMContentLoaded', function() {
@@ -1116,7 +1125,6 @@
                 let maxYear = targetTableAge - startAge + 1;
                 if (maxYear < 30) maxYear = 30;
                 
-                // 動態年份顯示邏輯：8-25 年逐年，25 年後逢 5 年
                 const reportingYears = [];
                 for (let y = 8; y <= 25; y++) { 
                     if (y <= maxYear) reportingYears.push(y);
@@ -1126,19 +1134,21 @@
                 }
                 if (!reportingYears.includes(maxYear)) reportingYears.push(maxYear);
                 
-                if (showPurchasingPower) {
-                    if (planMode === 'education') {
-                        tableHead.innerHTML = `<tr><th>年份 (歲數)</th><th>累計供款</th><th>年度教育金</th><th>累積已領教育金</th><th>畢業啟航資金</th><th>夢想成真獎賞</th><th>分段平均年息</th></tr>`;
-                    } else {
-                        tableHead.innerHTML = `<tr><th>年份 (歲數)</th><th>累計供款</th><th>每年長糧 (年金)</th><th>累積已領長糧</th><th>安老備用金</th><th>歲月增值紅利</th><th>分段平均年息</th></tr>`;
-                    }
+                // 動態切換顯示的按鈕設定
+                let divIcon = showDividend ? `<span class="inline-toggle active" onclick="toggleDividend()" title="點擊隱藏紅利">💰</span>` : `<span class="inline-toggle" onclick="toggleDividend()" title="點擊顯示紅利" style="filter:grayscale(100%); opacity:0.4;">💰</span>`;
+                let intIcon = showInterest ? `<span class="inline-toggle active" onclick="toggleInterest()" title="點擊隱藏年息">📈</span>` : `<span class="inline-toggle" onclick="toggleInterest()" title="點擊顯示年息" style="filter:grayscale(100%); opacity:0.4;">📈</span>`;
+
+                let headerBase = `<tr><th>年份 (歲數)</th><th>累計供款</th>`;
+                if (planMode === 'education') {
+                    headerBase += `<th>年度教育金</th><th>累積已領教育金</th><th>畢業啟航資金<br>${divIcon} ${intIcon}</th>`;
                 } else {
-                    if (planMode === 'education') {
-                        tableHead.innerHTML = `<tr><th>年份 (歲數)</th><th>累計供款</th><th>年度教育金</th><th>累積已領教育金</th><th>畢業啟航資金</th><th>夢想成真獎賞</th></tr>`;
-                    } else {
-                        tableHead.innerHTML = `<tr><th>年份 (歲數)</th><th>累計供款</th><th>每年長糧 (年金)</th><th>累積已領長糧</th><th>安老備用金</th><th>歲月增值紅利</th></tr>`;
-                    }
+                    headerBase += `<th>每年長糧 (年金)</th><th>累積已領長糧</th><th>安老備用金<br>${divIcon} ${intIcon}</th>`;
                 }
+
+                let thDividend = showDividend ? `<th>${planMode === 'education' ? '夢想成真獎賞' : '歲月增值紅利'}</th>` : '';
+                let thInterest = showInterest ? `<th>年息</th>` : '';
+
+                tableHead.innerHTML = headerBase + thDividend + thInterest + `</tr>`;
                 
                 if (showActualMedicalPremium) {
                     medTableHead.innerHTML = `<tr><th>保單年度 (歲數)</th><th>累計供款</th><th>醫保保費預備金 (提取)</th><th>醫療保費</th><th style="color:green;">實際醫療保費</th><th>醫保防線結餘</th></tr>`;
@@ -1228,12 +1238,11 @@
                         prevYear = year;
                         prevBalance = rV;
 
+                        let tdDividend = showDividend ? `<td style="color:red; font-weight:bold;">$${formatNumber(netProfit)}</td>` : '';
+                        let tdInterest = showInterest ? `<td style="color:#28a745; font-weight:bold; background-color:#f0fdf4;">${displayRate}</td>` : '';
+
                         const row = document.createElement('tr');
-                        if (showPurchasingPower) {
-                            row.innerHTML = `<td>${year} (${currentAge})</td><td>$${formatNumber(rC)}</td><td style="color:blue; font-weight:bold;">$${formatNumber(rA)}</td><td style="color:var(--gain-color); font-weight:bold;">$${formatNumber(rW)}</td><td style="color:#6f42c1; font-weight:bold;">$${formatNumber(rV)}</td><td style="color:red; font-weight:bold;">$${formatNumber(netProfit)}</td><td style="color:#28a745; font-weight:bold; background-color:#f0fdf4;">${displayRate}</td>`;
-                        } else {
-                            row.innerHTML = `<td>${year} (${currentAge})</td><td>$${formatNumber(rC)}</td><td style="color:blue; font-weight:bold;">$${formatNumber(rA)}</td><td style="color:var(--gain-color); font-weight:bold;">$${formatNumber(rW)}</td><td style="color:#6f42c1; font-weight:bold;">$${formatNumber(rV)}</td><td style="color:red; font-weight:bold;">$${formatNumber(netProfit)}</td>`;
-                        }
+                        row.innerHTML = `<td>${year} (${currentAge})</td><td>$${formatNumber(rC)}</td><td style="color:blue; font-weight:bold;">$${formatNumber(rA)}</td><td style="color:var(--gain-color); font-weight:bold;">$${formatNumber(rW)}</td><td style="color:#6f42c1; font-weight:bold;">$${formatNumber(rV)}</td>` + tdDividend + tdInterest;
                         tableBody.appendChild(row);
 
                         const medRow = document.createElement('tr');
@@ -1310,11 +1319,6 @@
             document.getElementById('promo2-base-pct').addEventListener('input', calculatePromo);
             document.getElementById('promo2-extra-pct').addEventListener('input', calculatePromo);
 
-            document.getElementById('toggle-purchasing-power').addEventListener('click', function() {
-                showPurchasingPower = !showPurchasingPower;
-                this.classList.toggle('active', showPurchasingPower);
-                calculateAndDisplay();
-            });
             document.getElementById('toggle-actual-med').addEventListener('click', function() {
                 showActualMedicalPremium = !showActualMedicalPremium;
                 this.classList.toggle('active', showActualMedicalPremium);
