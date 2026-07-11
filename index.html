@@ -7,7 +7,7 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
     
-    <title>時光複利：退休醫保預備金 v1.70 </title>
+    <title>時光複利：退休醫保預備金 v1.71 </title>
 
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="icon-192x192.png">
@@ -280,13 +280,13 @@
         <div class="nav-item" onclick="switchTab('tab-vision', this)"><span class="nav-icon">🤝</span>願景對話</div>
         <div class="nav-item active" onclick="switchTab('tab-calculator', this)"><span class="nav-icon">📊</span>時光複利</div>
         <div class="nav-item" onclick="switchTab('tab-medical', this)"><span class="nav-icon">🏥</span>退休醫保</div>
-        <div class="nav-item" onclick="switchTab('tab-interest-draw', this)"><span class="nav-icon">✍️</span>利率解碼</div>
+        <div class="nav-item" onclick="switchTab('tab-interest-draw', this)"><span class="nav-icon">✍️</span>剛性支出</div>
         <div class="nav-item" onclick="switchTab('tab-promo', this)"><span class="nav-icon">🎁</span>保費優惠</div>
     </nav>
 
     <div id="tab-vision" class="tab-section">
         <div class="lazy-bag-container" style="background: #fdfdfd;">
-            <h2>時光複利：歲月豐收 <span style="font-size: 1rem; color: #007bff; vertical-align: middle; background: #e7f3ff; padding: 4px 10px; border-radius: 12px; margin-left: 10px; border: 1px solid #cce5ff;">v1.70</span></h2>
+            <h2>時光複利：歲月豐收 <span style="font-size: 1rem; color: #007bff; vertical-align: middle; background: #e7f3ff; padding: 4px 10px; border-radius: 12px; margin-left: 10px; border: 1px solid #cce5ff;">v1.71</span></h2>
             <h3 style="text-align: center; color: var(--secondary-color); margin-top: 0; margin-bottom: 2rem; border-bottom: 2px solid #f0f2f5; padding-bottom: 1.5rem;">享受人生下半場</h3>
             <div style="display: flex; flex-direction: column; gap: 0.5rem;">
                 <div class="flexibility-card card-rome">
@@ -479,10 +479,22 @@
         </div>
     </div>
 
+    <!-- 全新手寫講解專區：剛性支出 -->
     <div id="tab-interest-draw" class="tab-section">
         <div class="calculator-container">
-            <header style="margin-bottom: 0;">
-                <h1>利率解碼：收益與本金的距離</h1>
+            <header style="margin-bottom: 0; position:relative;">
+                <h1 style="cursor:pointer; display:inline-flex; align-items:center; justify-content:center; gap:8px;" onclick="toggleHypnoticBox('rigid-hidden-text')">
+                    剛性支出 <button class="inline-hypnotic-btn" style="font-size:1.5rem; background:none; border:none; padding:0;">👁️</button>
+                </h1>
+                
+                <div id="rigid-hidden-text" class="hypnotic-pop-box pop-ask" style="margin-top:15px; font-size:1.1rem; line-height:1.6; text-align:center;">
+                    <span style="color:var(--secondary-color);">(有收入或沒有收入，房，食，衣，行也須要)</span><br><br>
+                    <strong style="color:var(--primary-color); font-size:1.2rem;">給你選擇，你會想：</strong><br>
+                    <div style="margin-top:10px; display:inline-block; text-align:left; font-weight:bold; color:#333;">
+                        1️⃣ 用本金來應付？<br>
+                        2️⃣ 用本金產生的收益來應付？
+                    </div>
+                </div>
             </header>
             
             <div class="section" style="margin-top: 1rem;">
@@ -493,8 +505,18 @@
                         <div class="color-btn" style="background: #dc3545;" onclick="setPenMode(this, '#dc3545')"></div>
                         <div class="color-btn" style="background: #007bff;" onclick="setPenMode(this, '#007bff')"></div>
                         <div style="width: 1px; background: #ccc; margin: 0 5px; height: 24px;"></div>
+                        <!-- 擦膠工具 -->
                         <div class="color-btn" style="background: #fff; border: 2px dashed #999; display:flex; align-items:center; justify-content:center; font-size: 14px;" onclick="setPenMode(this, 'eraser')" title="擦膠">🧽</div>
                     </div>
+                </div>
+            </div>
+            
+            <div class="section" style="margin-top: 1.5rem;">
+                <div class="lazy-bag-container" style="padding: 1.5rem; background: #fdfdfd; border: 1px dashed #dee2e6;">
+                    <h3 style="color: var(--primary-color); margin-top: 0;">💡 畫板演示建議</h3>
+                    <p><strong>第一步：畫出剛性支出線 ➖</strong> 用黑筆畫一條平穩甚至微微向上的直線，代表客人無論如何都要面對的必要開支（房、食、衣、行）。</p>
+                    <p><strong>第二步：畫出本金消耗線 📉</strong> 用藍筆畫一條向下的曲線，向客人展示如果單靠消耗本金來應付剛性支出，總有一日會「乾塘」。</p>
+                    <p><strong>第三步：畫出收益覆蓋線 🚀</strong> 用紅筆畫出一條向上增長的時光複利曲線，並超越剛性支出線。向客人證明：用本金產生的「收益」來應付支出，本金不但不減，還能持續穩健增長！</p>
                 </div>
             </div>
         </div>
@@ -733,7 +755,6 @@
         let isPurchasingPowerMaskHidden = true; 
         let showActualMedicalPremium = false; 
         
-        // 狀態變數：控制紅利與年息顯示
         let showDividend = true;
         let showInterest = true;
 
@@ -774,7 +795,6 @@
             box.style.display = (box.style.display === 'block') ? 'none' : 'block';
         };
 
-        // 獨立切換顯示函數
         window.toggleDividend = function() {
             showDividend = !showDividend;
             calculateAndDisplay();
@@ -961,7 +981,6 @@
             const x = clientX - rect.left;
             const y = clientY - rect.top;
 
-            // 如果使用擦膠，畫白色粗線蓋過痕跡
             ctx.strokeStyle = isEraser ? '#ffffff' : currentPenColor;
             ctx.lineWidth = isEraser ? 30 : 3;
 
@@ -1083,6 +1102,15 @@
             });
             document.getElementById('close-modal-icon').addEventListener('click', () => { document.getElementById('share-modal').style.display = 'none'; });
 
+            // 確保每次重新載入時公式詳情按鈕有效
+            const toggleOutcomeDetailsBtn = document.getElementById('toggle-outcome-details');
+            if (toggleOutcomeDetailsBtn) {
+                toggleOutcomeDetailsBtn.addEventListener('click', function() {
+                    const details = document.getElementById('outcome-details');
+                    details.style.display = details.style.display === 'none' ? 'block' : 'none';
+                });
+            }
+
             window.calculateAndDisplay = function() {
                 const startAge = parseInt(inputs['start-age'].value) || 30;
                 const inflationRate = parseFloat(inputs['inflation-rate'].value) / 100;
@@ -1134,7 +1162,6 @@
                 }
                 if (!reportingYears.includes(maxYear)) reportingYears.push(maxYear);
                 
-                // 動態切換顯示的按鈕設定
                 let divIcon = showDividend ? `<span class="inline-toggle active" onclick="toggleDividend()" title="點擊隱藏紅利">💰</span>` : `<span class="inline-toggle" onclick="toggleDividend()" title="點擊顯示紅利" style="filter:grayscale(100%); opacity:0.4;">💰</span>`;
                 let intIcon = showInterest ? `<span class="inline-toggle active" onclick="toggleInterest()" title="點擊隱藏年息">📈</span>` : `<span class="inline-toggle" onclick="toggleInterest()" title="點擊顯示年息" style="filter:grayscale(100%); opacity:0.4;">📈</span>`;
 
@@ -1224,17 +1251,15 @@
                         let displayRate = "0.0%";
 
                         if (prevYear === 0) {
-                            if (rC > 0) {
-                                annualGrowthRate = (rV - rC) / rC / year;
-                            }
+                            displayRate = "-";
                         } else {
                             let yearsDiff = year - prevYear;
                             if (prevBalance > 0 && yearsDiff > 0) {
                                 annualGrowthRate = (rV - prevBalance) / prevBalance / yearsDiff;
+                                displayRate = (annualGrowthRate * 100).toFixed(1) + "%";
                             }
                         }
                         
-                        displayRate = (annualGrowthRate * 100).toFixed(1) + "%";
                         prevYear = year;
                         prevBalance = rV;
 
