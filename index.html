@@ -7,7 +7,7 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
     
-    <title>時光複利：退休醫保預備金 v1.73 </title>
+    <title>時光複利：退休醫保預備金 v1.75 </title>
 
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="icon-192x192.png">
@@ -77,15 +77,6 @@
         }
         .bottom-nav.show { transform: translateY(0);
         }
-        
-        @media (min-width: 769px) {
-            .nav-toggle-btn { display: none !important;
-            }
-            .bottom-nav { transform: translateY(0);
-            }
-            body { padding-bottom: 80px;
-            }
-        }
 
         .nav-item { text-align: center;
             color: var(--label-color); font-size: 0.7rem; cursor: pointer; flex: 1; min-width: 60px; transition: 0.2s; user-select: none;
@@ -106,16 +97,24 @@
         }
         .section h2 { display: flex; align-items: center; justify-content: center; color: var(--secondary-color);
             margin-bottom: 1.5rem; font-size: 1.5rem; flex-wrap: wrap; gap: 8px; }
-        .top-input-grid, .duel-inputs { display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; align-items: end; margin-bottom: 2rem;
+            
+        .top-input-grid, .duel-inputs, .plan-grid { display: grid; align-items: end; margin-bottom: 2rem; gap: 1.5rem; }
+
+        /* 全面強制 iPad 排版體驗 (580px+) */
+        @media (min-width: 580px) {
+            .nav-toggle-btn { display: none !important; }
+            .bottom-nav { transform: translateY(0) !important; position: fixed; }
+            body { padding-bottom: 80px; }
+            /* 強制錦囊與舒適圈對比輸入框成 4 欄一字排開 */
+            .plan-grid { grid-template-columns: repeat(4, 1fr); gap: 10px; }
+            .duel-inputs { grid-template-columns: repeat(4, 1fr); gap: 10px; }
+            .top-input-grid { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
         }
-        
-        .plan-grid { display: grid;
-            gap: 1.5rem; align-items: end; margin-bottom: 2rem; }
-        @media (min-width: 900px) { .plan-grid { grid-template-columns: repeat(4, 1fr);
-        } } 
-        @media (max-width: 899px) { .plan-grid { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-        } }
+        /* 手機摺疊狀態 (小於 580px) */
+        @media (max-width: 579px) {
+            .plan-grid { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+            .duel-inputs, .top-input-grid { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+        }
         
         .input-group { min-width: 120px;
             position: relative; }
@@ -286,7 +285,7 @@
 
     <div id="tab-vision" class="tab-section">
         <div class="lazy-bag-container" style="background: #fdfdfd;">
-            <h2>時光複利：歲月豐收 <span style="font-size: 1rem; color: #007bff; vertical-align: middle; background: #e7f3ff; padding: 4px 10px; border-radius: 12px; margin-left: 10px; border: 1px solid #cce5ff;">v1.73</span></h2>
+            <h2>時光複利：歲月豐收 <span style="font-size: 1rem; color: #007bff; vertical-align: middle; background: #e7f3ff; padding: 4px 10px; border-radius: 12px; margin-left: 10px; border: 1px solid #cce5ff;">v1.75</span></h2>
             <h3 style="text-align: center; color: var(--secondary-color); margin-top: 0; margin-bottom: 2rem; border-bottom: 2px solid #f0f2f5; padding-bottom: 1.5rem;">享受人生下半場</h3>
             <div style="display: flex; flex-direction: column; gap: 0.5rem;">
                 <div class="flexibility-card card-rome">
@@ -948,22 +947,18 @@
 
         function resizeCanvas() {
             const newWidth = canvas.parentElement.clientWidth;
-            // 避免切換 Tab 或載入時被意外清空，只在寬度真的改變且有效時才進行重繪
             if (!newWidth || canvas.width === newWidth) return; 
 
-            // 儲存舊的畫板內容
             const tempCanvas = document.createElement('canvas');
             tempCanvas.width = canvas.width;
             tempCanvas.height = canvas.height;
             const tempCtx = tempCanvas.getContext('2d');
             tempCtx.drawImage(canvas, 0, 0);
 
-            // 更新畫板大小
             canvas.width = newWidth;
             ctx.lineCap = 'round';
             ctx.lineJoin = 'round';
 
-            // 貼回舊的畫作，實現「暫時記憶」
             ctx.drawImage(tempCanvas, 0, 0);
         }
 
@@ -1019,7 +1014,6 @@
         };
 
         document.addEventListener('DOMContentLoaded', function() {
-            // 初始設定畫布寬度
             canvas.width = canvas.parentElement.clientWidth || window.innerWidth - 60;
             ctx.lineCap = 'round';
             ctx.lineJoin = 'round';
@@ -1160,7 +1154,6 @@
                 const planStrategies = [inputs['plan1-strategy'], inputs['plan2-strategy'], inputs['plan3-strategy'], inputs['plan4-strategy']].map(el => el.value);
                 const isEngineActive = [true, document.getElementById('group-plan2').style.display !== 'none', document.getElementById('group-plan3').style.display !== 'none', document.getElementById('group-plan4').style.display !== 'none'];
                 
-                // 判斷是否為「全滾存模式」
                 const isPureRollover = isEngineActive.every((active, i) => !active || planStrategies[i] === 'none');
 
                 let targetTableAge = Math.max(medMaxAge, 100);
@@ -1231,7 +1224,6 @@
                             rC += Math.min(pA, 5) * aC;
                             let multiplier = getMultiplierFromExcel(strategy, pA);
                             
-                            // 更新為 7% 和 12%
                             if (strategy === 'withdraw7_from8' && pA >= 8) { cA = tP * 0.07; cW = cA * (pA - 8 + 1); cV = tP * multiplier; }
                             else if (strategy === 'withdraw12_from15' && pA >= 15) { cA = tP * 0.12; cW = cA * (pA - 15 + 1); cV = tP * multiplier; }
                             else if (strategy === 'withdraw18_from20' && pA >= 20) { cA = tP * 0.18; cW = cA * (pA - 20 + 1); cV = tP * multiplier; }
@@ -1265,7 +1257,6 @@
                         let annualGrowthRate = 0;
                         let displayRate = "0.0%";
 
-                        // 隱藏第 8 年的年息，並限制只能在「純滾存」模式下計算年息
                         if (prevYear === 0 || year === 8 || !isPureRollover) {
                             displayRate = "-";
                         } else {
