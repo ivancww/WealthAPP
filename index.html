@@ -7,7 +7,7 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
     
-    <title>時光複利：退休醫保預備金 v1.76 </title>
+    <title>時光複利：退休醫保預備金 v1.77 </title>
 
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="icon-192x192.png">
@@ -100,7 +100,6 @@
             
         .top-input-grid, .duel-inputs, .plan-grid { display: grid; align-items: end; margin-bottom: 2rem; gap: 1.5rem; }
 
-        /* 全面強制 iPad 排版體驗 (580px+) */
         @media (min-width: 580px) {
             .nav-toggle-btn { display: none !important; }
             .bottom-nav { transform: translateY(0) !important; position: fixed; }
@@ -281,7 +280,7 @@
 
     <div id="tab-vision" class="tab-section">
         <div class="lazy-bag-container" style="background: #fdfdfd;">
-            <h2>時光複利：歲月豐收 <span style="font-size: 1rem; color: #007bff; vertical-align: middle; background: #e7f3ff; padding: 4px 10px; border-radius: 12px; margin-left: 10px; border: 1px solid #cce5ff;">v1.76</span></h2>
+            <h2>時光複利：歲月豐收 <span style="font-size: 1rem; color: #007bff; vertical-align: middle; background: #e7f3ff; padding: 4px 10px; border-radius: 12px; margin-left: 10px; border: 1px solid #cce5ff;">v1.77</span></h2>
             <h3 style="text-align: center; color: var(--secondary-color); margin-top: 0; margin-bottom: 2rem; border-bottom: 2px solid #f0f2f5; padding-bottom: 1.5rem;">享受人生下半場</h3>
             <div style="display: flex; flex-direction: column; gap: 0.5rem;">
                 <div class="flexibility-card card-rome">
@@ -474,6 +473,7 @@
         </div>
     </div>
 
+    <!-- 全新手寫講解專區：剛性支出 -->
     <div id="tab-interest-draw" class="tab-section">
         <div class="calculator-container">
             <header style="margin-bottom: 0; position:relative;">
@@ -741,7 +741,7 @@
         
         let showDividend = true;
         let showInterest = true;
-        let isSharedMode = false; // 標記是否經由分享模式開啟
+        let isSharedMode = false; 
 
         function unlockPurchasingPowerMask() {
             isPurchasingPowerMaskHidden = false;
@@ -781,13 +781,13 @@
         };
 
         window.toggleDividend = function() {
-            if (isSharedMode) return; // 分享模式下禁止切換
+            if (isSharedMode) return; 
             showDividend = !showDividend;
             calculateAndDisplay();
         };
 
         window.toggleInterest = function() {
-            if (isSharedMode) return; // 分享模式下禁止切換
+            if (isSharedMode) return; 
             showInterest = !showInterest;
             calculateAndDisplay();
         };
@@ -1067,9 +1067,9 @@
             const urlParams = new URLSearchParams(window.location.search);
             if (urlParams.has('data')) {
                 try {
-                    isSharedMode = true; // 進入客戶分享模式
-                    showDividend = false; // 分享模式預設隱藏紅利
-                    showInterest = false; // 分享模式預設隱藏年息
+                    isSharedMode = true; 
+                    showDividend = false; 
+                    showInterest = false; 
 
                     let base64 = urlParams.get('data').replace(/-/g, '+').replace(/_/g, '/');
                     while (base64.length % 4) base64 += '=';
@@ -1083,11 +1083,22 @@
                         }
                     });
                     
-                    // 根據要求：隱藏管理專區、舒適圈區塊及通脹拉桿
+                    // 客戶頁專屬標題顯示客人名字
+                    const clientTitleEl = document.getElementById('client-view-title');
+                    if (clientTitleEl && sharedData['client-name']) {
+                        clientTitleEl.textContent = `👤 客戶：${sharedData['client-name']} 專屬報告`;
+                        clientTitleEl.style.display = 'block';
+                    }
+
+                    // 隱藏管理專區、舒適圈區塊、通脹拉桿及底部導航欄
                     document.getElementById('management-section').style.display = 'none';
                     document.getElementById('med-management-section').style.display = 'none';
                     if (document.getElementById('inflation-group')) document.getElementById('inflation-group').style.display = 'none';
                     if (document.getElementById('comfort-zone-section')) document.getElementById('comfort-zone-section').style.display = 'none';
+                    
+                    // 掃碼開啟時，徹底隱藏導航欄，只保留時光複利頁
+                    if (bottomNav) bottomNav.style.display = 'none !important';
+                    if (navToggle) navToggle.style.display = 'none !important';
                     
                     document.querySelectorAll('.emoji-toggle-bar').forEach(el => el.style.display = 'none');
                     if(document.getElementById('eye-icon-container')) document.getElementById('eye-icon-container').style.display = 'none';
@@ -1173,7 +1184,6 @@
                 }
                 if (!reportingYears.includes(maxYear)) reportingYears.push(maxYear);
                 
-                // 若非分享模式，才顯示標頭開關圖示
                 let divIcon = (isSharedMode) ? '' : (showDividend ? `<span class="inline-toggle active" onclick="toggleDividend()" title="點擊隱藏紅利">💰</span>` : `<span class="inline-toggle" onclick="toggleDividend()" title="點擊顯示紅利" style="filter:grayscale(100%); opacity:0.4;">💰</span>`);
                 let intIcon = (isSharedMode) ? '' : (showInterest ? `<span class="inline-toggle active" onclick="toggleInterest()" title="點擊隱藏年息">📈</span>` : `<span class="inline-toggle" onclick="toggleInterest()" title="點擊顯示年息" style="filter:grayscale(100%); opacity:0.4;">📈</span>`);
 
