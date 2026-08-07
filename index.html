@@ -7,7 +7,7 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
     
-    <title>時光複利：退休醫保預備金 v1.81 </title>
+    <title>時光複利：退休醫保預備金 v1.83 </title>
 
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="icon-192x192.png">
@@ -147,6 +147,7 @@
         
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6); z-index: 2000; align-items: center; justify-content: center; }
         .modal-content { background: #fff; padding: 2.5rem; border-radius: 12px; max-width: 400px; width: 100%; text-align: center; position: relative; }
+        .qr-container img { margin: 0 auto; display: block; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
 
         .flex-input-row { display: flex; align-items: center; gap: 8px; margin-top: 8px; flex-wrap: wrap; }
         .pct-input { width: 70px !important; padding: 4px !important; text-align: center !important; display: inline-block !important; }
@@ -184,7 +185,7 @@
 
     <div id="tab-vision" class="tab-section">
         <div class="lazy-bag-container" style="background: #fdfdfd;">
-            <h2>時光複利：歲月豐收 <span style="font-size: 1rem; color: #007bff; vertical-align: middle; background: #e7f3ff; padding: 4px 10px; border-radius: 12px; margin-left: 10px; border: 1px solid #cce5ff;">v1.81</span></h2>
+            <h2>時光複利：歲月豐收 <span style="font-size: 1rem; color: #007bff; vertical-align: middle; background: #e7f3ff; padding: 4px 10px; border-radius: 12px; margin-left: 10px; border: 1px solid #cce5ff;">v1.83</span></h2>
             <h3 style="text-align: center; color: var(--secondary-color); margin-top: 0; margin-bottom: 2rem; border-bottom: 2px solid #f0f2f5; padding-bottom: 1.5rem;">享受人生下半場</h3>
             <div style="display: flex; flex-direction: column; gap: 0.5rem;">
                 <div class="flexibility-card card-rome">
@@ -456,6 +457,7 @@
         </div>
     </div>
 
+    <!-- 退休醫保頁面：分享模式保留退休年齡及保至幾歲（可修改），固定計劃與通脹率 -->
     <div id="tab-medical" class="tab-section">
         <div class="calculator-container">
             <header>
@@ -470,7 +472,7 @@
                 </div>
             </div>
 
-            <div class="section">
+            <div class="section" id="med-plan-section">
                 <h3 style="text-align:center; color: var(--primary-color);">📂 選擇醫保計劃</h3>
                 <div class="plan-selector-box">
                     <div class="input-group" style="max-width: 400px; margin: 0 auto;">
@@ -496,10 +498,15 @@
                 </div>
             </div>
 
+            <!-- 客戶分享模式專屬：固定顯示醫保計劃名稱 -->
+            <div id="med-plan-fixed-display" style="display:none; text-align:center; margin:1rem 0; font-size:1.2rem; font-weight:bold; color:var(--primary-color); background:#e7f3ff; padding:12px; border-radius:8px;">
+                醫保計劃：<span id="med-plan-fixed-name">女靈活計劃 (基本保費)</span>
+            </div>
+
             <div class="section">
                 <div class="top-input-grid">
                     <div class="input-group"><label>開始歲數</label><input type="number" id="med-start-age" value="30"></div>
-                    <div class="input-group"><label>預期醫療通脹率: <span id="med-inflation-value">5.0%</span></label><input type="range" id="med-inflation-rate" min="0" max="7" value="5" step="0.1"></div>
+                    <div class="input-group" id="med-inflation-group"><label>預期醫療通脹率: <span id="med-inflation-value">5.0%</span></label><input type="range" id="med-inflation-rate" min="0" max="7" value="5" step="0.1"></div>
                     <div class="input-group"><label>預計退休年齡</label><input type="number" id="med-retire-age" value="65"></div>
                     <div class="input-group"><label>預期保至幾歲</label><input type="number" id="med-max-age" value="99"></div>
                 </div>
@@ -516,67 +523,116 @@
 
             <div class="section">
                 <h2>退休醫保備用金</h2>
-                <div class="plan-grid">
-                    <div class="emoji-toggle-bar" id="med-emoji-bar">
-                        <span style="font-size: 0.95rem; color: #555; font-weight: bold;">點擊公仔啟用分段投入：</span>
-                        <div id="btn-med-toggle-plan2" class="emoji-toggle" onclick="toggleEngine('plan2', 'tab-medical')">🐓</div>
-                        <div id="btn-med-toggle-plan3" class="emoji-toggle" onclick="toggleEngine('plan3', 'tab-medical')">🐣</div>
-                        <div id="btn-med-toggle-plan4" class="emoji-toggle" onclick="toggleEngine('plan4', 'tab-medical')">🥚</div>
-                    </div>
+                
+                <div class="emoji-toggle-bar" id="med-emoji-bar">
+                    <span style="font-size: 0.95rem; color: #555; font-weight: bold;">點擊公仔啟用分段投入：</span>
+                    <div id="btn-med-toggle-plan2" class="emoji-toggle" onclick="toggleEngine('plan2', 'tab-medical')">🐓</div>
+                    <div id="btn-med-toggle-plan3" class="emoji-toggle" onclick="toggleEngine('plan3', 'tab-medical')">🐣</div>
+                    <div id="btn-med-toggle-plan4" class="emoji-toggle" onclick="toggleEngine('plan4', 'tab-medical')">🥚</div>
+                </div>
 
-                    <div class="input-group">
-                        <label style="color:var(--plan1-color); font-weight:bold;">儲備金庫一 (第1年供)</label>
-                        <input type="text" id="med-plan1-contribution" value="40,000" inputmode="numeric">
-                        <select id="med-plan1-strategy">
-                            <option value="none">滾存不提取</option>
-                            <option value="withdraw7_from8">第8年開始 取7%</option>
-                            <option value="withdraw12_from15">第15年開始 取12%</option>
-                            <option value="withdraw18_from20">第20年開始 取18%</option>
-                            <option value="withdraw23_from25">第25年開始 取23%</option>
-                            <option value="withdraw29_from30">第30年開始 取29%</option>
-                        </select>
+                <div class="jar-card" style="border-top: 4px solid var(--plan1-color);">
+                    <div class="jar-header">
+                        <h3 style="color:var(--plan1-color); margin:0;">儲備金庫一</h3>
+                        <div style="min-width: 180px;">
+                            <select id="med-plan1-strategy" style="margin:0;">
+                                <option value="none">滾存不提取</option>
+                                <option value="withdraw7_from8">第8年開始 取7%</option>
+                                <option value="withdraw12_from15">第15年開始 取12%</option>
+                                <option value="withdraw18_from20">第20年開始 取18%</option>
+                                <option value="withdraw23_from25">第25年開始 取23%</option>
+                                <option value="withdraw29_from30">第30年開始 取29%</option>
+                            </select>
+                        </div>
                     </div>
+                    <div class="jar-5year-grid">
+                        <div class="input-group"><label>第1年 (<span class="age-y1">30</span>歲)</label><input type="text" id="med-plan1-contribution" value="40,000" inputmode="numeric"></div>
+                        <div class="input-group"><label>第2年 (<span class="age-y2">31</span>歲)</label><input type="text" id="med-plan1-y2" value="40,000" inputmode="numeric"></div>
+                        <div class="input-group"><label>第3年 (<span class="age-y3">32</span>歲)</label><input type="text" id="med-plan1-y3" value="40,000" inputmode="numeric"></div>
+                        <div class="input-group"><label>第4年 (<span class="age-y4">33</span>歲)</label><input type="text" id="med-plan1-y4" value="40,000" inputmode="numeric"></div>
+                        <div class="input-group"><label>第5年 (<span class="age-y5">34</span>歲)</label><input type="text" id="med-plan1-y5" value="40,000" inputmode="numeric"></div>
+                    </div>
+                    <div class="total-box">5年總儲備：$<span id="med-plan1-5yr-total">200,000</span></div>
+                </div>
 
-                    <div class="input-group extra-jar" id="group-med-plan2" style="display:none; position:relative;">
+                <div class="extra-jar" id="group-med-plan2" style="display:none;">
+                    <div class="jar-card" style="border-top: 4px solid var(--plan2-color);">
                         <button class="remove-engine-btn" onclick="toggleEngine('plan2', 'tab-medical')">❌</button>
-                        <label style="color:var(--plan2-color); font-weight:bold;">儲備金庫二 (第6年供)</label>
-                        <input type="text" id="med-plan2-contribution" value="50,000" inputmode="numeric">
-                        <select id="med-plan2-strategy">
-                            <option value="none">滾存不提取</option>
-                            <option value="withdraw7_from8">第8年開始 取7%</option>
-                            <option value="withdraw12_from15">第15年開始 取12%</option>
-                            <option value="withdraw18_from20">第20年開始 取18%</option>
-                            <option value="withdraw23_from25">第25年開始 取23%</option>
-                            <option value="withdraw29_from30">第30年開始 取29%</option>
-                        </select>
+                        <div class="jar-header">
+                            <h3 style="color:var(--plan2-color); margin:0;">儲備金庫二 (第6-10年投入)</h3>
+                            <div style="min-width: 180px;">
+                                <select id="med-plan2-strategy" style="margin:0;">
+                                    <option value="none">滾存不提取</option>
+                                    <option value="withdraw7_from8">第8年開始 取7%</option>
+                                    <option value="withdraw12_from15">第15年開始 取12%</option>
+                                    <option value="withdraw18_from20">第20年開始 取18%</option>
+                                    <option value="withdraw23_from25">第25年開始 取23%</option>
+                                    <option value="withdraw29_from30">第30年開始 取29%</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="jar-5year-grid">
+                            <div class="input-group"><label>第6年 (<span class="age-y6">35</span>歲)</label><input type="text" id="med-plan2-contribution" value="50,000" inputmode="numeric"></div>
+                            <div class="input-group"><label>第7年 (<span class="age-y7">36</span>歲)</label><input type="text" id="med-plan2-y2" value="50,000" inputmode="numeric"></div>
+                            <div class="input-group"><label>第8年 (<span class="age-y8">37</span>歲)</label><input type="text" id="med-plan2-y3" value="50,000" inputmode="numeric"></div>
+                            <div class="input-group"><label>第9年 (<span class="age-y9">38</span>歲)</label><input type="text" id="med-plan2-y4" value="50,000" inputmode="numeric"></div>
+                            <div class="input-group"><label>第10年 (<span class="age-y10">39</span>歲)</label><input type="text" id="med-plan2-y5" value="50,000" inputmode="numeric"></div>
+                        </div>
+                        <div class="total-box" style="background:#e8f5e9; border-color:#c8e6c9; color:var(--plan2-color);">5年總儲備：$<span id="med-plan2-5yr-total">250,000</span></div>
                     </div>
+                </div>
 
-                    <div class="input-group extra-jar" id="group-med-plan3" style="display:none; position:relative;">
+                <div class="extra-jar" id="group-med-plan3" style="display:none;">
+                    <div class="jar-card" style="border-top: 4px solid var(--plan3-color);">
                         <button class="remove-engine-btn" onclick="toggleEngine('plan3', 'tab-medical')">❌</button>
-                        <label style="color:var(--plan3-color); font-weight:bold;">儲備金庫三 (第11年供)</label>
-                        <input type="text" id="med-plan3-contribution" value="60,000" inputmode="numeric">
-                        <select id="med-plan3-strategy">
-                            <option value="none">滾存不提取</option>
-                            <option value="withdraw7_from8">第8年開始 取7%</option>
-                            <option value="withdraw12_from15">第15年開始 取12%</option>
-                            <option value="withdraw18_from20">第20年開始 取18%</option>
-                            <option value="withdraw23_from25">第25年開始 取23%</option>
-                            <option value="withdraw29_from30">第30年開始 取29%</option>
-                        </select>
+                        <div class="jar-header">
+                            <h3 style="color:var(--plan3-color); margin:0;">儲備金庫三 (第11-15年投入)</h3>
+                            <div style="min-width: 180px;">
+                                <select id="med-plan3-strategy" style="margin:0;">
+                                    <option value="none">滾存不提取</option>
+                                    <option value="withdraw7_from8">第8年開始 取7%</option>
+                                    <option value="withdraw12_from15">第15年開始 取12%</option>
+                                    <option value="withdraw18_from20">第20年開始 取18%</option>
+                                    <option value="withdraw23_from25">第25年開始 取23%</option>
+                                    <option value="withdraw29_from30">第30年開始 取29%</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="jar-5year-grid">
+                            <div class="input-group"><label>第11年 (<span class="age-y11">40</span>歲)</label><input type="text" id="med-plan3-contribution" value="60,000" inputmode="numeric"></div>
+                            <div class="input-group"><label>第12年 (<span class="age-y12">41</span>歲)</label><input type="text" id="med-plan3-y2" value="60,000" inputmode="numeric"></div>
+                            <div class="input-group"><label>第13年 (<span class="age-y13">42</span>歲)</label><input type="text" id="med-plan3-y3" value="60,000" inputmode="numeric"></div>
+                            <div class="input-group"><label>第14年 (<span class="age-y14">43</span>歲)</label><input type="text" id="med-plan3-y4" value="60,000" inputmode="numeric"></div>
+                            <div class="input-group"><label>第15年 (<span class="age-y15">44</span>歲)</label><input type="text" id="med-plan3-y5" value="60,000" inputmode="numeric"></div>
+                        </div>
+                        <div class="total-box" style="background:#fffde7; border-color:#fff9c4; color:#f57f17;">5年總儲備：$<span id="med-plan3-5yr-total">300,000</span></div>
                     </div>
+                </div>
 
-                    <div class="input-group extra-jar" id="group-med-plan4" style="display:none; position:relative;">
+                <div class="extra-jar" id="group-med-plan4" style="display:none;">
+                    <div class="jar-card" style="border-top: 4px solid var(--plan4-color);">
                         <button class="remove-engine-btn" onclick="toggleEngine('plan4', 'tab-medical')">❌</button>
-                        <label style="color:var(--plan4-color); font-weight:bold;">儲備金庫四 (第16年供)</label>
-                        <input type="text" id="med-plan4-contribution" value="70,000" inputmode="numeric">
-                        <select id="med-plan4-strategy">
-                            <option value="none">滾存不提取</option>
-                            <option value="withdraw7_from8">第8年開始 取7%</option>
-                            <option value="withdraw12_from15">第15年開始 取12%</option>
-                            <option value="withdraw18_from20">第20年開始 取18%</option>
-                            <option value="withdraw23_from25">第25年開始 取23%</option>
-                            <option value="withdraw29_from30">第30年開始 取29%</option>
-                        </select>
+                        <div class="jar-header">
+                            <h3 style="color:var(--plan4-color); margin:0;">儲備金庫四 (第16-20年投入)</h3>
+                            <div style="min-width: 180px;">
+                                <select id="med-plan4-strategy" style="margin:0;">
+                                    <option value="none">滾存不提取</option>
+                                    <option value="withdraw7_from8">第8年開始 取7%</option>
+                                    <option value="withdraw12_from15">第15年開始 取12%</option>
+                                    <option value="withdraw18_from20">第20年開始 取18%</option>
+                                    <option value="withdraw23_from25">第25年開始 取23%</option>
+                                    <option value="withdraw29_from30">第30年開始 取29%</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="jar-5year-grid">
+                            <div class="input-group"><label>第16年 (<span class="age-y16">45</span>歲)</label><input type="text" id="med-plan4-contribution" value="70,000" inputmode="numeric"></div>
+                            <div class="input-group"><label>第17年 (<span class="age-y17">46</span>歲)</label><input type="text" id="med-plan4-y2" value="70,000" inputmode="numeric"></div>
+                            <div class="input-group"><label>第18年 (<span class="age-y18">47</span>歲)</label><input type="text" id="med-plan4-y3" value="70,000" inputmode="numeric"></div>
+                            <div class="input-group"><label>第19年 (<span class="age-y19">48</span>歲)</label><input type="text" id="med-plan4-y4" value="70,000" inputmode="numeric"></div>
+                            <div class="input-group"><label>第20年 (<span class="age-y20">49</span>歲)</label><input type="text" id="med-plan4-y5" value="70,000" inputmode="numeric"></div>
+                        </div>
+                        <div class="total-box" style="background:#f3e5f5; border-color:#e1bee7; color:var(--plan4-color);">5年總儲備：$<span id="med-plan4-5yr-total">350,000</span></div>
                     </div>
                 </div>
 
@@ -685,7 +741,7 @@
             <span class="close-modal" id="close-modal-icon">&times;</span>
             <h3 style="color:var(--primary-color); margin-top:0;">🔗 成功建立分享連結！</h3>
             <div class="qr-container" id="qr-code-display"></div>
-            <button class="btn btn-secondary copy-url-btn" id="copy-url-btn">📄 複製專屬網址</button>
+            <button class="btn btn-secondary copy-url-btn" id="copy-url-btn" style="margin-top:15px;">📄 複製專屬網址</button>
             <p id="copy-success-msg" style="color: var(--gain-color); font-size: 0.85rem; display: none; margin-top: 5px;">✅ 網址已複製！</p>
         </div>
     </div>
@@ -980,8 +1036,11 @@
                 'plan3-contribution', 'plan3-y2', 'plan3-y3', 'plan3-y4', 'plan3-y5',
                 'plan4-contribution', 'plan4-y2', 'plan4-y3', 'plan4-y4', 'plan4-y5',
                 'plan1-strategy', 'plan2-strategy', 'plan3-strategy', 'plan4-strategy',
+                'med-plan1-contribution', 'med-plan1-y2', 'med-plan1-y3', 'med-plan1-y4', 'med-plan1-y5',
+                'med-plan2-contribution', 'med-plan2-y2', 'med-plan2-y3', 'med-plan2-y4', 'med-plan2-y5',
+                'med-plan3-contribution', 'med-plan3-y2', 'med-plan3-y3', 'med-plan3-y4', 'med-plan3-y5',
+                'med-plan4-contribution', 'med-plan4-y2', 'med-plan4-y3', 'med-plan4-y4', 'med-plan4-y5',
                 'med-start-age', 'med-inflation-rate', 'med-retire-age', 'med-max-age',
-                'med-plan1-contribution', 'med-plan2-contribution', 'med-plan3-contribution', 'med-plan4-contribution',
                 'med-plan1-strategy', 'med-plan2-strategy', 'med-plan3-strategy', 'med-plan4-strategy', 'med-plan-select'
             ];
             const allInputIds = [...pureShareIds, 'promo-annual-premium', 'promo-term', 'promo1-check', 'promo2-check', 'promo2-base-pct', 'promo2-extra-pct', 'promo3-check', 'promo3-rate'];
@@ -1005,7 +1064,7 @@
                     calculateAndDisplay();
                 });
             }
-            ['plan1', 'plan2', 'plan3', 'plan4'].forEach(setupJarAutoFill);
+            ['plan1', 'plan2', 'plan3', 'plan4', 'med-plan1', 'med-plan2', 'med-plan3', 'med-plan4'].forEach(setupJarAutoFill);
 
             function syncFields(id1, id2, isNumeric=false) {
                 const el1 = document.getElementById(id1);
@@ -1016,14 +1075,16 @@
             }
             syncFields('client-name', 'med-client-name');
             syncFields('start-age', 'med-start-age');
-            syncFields('plan1-contribution', 'med-plan1-contribution', true);
-            syncFields('plan2-contribution', 'med-plan2-contribution', true);
-            syncFields('plan3-contribution', 'med-plan3-contribution', true);
-            syncFields('plan4-contribution', 'med-plan4-contribution', true);
-            syncFields('plan1-strategy', 'med-plan1-strategy');
-            syncFields('plan2-strategy', 'med-plan2-strategy');
-            syncFields('plan3-strategy', 'med-plan3-strategy');
-            syncFields('plan4-strategy', 'med-plan4-strategy');
+            
+            for(let j=1; j<=4; j++) {
+                const pName = `plan${j}`;
+                const mName = `med-plan${j}`;
+                syncFields(`${pName}-contribution`, `${mName}-contribution`, true);
+                for(let k=2; k<=5; k++) {
+                    syncFields(`${pName}-y${k}`, `${mName}-y${k}`, true);
+                }
+                syncFields(`${pName}-strategy`, `${mName}-strategy`);
+            }
 
             document.getElementById('toggle-interest').addEventListener('click', function() {
                 const slider = document.getElementById('bank-interest');
@@ -1071,6 +1132,17 @@
                     if (document.getElementById('inflation-group')) document.getElementById('inflation-group').style.display = 'none';
                     if (document.getElementById('comfort-zone-section')) document.getElementById('comfort-zone-section').style.display = 'none';
                     
+                    // 退休醫保分享模式：隱藏計劃選擇器與通脹率拉桿（通脹數值精準保留分享前的設定），但保留退休年齡及保至幾歲（可手動修改）
+                    if (document.getElementById('med-plan-section')) document.getElementById('med-plan-section').style.display = 'none';
+                    if (document.getElementById('med-inflation-group')) document.getElementById('med-inflation-group').style.display = 'none';
+                    
+                    const fixedPlanEl = document.getElementById('med-plan-fixed-display');
+                    const fixedPlanNameEl = document.getElementById('med-plan-fixed-name');
+                    if (fixedPlanEl && fixedPlanNameEl && sharedData['med-plan-select']) {
+                        fixedPlanNameEl.textContent = sharedData['med-plan-select'];
+                        fixedPlanEl.style.display = 'block';
+                    }
+
                     document.querySelectorAll('.emoji-toggle-bar').forEach(el => el.style.display = 'none');
                     if(document.getElementById('eye-icon-container')) document.getElementById('eye-icon-container').style.display = 'none';
                     switchTab('tab-calculator');
@@ -1082,11 +1154,30 @@
                 pureShareIds.forEach(id => { if(inputs[id]) currentData[id] = parseFormattedNumber(inputs[id].value) || inputs[id].value; });
                 const base64Str = btoa(unescape(encodeURIComponent(JSON.stringify(currentData)))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
                 shareUrlGlobal = `${window.location.origin}${window.location.pathname}?data=${base64Str}`;
+                
                 const qrContainer = document.getElementById('qr-code-display');
                 qrContainer.innerHTML = '';
-                new QRCode(qrContainer, { text: shareUrlGlobal, width: 250, height: 250, correctLevel : QRCode.CorrectLevel.M });
+                
+                const tempDiv = document.createElement('div');
+                new QRCode(tempDiv, { text: shareUrlGlobal, width: 250, height: 250, correctLevel : QRCode.CorrectLevel.M });
+                
+                setTimeout(() => {
+                    const canvasEl = tempDiv.querySelector('canvas');
+                    if (canvasEl) {
+                        const img = document.createElement('img');
+                        img.src = canvasEl.toDataURL("image/png");
+                        img.alt = "專屬報告二維碼";
+                        img.style.width = "250px";
+                        img.style.height = "250px";
+                        qrContainer.appendChild(img);
+                    } else {
+                        qrContainer.appendChild(tempDiv);
+                    }
+                }, 50);
+
                 document.getElementById('share-modal').style.display = 'flex';
             };
+
             document.getElementById('share-btn').addEventListener('click', handleShare);
             document.getElementById('med-share-btn').addEventListener('click', handleShare);
             document.getElementById('copy-url-btn').addEventListener('click', () => {
@@ -1156,6 +1247,16 @@
                 document.getElementById('plan2-5yr-total').textContent = formatNumber(p2Total);
                 document.getElementById('plan3-5yr-total').textContent = formatNumber(p3Total);
                 document.getElementById('plan4-5yr-total').textContent = formatNumber(p4Total);
+
+                const m1Total = getJarTotal('med-plan1');
+                const m2Total = getJarTotal('med-plan2');
+                const m3Total = getJarTotal('med-plan3');
+                const m4Total = getJarTotal('med-plan4');
+
+                document.getElementById('med-plan1-5yr-total').textContent = formatNumber(m1Total);
+                document.getElementById('med-plan2-5yr-total').textContent = formatNumber(m2Total);
+                document.getElementById('med-plan3-5yr-total').textContent = formatNumber(m3Total);
+                document.getElementById('med-plan4-5yr-total').textContent = formatNumber(m4Total);
 
                 const dynamicVisionEl = document.getElementById('pop-compound-imagine');
                 if (planMode === 'education') {
@@ -1276,7 +1377,6 @@
                     let actualMedPremium = rA - medPremiumCurrentYear;
                     cumulativeActualMedPremium += actualMedPremium;
                     
-                    // 完全與時光複利一致：醫保防線結餘即等於提取後的剩餘戶口價值 (rV)
                     let displayMedBalance = rV;
 
                     sumExtracted += rA;
