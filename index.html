@@ -7,9 +7,8 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
     
-    <title>時光複利：退休醫保預備金 v1.83 </title>
+    <title>時光複利：退休醫保預備金 v1.86 </title>
 
-    <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="icon-192x192.png">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -32,6 +31,7 @@
             --plan2-color: rgba(40, 167, 69, 0.8);
             --plan3-color: rgba(255, 193, 7, 0.8); --plan4-color: rgba(108, 92, 231, 0.8);
             --gain-color: #28a745; --inflation-color: #dc3545;
+            --pink-dashed-border: 2px dashed #f8bbd0;
         }
         
         body { font-family: 'Noto Sans TC', sans-serif; background-color: var(--bg-color); color: var(--text-color); margin: 0; padding: 0; padding-bottom: 20px; box-sizing: border-box; overflow-x: hidden; }
@@ -89,8 +89,18 @@
         
         .input-group { min-width: 100px; position: relative; }
         .input-group label { display: flex; align-items: center; justify-content: center; font-weight: 500; color: var(--label-color); margin-bottom: 0.5rem; text-align: center; font-size: 0.95rem; }
-        .input-group input, .input-group select, .btn { width: 100%; padding: 0.75rem; border: 1px solid var(--border-color); border-radius: 8px; font-size: 1rem; font-family: inherit; box-sizing: border-box; text-align: center; background-color: #fff; color: var(--text-color); }
-        .input-group select { text-align-last: center; margin-top: 0.5rem; border-color: var(--primary-color); font-size: 0.9rem; }
+        
+        /* 所有可輸入及可選擇框改為淺粉紅色虛線邊框 */
+        .input-group input, .input-group select, .btn { 
+            width: 100%; padding: 0.75rem; 
+            border: var(--pink-dashed-border) !important; 
+            border-radius: 8px; font-size: 1rem; font-family: inherit; box-sizing: border-box; text-align: center; background-color: #fff0f5; color: var(--text-color); 
+            transition: all 0.2s;
+        }
+        .input-group input:focus, .input-group select:focus {
+            outline: none; background-color: #ffffff; border-color: #f48fb1 !important; box-shadow: 0 0 5px rgba(244, 143, 177, 0.5);
+        }
+        .input-group select { text-align-last: center; font-size: 1rem; height: 48px; }
         
         .plan-selector-box { background: #f8f9fa; border: 2px dashed #007bff; padding: 1.5rem; border-radius: 12px; text-align: center; margin: 1rem 0; }
         #excel-status-msg { margin-top: 12px; font-weight: bold; color: #28a745; font-size: 0.95rem; }
@@ -138,7 +148,7 @@
         .promo-card { background: #fdfdfd; border: 1px solid #dee2e6; border-radius: 12px; padding: 1.5rem; margin-bottom: 1.5rem; }
         .promo-row { display: flex; align-items: flex-start; gap: 15px; margin-bottom: 1.2rem; padding-bottom: 1.2rem; border-bottom: 1px dashed #eee; }
         .promo-row:last-child { border-bottom: none; }
-        .promo-checkbox { width: 24px; height: 24px; accent-color: var(--primary-color); }
+        .promo-checkbox { width: 24px; height: 24px; accent-color: var(--primary-color); border: var(--pink-dashed-border) !important; }
         .promo-content { flex: 1; }
         .promo-content h4 { margin: 0 0 5px 0; color: var(--primary-color); font-size: 1.1rem; }
         .promo-tag { background: #ffecb3; color: #d84315; padding: 2px 8px; border-radius: 4px; font-size: 0.8rem; font-weight: bold; display: inline-block; margin-top: 5px; }
@@ -167,8 +177,18 @@
 
         .jar-card { background: #fdfdfd; border: 1px solid var(--border-color); border-radius: 12px; padding: 1.2rem; margin-bottom: 1.5rem; position: relative; }
         .jar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 10px; }
+        .jar-header select { min-width: 220px; font-weight: bold; }
         .jar-5year-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 10px; margin-bottom: 1rem; }
         .total-box { background: #e7f3ff; border: 1px solid #b8daff; border-radius: 8px; padding: 10px; text-align: center; font-weight: bold; color: var(--primary-color); }
+        .med-prem-subbox { background: #f3e5f5; border: 1px dashed #e1bee7; border-radius: 6px; padding: 6px; text-align: center; font-size: 0.85rem; color: purple; font-weight: bold; margin-top: 6px; }
+
+        @media print {
+            body { background: #fff !important; color: #000 !important; }
+            .bottom-nav, .nav-toggle-btn, .management-section, #med-management-section, .modal-overlay, .inline-hypnotic-btn, .inline-toggle, .mini-eye-btn, #share-btn, #med-share-btn { display: none !important; }
+            .calculator-container, .lazy-bag-container { box-shadow: none !important; border: none !important; padding: 0 !important; }
+            .tab-section { display: block !important; opacity: 1 !important; }
+            .tab-section:not(.active) { display: none !important; }
+        }
     </style>
 </head>
 <body>
@@ -185,7 +205,7 @@
 
     <div id="tab-vision" class="tab-section">
         <div class="lazy-bag-container" style="background: #fdfdfd;">
-            <h2>時光複利：歲月豐收 <span style="font-size: 1rem; color: #007bff; vertical-align: middle; background: #e7f3ff; padding: 4px 10px; border-radius: 12px; margin-left: 10px; border: 1px solid #cce5ff;">v1.83</span></h2>
+            <h2>時光複利：歲月豐收 <span style="font-size: 1rem; color: #007bff; vertical-align: middle; background: #e7f3ff; padding: 4px 10px; border-radius: 12px; margin-left: 10px; border: 1px solid #cce5ff;">v1.86</span></h2>
             <h3 style="text-align: center; color: var(--secondary-color); margin-top: 0; margin-bottom: 2rem; border-bottom: 2px solid #f0f2f5; padding-bottom: 1.5rem;">享受人生下半場</h3>
             <div style="display: flex; flex-direction: column; gap: 0.5rem;">
                 <div class="flexibility-card card-rome">
@@ -243,7 +263,7 @@
                             <option value="education">🎓 教育基金</option>
                         </select>
                     </div>
-                    <div class="input-group" style="flex: 1; min-width: 120px;"><button id="share-btn" class="btn btn-success">📤 建立分享</button></div>
+                    <div class="input-group" style="flex: 1; min-width: 120px;"><button id="share-btn" class="btn btn-success" onclick="handleShare('tab-calculator')">📤 建立分享</button></div>
                 </div>
             </div>
 
@@ -311,7 +331,7 @@
                             一號時光錦囊
                             <button class="inline-hypnotic-btn" onclick="event.preventDefault(); toggleHypnoticBox('pop-jar1-urgent')" title="點擊顯示不行動的代價">🚨</button>
                         </h3>
-                        <div style="min-width: 180px;">
+                        <div>
                             <select id="plan1-strategy" style="margin:0;">
                                 <option value="none">滾存不提取</option>
                                 <option value="withdraw7_from8">第8年開始 取7%</option>
@@ -342,7 +362,7 @@
                         <button class="remove-engine-btn" onclick="toggleEngine('plan2', 'tab-calculator')">❌</button>
                         <div class="jar-header">
                             <h3 style="color:var(--plan2-color); margin:0;">二號時光錦囊 (第6-10年供款)</h3>
-                            <div style="min-width: 180px;">
+                            <div>
                                 <select id="plan2-strategy" style="margin:0;">
                                     <option value="none">滾存不提取</option>
                                     <option value="withdraw7_from8">第8年開始 取7%</option>
@@ -369,7 +389,7 @@
                         <button class="remove-engine-btn" onclick="toggleEngine('plan3', 'tab-calculator')">❌</button>
                         <div class="jar-header">
                             <h3 style="color:var(--plan3-color); margin:0;">三號時光錦囊 (第11-15年供款)</h3>
-                            <div style="min-width: 180px;">
+                            <div>
                                 <select id="plan3-strategy" style="margin:0;">
                                     <option value="none">滾存不提取</option>
                                     <option value="withdraw7_from8">第8年開始 取7%</option>
@@ -396,7 +416,7 @@
                         <button class="remove-engine-btn" onclick="toggleEngine('plan4', 'tab-calculator')">❌</button>
                         <div class="jar-header">
                             <h3 style="color:var(--plan4-color); margin:0;">四號時光錦囊 (第16-20年供款)</h3>
-                            <div style="min-width: 180px;">
+                            <div>
                                 <select id="plan4-strategy" style="margin:0;">
                                     <option value="none">滾存不提取</option>
                                     <option value="withdraw7_from8">第8年開始 取7%</option>
@@ -457,7 +477,7 @@
         </div>
     </div>
 
-    <!-- 退休醫保頁面：分享模式保留退休年齡及保至幾歲（可修改），固定計劃與通脹率 -->
+    <!-- 退休醫保頁面：客戶名稱解綁獨立，千位數格式化及大選單規格 -->
     <div id="tab-medical" class="tab-section">
         <div class="calculator-container">
             <header>
@@ -467,8 +487,8 @@
             <div class="management-section" id="med-management-section">
                 <h3 style="margin-bottom: 1rem; color: var(--primary-color);">💼 退休醫保預備金報告</h3>
                 <div style="display: flex; gap: 10px; max-width: 600px; margin: 0 auto; align-items: center; flex-wrap: wrap;">
-                    <div class="input-group" style="flex: 3; min-width: 250px;"><input type="text" id="med-client-name" placeholder="客戶名稱將自動同步" style="font-weight: bold;" readonly></div>
-                    <div class="input-group" style="flex: 1; min-width: 120px;"><button id="med-share-btn" class="btn btn-success">📤 建立分享</button></div>
+                    <div class="input-group" style="flex: 3; min-width: 250px;"><input type="text" id="med-client-name" placeholder="輸入客戶名稱" style="font-weight: bold;"></div>
+                    <div class="input-group" style="flex: 1; min-width: 120px;"><button id="med-share-btn" class="btn btn-success" onclick="handleShare('tab-medical')">📤 建立分享</button></div>
                 </div>
             </div>
 
@@ -498,7 +518,6 @@
                 </div>
             </div>
 
-            <!-- 客戶分享模式專屬：固定顯示醫保計劃名稱 -->
             <div id="med-plan-fixed-display" style="display:none; text-align:center; margin:1rem 0; font-size:1.2rem; font-weight:bold; color:var(--primary-color); background:#e7f3ff; padding:12px; border-radius:8px;">
                 醫保計劃：<span id="med-plan-fixed-name">女靈活計劃 (基本保費)</span>
             </div>
@@ -533,8 +552,8 @@
 
                 <div class="jar-card" style="border-top: 4px solid var(--plan1-color);">
                     <div class="jar-header">
-                        <h3 style="color:var(--plan1-color); margin:0;">儲備金庫一</h3>
-                        <div style="min-width: 180px;">
+                        <h3 style="color:var(--plan1-color); margin:0;">儲備金庫一 + <span style="color:purple; font-weight:bold;">醫療保費</span></h3>
+                        <div>
                             <select id="med-plan1-strategy" style="margin:0;">
                                 <option value="none">滾存不提取</option>
                                 <option value="withdraw7_from8">第8年開始 取7%</option>
@@ -546,13 +565,33 @@
                         </div>
                     </div>
                     <div class="jar-5year-grid">
-                        <div class="input-group"><label>第1年 (<span class="age-y1">30</span>歲)</label><input type="text" id="med-plan1-contribution" value="40,000" inputmode="numeric"></div>
-                        <div class="input-group"><label>第2年 (<span class="age-y2">31</span>歲)</label><input type="text" id="med-plan1-y2" value="40,000" inputmode="numeric"></div>
-                        <div class="input-group"><label>第3年 (<span class="age-y3">32</span>歲)</label><input type="text" id="med-plan1-y3" value="40,000" inputmode="numeric"></div>
-                        <div class="input-group"><label>第4年 (<span class="age-y4">33</span>歲)</label><input type="text" id="med-plan1-y4" value="40,000" inputmode="numeric"></div>
-                        <div class="input-group"><label>第5年 (<span class="age-y5">34</span>歲)</label><input type="text" id="med-plan1-y5" value="40,000" inputmode="numeric"></div>
+                        <div class="input-group">
+                            <label>第1年 (<span class="age-y1">30</span>歲)</label>
+                            <input type="text" id="med-plan1-contribution" value="40,000" inputmode="numeric">
+                            <div class="med-prem-subbox">醫療保費: $<span id="med-prem-y1">0</span></div>
+                        </div>
+                        <div class="input-group">
+                            <label>第2年 (<span class="age-y2">31</span>歲)</label>
+                            <input type="text" id="med-plan1-y2" value="40,000" inputmode="numeric">
+                            <div class="med-prem-subbox">醫療保費: $<span id="med-prem-y2">0</span></div>
+                        </div>
+                        <div class="input-group">
+                            <label>第3年 (<span class="age-y3">32</span>歲)</label>
+                            <input type="text" id="med-plan1-y3" value="40,000" inputmode="numeric">
+                            <div class="med-prem-subbox">醫療保費: $<span id="med-prem-y3">0</span></div>
+                        </div>
+                        <div class="input-group">
+                            <label>第4年 (<span class="age-y4">33</span>歲)</label>
+                            <input type="text" id="med-plan1-y4" value="40,000" inputmode="numeric">
+                            <div class="med-prem-subbox">醫療保費: $<span id="med-prem-y4">0</span></div>
+                        </div>
+                        <div class="input-group">
+                            <label>第5年 (<span class="age-y5">34</span>歲)</label>
+                            <input type="text" id="med-plan1-y5" value="40,000" inputmode="numeric">
+                            <div class="med-prem-subbox">醫療保費: $<span id="med-prem-y5">0</span></div>
+                        </div>
                     </div>
-                    <div class="total-box">5年總儲備：$<span id="med-plan1-5yr-total">200,000</span></div>
+                    <div class="total-box">5年儲備 + 醫療保費總額：$<span id="med-plan1-5yr-total">200,000</span></div>
                 </div>
 
                 <div class="extra-jar" id="group-med-plan2" style="display:none;">
@@ -560,7 +599,7 @@
                         <button class="remove-engine-btn" onclick="toggleEngine('plan2', 'tab-medical')">❌</button>
                         <div class="jar-header">
                             <h3 style="color:var(--plan2-color); margin:0;">儲備金庫二 (第6-10年投入)</h3>
-                            <div style="min-width: 180px;">
+                            <div>
                                 <select id="med-plan2-strategy" style="margin:0;">
                                     <option value="none">滾存不提取</option>
                                     <option value="withdraw7_from8">第8年開始 取7%</option>
@@ -587,7 +626,7 @@
                         <button class="remove-engine-btn" onclick="toggleEngine('plan3', 'tab-medical')">❌</button>
                         <div class="jar-header">
                             <h3 style="color:var(--plan3-color); margin:0;">儲備金庫三 (第11-15年投入)</h3>
-                            <div style="min-width: 180px;">
+                            <div>
                                 <select id="med-plan3-strategy" style="margin:0;">
                                     <option value="none">滾存不提取</option>
                                     <option value="withdraw7_from8">第8年開始 取7%</option>
@@ -614,7 +653,7 @@
                         <button class="remove-engine-btn" onclick="toggleEngine('plan4', 'tab-medical')">❌</button>
                         <div class="jar-header">
                             <h3 style="color:var(--plan4-color); margin:0;">儲備金庫四 (第16-20年投入)</h3>
-                            <div style="min-width: 180px;">
+                            <div>
                                 <select id="med-plan4-strategy" style="margin:0;">
                                     <option value="none">滾存不提取</option>
                                     <option value="withdraw7_from8">第8年開始 取7%</option>
@@ -741,7 +780,10 @@
             <span class="close-modal" id="close-modal-icon">&times;</span>
             <h3 style="color:var(--primary-color); margin-top:0;">🔗 成功建立分享連結！</h3>
             <div class="qr-container" id="qr-code-display"></div>
-            <button class="btn btn-secondary copy-url-btn" id="copy-url-btn" style="margin-top:15px;">📄 複製專屬網址</button>
+            <div style="display:flex; gap:10px; margin-top:15px; justify-content:center;">
+                <button class="btn btn-secondary copy-url-btn" id="copy-url-btn" style="flex:1;">📄 複製網址</button>
+                <button class="btn btn-primary" id="print-pdf-btn" onclick="window.print()" style="flex:1;">📄 導出 PDF</button>
+            </div>
             <p id="copy-success-msg" style="color: var(--gain-color); font-size: 0.85rem; display: none; margin-top: 5px;">✅ 網址已複製！</p>
         </div>
     </div>
@@ -1022,6 +1064,55 @@
             }
         };
 
+        window.handleShare = function(defaultTab) {
+            const pureShareIds = [
+                'client-name', 'plan-mode', 'start-age', 'inflation-rate', 'existing-deposit', 'bank-deposit', 'bank-interest', 
+                'duel-year', 'plan1-contribution', 'plan1-y2', 'plan1-y3', 'plan1-y4', 'plan1-y5',
+                'plan2-contribution', 'plan2-y2', 'plan2-y3', 'plan2-y4', 'plan2-y5',
+                'plan3-contribution', 'plan3-y2', 'plan3-y3', 'plan3-y4', 'plan3-y5',
+                'plan4-contribution', 'plan4-y2', 'plan4-y3', 'plan4-y4', 'plan4-y5',
+                'plan1-strategy', 'plan2-strategy', 'plan3-strategy', 'plan4-strategy',
+                'med-client-name', 'med-plan1-contribution', 'med-plan1-y2', 'med-plan1-y3', 'med-plan1-y4', 'med-plan1-y5',
+                'med-plan2-contribution', 'med-plan2-y2', 'med-plan2-y3', 'med-plan2-y4', 'med-plan2-y5',
+                'med-plan3-contribution', 'med-plan3-y2', 'med-plan3-y3', 'med-plan3-y4', 'med-plan3-y5',
+                'med-plan4-contribution', 'med-plan4-y2', 'med-plan4-y3', 'med-plan4-y4', 'med-plan4-y5',
+                'med-start-age', 'med-inflation-rate', 'med-retire-age', 'med-max-age',
+                'med-plan1-strategy', 'med-plan2-strategy', 'med-plan3-strategy', 'med-plan4-strategy', 'med-plan-select'
+            ];
+            
+            const currentData = {};
+            pureShareIds.forEach(id => { 
+                const el = document.getElementById(id);
+                if(el) currentData[id] = parseFormattedNumber(el.value) || el.value; 
+            });
+            if (defaultTab) currentData['default_tab'] = defaultTab;
+
+            const base64Str = btoa(unescape(encodeURIComponent(JSON.stringify(currentData)))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+            shareUrlGlobal = `${window.location.origin}${window.location.pathname}?data=${base64Str}`;
+            
+            const qrContainer = document.getElementById('qr-code-display');
+            qrContainer.innerHTML = '';
+            
+            const tempDiv = document.createElement('div');
+            new QRCode(tempDiv, { text: shareUrlGlobal, width: 250, height: 250, correctLevel : QRCode.CorrectLevel.M });
+            
+            setTimeout(() => {
+                const canvasEl = tempDiv.querySelector('canvas');
+                if (canvasEl) {
+                    const img = document.createElement('img');
+                    img.src = canvasEl.toDataURL("image/png");
+                    img.alt = "專屬報告二維碼";
+                    img.style.width = "250px";
+                    img.style.height = "250px";
+                    qrContainer.appendChild(img);
+                } else {
+                    qrContainer.appendChild(tempDiv);
+                }
+            }, 50);
+
+            document.getElementById('share-modal').style.display = 'flex';
+        };
+
         document.addEventListener('DOMContentLoaded', function() {
             canvas.width = canvas.parentElement.clientWidth || window.innerWidth - 60;
             ctx.lineCap = 'round';
@@ -1036,7 +1127,7 @@
                 'plan3-contribution', 'plan3-y2', 'plan3-y3', 'plan3-y4', 'plan3-y5',
                 'plan4-contribution', 'plan4-y2', 'plan4-y3', 'plan4-y4', 'plan4-y5',
                 'plan1-strategy', 'plan2-strategy', 'plan3-strategy', 'plan4-strategy',
-                'med-plan1-contribution', 'med-plan1-y2', 'med-plan1-y3', 'med-plan1-y4', 'med-plan1-y5',
+                'med-client-name', 'med-plan1-contribution', 'med-plan1-y2', 'med-plan1-y3', 'med-plan1-y4', 'med-plan1-y5',
                 'med-plan2-contribution', 'med-plan2-y2', 'med-plan2-y3', 'med-plan2-y4', 'med-plan2-y5',
                 'med-plan3-contribution', 'med-plan3-y2', 'med-plan3-y3', 'med-plan3-y4', 'med-plan3-y5',
                 'med-plan4-contribution', 'med-plan4-y2', 'med-plan4-y3', 'med-plan4-y4', 'med-plan4-y5',
@@ -1052,39 +1143,34 @@
             const medTableHead = document.getElementById('med-results-table-head');
             const medTableBody = document.getElementById('med-results-table-body');
 
+            // 即時千位數自動跳動格式化邏輯
             function setupJarAutoFill(jarPrefix) {
                 const y1El = document.getElementById(`${jarPrefix}-contribution`);
                 if(!y1El) return;
+                
+                // 為第1年綁定即時千位數轉換與跟隨邏輯
                 y1El.addEventListener('input', () => {
-                    const val = y1El.value;
+                    const rawVal = parseFormattedNumber(y1El.value);
+                    y1El.value = formatNumber(rawVal);
                     for(let i=2; i<=5; i++) {
                         const yEl = document.getElementById(`${jarPrefix}-y${i}`);
-                        if(yEl) yEl.value = val;
+                        if(yEl) yEl.value = formatNumber(rawVal);
                     }
                     calculateAndDisplay();
                 });
+
+                // 為第2-5年單獨綁定千位數轉換
+                for(let i=2; i<=5; i++) {
+                    const yEl = document.getElementById(`${jarPrefix}-y${i}`);
+                    if(yEl) {
+                        yEl.addEventListener('input', () => {
+                            yEl.value = formatNumber(parseFormattedNumber(yEl.value));
+                            calculateAndDisplay();
+                        });
+                    }
+                }
             }
             ['plan1', 'plan2', 'plan3', 'plan4', 'med-plan1', 'med-plan2', 'med-plan3', 'med-plan4'].forEach(setupJarAutoFill);
-
-            function syncFields(id1, id2, isNumeric=false) {
-                const el1 = document.getElementById(id1);
-                const el2 = document.getElementById(id2);
-                if(!el1 || !el2) return;
-                el1.addEventListener('input', () => { el2.value = el1.value; if(isNumeric) el2.value = formatNumber(parseFormattedNumber(el1.value)); calculateAndDisplay(); });
-                el2.addEventListener('input', () => { el1.value = el2.value; if(isNumeric) el1.value = formatNumber(parseFormattedNumber(el2.value)); calculateAndDisplay(); });
-            }
-            syncFields('client-name', 'med-client-name');
-            syncFields('start-age', 'med-start-age');
-            
-            for(let j=1; j<=4; j++) {
-                const pName = `plan${j}`;
-                const mName = `med-plan${j}`;
-                syncFields(`${pName}-contribution`, `${mName}-contribution`, true);
-                for(let k=2; k<=5; k++) {
-                    syncFields(`${pName}-y${k}`, `${mName}-y${k}`, true);
-                }
-                syncFields(`${pName}-strategy`, `${mName}-strategy`);
-            }
 
             document.getElementById('toggle-interest').addEventListener('click', function() {
                 const slider = document.getElementById('bank-interest');
@@ -1122,8 +1208,13 @@
                     });
                     
                     const clientTitleEl = document.getElementById('client-view-title');
-                    if (clientTitleEl && sharedData['client-name']) {
-                        clientTitleEl.textContent = `👤 客戶：${sharedData['client-name']} 專屬報告`;
+                    const targetTab = sharedData['default_tab'] || 'tab-calculator';
+                    
+                    // 根據當前分享開啟的 TAB 分別抓取對應頁面的獨立客戶名字
+                    const displayedName = (targetTab === 'tab-medical' && sharedData['med-client-name']) ? sharedData['med-client-name'] : sharedData['client-name'];
+
+                    if (clientTitleEl && displayedName) {
+                        clientTitleEl.textContent = `👤 客戶：${displayedName} 專屬報告`;
                         clientTitleEl.style.display = 'block';
                     }
 
@@ -1132,7 +1223,6 @@
                     if (document.getElementById('inflation-group')) document.getElementById('inflation-group').style.display = 'none';
                     if (document.getElementById('comfort-zone-section')) document.getElementById('comfort-zone-section').style.display = 'none';
                     
-                    // 退休醫保分享模式：隱藏計劃選擇器與通脹率拉桿（通脹數值精準保留分享前的設定），但保留退休年齡及保至幾歲（可手動修改）
                     if (document.getElementById('med-plan-section')) document.getElementById('med-plan-section').style.display = 'none';
                     if (document.getElementById('med-inflation-group')) document.getElementById('med-inflation-group').style.display = 'none';
                     
@@ -1145,41 +1235,11 @@
 
                     document.querySelectorAll('.emoji-toggle-bar').forEach(el => el.style.display = 'none');
                     if(document.getElementById('eye-icon-container')) document.getElementById('eye-icon-container').style.display = 'none';
-                    switchTab('tab-calculator');
+                    
+                    switchTab(targetTab);
                 } catch (e) { console.error(e); }
             }
 
-            const handleShare = () => {
-                const currentData = {};
-                pureShareIds.forEach(id => { if(inputs[id]) currentData[id] = parseFormattedNumber(inputs[id].value) || inputs[id].value; });
-                const base64Str = btoa(unescape(encodeURIComponent(JSON.stringify(currentData)))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
-                shareUrlGlobal = `${window.location.origin}${window.location.pathname}?data=${base64Str}`;
-                
-                const qrContainer = document.getElementById('qr-code-display');
-                qrContainer.innerHTML = '';
-                
-                const tempDiv = document.createElement('div');
-                new QRCode(tempDiv, { text: shareUrlGlobal, width: 250, height: 250, correctLevel : QRCode.CorrectLevel.M });
-                
-                setTimeout(() => {
-                    const canvasEl = tempDiv.querySelector('canvas');
-                    if (canvasEl) {
-                        const img = document.createElement('img');
-                        img.src = canvasEl.toDataURL("image/png");
-                        img.alt = "專屬報告二維碼";
-                        img.style.width = "250px";
-                        img.style.height = "250px";
-                        qrContainer.appendChild(img);
-                    } else {
-                        qrContainer.appendChild(tempDiv);
-                    }
-                }, 50);
-
-                document.getElementById('share-modal').style.display = 'flex';
-            };
-
-            document.getElementById('share-btn').addEventListener('click', handleShare);
-            document.getElementById('med-share-btn').addEventListener('click', handleShare);
             document.getElementById('copy-url-btn').addEventListener('click', () => {
                 navigator.clipboard.writeText(shareUrlGlobal).then(() => { document.getElementById('copy-success-msg').style.display = 'block'; });
             });
@@ -1248,12 +1308,21 @@
                 document.getElementById('plan3-5yr-total').textContent = formatNumber(p3Total);
                 document.getElementById('plan4-5yr-total').textContent = formatNumber(p4Total);
 
+                let m1PremTotal = 0;
+                for (let i = 1; i <= 5; i++) {
+                    let curAge = startAge + i - 1;
+                    let prem = getPremiumForAge(curAge) * Math.pow(1 + medInflationRate, i - 1);
+                    m1PremTotal += prem;
+                    const premEl = document.getElementById(`med-prem-y${i}`);
+                    if (premEl) premEl.textContent = formatNumber(prem);
+                }
+
                 const m1Total = getJarTotal('med-plan1');
                 const m2Total = getJarTotal('med-plan2');
                 const m3Total = getJarTotal('med-plan3');
                 const m4Total = getJarTotal('med-plan4');
 
-                document.getElementById('med-plan1-5yr-total').textContent = formatNumber(m1Total);
+                document.getElementById('med-plan1-5yr-total').textContent = formatNumber(m1Total + m1PremTotal);
                 document.getElementById('med-plan2-5yr-total').textContent = formatNumber(m2Total);
                 document.getElementById('med-plan3-5yr-total').textContent = formatNumber(m3Total);
                 document.getElementById('med-plan4-5yr-total').textContent = formatNumber(m4Total);
