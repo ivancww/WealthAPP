@@ -7,7 +7,7 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
     
-    <title>時光複利：退休醫保預備金 v1.80 </title>
+    <title>時光複利：退休醫保預備金 v1.81 </title>
 
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="icon-192x192.png">
@@ -184,7 +184,7 @@
 
     <div id="tab-vision" class="tab-section">
         <div class="lazy-bag-container" style="background: #fdfdfd;">
-            <h2>時光複利：歲月豐收 <span style="font-size: 1rem; color: #007bff; vertical-align: middle; background: #e7f3ff; padding: 4px 10px; border-radius: 12px; margin-left: 10px; border: 1px solid #cce5ff;">v1.80</span></h2>
+            <h2>時光複利：歲月豐收 <span style="font-size: 1rem; color: #007bff; vertical-align: middle; background: #e7f3ff; padding: 4px 10px; border-radius: 12px; margin-left: 10px; border: 1px solid #cce5ff;">v1.81</span></h2>
             <h3 style="text-align: center; color: var(--secondary-color); margin-top: 0; margin-bottom: 2rem; border-bottom: 2px solid #f0f2f5; padding-bottom: 1.5rem;">享受人生下半場</h3>
             <div style="display: flex; flex-direction: column; gap: 0.5rem;">
                 <div class="flexibility-card card-rome">
@@ -1232,7 +1232,6 @@
                 medTableBody.innerHTML = '';
 
                 let cumulativeActualMedPremium = 0; 
-                let cumulativeMedPremiumExtracted = 0; 
                 let sumExtracted = 0;
                 let sumMedPremium = 0;
                 let sumActualPremium = 0;
@@ -1277,13 +1276,8 @@
                     let actualMedPremium = rA - medPremiumCurrentYear;
                     cumulativeActualMedPremium += actualMedPremium;
                     
-                    // 【修正醫保防線結餘算式】
+                    // 完全與時光複利一致：醫保防線結餘即等於提取後的剩餘戶口價值 (rV)
                     let displayMedBalance = rV;
-                    if (currentAge >= medRetireAge || rA > 0) {
-                        cumulativeMedPremiumExtracted += medPremiumCurrentYear;
-                        displayMedBalance = rV + rW - cumulativeMedPremiumExtracted;
-                    }
-                    if (displayMedBalance < 0) displayMedBalance = 0;
 
                     sumExtracted += rA;
                     sumMedPremium += medPremiumCurrentYear;
