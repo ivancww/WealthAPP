@@ -7,7 +7,7 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
     
-    <title>時光複利：退休醫保預備金 v1.75 </title>
+    <title>時光複利：退休醫保預備金 v1.76 </title>
 
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="icon-192x192.png">
@@ -105,12 +105,10 @@
             .nav-toggle-btn { display: none !important; }
             .bottom-nav { transform: translateY(0) !important; position: fixed; }
             body { padding-bottom: 80px; }
-            /* 強制錦囊與舒適圈對比輸入框成 4 欄一字排開 */
             .plan-grid { grid-template-columns: repeat(4, 1fr); gap: 10px; }
             .duel-inputs { grid-template-columns: repeat(4, 1fr); gap: 10px; }
             .top-input-grid { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
         }
-        /* 手機摺疊狀態 (小於 580px) */
         @media (max-width: 579px) {
             .plan-grid { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
             .duel-inputs, .top-input-grid { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
@@ -187,7 +185,6 @@
         .mini-eye-btn.active { opacity: 1; color: var(--primary-color); background: #e7f3ff; border-color: var(--primary-color);
         }
 
-        /* 標題欄內嵌的 Toggle 按鈕 */
         .inline-toggle {
             cursor: pointer; display: inline-block; transition: 0.2s; user-select: none; font-size: 1rem; padding: 2px 4px; vertical-align: middle;
         }
@@ -263,7 +260,6 @@
         .pop-urgent { background-color: #f8d7da; border: 1px solid #f5c6cb; color: #721c24;
         }
 
-        /* 畫板專區的樣式 */
         .whiteboard-container { border: 2px solid var(--border-color); border-radius: 8px; overflow: hidden; position: relative; background: #fff; box-shadow: inset 0 2px 5px rgba(0,0,0,0.05); margin-top: 1rem; }
         canvas { display: block; width: 100%; touch-action: none; cursor: crosshair; }
         .pen-controls { position: absolute; bottom: 15px; right: 15px; display: flex; gap: 10px; background: rgba(255,255,255,0.9); padding: 8px 12px; border-radius: 25px; box-shadow: 0 4px 10px rgba(0,0,0,0.15); align-items: center;}
@@ -285,7 +281,7 @@
 
     <div id="tab-vision" class="tab-section">
         <div class="lazy-bag-container" style="background: #fdfdfd;">
-            <h2>時光複利：歲月豐收 <span style="font-size: 1rem; color: #007bff; vertical-align: middle; background: #e7f3ff; padding: 4px 10px; border-radius: 12px; margin-left: 10px; border: 1px solid #cce5ff;">v1.75</span></h2>
+            <h2>時光複利：歲月豐收 <span style="font-size: 1rem; color: #007bff; vertical-align: middle; background: #e7f3ff; padding: 4px 10px; border-radius: 12px; margin-left: 10px; border: 1px solid #cce5ff;">v1.76</span></h2>
             <h3 style="text-align: center; color: var(--secondary-color); margin-top: 0; margin-bottom: 2rem; border-bottom: 2px solid #f0f2f5; padding-bottom: 1.5rem;">享受人生下半場</h3>
             <div style="display: flex; flex-direction: column; gap: 0.5rem;">
                 <div class="flexibility-card card-rome">
@@ -350,11 +346,11 @@
             <div class="section">
                 <div class="top-input-grid">
                     <div class="input-group"><label>開始歲數</label><input type="number" id="start-age" value="30"></div>
-                    <div class="input-group"><label>預期通脹率: <span id="inflation-value">2.0%</span></label><input type="range" id="inflation-rate" min="1" max="5" value="2" step="0.1"></div>
+                    <div class="input-group" id="inflation-group"><label>預期通脹率: <span id="inflation-value">2.0%</span></label><input type="range" id="inflation-rate" min="1" max="5" value="2" step="0.1"></div>
                 </div>
             </div>
             
-            <div class="section">
+            <div class="section" id="comfort-zone-section">
                 <h2>
                     ⏳ 停留喺舒適圈嘅隱形代價
                     <button class="inline-hypnotic-btn" onclick="toggleHypnoticBox('pop-comfort-ask')" title="點擊展開銷售請教">💡</button>
@@ -478,7 +474,6 @@
         </div>
     </div>
 
-    <!-- 全新手寫講解專區：剛性支出 -->
     <div id="tab-interest-draw" class="tab-section">
         <div class="calculator-container">
             <header style="margin-bottom: 0; position:relative;">
@@ -498,14 +493,12 @@
             
             <div class="section" style="margin-top: 1rem;">
                 <div class="whiteboard-container">
-                    <!-- 超大畫板 -->
                     <canvas id="drawing-board" height="800"></canvas>
                     <div class="pen-controls">
                         <div class="color-btn active" style="background: black;" onclick="setPenMode(this, 'black')"></div>
                         <div class="color-btn" style="background: #dc3545;" onclick="setPenMode(this, '#dc3545')"></div>
                         <div class="color-btn" style="background: #007bff;" onclick="setPenMode(this, '#007bff')"></div>
                         <div style="width: 1px; background: #ccc; margin: 0 5px; height: 24px;"></div>
-                        <!-- 擦膠工具 -->
                         <div class="color-btn" style="background: #fff; border: 2px dashed #999; display:flex; align-items:center; justify-content:center; font-size: 14px;" onclick="setPenMode(this, 'eraser')" title="擦膠">🧽</div>
                     </div>
                 </div>
@@ -748,6 +741,7 @@
         
         let showDividend = true;
         let showInterest = true;
+        let isSharedMode = false; // 標記是否經由分享模式開啟
 
         function unlockPurchasingPowerMask() {
             isPurchasingPowerMaskHidden = false;
@@ -787,11 +781,13 @@
         };
 
         window.toggleDividend = function() {
+            if (isSharedMode) return; // 分享模式下禁止切換
             showDividend = !showDividend;
             calculateAndDisplay();
         };
 
         window.toggleInterest = function() {
+            if (isSharedMode) return; // 分享模式下禁止切換
             showInterest = !showInterest;
             calculateAndDisplay();
         };
@@ -938,7 +934,6 @@
             calculateAndDisplay();
         }
 
-        // 白板功能及擦膠設定
         const canvas = document.getElementById('drawing-board');
         const ctx = canvas.getContext('2d');
         let drawing = false;
@@ -1072,6 +1067,10 @@
             const urlParams = new URLSearchParams(window.location.search);
             if (urlParams.has('data')) {
                 try {
+                    isSharedMode = true; // 進入客戶分享模式
+                    showDividend = false; // 分享模式預設隱藏紅利
+                    showInterest = false; // 分享模式預設隱藏年息
+
                     let base64 = urlParams.get('data').replace(/-/g, '+').replace(/_/g, '/');
                     while (base64.length % 4) base64 += '=';
                     const sharedData = JSON.parse(decodeURIComponent(escape(atob(base64))));
@@ -1083,8 +1082,13 @@
                             }
                         }
                     });
+                    
+                    // 根據要求：隱藏管理專區、舒適圈區塊及通脹拉桿
                     document.getElementById('management-section').style.display = 'none';
                     document.getElementById('med-management-section').style.display = 'none';
+                    if (document.getElementById('inflation-group')) document.getElementById('inflation-group').style.display = 'none';
+                    if (document.getElementById('comfort-zone-section')) document.getElementById('comfort-zone-section').style.display = 'none';
+                    
                     document.querySelectorAll('.emoji-toggle-bar').forEach(el => el.style.display = 'none');
                     if(document.getElementById('eye-icon-container')) document.getElementById('eye-icon-container').style.display = 'none';
                     switchTab('tab-calculator');
@@ -1130,7 +1134,7 @@
 
                 const dynamicVisionEl = document.getElementById('pop-compound-imagine');
                 if (planMode === 'education') {
-                    dynamicVisionEl.innerHTML = `🎓 <strong>「✨ 想像一下：」</strong><br>等仔女慢慢長大，準備起飛升學嗰陣 ✈️，您完全唔需要為高昂嘅 <strong style="color:red; font-weight:bold;">#仔女學費</strong> 💸 而皺眉操心。無論係外國留學必備嘅 <strong style="color:red; font-weight:bold;">#生活費用</strong> 🌍，定係畢業嗰刻送俾佢哋嘅一筆 <strong style="color:red; font-weight:bold;">#畢業獎金</strong> 🎁 作為人生第一桶金，您都已經早早幫佢哋全自動準備妥當！✅<br>這份深謀遠慮，將會為下一代換嚟無可取代嘅 <strong>#底氣</strong> 💪 同一世嘅 <strong>#安全感</strong> 🛡️！`;
+                    dynamicVisionEl.innerHTML = `🎓 <strong>「✨ 想像一下：」</strong><br>等仔女慢慢長大，準備起飛升學嗰陣 ✈️，您完全唔需要為高昂嘅 <strong style="color:red; font-weight:bold;">#仔女學費</strong> 💸 而皺眉操心。無論係外國留學必備嘅 <strong style="color:red; font-weight:bold;">#生活費用</strong> 🌍，定係畢業嗰刻送俾佢哋嘅一筆 <strong style="color:red; font-weight:bold;">#畢業獎金</strong> 🎁 作為人生第一桶金，您都已經早早幫佢哋全自動準備妥當！✅<br>這份深謀慮，將會為下一代換嚟無可取代嘅 <strong>#底氣</strong> 💪 同一世嘅 <strong>#安全感</strong> 🛡️！`;
                 } else {
                     dynamicVisionEl.innerHTML = `🏖️ <strong>「✨ 想像一下：」</strong><br>去到退休年紀 🌅，您擁有絕對嘅 <strong>#退休自主</strong> 權力 👑！每個月、每一年，都有一筆源源不絕、全自動準時入帳嘅 <strong>#每年長糧</strong> 💰 供您隨心支配。不管是說走就走去 <strong>#旅遊</strong> ✈️ 睇遍世界風景，定係純粹享受無憂無慮嘅慢活時光 ☕，都完全由你話事！😎<br>有呢份從容嘅 <strong>#底氣</strong> 💪 與穩如泰山嘅 <strong>#安全感</strong> 🛡️，您想唔想擁有？`;
                 }
@@ -1169,14 +1173,17 @@
                 }
                 if (!reportingYears.includes(maxYear)) reportingYears.push(maxYear);
                 
-                let divIcon = showDividend ? `<span class="inline-toggle active" onclick="toggleDividend()" title="點擊隱藏紅利">💰</span>` : `<span class="inline-toggle" onclick="toggleDividend()" title="點擊顯示紅利" style="filter:grayscale(100%); opacity:0.4;">💰</span>`;
-                let intIcon = showInterest ? `<span class="inline-toggle active" onclick="toggleInterest()" title="點擊隱藏年息">📈</span>` : `<span class="inline-toggle" onclick="toggleInterest()" title="點擊顯示年息" style="filter:grayscale(100%); opacity:0.4;">📈</span>`;
+                // 若非分享模式，才顯示標頭開關圖示
+                let divIcon = (isSharedMode) ? '' : (showDividend ? `<span class="inline-toggle active" onclick="toggleDividend()" title="點擊隱藏紅利">💰</span>` : `<span class="inline-toggle" onclick="toggleDividend()" title="點擊顯示紅利" style="filter:grayscale(100%); opacity:0.4;">💰</span>`);
+                let intIcon = (isSharedMode) ? '' : (showInterest ? `<span class="inline-toggle active" onclick="toggleInterest()" title="點擊隱藏年息">📈</span>` : `<span class="inline-toggle" onclick="toggleInterest()" title="點擊顯示年息" style="filter:grayscale(100%); opacity:0.4;">📈</span>`);
 
                 let headerBase = `<tr><th>年份 (歲數)</th><th>累計供款</th>`;
+                let iconSubRow = (!isSharedMode && (divIcon || intIcon)) ? `<br>${divIcon} ${intIcon}` : '';
+
                 if (planMode === 'education') {
-                    headerBase += `<th>年度教育金</th><th>累積已領教育金</th><th>畢業啟航資金<br>${divIcon} ${intIcon}</th>`;
+                    headerBase += `<th>年度教育金</th><th>累積已領教育金</th><th>畢業啟航資金${iconSubRow}</th>`;
                 } else {
-                    headerBase += `<th>每年長糧 (年金)</th><th>累積已領長糧</th><th>安老備用金<br>${divIcon} ${intIcon}</th>`;
+                    headerBase += `<th>每年長糧 (年金)</th><th>累積已領長糧</th><th>安老備用金${iconSubRow}</th>`;
                 }
 
                 let thDividend = showDividend ? `<th>${planMode === 'education' ? '夢想成真獎賞' : '歲月增值紅利'}</th>` : '';
