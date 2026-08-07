@@ -7,7 +7,7 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
     
-    <title>時光複利：退休醫保預備金 v1.86 </title>
+    <title>時光複利：退休醫保預備金 v1.87 </title>
 
     <link rel="apple-touch-icon" href="icon-192x192.png">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -90,17 +90,26 @@
         .input-group { min-width: 100px; position: relative; }
         .input-group label { display: flex; align-items: center; justify-content: center; font-weight: 500; color: var(--label-color); margin-bottom: 0.5rem; text-align: center; font-size: 0.95rem; }
         
-        /* 所有可輸入及可選擇框改為淺粉紅色虛線邊框 */
-        .input-group input, .input-group select, .btn { 
+        /* 框底色用返白色，外框用淺粉紅虛線 */
+        .input-group input, .input-group select, select, .btn { 
             width: 100%; padding: 0.75rem; 
             border: var(--pink-dashed-border) !important; 
-            border-radius: 8px; font-size: 1rem; font-family: inherit; box-sizing: border-box; text-align: center; background-color: #fff0f5; color: var(--text-color); 
+            border-radius: 8px; font-size: 1rem; font-family: inherit; box-sizing: border-box; text-align: center; background-color: #ffffff !important; color: var(--text-color); 
             transition: all 0.2s;
         }
-        .input-group input:focus, .input-group select:focus {
-            outline: none; background-color: #ffffff; border-color: #f48fb1 !important; box-shadow: 0 0 5px rgba(244, 143, 177, 0.5);
+        
+        /* 唯讀（自動對應第1年）框之視覺效果：無虛線、底色淺灰 */
+        .input-group input[readonly], input.readonly-box {
+            border: 1px solid var(--border-color) !important;
+            background-color: #f8f9fa !important;
+            color: #6c757d;
+            cursor: not-allowed;
         }
-        .input-group select { text-align-last: center; font-size: 1rem; height: 48px; }
+
+        .input-group input:focus, .input-group select:focus {
+            outline: none; border-color: #f48fb1 !important; box-shadow: 0 0 5px rgba(244, 143, 177, 0.5);
+        }
+        .input-group select, select { text-align-last: center; font-size: 1rem; height: 48px; background-color: #ffffff !important; }
         
         .plan-selector-box { background: #f8f9fa; border: 2px dashed #007bff; padding: 1.5rem; border-radius: 12px; text-align: center; margin: 1rem 0; }
         #excel-status-msg { margin-top: 12px; font-weight: bold; color: #28a745; font-size: 0.95rem; }
@@ -177,7 +186,10 @@
 
         .jar-card { background: #fdfdfd; border: 1px solid var(--border-color); border-radius: 12px; padding: 1.2rem; margin-bottom: 1.5rem; position: relative; }
         .jar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 10px; }
-        .jar-header select { min-width: 220px; font-weight: bold; }
+        
+        /* 滾存下拉框放大加高規格 */
+        .jar-header select { min-width: 240px; font-weight: bold; height: 48px; border: var(--pink-dashed-border) !important; background-color: #ffffff !important; }
+        
         .jar-5year-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 10px; margin-bottom: 1rem; }
         .total-box { background: #e7f3ff; border: 1px solid #b8daff; border-radius: 8px; padding: 10px; text-align: center; font-weight: bold; color: var(--primary-color); }
         .med-prem-subbox { background: #f3e5f5; border: 1px dashed #e1bee7; border-radius: 6px; padding: 6px; text-align: center; font-size: 0.85rem; color: purple; font-weight: bold; margin-top: 6px; }
@@ -205,7 +217,7 @@
 
     <div id="tab-vision" class="tab-section">
         <div class="lazy-bag-container" style="background: #fdfdfd;">
-            <h2>時光複利：歲月豐收 <span style="font-size: 1rem; color: #007bff; vertical-align: middle; background: #e7f3ff; padding: 4px 10px; border-radius: 12px; margin-left: 10px; border: 1px solid #cce5ff;">v1.86</span></h2>
+            <h2>時光複利：歲月豐收 <span style="font-size: 1rem; color: #007bff; vertical-align: middle; background: #e7f3ff; padding: 4px 10px; border-radius: 12px; margin-left: 10px; border: 1px solid #cce5ff;">v1.87</span></h2>
             <h3 style="text-align: center; color: var(--secondary-color); margin-top: 0; margin-bottom: 2rem; border-bottom: 2px solid #f0f2f5; padding-bottom: 1.5rem;">享受人生下半場</h3>
             <div style="display: flex; flex-direction: column; gap: 0.5rem;">
                 <div class="flexibility-card card-rome">
@@ -325,6 +337,7 @@
                     <div id="btn-toggle-plan4" class="emoji-toggle" onclick="toggleEngine('plan4', 'tab-calculator')">🥚</div>
                 </div>
 
+                <!-- 第2至5年框改為 readonly 唯讀模式 -->
                 <div class="jar-card" style="border-top: 4px solid var(--plan1-color);">
                     <div class="jar-header">
                         <h3 style="color:var(--plan1-color); margin:0; display:flex; align-items:center; gap:6px;">
@@ -349,10 +362,10 @@
 
                     <div class="jar-5year-grid">
                         <div class="input-group"><label id="lbl-p1-y1">第1年 (<span class="age-y1">30</span>歲)</label><input type="text" id="plan1-contribution" value="40,000" inputmode="numeric"></div>
-                        <div class="input-group"><label id="lbl-p1-y2">第2年 (<span class="age-y2">31</span>歲)</label><input type="text" id="plan1-y2" value="40,000" inputmode="numeric"></div>
-                        <div class="input-group"><label id="lbl-p1-y3">第3年 (<span class="age-y3">32</span>歲)</label><input type="text" id="plan1-y3" value="40,000" inputmode="numeric"></div>
-                        <div class="input-group"><label id="lbl-p1-y4">第4年 (<span class="age-y4">33</span>歲)</label><input type="text" id="plan1-y4" value="40,000" inputmode="numeric"></div>
-                        <div class="input-group"><label id="lbl-p1-y5">第5年 (<span class="age-y5">34</span>歲)</label><input type="text" id="plan1-y5" value="40,000" inputmode="numeric"></div>
+                        <div class="input-group"><label id="lbl-p1-y2">第2年 (<span class="age-y2">31</span>歲)</label><input type="text" id="plan1-y2" value="40,000" readonly class="readonly-box"></div>
+                        <div class="input-group"><label id="lbl-p1-y3">第3年 (<span class="age-y3">32</span>歲)</label><input type="text" id="plan1-y3" value="40,000" readonly class="readonly-box"></div>
+                        <div class="input-group"><label id="lbl-p1-y4">第4年 (<span class="age-y4">33</span>歲)</label><input type="text" id="plan1-y4" value="40,000" readonly class="readonly-box"></div>
+                        <div class="input-group"><label id="lbl-p1-y5">第5年 (<span class="age-y5">34</span>歲)</label><input type="text" id="plan1-y5" value="40,000" readonly class="readonly-box"></div>
                     </div>
                     <div class="total-box">5年總保費：$<span id="plan1-5yr-total">200,000</span></div>
                 </div>
@@ -375,10 +388,10 @@
                         </div>
                         <div class="jar-5year-grid">
                             <div class="input-group"><label>第6年 (<span class="age-y6">35</span>歲)</label><input type="text" id="plan2-contribution" value="50,000" inputmode="numeric"></div>
-                            <div class="input-group"><label>第7年 (<span class="age-y7">36</span>歲)</label><input type="text" id="plan2-y2" value="50,000" inputmode="numeric"></div>
-                            <div class="input-group"><label>第8年 (<span class="age-y8">37</span>歲)</label><input type="text" id="plan2-y3" value="50,000" inputmode="numeric"></div>
-                            <div class="input-group"><label>第9年 (<span class="age-y9">38</span>歲)</label><input type="text" id="plan2-y4" value="50,000" inputmode="numeric"></div>
-                            <div class="input-group"><label>第10年 (<span class="age-y10">39</span>歲)</label><input type="text" id="plan2-y5" value="50,000" inputmode="numeric"></div>
+                            <div class="input-group"><label>第7年 (<span class="age-y7">36</span>歲)</label><input type="text" id="plan2-y2" value="50,000" readonly class="readonly-box"></div>
+                            <div class="input-group"><label>第8年 (<span class="age-y8">37</span>歲)</label><input type="text" id="plan2-y3" value="50,000" readonly class="readonly-box"></div>
+                            <div class="input-group"><label>第9年 (<span class="age-y9">38</span>歲)</label><input type="text" id="plan2-y4" value="50,000" readonly class="readonly-box"></div>
+                            <div class="input-group"><label>第10年 (<span class="age-y10">39</span>歲)</label><input type="text" id="plan2-y5" value="50,000" readonly class="readonly-box"></div>
                         </div>
                         <div class="total-box" style="background:#e8f5e9; border-color:#c8e6c9; color:var(--plan2-color);">5年總保費：$<span id="plan2-5yr-total">250,000</span></div>
                     </div>
@@ -402,10 +415,10 @@
                         </div>
                         <div class="jar-5year-grid">
                             <div class="input-group"><label>第11年 (<span class="age-y11">40</span>歲)</label><input type="text" id="plan3-contribution" value="60,000" inputmode="numeric"></div>
-                            <div class="input-group"><label>第12年 (<span class="age-y12">41</span>歲)</label><input type="text" id="plan3-y2" value="60,000" inputmode="numeric"></div>
-                            <div class="input-group"><label>第13年 (<span class="age-y13">42</span>歲)</label><input type="text" id="plan3-y3" value="60,000" inputmode="numeric"></div>
-                            <div class="input-group"><label>第14年 (<span class="age-y14">43</span>歲)</label><input type="text" id="plan3-y4" value="60,000" inputmode="numeric"></div>
-                            <div class="input-group"><label>第15年 (<span class="age-y15">44</span>歲)</label><input type="text" id="plan3-y5" value="60,000" inputmode="numeric"></div>
+                            <div class="input-group"><label>第12年 (<span class="age-y12">41</span>歲)</label><input type="text" id="plan3-y2" value="60,000" readonly class="readonly-box"></div>
+                            <div class="input-group"><label>第13年 (<span class="age-y13">42</span>歲)</label><input type="text" id="plan3-y3" value="60,000" readonly class="readonly-box"></div>
+                            <div class="input-group"><label>第14年 (<span class="age-y14">43</span>歲)</label><input type="text" id="plan3-y4" value="60,000" readonly class="readonly-box"></div>
+                            <div class="input-group"><label>第15年 (<span class="age-y15">44</span>歲)</label><input type="text" id="plan3-y5" value="60,000" readonly class="readonly-box"></div>
                         </div>
                         <div class="total-box" style="background:#fffde7; border-color:#fff9c4; color:#f57f17;">5年總保費：$<span id="plan3-5yr-total">300,000</span></div>
                     </div>
@@ -429,10 +442,10 @@
                         </div>
                         <div class="jar-5year-grid">
                             <div class="input-group"><label>第16年 (<span class="age-y16">45</span>歲)</label><input type="text" id="plan4-contribution" value="70,000" inputmode="numeric"></div>
-                            <div class="input-group"><label>第17年 (<span class="age-y17">46</span>歲)</label><input type="text" id="plan4-y2" value="70,000" inputmode="numeric"></div>
-                            <div class="input-group"><label>第18年 (<span class="age-y18">47</span>歲)</label><input type="text" id="plan4-y3" value="70,000" inputmode="numeric"></div>
-                            <div class="input-group"><label>第19年 (<span class="age-y19">48</span>歲)</label><input type="text" id="plan4-y4" value="70,000" inputmode="numeric"></div>
-                            <div class="input-group"><label>第20年 (<span class="age-y20">49</span>歲)</label><input type="text" id="plan4-y5" value="70,000" inputmode="numeric"></div>
+                            <div class="input-group"><label>第17年 (<span class="age-y17">46</span>歲)</label><input type="text" id="plan4-y2" value="70,000" readonly class="readonly-box"></div>
+                            <div class="input-group"><label>第18年 (<span class="age-y18">47</span>歲)</label><input type="text" id="plan4-y3" value="70,000" readonly class="readonly-box"></div>
+                            <div class="input-group"><label>第19年 (<span class="age-y19">48</span>歲)</label><input type="text" id="plan4-y4" value="70,000" readonly class="readonly-box"></div>
+                            <div class="input-group"><label>第20年 (<span class="age-y20">49</span>歲)</label><input type="text" id="plan4-y5" value="70,000" readonly class="readonly-box"></div>
                         </div>
                         <div class="total-box" style="background:#f3e5f5; border-color:#e1bee7; color:var(--plan4-color);">5年總保費：$<span id="plan4-5yr-total">350,000</span></div>
                     </div>
@@ -477,7 +490,7 @@
         </div>
     </div>
 
-    <!-- 退休醫保頁面：客戶名稱解綁獨立，千位數格式化及大選單規格 -->
+    <!-- 退休醫保頁面：歲數對應修復，第2-5年框唯讀化 -->
     <div id="tab-medical" class="tab-section">
         <div class="calculator-container">
             <header>
@@ -566,28 +579,28 @@
                     </div>
                     <div class="jar-5year-grid">
                         <div class="input-group">
-                            <label>第1年 (<span class="age-y1">30</span>歲)</label>
+                            <label>第1年 (<span class="med-age-y1">30</span>歲)</label>
                             <input type="text" id="med-plan1-contribution" value="40,000" inputmode="numeric">
                             <div class="med-prem-subbox">醫療保費: $<span id="med-prem-y1">0</span></div>
                         </div>
                         <div class="input-group">
-                            <label>第2年 (<span class="age-y2">31</span>歲)</label>
-                            <input type="text" id="med-plan1-y2" value="40,000" inputmode="numeric">
+                            <label>第2年 (<span class="med-age-y2">31</span>歲)</label>
+                            <input type="text" id="med-plan1-y2" value="40,000" readonly class="readonly-box">
                             <div class="med-prem-subbox">醫療保費: $<span id="med-prem-y2">0</span></div>
                         </div>
                         <div class="input-group">
-                            <label>第3年 (<span class="age-y3">32</span>歲)</label>
-                            <input type="text" id="med-plan1-y3" value="40,000" inputmode="numeric">
+                            <label>第3年 (<span class="med-age-y3">32</span>歲)</label>
+                            <input type="text" id="med-plan1-y3" value="40,000" readonly class="readonly-box">
                             <div class="med-prem-subbox">醫療保費: $<span id="med-prem-y3">0</span></div>
                         </div>
                         <div class="input-group">
-                            <label>第4年 (<span class="age-y4">33</span>歲)</label>
-                            <input type="text" id="med-plan1-y4" value="40,000" inputmode="numeric">
+                            <label>第4年 (<span class="med-age-y4">33</span>歲)</label>
+                            <input type="text" id="med-plan1-y4" value="40,000" readonly class="readonly-box">
                             <div class="med-prem-subbox">醫療保費: $<span id="med-prem-y4">0</span></div>
                         </div>
                         <div class="input-group">
-                            <label>第5年 (<span class="age-y5">34</span>歲)</label>
-                            <input type="text" id="med-plan1-y5" value="40,000" inputmode="numeric">
+                            <label>第5年 (<span class="med-age-y5">34</span>歲)</label>
+                            <input type="text" id="med-plan1-y5" value="40,000" readonly class="readonly-box">
                             <div class="med-prem-subbox">醫療保費: $<span id="med-prem-y5">0</span></div>
                         </div>
                     </div>
@@ -611,11 +624,11 @@
                             </div>
                         </div>
                         <div class="jar-5year-grid">
-                            <div class="input-group"><label>第6年 (<span class="age-y6">35</span>歲)</label><input type="text" id="med-plan2-contribution" value="50,000" inputmode="numeric"></div>
-                            <div class="input-group"><label>第7年 (<span class="age-y7">36</span>歲)</label><input type="text" id="med-plan2-y2" value="50,000" inputmode="numeric"></div>
-                            <div class="input-group"><label>第8年 (<span class="age-y8">37</span>歲)</label><input type="text" id="med-plan2-y3" value="50,000" inputmode="numeric"></div>
-                            <div class="input-group"><label>第9年 (<span class="age-y9">38</span>歲)</label><input type="text" id="med-plan2-y4" value="50,000" inputmode="numeric"></div>
-                            <div class="input-group"><label>第10年 (<span class="age-y10">39</span>歲)</label><input type="text" id="med-plan2-y5" value="50,000" inputmode="numeric"></div>
+                            <div class="input-group"><label>第6年 (<span class="med-age-y6">35</span>歲)</label><input type="text" id="med-plan2-contribution" value="50,000" inputmode="numeric"></div>
+                            <div class="input-group"><label>第7年 (<span class="med-age-y7">36</span>歲)</label><input type="text" id="med-plan2-y2" value="50,000" readonly class="readonly-box"></div>
+                            <div class="input-group"><label>第8年 (<span class="med-age-y8">37</span>歲)</label><input type="text" id="med-plan2-y3" value="50,000" readonly class="readonly-box"></div>
+                            <div class="input-group"><label>第9年 (<span class="med-age-y9">38</span>歲)</label><input type="text" id="med-plan2-y4" value="50,000" readonly class="readonly-box"></div>
+                            <div class="input-group"><label>第10年 (<span class="med-age-y10">39</span>歲)</label><input type="text" id="med-plan2-y5" value="50,000" readonly class="readonly-box"></div>
                         </div>
                         <div class="total-box" style="background:#e8f5e9; border-color:#c8e6c9; color:var(--plan2-color);">5年總儲備：$<span id="med-plan2-5yr-total">250,000</span></div>
                     </div>
@@ -638,11 +651,11 @@
                             </div>
                         </div>
                         <div class="jar-5year-grid">
-                            <div class="input-group"><label>第11年 (<span class="age-y11">40</span>歲)</label><input type="text" id="med-plan3-contribution" value="60,000" inputmode="numeric"></div>
-                            <div class="input-group"><label>第12年 (<span class="age-y12">41</span>歲)</label><input type="text" id="med-plan3-y2" value="60,000" inputmode="numeric"></div>
-                            <div class="input-group"><label>第13年 (<span class="age-y13">42</span>歲)</label><input type="text" id="med-plan3-y3" value="60,000" inputmode="numeric"></div>
-                            <div class="input-group"><label>第14年 (<span class="age-y14">43</span>歲)</label><input type="text" id="med-plan3-y4" value="60,000" inputmode="numeric"></div>
-                            <div class="input-group"><label>第15年 (<span class="age-y15">44</span>歲)</label><input type="text" id="med-plan3-y5" value="60,000" inputmode="numeric"></div>
+                            <div class="input-group"><label>第11年 (<span class="med-age-y11">40</span>歲)</label><input type="text" id="med-plan3-contribution" value="60,000" inputmode="numeric"></div>
+                            <div class="input-group"><label>第12年 (<span class="med-age-y12">41</span>歲)</label><input type="text" id="med-plan3-y2" value="60,000" readonly class="readonly-box"></div>
+                            <div class="input-group"><label>第13年 (<span class="med-age-y13">42</span>歲)</label><input type="text" id="med-plan3-y3" value="60,000" readonly class="readonly-box"></div>
+                            <div class="input-group"><label>第14年 (<span class="med-age-y14">43</span>歲)</label><input type="text" id="med-plan3-y4" value="60,000" readonly class="readonly-box"></div>
+                            <div class="input-group"><label>第15年 (<span class="med-age-y15">44</span>歲)</label><input type="text" id="med-plan3-y5" value="60,000" readonly class="readonly-box"></div>
                         </div>
                         <div class="total-box" style="background:#fffde7; border-color:#fff9c4; color:#f57f17;">5年總儲備：$<span id="med-plan3-5yr-total">300,000</span></div>
                     </div>
@@ -665,11 +678,11 @@
                             </div>
                         </div>
                         <div class="jar-5year-grid">
-                            <div class="input-group"><label>第16年 (<span class="age-y16">45</span>歲)</label><input type="text" id="med-plan4-contribution" value="70,000" inputmode="numeric"></div>
-                            <div class="input-group"><label>第17年 (<span class="age-y17">46</span>歲)</label><input type="text" id="med-plan4-y2" value="70,000" inputmode="numeric"></div>
-                            <div class="input-group"><label>第18年 (<span class="age-y18">47</span>歲)</label><input type="text" id="med-plan4-y3" value="70,000" inputmode="numeric"></div>
-                            <div class="input-group"><label>第19年 (<span class="age-y19">48</span>歲)</label><input type="text" id="med-plan4-y4" value="70,000" inputmode="numeric"></div>
-                            <div class="input-group"><label>第20年 (<span class="age-y20">49</span>歲)</label><input type="text" id="med-plan4-y5" value="70,000" inputmode="numeric"></div>
+                            <div class="input-group"><label>第16年 (<span class="med-age-y16">45</span>歲)</label><input type="text" id="med-plan4-contribution" value="70,000" inputmode="numeric"></div>
+                            <div class="input-group"><label>第17年 (<span class="med-age-y17">46</span>歲)</label><input type="text" id="med-plan4-y2" value="70,000" readonly class="readonly-box"></div>
+                            <div class="input-group"><label>第18年 (<span class="med-age-y18">47</span>歲)</label><input type="text" id="med-plan4-y3" value="70,000" readonly class="readonly-box"></div>
+                            <div class="input-group"><label>第19年 (<span class="med-age-y19">48</span>歲)</label><input type="text" id="med-plan4-y4" value="70,000" readonly class="readonly-box"></div>
+                            <div class="input-group"><label>第20年 (<span class="med-age-y20">49</span>歲)</label><input type="text" id="med-plan4-y5" value="70,000" readonly class="readonly-box"></div>
                         </div>
                         <div class="total-box" style="background:#f3e5f5; border-color:#e1bee7; color:var(--plan4-color);">5年總儲備：$<span id="med-plan4-5yr-total">350,000</span></div>
                     </div>
@@ -1143,12 +1156,10 @@
             const medTableHead = document.getElementById('med-results-table-head');
             const medTableBody = document.getElementById('med-results-table-body');
 
-            // 即時千位數自動跳動格式化邏輯
             function setupJarAutoFill(jarPrefix) {
                 const y1El = document.getElementById(`${jarPrefix}-contribution`);
                 if(!y1El) return;
                 
-                // 為第1年綁定即時千位數轉換與跟隨邏輯
                 y1El.addEventListener('input', () => {
                     const rawVal = parseFormattedNumber(y1El.value);
                     y1El.value = formatNumber(rawVal);
@@ -1158,17 +1169,6 @@
                     }
                     calculateAndDisplay();
                 });
-
-                // 為第2-5年單獨綁定千位數轉換
-                for(let i=2; i<=5; i++) {
-                    const yEl = document.getElementById(`${jarPrefix}-y${i}`);
-                    if(yEl) {
-                        yEl.addEventListener('input', () => {
-                            yEl.value = formatNumber(parseFormattedNumber(yEl.value));
-                            calculateAndDisplay();
-                        });
-                    }
-                }
             }
             ['plan1', 'plan2', 'plan3', 'plan4', 'med-plan1', 'med-plan2', 'med-plan3', 'med-plan4'].forEach(setupJarAutoFill);
 
@@ -1209,8 +1209,6 @@
                     
                     const clientTitleEl = document.getElementById('client-view-title');
                     const targetTab = sharedData['default_tab'] || 'tab-calculator';
-                    
-                    // 根據當前分享開啟的 TAB 分別抓取對應頁面的獨立客戶名字
                     const displayedName = (targetTab === 'tab-medical' && sharedData['med-client-name']) ? sharedData['med-client-name'] : sharedData['client-name'];
 
                     if (clientTitleEl && displayedName) {
@@ -1255,6 +1253,8 @@
 
             window.calculateAndDisplay = function() {
                 const startAge = parseInt(inputs['start-age'].value) || 30;
+                const medStartAge = parseInt(inputs['med-start-age'].value) || startAge;
+
                 const inflationRate = parseFloat(inputs['inflation-rate'].value) / 100;
                 const medInflationRate = parseFloat(inputs['med-inflation-rate'].value) / 100;
                 const bankInterestRate = parseFloat(inputs['bank-interest'].value) / 100;
@@ -1265,29 +1265,55 @@
                 const medRetireAge = parseInt(inputs['med-retire-age'].value) || 65;
                 const medMaxAge = parseInt(inputs['med-max-age'].value) || 99;
 
-                document.querySelectorAll('.age-y1').forEach(el => el.textContent = startAge);
-                document.querySelectorAll('.age-y2').forEach(el => el.textContent = startAge + 1);
-                document.querySelectorAll('.age-y3').forEach(el => el.textContent = startAge + 2);
-                document.querySelectorAll('.age-y4').forEach(el => el.textContent = startAge + 3);
-                document.querySelectorAll('.age-y5').forEach(el => el.textContent = startAge + 4);
+                // 時光複利歲數更新
+                document.querySelectorAll('#tab-calculator .age-y1').forEach(el => el.textContent = startAge);
+                document.querySelectorAll('#tab-calculator .age-y2').forEach(el => el.textContent = startAge + 1);
+                document.querySelectorAll('#tab-calculator .age-y3').forEach(el => el.textContent = startAge + 2);
+                document.querySelectorAll('#tab-calculator .age-y4').forEach(el => el.textContent = startAge + 3);
+                document.querySelectorAll('#tab-calculator .age-y5').forEach(el => el.textContent = startAge + 4);
                 
-                document.querySelectorAll('.age-y6').forEach(el => el.textContent = startAge + 5);
-                document.querySelectorAll('.age-y7').forEach(el => el.textContent = startAge + 6);
-                document.querySelectorAll('.age-y8').forEach(el => el.textContent = startAge + 7);
-                document.querySelectorAll('.age-y9').forEach(el => el.textContent = startAge + 8);
-                document.querySelectorAll('.age-y10').forEach(el => el.textContent = startAge + 9);
+                document.querySelectorAll('#tab-calculator .age-y6').forEach(el => el.textContent = startAge + 5);
+                document.querySelectorAll('#tab-calculator .age-y7').forEach(el => el.textContent = startAge + 6);
+                document.querySelectorAll('#tab-calculator .age-y8').forEach(el => el.textContent = startAge + 7);
+                document.querySelectorAll('#tab-calculator .age-y9').forEach(el => el.textContent = startAge + 8);
+                document.querySelectorAll('#tab-calculator .age-y10').forEach(el => el.textContent = startAge + 9);
 
-                document.querySelectorAll('.age-y11').forEach(el => el.textContent = startAge + 10);
-                document.querySelectorAll('.age-y12').forEach(el => el.textContent = startAge + 11);
-                document.querySelectorAll('.age-y13').forEach(el => el.textContent = startAge + 12);
-                document.querySelectorAll('.age-y14').forEach(el => el.textContent = startAge + 13);
-                document.querySelectorAll('.age-y15').forEach(el => el.textContent = startAge + 14);
+                document.querySelectorAll('#tab-calculator .age-y11').forEach(el => el.textContent = startAge + 10);
+                document.querySelectorAll('#tab-calculator .age-y12').forEach(el => el.textContent = startAge + 11);
+                document.querySelectorAll('#tab-calculator .age-y13').forEach(el => el.textContent = startAge + 12);
+                document.querySelectorAll('#tab-calculator .age-y14').forEach(el => el.textContent = startAge + 13);
+                document.querySelectorAll('#tab-calculator .age-y15').forEach(el => el.textContent = startAge + 14);
 
-                document.querySelectorAll('.age-y16').forEach(el => el.textContent = startAge + 15);
-                document.querySelectorAll('.age-y17').forEach(el => el.textContent = startAge + 16);
-                document.querySelectorAll('.age-y18').forEach(el => el.textContent = startAge + 17);
-                document.querySelectorAll('.age-y19').forEach(el => el.textContent = startAge + 18);
-                document.querySelectorAll('.age-y20').forEach(el => el.textContent = startAge + 19);
+                document.querySelectorAll('#tab-calculator .age-y16').forEach(el => el.textContent = startAge + 15);
+                document.querySelectorAll('#tab-calculator .age-y17').forEach(el => el.textContent = startAge + 16);
+                document.querySelectorAll('#tab-calculator .age-y18').forEach(el => el.textContent = startAge + 17);
+                document.querySelectorAll('#tab-calculator .age-y19').forEach(el => el.textContent = startAge + 18);
+                document.querySelectorAll('#tab-calculator .age-y20').forEach(el => el.textContent = startAge + 19);
+
+                // 修復：退休醫保專屬歲數精準對應【退休醫保的開始歲數】
+                document.querySelectorAll('.med-age-y1').forEach(el => el.textContent = medStartAge);
+                document.querySelectorAll('.med-age-y2').forEach(el => el.textContent = medStartAge + 1);
+                document.querySelectorAll('.med-age-y3').forEach(el => el.textContent = medStartAge + 2);
+                document.querySelectorAll('.med-age-y4').forEach(el => el.textContent = medStartAge + 3);
+                document.querySelectorAll('.med-age-y5').forEach(el => el.textContent = medStartAge + 4);
+
+                document.querySelectorAll('.med-age-y6').forEach(el => el.textContent = medStartAge + 5);
+                document.querySelectorAll('.med-age-y7').forEach(el => el.textContent = medStartAge + 6);
+                document.querySelectorAll('.med-age-y8').forEach(el => el.textContent = medStartAge + 7);
+                document.querySelectorAll('.med-age-y9').forEach(el => el.textContent = medStartAge + 8);
+                document.querySelectorAll('.med-age-y10').forEach(el => el.textContent = medStartAge + 9);
+
+                document.querySelectorAll('.med-age-y11').forEach(el => el.textContent = medStartAge + 10);
+                document.querySelectorAll('.med-age-y12').forEach(el => el.textContent = medStartAge + 11);
+                document.querySelectorAll('.med-age-y13').forEach(el => el.textContent = medStartAge + 12);
+                document.querySelectorAll('.med-age-y14').forEach(el => el.textContent = medStartAge + 13);
+                document.querySelectorAll('.med-age-y15').forEach(el => el.textContent = medStartAge + 14);
+
+                document.querySelectorAll('.med-age-y16').forEach(el => el.textContent = medStartAge + 15);
+                document.querySelectorAll('.med-age-y17').forEach(el => el.textContent = medStartAge + 16);
+                document.querySelectorAll('.med-age-y18').forEach(el => el.textContent = medStartAge + 17);
+                document.querySelectorAll('.med-age-y19').forEach(el => el.textContent = medStartAge + 18);
+                document.querySelectorAll('.med-age-y20').forEach(el => el.textContent = medStartAge + 19);
 
                 const getJarTotal = (prefix) => {
                     let sum = 0;
@@ -1310,7 +1336,7 @@
 
                 let m1PremTotal = 0;
                 for (let i = 1; i <= 5; i++) {
-                    let curAge = startAge + i - 1;
+                    let curAge = medStartAge + i - 1;
                     let prem = getPremiumForAge(curAge) * Math.pow(1 + medInflationRate, i - 1);
                     m1PremTotal += prem;
                     const premEl = document.getElementById(`med-prem-y${i}`);
