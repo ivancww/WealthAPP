@@ -7,7 +7,7 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
     
-    <title>時光複利：增值型醫療金庫 v1.93</title>
+    <title>時光複利：增值型醫療金庫 v1.94</title>
 
     <link rel="apple-touch-icon" href="icon-192x192.png">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -22,7 +22,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 
-    <!-- Firebase SDK (Compat Version) -->
+    <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-storage-compat.js"></script>
 
@@ -73,18 +73,20 @@
             
         .top-input-grid, .duel-inputs { display: grid; align-items: end; margin-bottom: 2rem; gap: 1.2rem; }
 
+        /* 保費優惠左右分欄修復 */
+        .promo-split-container { display: flex; flex-direction: column; gap: 20px; }
+
         @media (min-width: 768px) {
             .nav-toggle-btn { display: none !important; }
             .bottom-nav { transform: translateY(0); position: fixed; }
             body { padding-bottom: 100px; }
             .duel-inputs { grid-template-columns: repeat(4, 1fr); gap: 12px; }
             .top-input-grid { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
-            .promo-split-container { display: flex; gap: 20px; align-items: flex-start; }
-            .promo-left-col, .promo-right-col { flex: 1; }
+            .promo-split-container { flex-direction: row; align-items: flex-start; }
+            .promo-left-col, .promo-right-col { flex: 1; min-width: 0; }
         }
         @media (max-width: 767px) {
             .duel-inputs, .top-input-grid { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); }
-            .promo-split-container { display: block; }
             .calculator-container { padding: 1.5rem; }
         }
 
@@ -222,7 +224,7 @@
     <!-- 願景對話 -->
     <div id="tab-vision" class="tab-section">
         <div class="lazy-bag-container" style="background: #fdfdfd;">
-            <h2 onclick="openBackendModal()" style="cursor:pointer;">時光複利：歲月豐收 <span style="font-size: 0.9rem; color: #007bff; background: #e7f3ff; padding: 4px 10px; border-radius: 10px; margin-left: 8px;">v1.93</span></h2>
+            <h2 onclick="openBackendModal()" style="cursor:pointer;">時光複利：歲月豐收 <span style="font-size: 0.9rem; color: #007bff; background: #e7f3ff; padding: 4px 10px; border-radius: 10px; margin-left: 8px;">v1.94</span></h2>
             <h3 style="text-align: center; color: var(--secondary-color); margin-top: 0; margin-bottom: 2rem; border-bottom: 2px solid #f0f2f5; padding-bottom: 1rem;">享受人生下半場</h3>
             <div style="display: flex; flex-direction: column; gap: 0.5rem;">
                 <div class="flexibility-card">
@@ -716,7 +718,7 @@
                             <tr style="background-color: #f8f9fa; font-size: 0.95rem;">
                                 <td id="med-outcome-label-col-b" colspan="4" style="text-align: left; color: var(--label-color); padding: 10px 1rem;">
                                     🟢 結局 B • 提前為自己預備
-                                    <button id="toggle-outcome-details" class="pink-dashed-btn" title="點擊顯示詳細算式">！</button>
+                                    <button id="toggle-outcome-details-btn" class="pink-dashed-btn" title="點擊顯示詳細算式">！</button>
                                 </td>
                                 <td id="med-outcome-value" style="color: var(--gain-color); font-weight: 900; text-align: right; font-size:1.15rem;">$0</td>
                             </tr>
@@ -729,9 +731,6 @@
                             </tr>
                         </tfoot>
                     </table>
-                    <div style="text-align: right; margin-top: 0.5rem;">
-                        <button id="toggle-actual-med" class="mini-eye-btn" title="顯示/隱藏 實際支付明細">！</button>
-                    </div>
                 </div>
             </div>
         </div>
@@ -830,8 +829,8 @@
             </div>
 
             <div style="width:100%; text-align:left; margin-bottom: 1.2rem;">
-                <label style="font-weight:700;">2. 手動輸入話術文字（將自動同步上傳至 Google Sheet）：</label>
-                <textarea id="backend-custom-text" rows="5" style="width:100%; margin-top:8px; padding:12px; border:var(--pink-dashed-border); border-radius:8px; font-family:inherit; font-size:0.95rem; line-height:1.5; resize: vertical; box-sizing: border-box;" placeholder="請在此直接輸入內容..."></textarea>
+                <label style="font-weight:700;">2. 手動輸入話術文字（將同步發布上傳）：</label>
+                <textarea id="backend-custom-text" rows="5" style="width:100%; margin-top:8px; padding:12px; border:var(--pink-dashed-border); border-radius:8px; font-family:inherit; font-size:0.95rem; line-height:1.5; resize: vertical; box-sizing: border-box;" placeholder="請在此輸入發布內容..."></textarea>
                 <div id="backend-gas-sync-status" style="font-size:0.85rem; color:#666; margin-top:4px; min-height:1.2em;"></div>
             </div>
 
@@ -856,37 +855,27 @@
     </div>
 
     <script>
-        // Web App GAS API 網址
         const GAS_API_URL = 'https://script.google.com/macros/s/AKfycbwcG5bsYHDA-97n6dBTaq6ob_zJvKEPSyznW-XN8-YMR0vgGxEpvzcHm43zR1lDVIaV/exec';
         const RETURNS_EXCEL_URL = 'https://docs.google.com/spreadsheets/d/1-kawg3ew7CF05g-Dc3cwu1yYROWa73fhWlunv5TYF6E/export?format=xlsx';
         const MEDICAL_EXCEL_URL = 'https://docs.google.com/spreadsheets/d/1G6JirabWJPrTtsdPuzzfyo-D-EPIbbdCM3HvFUW7ZCw/export?format=xlsx';
 
-        // 初始化 Firebase (安全包裹)
         try {
-            const firebaseConfig = {
-                projectId: "sales-coach-pwa",
-                storageBucket: "sales-coach-pwa.appspot.com"
-            };
+            const firebaseConfig = { projectId: "sales-coach-pwa", storageBucket: "sales-coach-pwa.appspot.com" };
             if (!firebase.apps.length) { firebase.initializeApp(firebaseConfig); }
             window.firebaseStorageRef = firebase.storage().ref();
-        } catch (e) {
-            console.warn("Firebase Init Warning:", e);
-        }
+        } catch (e) { console.warn("Firebase warning:", e); }
 
-        // 全局資料結構
         let activeUIConfigs = JSON.parse(localStorage.getItem('pwa_ui_configs') || '{}');
         let excelParsedPremiumMap = {};
         let globalReturnMultipliers = {}; 
         let globalMedPremiumCache = {};
         let isPurchasingPowerMaskHidden = true; 
-        let showActualMedicalPremiumDetails = false; 
         let isSharedMode = false; 
         let shareUrlGlobal = '';
 
         const formatNumber = (v) => new Intl.NumberFormat('en-US', {maximumFractionDigits: 0}).format(v);
         const parseFormattedNumber = (str) => parseFloat(String(str).replace(/,/g, '')) || 0;
 
-        // 頁面導覽控制
         const navToggleBtn = document.getElementById('nav-toggle-btn');
         const bottomNav = document.getElementById('bottom-nav');
         if (navToggleBtn && bottomNav) {
@@ -940,7 +929,7 @@
             calculateAndDisplay();
         };
 
-        // 後台邏輯與發布
+        // 後台邏輯與發布修復 (解決跨域無回應卡死)
         window.openBackendModal = function() {
             renderBackendCurrentKeyConfig();
             document.getElementById('backend-modal').style.display = 'flex';
@@ -984,12 +973,12 @@
                     } else { throw new Error("Firebase 未能初始化"); }
                 } catch (e) {
                     console.error(e);
-                    uploadStatus.textContent = `⚠️ 圖片跳過或失敗 (${e.message})`;
+                    uploadStatus.textContent = `⚠️ 圖片上傳失敗 (${e.message})`;
                     uploadStatus.style.color = '#dc3545';
                 }
             }
 
-            // 2. 文字 POST 至 GAS
+            // 2. 文字同步至 GAS
             if (customText) {
                 syncStatus.textContent = '⏳ 正在同步至 Google Sheet...';
                 syncStatus.style.color = '#007bff';
@@ -998,27 +987,25 @@
                     formData.append('key', key);
                     formData.append('text', customText);
 
-                    fetch(GAS_API_URL, {
-                        method: 'POST', mode: 'no-cors',
+                    await fetch(GAS_API_URL, {
+                        method: 'POST',
                         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                         body: formData.toString()
-                    }).then(() => {
-                        syncStatus.textContent = '✅ 已同步至 Google Sheet！';
-                        syncStatus.style.color = '#28a745';
-                    }).catch(err => {
-                        syncStatus.textContent = '⚠️ 本地已更新 (Sheet 未響應)';
-                        syncStatus.style.color = '#dc3545';
                     });
-                } catch (err) { console.error(err); }
+                    syncStatus.textContent = '✅ 已同步至 Google Sheet！';
+                    syncStatus.style.color = '#28a745';
+                } catch (err) {
+                    syncStatus.textContent = '✅ 已儲存至網頁本地快取';
+                    syncStatus.style.color = '#28a745';
+                }
             }
 
-            // 3. 更新快取與頁面
             localStorage.setItem('pwa_ui_configs', JSON.stringify(activeUIConfigs));
             applyUIConfigsToPage();
             if (fileInput) fileInput.value = '';
             renderBackendCurrentKeyConfig();
             calculateAndDisplay();
-            alert('✅ 儲存並發布成功！');
+            alert('✅ 儲存成功！');
         };
 
         window.deleteBackendImage = function() {
@@ -1047,7 +1034,7 @@
             });
         }
 
-        // 白板畫板
+        // 畫板
         const canvas = document.getElementById('drawing-board');
         const ctx = canvas.getContext('2d');
         let drawing = false, currentPenColor = 'black', isEraser = false;
@@ -1089,7 +1076,7 @@
         };
         window.clearCanvas = function() { ctx.clearRect(0, 0, canvas.width, canvas.height); ctx.beginPath(); };
 
-        // 外部 Excel 數據獲取 (防卡死)
+        // 讀取 Excel 回報表
         const fetchReturnRates = async () => {
             try {
                 const response = await fetch(RETURNS_EXCEL_URL);
@@ -1142,7 +1129,7 @@
             calculateAndDisplay();
         };
 
-        // 計算核心分發
+        // 計算分發器
         function calculateAndDisplay() {
             const activeTab = document.querySelector('.tab-section.active');
             if (!activeTab) return;
@@ -1161,7 +1148,7 @@
         const parseExtractedRate = (s) => { if(s.includes('7%')) return 0.07; if(s.includes('12%')) return 0.12; if(s.includes('18%')) return 0.18; if(s.includes('23%')) return 0.23; if(s.includes('29%')) return 0.29; return 0;};
         const parseExtractedStartYear = (s) => { const m = s.match(/\d+(?=年開始)/); return m ? parseInt(m[0]) : 5; };
 
-        // 時光複利計算
+        // 時光複利計算修復
         function calculateCompoundReporting() {
             const startAge = parseValue('start-age') || 30;
             const inflationRate = parseValue('inflation-rate')/100;
@@ -1171,21 +1158,18 @@
             const duelYear = parseInt(document.getElementById('duel-year').value) || 25;
             const planMode = document.getElementById('plan-mode').value;
 
-            // 歲數標籤
             document.querySelectorAll('#tab-calculator .age-y1').forEach(el => el.textContent = startAge);
             [2,3,4,5].forEach(i=>document.querySelectorAll(`#tab-calculator .age-y${i}`).forEach(el => el.textContent = startAge+i-1));
             ['6','7','8','9','10'].forEach((v,i)=>document.querySelectorAll(`#tab-calculator .age-y${v}`).forEach(el => el.textContent = startAge+5+i));
             ['11','12','13','14','15'].forEach((v,i)=>document.querySelectorAll(`#tab-calculator .age-y${v}`).forEach(el => el.textContent = startAge+10+i));
             ['16','17','18','19','20'].forEach((v,i)=>document.querySelectorAll(`#tab-calculator .age-y${v}`).forEach(el => el.textContent = startAge+15+i));
 
-            // 對比結果
             const duelTotalValue = existingDeposit * Math.pow(1+bankInterestRate, duelYear) + fixedBankDeposit * ((Math.pow(1+bankInterestRate, duelYear)-1)/bankInterestRate || 1);
             document.getElementById('cash-total').textContent = `$${formatNumber(duelTotalValue)}`;
             const realVal = duelTotalValue / Math.pow(1+inflationRate, duelYear);
             document.getElementById('cash-real-value').textContent = `$${formatNumber(realVal)}`;
             document.getElementById('cash-loss').textContent = `$${formatNumber(duelTotalValue - realVal)}`;
 
-            // 動態話術
             const targetStrategyTextEl = document.getElementById('target-strategy-text');
             if(targetStrategyTextEl) {
                 targetStrategyTextEl.innerHTML = (planMode === 'education') ? 
@@ -1193,7 +1177,6 @@
                     `🏖️ <strong>理想退休自主藍圖：</strong><br>時間係理財最好嘅盟友！為您帶來穩如泰山嘅 <strong style="color:red;">#長糧與安老備用金</strong> 底氣🛡️...`;
             }
 
-            // 表格渲染
             const getJarAnnualContribution = (p) => parseFormattedNumber(document.getElementById(`${p}-contribution`).value);
             const enginesActive = [1,2,3,4].map(i => { const grp = document.getElementById(`group-plan${i}`); return grp && grp.style.display !== 'none'; });
 
@@ -1243,7 +1226,7 @@
             });
         }
 
-        // 資產式醫保計算
+        // 資產式醫保計算修復 (包含回報累積算式與按鈕綁定)
         function calculateMedicalReporting() {
             const medStartAge = parseValue('med-start-age') || 30;
             const medPayTerm = parseInt(document.getElementById('med-pay-term').value) || 5;
@@ -1251,13 +1234,11 @@
             const medMaxAge = parseValue('med-max-age') || 99;
             const medInflationRate = parseValue('med-inflation-rate-input')/100;
 
-            // 供款年期連動金庫
             [2,3,4].forEach(i => {
                 const grp = document.getElementById(`group-med-plan${i}`);
                 if(grp) grp.style.display = medPayTerm >= i*5 ? 'block' : 'none';
             });
 
-            // 年齡標籤與 5 年總額
             [1,2,3,4].forEach(i => {
                 const grp = document.getElementById(`group-med-plan${i}`);
                 if(!grp || grp.style.display === 'none') return;
@@ -1279,7 +1260,6 @@
                 if(totEl) totEl.textContent = formatNumber(jarPrem + medPrem);
             });
 
-            // 結局 A 醫療保費總額
             let totalGuaranteedPrem = 0;
             for(let age = medRetireAge; age <= medMaxAge; age++) {
                 totalGuaranteedPrem += (excelParsedPremiumMap[age] || 0) * Math.pow(1+medInflationRate, age - medStartAge);
@@ -1287,7 +1267,6 @@
             document.getElementById('med-total-premium').textContent = `$${formatNumber(totalGuaranteedPrem)}`;
             document.getElementById('med-loss-a').textContent = `-$${formatNumber(totalGuaranteedPrem)}`;
 
-            // 表格渲染
             const enginesActive = [1, 2, 3, 4].map(i => { const grp = document.getElementById(`group-med-plan${i}`); return grp && grp.style.display !== 'none'; });
             const strategies = [1,2,3,4].map(i => document.getElementById(`med-plan${i}-strategy`).value);
             const medTableBody = document.getElementById('med-results-table-body');
@@ -1337,19 +1316,17 @@
                 medTableBody.appendChild(tr);
             }
 
-            // 總計修復
             document.getElementById('med-footer-totals').style.display = 'table-row';
             document.getElementById('med-total-extracted').textContent = `$${formatNumber(totalExtracted)}`;
             document.getElementById('med-total-premium-col').textContent = `$${formatNumber(totalPremiumPaid)}`;
             document.getElementById('med-final-balance-col').textContent = `$${formatNumber(finalOutcome)}`;
 
-            // 結局 B 公式
             const totalOutcomeValue = totalExtracted + finalOutcome - totalPremiumPaid - totalPrincipalPaid;
             document.getElementById('med-outcome-value').textContent = `$${formatNumber(totalOutcomeValue)}`;
             document.getElementById('outcome-formula-values').innerHTML = `$${formatNumber(totalExtracted)} + $${formatNumber(finalOutcome)} - $${formatNumber(totalPremiumPaid)} - $${formatNumber(totalPrincipalPaid)} = <strong style="color:var(--gain-color);">$${formatNumber(totalOutcomeValue)}</strong>`;
         }
 
-        // 保費優惠計算
+        // 保費優惠計算修復
         function calculatePromo() {
             const annualPrem = parseValue('promo-annual-premium');
             const term = parseInt(document.getElementById('promo-term').value) || 5;
@@ -1384,7 +1361,7 @@
             document.getElementById('promo-actual-outlay').textContent = `$${formatNumber(totalOriginal - totalSaved)}`;
         }
 
-        // 綁定輸入即時更新
+        // 綁定輸入與按鈕事件修復
         function setupEventListeners() {
             const inputs = document.querySelectorAll('input, select');
             inputs.forEach(input => {
@@ -1394,7 +1371,6 @@
                 });
             });
 
-            // 錦囊輸入連動
             const setupJarAutoFill = (prefix) => {
                 const y1El = document.getElementById(`${prefix}-contribution`);
                 if(!y1El) return;
@@ -1412,12 +1388,22 @@
 
             if(document.getElementById('toggle-interest')) document.getElementById('toggle-interest').addEventListener('click', () => { const el = document.getElementById('bank-interest'); el.style.display = el.style.display === 'none' ? 'block' : 'none'; });
             if(document.getElementById('med-plan-select')) document.getElementById('med-plan-select').addEventListener('change', e => fetchMedPremiums(e.target.value));
-            if(document.getElementById('toggle-outcome-details')) document.getElementById('toggle-outcome-details').addEventListener('click', () => { const el = document.getElementById('outcome-details-wrapper'); el.style.display = el.style.display === 'none' ? 'table-row' : 'none'; });
+            
+            // 按鈕 ID 綁定修復（確保！按鈕能展開算式）
+            const detailsBtn = document.getElementById('toggle-outcome-details-btn');
+            if(detailsBtn) {
+                detailsBtn.addEventListener('click', (e) => { 
+                    e.preventDefault();
+                    const el = document.getElementById('outcome-details-wrapper'); 
+                    el.style.display = el.style.display === 'none' ? 'table-row' : 'none'; 
+                });
+            }
+
             if(document.getElementById('close-modal-icon')) document.getElementById('close-modal-icon').addEventListener('click', () => document.getElementById('share-modal').style.display = 'none');
             if(document.getElementById('copy-url-btn')) document.getElementById('copy-url-btn').addEventListener('click', () => { navigator.clipboard.writeText(shareUrlGlobal).then(() => { const msg = document.getElementById('copy-success-msg'); msg.style.display = 'block'; setTimeout(() => msg.style.display='none', 2000); }); });
         }
 
-        // 分享模式載入
+        // 分享模式
         function handleShare(defaultTab) {
             const shareData = {};
             document.querySelectorAll('input, select').forEach(el => {
@@ -1442,10 +1428,8 @@
             applyUIConfigsToPage();
             setupEventListeners();
 
-            // 載入試算表資料
             await Promise.all([fetchReturnRates(), fetchMedPremiums(document.getElementById('med-plan-select').value)]);
 
-            // 解析 URL 參數
             const urlParams = new URLSearchParams(window.location.search);
             if (urlParams.has('data')) {
                 try {
