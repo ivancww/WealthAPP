@@ -7,7 +7,7 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
     
-    <title>時光複利：退休醫保預備金 v1.87 </title>
+    <title>資產型醫療金庫：退休醫保預備金 v1.89</title>
 
     <link rel="apple-touch-icon" href="icon-192x192.png">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -90,7 +90,6 @@
         .input-group { min-width: 100px; position: relative; }
         .input-group label { display: flex; align-items: center; justify-content: center; font-weight: 500; color: var(--label-color); margin-bottom: 0.5rem; text-align: center; font-size: 0.95rem; }
         
-        /* 框底色用返白色，外框用淺粉紅虛線 */
         .input-group input, .input-group select, select, .btn { 
             width: 100%; padding: 0.75rem; 
             border: var(--pink-dashed-border) !important; 
@@ -98,7 +97,6 @@
             transition: all 0.2s;
         }
         
-        /* 唯讀（自動對應第1年）框之視覺效果：無虛線、底色淺灰 */
         .input-group input[readonly], input.readonly-box {
             border: 1px solid var(--border-color) !important;
             background-color: #f8f9fa !important;
@@ -186,20 +184,26 @@
 
         .jar-card { background: #fdfdfd; border: 1px solid var(--border-color); border-radius: 12px; padding: 1.2rem; margin-bottom: 1.5rem; position: relative; }
         .jar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 10px; }
-        
-        /* 滾存下拉框放大加高規格 */
         .jar-header select { min-width: 240px; font-weight: bold; height: 48px; border: var(--pink-dashed-border) !important; background-color: #ffffff !important; }
         
         .jar-5year-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 10px; margin-bottom: 1rem; }
         .total-box { background: #e7f3ff; border: 1px solid #b8daff; border-radius: 8px; padding: 10px; text-align: center; font-weight: bold; color: var(--primary-color); }
         .med-prem-subbox { background: #f3e5f5; border: 1px dashed #e1bee7; border-radius: 6px; padding: 6px; text-align: center; font-size: 0.85rem; color: purple; font-weight: bold; margin-top: 6px; }
 
+        .asset-guarantee-card { background: linear-gradient(135deg, #fff8e1 0%, #fff3cd 100%); border: 1px dashed #ffe082; border-radius: 10px; padding: 12px 16px; margin-bottom: 1.5rem; color: #856404; font-size: 0.95rem; line-height: 1.5; }
+
         @media print {
             body { background: #fff !important; color: #000 !important; }
-            .bottom-nav, .nav-toggle-btn, .management-section, #med-management-section, .modal-overlay, .inline-hypnotic-btn, .inline-toggle, .mini-eye-btn, #share-btn, #med-share-btn { display: none !important; }
+            .bottom-nav, .nav-toggle-btn, .management-section, #med-management-section, .modal-overlay, .inline-hypnotic-btn, .inline-toggle, .mini-eye-btn, #share-btn, #med-share-btn,
+            #med-plan-section, #med-inflation-group, #inflation-group, #comfort-zone-section, .emoji-toggle-bar, #emoji-bar, #med-emoji-bar { 
+                display: none !important; 
+            }
             .calculator-container, .lazy-bag-container { box-shadow: none !important; border: none !important; padding: 0 !important; }
             .tab-section { display: block !important; opacity: 1 !important; }
             .tab-section:not(.active) { display: none !important; }
+            
+            tfoot { display: table-row-group !important; }
+            tr { page-break-inside: avoid !important; }
         }
     </style>
 </head>
@@ -217,7 +221,7 @@
 
     <div id="tab-vision" class="tab-section">
         <div class="lazy-bag-container" style="background: #fdfdfd;">
-            <h2>時光複利：歲月豐收 <span style="font-size: 1rem; color: #007bff; vertical-align: middle; background: #e7f3ff; padding: 4px 10px; border-radius: 12px; margin-left: 10px; border: 1px solid #cce5ff;">v1.87</span></h2>
+            <h2>時光複利：歲月豐收 <span style="font-size: 1rem; color: #007bff; vertical-align: middle; background: #e7f3ff; padding: 4px 10px; border-radius: 12px; margin-left: 10px; border: 1px solid #cce5ff;">v1.89</span></h2>
             <h3 style="text-align: center; color: var(--secondary-color); margin-top: 0; margin-bottom: 2rem; border-bottom: 2px solid #f0f2f5; padding-bottom: 1.5rem;">享受人生下半場</h3>
             <div style="display: flex; flex-direction: column; gap: 0.5rem;">
                 <div class="flexibility-card card-rome">
@@ -337,7 +341,6 @@
                     <div id="btn-toggle-plan4" class="emoji-toggle" onclick="toggleEngine('plan4', 'tab-calculator')">🥚</div>
                 </div>
 
-                <!-- 第2至5年框改為 readonly 唯讀模式 -->
                 <div class="jar-card" style="border-top: 4px solid var(--plan1-color);">
                     <div class="jar-header">
                         <h3 style="color:var(--plan1-color); margin:0; display:flex; align-items:center; gap:6px;">
@@ -490,11 +493,12 @@
         </div>
     </div>
 
-    <!-- 退休醫保頁面：歲數對應修復，第2-5年框唯讀化 -->
+    <!-- 退休醫保頁面：資產保值聲明卡片與獨立對應儲備金庫 -->
     <div id="tab-medical" class="tab-section">
         <div class="calculator-container">
             <header>
-                <h1>退休醫保預備金</h1>
+                <h1>資產型醫療金庫：退休醫保預備金</h1>
+                <p>非消費式保障 ‧ 零浪費資產累積</p>
             </header>
 
             <div class="management-section" id="med-management-section">
@@ -539,8 +543,8 @@
                 <div class="top-input-grid">
                     <div class="input-group"><label>開始歲數</label><input type="number" id="med-start-age" value="30"></div>
                     <div class="input-group" id="med-inflation-group"><label>預期醫療通脹率: <span id="med-inflation-value">5.0%</span></label><input type="range" id="med-inflation-rate" min="0" max="7" value="5" step="0.1"></div>
-                    <div class="input-group"><label>預計退休年齡</label><input type="number" id="med-retire-age" value="65"></div>
-                    <div class="input-group"><label>預期保至幾歲</label><input type="number" id="med-max-age" value="99"></div>
+                    <div class="input-group"><label>資產自由轉換期 (預計退休)</label><input type="number" id="med-retire-age" value="65"></div>
+                    <div class="input-group"><label>終身資產保障期 (保至幾歲)</label><input type="number" id="med-max-age" value="99"></div>
                 </div>
             </div>
 
@@ -555,6 +559,11 @@
 
             <div class="section">
                 <h2>退休醫保備用金</h2>
+
+                <!-- 新增：資產保值聲明卡片 -->
+                <div class="asset-guarantee-card">
+                    🛡️ <strong>【資產保值承諾】</strong>：不論保單期內是否曾經申請醫療索償、亦不論累計索償金額高低，保單內之儲蓄增值金庫均獨立運作。當您選擇退保或提取時，依然可全數獲取該年度之退保現金價值，真正做到「有事保障、無事儲蓄」！
+                </div>
                 
                 <div class="emoji-toggle-bar" id="med-emoji-bar">
                     <span style="font-size: 0.95rem; color: #555; font-weight: bold;">點擊公仔啟用分段投入：</span>
@@ -1265,7 +1274,7 @@
                 const medRetireAge = parseInt(inputs['med-retire-age'].value) || 65;
                 const medMaxAge = parseInt(inputs['med-max-age'].value) || 99;
 
-                // 時光複利歲數更新
+                // 時光複利歲數標籤更新
                 document.querySelectorAll('#tab-calculator .age-y1').forEach(el => el.textContent = startAge);
                 document.querySelectorAll('#tab-calculator .age-y2').forEach(el => el.textContent = startAge + 1);
                 document.querySelectorAll('#tab-calculator .age-y3').forEach(el => el.textContent = startAge + 2);
@@ -1290,7 +1299,7 @@
                 document.querySelectorAll('#tab-calculator .age-y19').forEach(el => el.textContent = startAge + 18);
                 document.querySelectorAll('#tab-calculator .age-y20').forEach(el => el.textContent = startAge + 19);
 
-                // 修復：退休醫保專屬歲數精準對應【退休醫保的開始歲數】
+                // 退休醫保專屬歲數標籤精準更新
                 document.querySelectorAll('.med-age-y1').forEach(el => el.textContent = medStartAge);
                 document.querySelectorAll('.med-age-y2').forEach(el => el.textContent = medStartAge + 1);
                 document.querySelectorAll('.med-age-y3').forEach(el => el.textContent = medStartAge + 2);
@@ -1370,27 +1379,37 @@
                 let totalMedPremiumAccumulated = 0;
                 for (let a = medRetireAge; a <= medMaxAge; a++) {
                     let singlePrem = getPremiumForAge(a);
-                    totalMedPremiumAccumulated += singlePrem * Math.pow(1 + medInflationRate, a - startAge);
+                    totalMedPremiumAccumulated += singlePrem * Math.pow(1 + medInflationRate, a - medStartAge);
                 }
                 document.getElementById('med-total-premium').textContent = '$' + formatNumber(totalMedPremiumAccumulated);
                 document.getElementById('med-loss-a').textContent = `-$${formatNumber(totalMedPremiumAccumulated)}`;
 
+                // 時光複利獨立策略計算
                 const planStrategies = [inputs['plan1-strategy'], inputs['plan2-strategy'], inputs['plan3-strategy'], inputs['plan4-strategy']].map(el => el.value);
                 const isEngineActive = [true, document.getElementById('group-plan2').style.display !== 'none', document.getElementById('group-plan3').style.display !== 'none', document.getElementById('group-plan4').style.display !== 'none'];
-                
                 const isPureRollover = isEngineActive.every((active, i) => !active || planStrategies[i] === 'none');
 
+                // 修復：退休醫保專屬獨立策略與啟用狀態讀取
+                const medPlanStrategies = [
+                    document.getElementById('med-plan1-strategy').value,
+                    document.getElementById('med-plan2-strategy').value,
+                    document.getElementById('med-plan3-strategy').value,
+                    document.getElementById('med-plan4-strategy').value
+                ];
+                const isMedEngineActive = [
+                    true,
+                    document.getElementById('group-med-plan2').style.display !== 'none',
+                    document.getElementById('group-med-plan3').style.display !== 'none',
+                    document.getElementById('group-med-plan4').style.display !== 'none'
+                ];
+
                 let targetTableAge = Math.max(medMaxAge, 100);
-                let maxYear = targetTableAge - startAge + 1;
+                let maxYear = targetTableAge - Math.min(startAge, medStartAge) + 1;
                 if (maxYear < 30) maxYear = 30;
                 
                 const reportingYears = [];
-                for (let y = 8; y <= 25; y++) { 
-                    if (y <= maxYear) reportingYears.push(y);
-                }
-                for (let y = 30; y <= maxYear; y += 5) { 
-                    if (y <= maxYear) reportingYears.push(y);
-                }
+                for (let y = 8; y <= 25; y++) { if (y <= maxYear) reportingYears.push(y); }
+                for (let y = 30; y <= maxYear; y += 5) { if (y <= maxYear) reportingYears.push(y); }
                 if (!reportingYears.includes(maxYear)) reportingYears.push(maxYear);
                 
                 let divIcon = (isSharedMode) ? '' : (showDividend ? `<span class="inline-toggle active" onclick="toggleDividend()" title="點擊隱藏紅利">💰</span>` : `<span class="inline-toggle" onclick="toggleDividend()" title="點擊顯示紅利" style="filter:grayscale(100%); opacity:0.4;">💰</span>`);
@@ -1438,11 +1457,14 @@
                 let prevBalance = 0;
 
                 const jarTotals = [p1Total, p2Total, p3Total, p4Total];
+                const medJarTotals = [m1Total, m2Total, m3Total, m4Total];
 
                 for (let year = 1; year <= maxYear; year++) {
                     let currentAge = startAge + year - 1;
+                    let currentMedAge = medStartAge + year - 1;
+
+                    // 1. 計算時光複利獨立數據
                     let rV = 0, rW = 0, rA = 0, rC = 0;
-                    
                     [1, 6, 11, 16].forEach((sY, i) => {
                         const pA = year - (sY - 1); 
                         const tP = isEngineActive[i] ? jarTotals[i] : 0;
@@ -1453,34 +1475,54 @@
                         if (pA > 0 && tP > 0) {
                             rC += Math.min(pA, 5) * aC;
                             let multiplier = getMultiplierFromExcel(strategy, pA);
-                            
                             if (strategy === 'withdraw7_from8' && pA >= 8) { cA = tP * 0.07; cW = cA * (pA - 8 + 1); cV = tP * multiplier; }
                             else if (strategy === 'withdraw12_from15' && pA >= 15) { cA = tP * 0.12; cW = cA * (pA - 15 + 1); cV = tP * multiplier; }
                             else if (strategy === 'withdraw18_from20' && pA >= 20) { cA = tP * 0.18; cW = cA * (pA - 20 + 1); cV = tP * multiplier; }
                             else if (strategy === 'withdraw23_from25' && pA >= 25) { cA = tP * 0.23; cW = cA * (pA - 25 + 1); cV = tP * multiplier; }
                             else if (strategy === 'withdraw29_from30' && pA >= 30) { cA = tP * 0.29; cW = cA * (pA - 30 + 1); cV = tP * multiplier; }
                             else { cV = tP * multiplier; }
-                            
                             if(pA < 5 && strategy !== 'none') cV = Math.min(pA, 5) * aC;
                         }
-                        rV += cV;
-                        rW += cW; rA += cA;
+                        rV += cV; rW += cW; rA += cA;
+                    });
+
+                    // 2. 獨立計算退休醫保專屬數據
+                    let m_rV = 0, m_rW = 0, m_rA = 0, m_rC = 0;
+                    [1, 6, 11, 16].forEach((sY, i) => {
+                        const pA = year - (sY - 1); 
+                        const tP = isMedEngineActive[i] ? medJarTotals[i] : 0;
+                        const aC = tP / 5;
+                        const strategy = medPlanStrategies[i];
+                        let cV = 0, cW = 0, cA = 0;
+
+                        if (pA > 0 && tP > 0) {
+                            m_rC += Math.min(pA, 5) * aC;
+                            let multiplier = getMultiplierFromExcel(strategy, pA);
+                            if (strategy === 'withdraw7_from8' && pA >= 8) { cA = tP * 0.07; cW = cA * (pA - 8 + 1); cV = tP * multiplier; }
+                            else if (strategy === 'withdraw12_from15' && pA >= 15) { cA = tP * 0.12; cW = cA * (pA - 15 + 1); cV = tP * multiplier; }
+                            else if (strategy === 'withdraw18_from20' && pA >= 20) { cA = tP * 0.18; cW = cA * (pA - 20 + 1); cV = tP * multiplier; }
+                            else if (strategy === 'withdraw23_from25' && pA >= 25) { cA = tP * 0.23; cW = cA * (pA - 25 + 1); cV = tP * multiplier; }
+                            else if (strategy === 'withdraw29_from30' && pA >= 30) { cA = tP * 0.29; cW = cA * (pA - 30 + 1); cV = tP * multiplier; }
+                            else { cV = tP * multiplier; }
+                            if(pA < 5 && strategy !== 'none') cV = Math.min(pA, 5) * aC;
+                        }
+                        m_rV += cV; m_rW += cW; m_rA += cA;
                     });
                     
                     let netProfit = (rV + rW) - rC;
-                    let medPremiumCurrentYear = (currentAge >= medRetireAge && currentAge <= medMaxAge) ? getPremiumForAge(currentAge) * Math.pow(1 + medInflationRate, year - 1) : 0;
-                    let actualMedPremium = rA - medPremiumCurrentYear;
+                    let medPremiumCurrentYear = (currentMedAge >= medRetireAge && currentMedAge <= medMaxAge) ? getPremiumForAge(currentMedAge) * Math.pow(1 + medInflationRate, year - 1) : 0;
+                    let actualMedPremium = m_rA - medPremiumCurrentYear;
                     cumulativeActualMedPremium += actualMedPremium;
                     
-                    let displayMedBalance = rV;
+                    let displayMedBalance = m_rV;
 
-                    sumExtracted += rA;
+                    sumExtracted += m_rA;
                     sumMedPremium += medPremiumCurrentYear;
                     sumActualPremium += actualMedPremium;
 
                     if (year === maxYear) {
                         finalBalance = displayMedBalance;
-                        totalPrincipal = rC;
+                        totalPrincipal = m_rC;
                     }
 
                     if (reportingYears.includes(year)) {
@@ -1509,9 +1551,9 @@
 
                         const medRow = document.createElement('tr');
                         if (showActualMedicalPremium) {
-                            medRow.innerHTML = `<td>${year} (${currentAge})</td><td>$${formatNumber(rC)}</td><td style="color:blue; font-weight:bold;">$${formatNumber(rA)}</td><td style="color:purple; font-weight:bold;">$${formatNumber(medPremiumCurrentYear)}</td><td style="color:green; font-weight:bold;">$${formatNumber(actualMedPremium)}</td><td style="color:red; font-weight:bold;">$${formatNumber(displayMedBalance)}</td>`;
+                            medRow.innerHTML = `<td>${year} (${currentMedAge})</td><td>$${formatNumber(m_rC)}</td><td style="color:blue; font-weight:bold;">$${formatNumber(m_rA)}</td><td style="color:purple; font-weight:bold;">$${formatNumber(medPremiumCurrentYear)}</td><td style="color:green; font-weight:bold;">$${formatNumber(actualMedPremium)}</td><td style="color:red; font-weight:bold;">$${formatNumber(displayMedBalance)}</td>`;
                         } else {
-                            medRow.innerHTML = `<td>${year} (${currentAge})</td><td>$${formatNumber(rC)}</td><td style="color:blue; font-weight:bold;">$${formatNumber(rA)}</td><td style="color:purple; font-weight:bold;">$${formatNumber(medPremiumCurrentYear)}</td><td style="color:red; font-weight:bold;">$${formatNumber(displayMedBalance)}</td>`;
+                            medRow.innerHTML = `<td>${year} (${currentMedAge})</td><td>$${formatNumber(m_rC)}</td><td style="color:blue; font-weight:bold;">$${formatNumber(m_rA)}</td><td style="color:purple; font-weight:bold;">$${formatNumber(medPremiumCurrentYear)}</td><td style="color:red; font-weight:bold;">$${formatNumber(displayMedBalance)}</td>`;
                         }
                         medTableBody.appendChild(medRow);
                     }
