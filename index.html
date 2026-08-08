@@ -7,7 +7,7 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
     
-    <title>時光複利：增值型醫療金庫 v1.94</title>
+    <title>時光複利：增值型醫療金庫 v1.95</title>
 
     <link rel="apple-touch-icon" href="icon-192x192.png">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -73,7 +73,6 @@
             
         .top-input-grid, .duel-inputs { display: grid; align-items: end; margin-bottom: 2rem; gap: 1.2rem; }
 
-        /* 保費優惠左右分欄修復 */
         .promo-split-container { display: flex; flex-direction: column; gap: 20px; }
 
         @media (min-width: 768px) {
@@ -224,7 +223,7 @@
     <!-- 願景對話 -->
     <div id="tab-vision" class="tab-section">
         <div class="lazy-bag-container" style="background: #fdfdfd;">
-            <h2 onclick="openBackendModal()" style="cursor:pointer;">時光複利：歲月豐收 <span style="font-size: 0.9rem; color: #007bff; background: #e7f3ff; padding: 4px 10px; border-radius: 10px; margin-left: 8px;">v1.94</span></h2>
+            <h2 onclick="openBackendModal()" style="cursor:pointer;">時光複利：歲月豐收 <span style="font-size: 0.9rem; color: #007bff; background: #e7f3ff; padding: 4px 10px; border-radius: 10px; margin-left: 8px;">v1.95</span></h2>
             <h3 style="text-align: center; color: var(--secondary-color); margin-top: 0; margin-bottom: 2rem; border-bottom: 2px solid #f0f2f5; padding-bottom: 1rem;">享受人生下半場</h3>
             <div style="display: flex; flex-direction: column; gap: 0.5rem;">
                 <div class="flexibility-card">
@@ -559,8 +558,8 @@
                 </h2>
 
                 <div id="floating-reserve-desc" class="floating-desc">
-                    <div id="target-med-reserve-text">🛡️ <strong>【資產保值承諾】</strong>：不論保單期內是否曾經申請醫療索償、亦不論累計索償金額高低，保單內之儲蓄增值金庫均獨立運作...</div>
-                    <div id="target-med-reserve-img-container" class="responsive-img-container" style="display:none;"></div>
+                    <div id="target-資產式醫保：保值承諾話術-text">🛡️ <strong>【資產保值承諾】</strong>：不論保單期內是否曾經申請醫療索償、亦不論累計索償金額高低，保單內之儲蓄增值金庫均獨立運作...</div>
+                    <div id="target-資產式醫保：保值承諾話術-img-container" class="responsive-img-container" style="display:none;"></div>
                 </div>
 
                 <div class="jar-card" style="border-top: 4px solid var(--plan1-color);">
@@ -582,8 +581,8 @@
                     </div>
 
                     <div id="floating-jar1-desc" class="floating-desc" style="background-color: #f8fdf8; border-color: #c8e6c9; color: #155724;">
-                        <div id="target-med-jar1-text">儲備金庫一：提供 100% 醫療防線保障，同時積累終身資產...</div>
-                        <div id="target-med-jar1-img-container" class="responsive-img-container" style="display:none;"></div>
+                        <div id="target-資產式醫保：儲備金庫一話術-text">儲備金庫一：提供 100% 醫療防線保障，同時積累終身資產...</div>
+                        <div id="target-資產式醫保：儲備金庫一話術-img-container" class="responsive-img-container" style="display:none;"></div>
                     </div>
 
                     <div class="jar-5year-grid">
@@ -811,25 +810,25 @@
         </div>
     </div>
 
-    <!-- 動態內容後台管理 Modal -->
+    <!-- 動態內容後台管理 Modal (全自動匹配 A 欄位置名稱) -->
     <div id="backend-modal" class="modal-overlay">
         <div class="modal-content" style="max-width: 650px; width: 100%; padding: 2rem;">
             <span class="close-modal" onclick="closeBackendModal()">&times;</span>
             <h2 style="color: var(--primary-color); margin-top:0;">⚙️ 動態內容與 Firebase 管理後台</h2>
             
             <div style="width:100%; text-align:left; margin-bottom: 1.2rem;">
-                <label style="font-weight:700;">1. 選擇配置位置：</label>
+                <label style="font-weight:700;">1. 選擇文字配置位置 (精準匹配 A 欄)：</label>
                 <select id="backend-target-key" style="margin-top:6px; font-weight:700; color:var(--primary-color); width:100%; height: 48px;">
-                    <option value="comfort">時光複利：停留喺舒適圈</option>
-                    <option value="strategy">時光複利：錦囊策略未來想像</option>
-                    <option value="jar1">時光複利：一號錦囊催眠話術</option>
-                    <option value="med_reserve">資產式醫保：保值承諾話術</option>
-                    <option value="med_jar1">資產式醫保：儲備金庫一話術</option>
+                    <option value="時光複利：停留喺舒適圈">時光複利：停留喺舒適圈</option>
+                    <option value="時光複利：錦囊策略未來想像">時光複利：錦囊策略未來想像</option>
+                    <option value="時光複利：一號錦囊催眠話術">時光複利：一號錦囊催眠話術</option>
+                    <option value="資產式醫保：保值承諾話術">資產式醫保：保值承諾話術</option>
+                    <option value="資產式醫保：儲備金庫一話術">資產式醫保：儲備金庫一話術</option>
                 </select>
             </div>
 
             <div style="width:100%; text-align:left; margin-bottom: 1.2rem;">
-                <label style="font-weight:700;">2. 手動輸入話術文字（將同步發布上傳）：</label>
+                <label style="font-weight:700;">2. 手動輸入話術文字 (將自動寫入 B 欄)：</label>
                 <textarea id="backend-custom-text" rows="5" style="width:100%; margin-top:8px; padding:12px; border:var(--pink-dashed-border); border-radius:8px; font-family:inherit; font-size:0.95rem; line-height:1.5; resize: vertical; box-sizing: border-box;" placeholder="請在此輸入發布內容..."></textarea>
                 <div id="backend-gas-sync-status" style="font-size:0.85rem; color:#666; margin-top:4px; min-height:1.2em;"></div>
             </div>
@@ -855,7 +854,10 @@
     </div>
 
     <script>
+        // Web App GAS API 網址 (請更換為你最新發布的 URL)
         const GAS_API_URL = 'https://script.google.com/macros/s/AKfycbwcG5bsYHDA-97n6dBTaq6ob_zJvKEPSyznW-XN8-YMR0vgGxEpvzcHm43zR1lDVIaV/exec';
+        
+        // 保持原有的試算表進行回報與保費讀取
         const RETURNS_EXCEL_URL = 'https://docs.google.com/spreadsheets/d/1-kawg3ew7CF05g-Dc3cwu1yYROWa73fhWlunv5TYF6E/export?format=xlsx';
         const MEDICAL_EXCEL_URL = 'https://docs.google.com/spreadsheets/d/1G6JirabWJPrTtsdPuzzfyo-D-EPIbbdCM3HvFUW7ZCw/export?format=xlsx';
 
@@ -929,11 +931,29 @@
             calculateAndDisplay();
         };
 
-        // 後台邏輯與發布修復 (解決跨域無回應卡死)
-        window.openBackendModal = function() {
+        // 開啟後台時自動非同步從 GAS 載入 Sheet 上該位置對應的 B 欄內容
+        window.openBackendModal = async function() {
             renderBackendCurrentKeyConfig();
             document.getElementById('backend-modal').style.display = 'flex';
+            
+            // 從 GAS 背景獲取 Sheet 上最新 B 欄文字
+            try {
+                const res = await fetch(GAS_API_URL);
+                const json = await res.json();
+                if (json.status === 'success' && json.data) {
+                    Object.keys(json.data).forEach(key => {
+                        if (!activeUIConfigs[key]) activeUIConfigs[key] = {};
+                        activeUIConfigs[key].text = json.data[key];
+                    });
+                    localStorage.setItem('pwa_ui_configs', JSON.stringify(activeUIConfigs));
+                    applyUIConfigsToPage();
+                    renderBackendCurrentKeyConfig();
+                }
+            } catch (e) {
+                console.warn("GAS fetch notice:", e);
+            }
         };
+
         window.closeBackendModal = function() { document.getElementById('backend-modal').style.display = 'none'; };
 
         function renderBackendCurrentKeyConfig() {
@@ -978,9 +998,9 @@
                 }
             }
 
-            // 2. 文字同步至 GAS
-            if (customText) {
-                syncStatus.textContent = '⏳ 正在同步至 Google Sheet...';
+            // 2. 文字 POST 至 GAS (會根據 A 欄 key 自動覆蓋 B 欄)
+            if (customText !== undefined) {
+                syncStatus.textContent = '⏳ 正在同步至 Google Sheet 催眠式文字分頁...';
                 syncStatus.style.color = '#007bff';
                 try {
                     const formData = new URLSearchParams();
@@ -992,10 +1012,10 @@
                         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                         body: formData.toString()
                     });
-                    syncStatus.textContent = '✅ 已同步至 Google Sheet！';
+                    syncStatus.textContent = '✅ 已成功同步更新至 Google Sheet！';
                     syncStatus.style.color = '#28a745';
                 } catch (err) {
-                    syncStatus.textContent = '✅ 已儲存至網頁本地快取';
+                    syncStatus.textContent = '✅ 已儲存至本地網頁';
                     syncStatus.style.color = '#28a745';
                 }
             }
@@ -1005,7 +1025,7 @@
             if (fileInput) fileInput.value = '';
             renderBackendCurrentKeyConfig();
             calculateAndDisplay();
-            alert('✅ 儲存成功！');
+            alert('✅ 儲存發布成功！');
         };
 
         window.deleteBackendImage = function() {
@@ -1076,7 +1096,7 @@
         };
         window.clearCanvas = function() { ctx.clearRect(0, 0, canvas.width, canvas.height); ctx.beginPath(); };
 
-        // 讀取 Excel 回報表
+        // 讀取原回報表 Excel
         const fetchReturnRates = async () => {
             try {
                 const response = await fetch(RETURNS_EXCEL_URL);
@@ -1148,7 +1168,7 @@
         const parseExtractedRate = (s) => { if(s.includes('7%')) return 0.07; if(s.includes('12%')) return 0.12; if(s.includes('18%')) return 0.18; if(s.includes('23%')) return 0.23; if(s.includes('29%')) return 0.29; return 0;};
         const parseExtractedStartYear = (s) => { const m = s.match(/\d+(?=年開始)/); return m ? parseInt(m[0]) : 5; };
 
-        // 時光複利計算修復
+        // 時光複利計算
         function calculateCompoundReporting() {
             const startAge = parseValue('start-age') || 30;
             const inflationRate = parseValue('inflation-rate')/100;
@@ -1170,7 +1190,7 @@
             document.getElementById('cash-real-value').textContent = `$${formatNumber(realVal)}`;
             document.getElementById('cash-loss').textContent = `$${formatNumber(duelTotalValue - realVal)}`;
 
-            const targetStrategyTextEl = document.getElementById('target-strategy-text');
+            const targetStrategyTextEl = document.getElementById('target-時光複利：錦囊策略未來想像-text');
             if(targetStrategyTextEl) {
                 targetStrategyTextEl.innerHTML = (planMode === 'education') ? 
                     `🎓 <strong>仔女教育基金藍圖：</strong><br>羅馬城非一日建成！當仔女準備起飛升學 ✈️，預留俾佢哋嘅 <strong style="color:red;">#學費與啟航基金</strong>...` : 
@@ -1226,7 +1246,7 @@
             });
         }
 
-        // 資產式醫保計算修復 (包含回報累積算式與按鈕綁定)
+        // 資產式醫保計算
         function calculateMedicalReporting() {
             const medStartAge = parseValue('med-start-age') || 30;
             const medPayTerm = parseInt(document.getElementById('med-pay-term').value) || 5;
@@ -1326,7 +1346,7 @@
             document.getElementById('outcome-formula-values').innerHTML = `$${formatNumber(totalExtracted)} + $${formatNumber(finalOutcome)} - $${formatNumber(totalPremiumPaid)} - $${formatNumber(totalPrincipalPaid)} = <strong style="color:var(--gain-color);">$${formatNumber(totalOutcomeValue)}</strong>`;
         }
 
-        // 保費優惠計算修復
+        // 保費優惠計算
         function calculatePromo() {
             const annualPrem = parseValue('promo-annual-premium');
             const term = parseInt(document.getElementById('promo-term').value) || 5;
@@ -1361,7 +1381,7 @@
             document.getElementById('promo-actual-outlay').textContent = `$${formatNumber(totalOriginal - totalSaved)}`;
         }
 
-        // 綁定輸入與按鈕事件修復
+        // 綁定輸入與按鈕事件
         function setupEventListeners() {
             const inputs = document.querySelectorAll('input, select');
             inputs.forEach(input => {
@@ -1389,7 +1409,6 @@
             if(document.getElementById('toggle-interest')) document.getElementById('toggle-interest').addEventListener('click', () => { const el = document.getElementById('bank-interest'); el.style.display = el.style.display === 'none' ? 'block' : 'none'; });
             if(document.getElementById('med-plan-select')) document.getElementById('med-plan-select').addEventListener('change', e => fetchMedPremiums(e.target.value));
             
-            // 按鈕 ID 綁定修復（確保！按鈕能展開算式）
             const detailsBtn = document.getElementById('toggle-outcome-details-btn');
             if(detailsBtn) {
                 detailsBtn.addEventListener('click', (e) => { 
