@@ -7,7 +7,7 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
     
-    <title>時光複利：增值式醫保 v3.0</title>
+    <title>時光複利：增值式醫保 v3.1</title>
     <link rel="apple-touch-icon" href="icon-192x192.png">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -234,7 +234,7 @@
     <!-- 願景對話 -->
     <div id="tab-vision" class="tab-section">
         <div class="lazy-bag-container" style="background: #fdfdfd;">
-            <h2>時光複利：歲月豐收 <span style="font-size: 1rem; color: #007bff; vertical-align: middle; background: #e7f3ff; padding: 4px 10px; border-radius: 12px; margin-left: 10px; border: 1px solid #cce5ff;">v3.0</span></h2>
+            <h2>時光複利：歲月豐收 <span style="font-size: 1rem; color: #007bff; vertical-align: middle; background: #e7f3ff; padding: 4px 10px; border-radius: 12px; margin-left: 10px; border: 1px solid #cce5ff;">v3.1</span></h2>
             <h3 style="text-align: center; color: var(--secondary-color); margin-top: 0; margin-bottom: 2rem; border-bottom: 2px solid #f0f2f5; padding-bottom: 1.5rem;">享受人生下半場</h3>
             <div style="display: flex; flex-direction: column; gap: 0.5rem;">
                 <div class="flexibility-card card-rome">
@@ -1509,7 +1509,7 @@
                 const reportingYears = [];
                 for (let y = 8; y <= 25; y++) { if(y <= maxYear) reportingYears.push(y); }
                 for (let y = 30; y <= maxYear; y += 5) { if(y <= maxYear) reportingYears.push(y); }
-                if(!reportingYears.includes(maxYear)) reportingYears.push(maxYear); // 確保 100 歲保單年度包含在內
+                if(!reportingYears.includes(maxYear)) reportingYears.push(maxYear);
 
                 let divIcon = (isSharedMode) ? '' : (showDividend ? `<span class="inline-toggle active" onclick="toggleDividend()" title="點擊隱藏紅利">💰</span>` : `<span class="inline-toggle" onclick="toggleDividend()" title="點擊顯示紅利" style="filter:grayscale(100%); opacity:0.4;">💰</span>`);
                 let intIcon = (isSharedMode) ? '' : (showInterest ? `<span class="inline-toggle active" onclick="toggleInterest()" title="點擊隱藏年息">📈</span>` : `<span class="inline-toggle" onclick="toggleInterest()" title="點擊顯示年息" style="filter:grayscale(100%); opacity:0.4;">📈</span>`);
@@ -1576,7 +1576,8 @@
                 const medInflationRateEl = document.getElementById('med-inflation-rate-num');
                 const medInflationRate = (parseFloat(medInflationRateEl ? medInflationRateEl.value : 0) || 0) / 100;
                 const medRetireAge = parseInt(inputs['med-retire-age'].value) || 65;
-                const medMaxAge = 100; // 固定算至 100 歲
+                const medMaxAgeInput = parseInt(inputs['med-max-age'].value) || 100; // 輸入框的增值期
+                
                 document.querySelectorAll('.med-age-y1').forEach(el => el.textContent = medStartAge);
                 document.querySelectorAll('.med-age-y2').forEach(el => el.textContent = medStartAge + 1);
                 document.querySelectorAll('.med-age-y3').forEach(el => el.textContent = medStartAge + 2);
@@ -1621,13 +1622,24 @@
                 document.getElementById('med-plan2-5yr-total').textContent = formatNumber(m2Total + m2PremTotal);
                 document.getElementById('med-plan3-5yr-total').textContent = formatNumber(m3Total + m3PremTotal);
                 document.getElementById('med-plan4-5yr-total').textContent = formatNumber(m4Total + m4PremTotal);
-                let totalMedPremiumAccumulated = 0;
-                for (let a = medRetireAge; a <= medMaxAge; a++) {
+                
+                // 頂部圖片「醫保總保費」：僅計算 轉換期(medRetireAge) 至 增值期(medMaxAgeInput)
+                let cardMedPremiumTotal = 0;
+                for (let a = medRetireAge; a <= medMaxAgeInput; a++) {
                     let singlePrem = getPremiumForAge(a);
-                    totalMedPremiumAccumulated += singlePrem * Math.pow(1 + medInflationRate, a - medStartAge);
+                    cardMedPremiumTotal += singlePrem * Math.pow(1 + medInflationRate, a - medStartAge);
                 }
-                document.getElementById('med-total-premium').textContent = '$' + formatNumber(totalMedPremiumAccumulated);
-                document.getElementById('med-loss-a').textContent = `-$${formatNumber(totalMedPremiumAccumulated)}`;
+                document.getElementById('med-total-premium').textContent = '$' + formatNumber(cardMedPremiumTotal);
+
+                // 下方累積表與結局 A/B：試算算至 100 歲
+                let tableLimitAge = 100;
+                let totalMedPremium100 = 0;
+                for (let a = medRetireAge; a <= tableLimitAge; a++) {
+                    let singlePrem = getPremiumForAge(a);
+                    totalMedPremium100 += singlePrem * Math.pow(1 + medInflationRate, a - medStartAge);
+                }
+                document.getElementById('med-loss-a').textContent = `-$${formatNumber(totalMedPremium100)}`;
+                
                 if (showActualMedicalPremium) {
                     medTableHead.innerHTML = `<tr><th>保單年度 (歲數)</th><th>累計供款</th><th>醫保保費預備金 (提取)</th><th>醫療保費</th><th style="color:green;">實際醫療保費</th><th>增值醫保餘額</th></tr>`;
                 } else {
@@ -1641,11 +1653,11 @@
                 let medStrategies = [inputs['med-plan1-strategy'], inputs['med-plan2-strategy'], inputs['med-plan3-strategy'], inputs['med-plan4-strategy']].map(el => el.value);
                 let medEngineActive = [true, document.getElementById('group-med-plan2').style.display !== 'none', document.getElementById('group-med-plan3').style.display !== 'none', document.getElementById('group-med-plan4').style.display !== 'none'];
                 let medJarTotals = [m1Total, m2Total, m3Total, m4Total];
-                let maxMedYear = 100 - medStartAge + 1;
+                let maxMedYear = tableLimitAge - medStartAge + 1;
                 const medReportingYears = [];
                 for (let y = 8; y <= 25; y++) { if (y <= maxMedYear) medReportingYears.push(y); }
                 for (let y = 30; y <= maxMedYear; y += 5) { if (y <= maxMedYear) medReportingYears.push(y); }
-                if(!medReportingYears.includes(maxMedYear)) medReportingYears.push(maxMedYear); // 確保 100 歲必定顯示於列表最後
+                if(!medReportingYears.includes(maxMedYear)) medReportingYears.push(maxMedYear);
 
                 let sumExtracted = 0, sumMedPremium = 0, sumActualPremium = 0, finalBalance = 0, totalPrincipal = 0;
                 for (let year = 1; year <= maxMedYear; year++) {
@@ -1670,7 +1682,7 @@
                         }
                         rV += cV; rW += cW; rA += cA;
                     });
-                    let medPremiumCurrentYear = (currentAge >= medRetireAge && currentAge <= medMaxAge) ? getPremiumForAge(currentAge) * Math.pow(1 + medInflationRate, year - 1) : 0;
+                    let medPremiumCurrentYear = (currentAge >= medRetireAge && currentAge <= tableLimitAge) ? getPremiumForAge(currentAge) * Math.pow(1 + medInflationRate, year - 1) : 0;
                     let actualMedPremium = rA - medPremiumCurrentYear;
                     sumExtracted += rA;
                     sumMedPremium += medPremiumCurrentYear;
