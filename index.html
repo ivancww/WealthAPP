@@ -7,7 +7,7 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
     
-    <title>時光複利：增值式醫保 v2.9</title>
+    <title>時光複利：增值式醫保 v3.0</title>
     <link rel="apple-touch-icon" href="icon-192x192.png">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -234,7 +234,7 @@
     <!-- 願景對話 -->
     <div id="tab-vision" class="tab-section">
         <div class="lazy-bag-container" style="background: #fdfdfd;">
-            <h2>時光複利：歲月豐收 <span style="font-size: 1rem; color: #007bff; vertical-align: middle; background: #e7f3ff; padding: 4px 10px; border-radius: 12px; margin-left: 10px; border: 1px solid #cce5ff;">v2.9</span></h2>
+            <h2>時光複利：歲月豐收 <span style="font-size: 1rem; color: #007bff; vertical-align: middle; background: #e7f3ff; padding: 4px 10px; border-radius: 12px; margin-left: 10px; border: 1px solid #cce5ff;">v3.0</span></h2>
             <h3 style="text-align: center; color: var(--secondary-color); margin-top: 0; margin-bottom: 2rem; border-bottom: 2px solid #f0f2f5; padding-bottom: 1.5rem;">享受人生下半場</h3>
             <div style="display: flex; flex-direction: column; gap: 0.5rem;">
                 <div class="flexibility-card card-rome">
@@ -484,6 +484,7 @@
             <div class="pdf-client-header" id="pdf-client-title-med">親愛的客戶：尊貴客戶 專屬報告</div>
             <header>
                 <h1 onclick="openAdminModal('增值式醫保')" title="點擊主題進入後台設定">增值式醫保</h1>
+                <h2 id="med-client-view-title" style="display:none; color: var(--primary-color); font-size: 1.7rem; margin-top: 10px;"></h2>
             </header>
             <div class="management-section" id="med-management-section">
                 <h3 style="margin-bottom: 1rem; color: var(--primary-color);">💼 增值式醫保報告</h3>
@@ -1392,13 +1393,18 @@
                     });
                     
                     const clientTitleEl = document.getElementById('client-view-title');
+                    const medClientTitleEl = document.getElementById('med-client-view-title');
                     const targetTab = sharedData['default_tab'] || 'tab-calculator';
-                    const displayedName = (targetTab === 'tab-medical' && sharedData['med-client-name']) ? sharedData['med-client-name'] : sharedData['client-name'];
+                    const displayedName = sharedData['client-name'] || sharedData['med-client-name'];
                     
                     if (displayedName) {
                         if (clientTitleEl) {
                             clientTitleEl.textContent = `親愛的客戶：${displayedName} 專屬報告`;
                             clientTitleEl.style.display = 'block';
+                        }
+                        if (medClientTitleEl) {
+                            medClientTitleEl.textContent = `親愛的客戶：${displayedName} 專屬報告`;
+                            medClientTitleEl.style.display = 'block';
                         }
                         const pdfTitleCalc = document.getElementById('pdf-client-title-calc');
                         const pdfTitleMed = document.getElementById('pdf-client-title-med');
@@ -1497,10 +1503,14 @@
                 const planStrategies = [inputs['plan1-strategy'], inputs['plan2-strategy'], inputs['plan3-strategy'], inputs['plan4-strategy']].map(el => el.value);
                 const isEngineActive = [true, document.getElementById('group-plan2').style.display !== 'none', document.getElementById('group-plan3').style.display !== 'none', document.getElementById('group-plan4').style.display !== 'none'];
                 const isPureRollover = isEngineActive.every((active, i) => !active || planStrategies[i] === 'none');
-                let maxYear = 30;
+                
+                // 動態推算至 100 歲
+                let maxYear = Math.max(30, 100 - startAge + 1);
                 const reportingYears = [];
-                for (let y = 8; y <= 25; y++) { reportingYears.push(y); }
-                for (let y = 30; y <= maxYear; y += 5) { reportingYears.push(y); }
+                for (let y = 8; y <= 25; y++) { if(y <= maxYear) reportingYears.push(y); }
+                for (let y = 30; y <= maxYear; y += 5) { if(y <= maxYear) reportingYears.push(y); }
+                if(!reportingYears.includes(maxYear)) reportingYears.push(maxYear); // 確保 100 歲保單年度包含在內
+
                 let divIcon = (isSharedMode) ? '' : (showDividend ? `<span class="inline-toggle active" onclick="toggleDividend()" title="點擊隱藏紅利">💰</span>` : `<span class="inline-toggle" onclick="toggleDividend()" title="點擊顯示紅利" style="filter:grayscale(100%); opacity:0.4;">💰</span>`);
                 let intIcon = (isSharedMode) ? '' : (showInterest ? `<span class="inline-toggle active" onclick="toggleInterest()" title="點擊隱藏年息">📈</span>` : `<span class="inline-toggle" onclick="toggleInterest()" title="點擊顯示年息" style="filter:grayscale(100%); opacity:0.4;">📈</span>`);
                 let headerBase = `<tr><th>年份 (歲數)</th><th>累計供款</th>`;
@@ -1566,7 +1576,7 @@
                 const medInflationRateEl = document.getElementById('med-inflation-rate-num');
                 const medInflationRate = (parseFloat(medInflationRateEl ? medInflationRateEl.value : 0) || 0) / 100;
                 const medRetireAge = parseInt(inputs['med-retire-age'].value) || 65;
-                const medMaxAge = parseInt(inputs['med-max-age'].value) || 100;
+                const medMaxAge = 100; // 固定算至 100 歲
                 document.querySelectorAll('.med-age-y1').forEach(el => el.textContent = medStartAge);
                 document.querySelectorAll('.med-age-y2').forEach(el => el.textContent = medStartAge + 1);
                 document.querySelectorAll('.med-age-y3').forEach(el => el.textContent = medStartAge + 2);
@@ -1631,12 +1641,12 @@
                 let medStrategies = [inputs['med-plan1-strategy'], inputs['med-plan2-strategy'], inputs['med-plan3-strategy'], inputs['med-plan4-strategy']].map(el => el.value);
                 let medEngineActive = [true, document.getElementById('group-med-plan2').style.display !== 'none', document.getElementById('group-med-plan3').style.display !== 'none', document.getElementById('group-med-plan4').style.display !== 'none'];
                 let medJarTotals = [m1Total, m2Total, m3Total, m4Total];
-                let targetTableAge = Math.max(medMaxAge, 100);
-                let maxMedYear = targetTableAge - medStartAge + 1;
-                if (maxMedYear < 30) maxMedYear = 30;
+                let maxMedYear = 100 - medStartAge + 1;
                 const medReportingYears = [];
                 for (let y = 8; y <= 25; y++) { if (y <= maxMedYear) medReportingYears.push(y); }
                 for (let y = 30; y <= maxMedYear; y += 5) { if (y <= maxMedYear) medReportingYears.push(y); }
+                if(!medReportingYears.includes(maxMedYear)) medReportingYears.push(maxMedYear); // 確保 100 歲必定顯示於列表最後
+
                 let sumExtracted = 0, sumMedPremium = 0, sumActualPremium = 0, finalBalance = 0, totalPrincipal = 0;
                 for (let year = 1; year <= maxMedYear; year++) {
                     let currentAge = medStartAge + year - 1;
