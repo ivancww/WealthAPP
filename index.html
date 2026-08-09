@@ -7,7 +7,7 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
     
-    <title>時光複利：增值式醫保 v2.7</title>
+    <title>時光複利：增值式醫保 v2.6</title>
     <link rel="apple-touch-icon" href="icon-192x192.png">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -788,14 +788,12 @@
                             <tr style="background-color: #f8f9fa; font-size: 0.95rem; border-top: 2px solid var(--border-color);">
                                 <td id="med-outcome-label-col-a" colspan="4" style="text-align: left; color: var(--label-color); padding: 10px 1rem;">
                                     🔴 結局 A • 沒有為自己預備：
-                                    <button class="mini-pink-btn" style="margin-left:5px;" onclick="openLightbox('結局A說明')">！</button>
                                 </td>
                                 <td id="med-loss-a" style="color: var(--inflation-color); font-weight: bold; text-align: right;">$0</td>
                             </tr>
                             <tr style="background-color: #f8f9fa; font-size: 0.95rem;">
                                 <td id="med-outcome-label-col-b" colspan="4" style="text-align: left; color: var(--label-color); padding: 10px 1rem;">
                                     🟢 結局 B • 提前為自己預備
-                                    <button class="mini-pink-btn" style="margin-left:5px;" onclick="openLightbox('結局B說明')">！</button>
                                     <!-- 詳情按鈕：點擊切換顯示表格中的「實際醫療保費」及底部累計總額 -->
                                     <button id="toggle-actual-med" class="mini-pink-btn" style="margin-left:5px;">詳情</button>
                                 </td>
@@ -907,8 +905,6 @@
                     <option value="備用金說明">備用金說明</option>
                     <option value="金庫一說明">金庫一說明</option>
                     <option value="剛性支出說詞">剛性支出說詞</option>
-                    <option value="結局A說明">結局A說明</option>
-                    <option value="結局B說明">結局B說明</option>
                 </select>
             </div>
 
@@ -1693,7 +1689,6 @@
                 document.getElementById('med-total-premium').textContent = '$' + formatNumber(totalMedPremiumAccumulated);
                 document.getElementById('med-loss-a').textContent = `-$${formatNumber(totalMedPremiumAccumulated)}`;
 
-                // 表格標頭：根據是否點擊「詳情」開關動態顯示「實際醫療保費」
                 if (showActualMedicalPremium) {
                     medTableHead.innerHTML = `<tr><th>保單年度 (歲數)</th><th>累計供款</th><th>醫保保費預備金 (提取)</th><th>醫療保費</th><th style="color:green;">實際醫療保費</th><th>增值醫保餘額</th></tr>`;
                 } else {
@@ -1710,7 +1705,7 @@
                 let medEngineActive = [true, document.getElementById('group-med-plan2').style.display !== 'none', document.getElementById('group-med-plan3').style.display !== 'none', document.getElementById('group-med-plan4').style.display !== 'none'];
                 let medJarTotals = [m1Total, m2Total, m3Total, m4Total];
 
-                let targetTableAge = medMaxAge; // 精準對應增值期年齡
+                let targetTableAge = medMaxAge; 
                 let maxMedYear = targetTableAge - medStartAge + 1;
                 if (maxMedYear < 1) maxMedYear = 1;
 
@@ -1752,7 +1747,6 @@
                     sumMedPremium += medPremiumCurrentYear;
                     sumActualPremium += actualMedPremium;
 
-                    // 記錄增值期最後一年的實際結餘
                     if (year === maxMedYear) {
                         finalBalance = rV;
                         totalPrincipal = rC;
@@ -1769,12 +1763,10 @@
                     }
                 }
 
-                // 底部總額更新
                 document.getElementById('med-total-extracted').textContent = `$${formatNumber(sumExtracted)}`;
                 document.getElementById('med-total-premium-col').textContent = `$${formatNumber(sumMedPremium)}`;
                 document.getElementById('med-total-actual-premium').textContent = `$${formatNumber(sumActualPremium)}`;
                 
-                // 結局 B 最終金額 = 累計提取 + 增值期最終結餘 - 累計醫療保費 - 本金
                 let outcomeTotal = sumExtracted + finalBalance - sumMedPremium - totalPrincipal;
                 document.getElementById('med-outcome-value').textContent = `$${formatNumber(outcomeTotal)}`;
                 document.getElementById('outcome-formula-values').innerHTML = `$${formatNumber(sumExtracted)} + $${formatNumber(finalBalance)} - $${formatNumber(sumMedPremium)} - $${formatNumber(totalPrincipal)} = <strong style="color:var(--gain-color); font-size:1.1rem;">$${formatNumber(outcomeTotal)}</strong>`;
@@ -1834,7 +1826,6 @@
             document.getElementById('promo2-base-pct').addEventListener('input', calculatePromo);
             document.getElementById('promo2-extra-pct').addEventListener('input', calculatePromo);
             
-            // 點擊「詳情」按鈕：切換表格中「實際醫療保費」欄位及底部總額顯示
             document.getElementById('toggle-actual-med').addEventListener('click', function() {
                 showActualMedicalPremium = !showActualMedicalPremium;
                 this.classList.toggle('active', showActualMedicalPremium);
