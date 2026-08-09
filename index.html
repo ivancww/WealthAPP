@@ -152,6 +152,7 @@
             border-radius: 6px; font-size: 0.9rem; padding: 2px 8px; cursor: pointer; transition: 0.2s; user-select: none; font-weight: bold; color: var(--primary-color); display: inline-flex; align-items: center; justify-content: center; line-height: 1; vertical-align: middle;
         }
         .mini-pink-btn:active { transform: scale(0.92); }
+        .mini-pink-btn.active { background: #e7f3ff; color: var(--primary-color); border-color: var(--primary-color) !important; }
         
         .inline-toggle { cursor: pointer; display: inline-block; transition: 0.2s; user-select: none; font-size: 1rem; padding: 2px 4px; vertical-align: middle; }
         .inline-toggle:active { transform: scale(0.8); }
@@ -183,7 +184,6 @@
         .flex-input-row { display: flex; align-items: center; gap: 8px; margin-top: 8px; flex-wrap: wrap; }
         .pct-input { width: 70px !important; padding: 4px !important; text-align: center !important; display: inline-block !important; }
         
-        /* 全螢幕背景模糊 Lightbox 彈窗樣式 */
         .lightbox-overlay {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
@@ -773,7 +773,7 @@
                 <div class="table-wrapper">
                     <table id="med-results-table">
                         <thead id="med-results-table-head">
-                            <tr><th>保單年度 (歲數)</th><th>累計供款</th><th>醫保保費預備金 (提取)</th><th>醫療保費</th><th>醫保防線結餘</th></tr>
+                            <tr><th>保單年度 (歲數)</th><th>累計供款</th><th>醫保保費預備金 (提取)</th><th>醫療保費</th><th>增值醫保餘額</th></tr>
                         </thead>
                         <tbody id="med-results-table-body"></tbody>
                         
@@ -788,34 +788,21 @@
                             <tr style="background-color: #f8f9fa; font-size: 0.95rem; border-top: 2px solid var(--border-color);">
                                 <td id="med-outcome-label-col-a" colspan="4" style="text-align: left; color: var(--label-color); padding: 10px 1rem;">
                                     🔴 結局 A • 沒有為自己預備：
+                                    <button class="mini-pink-btn" style="margin-left:5px;" onclick="openLightbox('結局A說明')">！</button>
                                 </td>
                                 <td id="med-loss-a" style="color: var(--inflation-color); font-weight: bold; text-align: right;">$0</td>
                             </tr>
                             <tr style="background-color: #f8f9fa; font-size: 0.95rem;">
                                 <td id="med-outcome-label-col-b" colspan="4" style="text-align: left; color: var(--label-color); padding: 10px 1rem;">
                                     🟢 結局 B • 提前為自己預備
-                                    <button id="toggle-outcome-details" class="mini-pink-btn" style="margin-left:10px;" title="點擊顯示詳細算式">詳情</button>
-                                    
-                                    <!-- 詳情方塊：包含累積醫療保費、實際醫療保費與計算公式 -->
-                                    <div id="outcome-details" style="display:none; margin-top:10px; font-size:0.9rem; color:#333; background:#fff; padding:12px; border-radius:8px; border:1px solid #ccc; line-height:1.6;">
-                                        <div style="border-bottom: 1px dashed #eee; padding-bottom: 6px; margin-bottom: 6px;">
-                                            • 累計醫療保費：<strong id="detail-sum-med-prem" style="color:purple;">$0</strong><br>
-                                            • 實際醫療保費：<strong id="detail-sum-act-prem" style="color:green;">$0</strong>
-                                        </div>
-                                        <div>
-                                            <strong>計算公式：</strong><br>
-                                            累計提取 + 結餘 - 累計醫療保費 - 本金<br>
-                                            <span id="outcome-formula-values" style="display:block; margin-top:5px; font-weight:bold;"></span>
-                                        </div>
-                                    </div>
+                                    <button class="mini-pink-btn" style="margin-left:5px;" onclick="openLightbox('結局B說明')">！</button>
+                                    <!-- 詳情按鈕：點擊切換顯示表格中的「實際醫療保費」及底部累計總額 -->
+                                    <button id="toggle-actual-med" class="mini-pink-btn" style="margin-left:5px;">詳情</button>
                                 </td>
                                 <td id="med-outcome-value" style="color: var(--gain-color); font-weight: bold; text-align: right; font-size:1.1rem;">$0</td>
                             </tr>
                         </tfoot>
                     </table>
-                    <div style="text-align: right; margin-top: 0.5rem; display:none;">
-                        <button id="toggle-actual-med" class="mini-pink-btn">明細</button>
-                    </div>
                 </div>
             </div>
         </div>
@@ -920,6 +907,8 @@
                     <option value="備用金說明">備用金說明</option>
                     <option value="金庫一說明">金庫一說明</option>
                     <option value="剛性支出說詞">剛性支出說詞</option>
+                    <option value="結局A說明">結局A說明</option>
+                    <option value="結局B說明">結局B說明</option>
                 </select>
             </div>
 
@@ -1380,14 +1369,6 @@
             document.getElementById('share-modal').style.display = 'flex';
         };
 
-        function syncPdfClientTitles() {
-            const cNameCalc = document.getElementById('client-name').value.trim() || '尊貴客戶';
-            const cNameMed = document.getElementById('med-client-name').value.trim() || cNameCalc;
-            
-            document.getElementById('pdf-client-title-calc').textContent = `親愛的客戶：${cNameCalc} 專屬報告`;
-            document.getElementById('pdf-client-title-med').textContent = `親愛的客戶：${cNameMed} 專屬報告`;
-        }
-
         document.addEventListener('DOMContentLoaded', function() {
             canvas.width = canvas.parentElement.clientWidth || window.innerWidth - 60;
             ctx.lineCap = 'round';
@@ -1451,7 +1432,6 @@
                 document.getElementById('med-pay-term').addEventListener('change', updateMedicalJarsByTerm);
             }
 
-            // 掃二維碼（或網址開啟）時的邏輯處理：修正抬頭優先顯示
             const urlParams = new URLSearchParams(window.location.search);
             if (urlParams.has('data')) {
                 try {
@@ -1474,9 +1454,9 @@
                     
                     const clientTitleEl = document.getElementById('client-view-title');
                     const targetTab = sharedData['default_tab'] || 'tab-calculator';
-                    const displayedName = sharedData['client-name'] || sharedData['med-client-name'] || '尊貴客戶';
+                    const displayedName = (targetTab === 'tab-medical' && sharedData['med-client-name']) ? sharedData['med-client-name'] : sharedData['client-name'];
                     
-                    if (clientTitleEl) {
+                    if (clientTitleEl && displayedName) {
                         clientTitleEl.textContent = `親愛的客戶：${displayedName} 專屬報告`;
                         clientTitleEl.style.display = 'block';
                     }
@@ -1502,13 +1482,13 @@
                 navigator.clipboard.writeText(shareUrlGlobal).then(() => { document.getElementById('copy-success-msg').style.display = 'block'; });
             });
             document.getElementById('close-modal-icon').addEventListener('click', () => { document.getElementById('share-modal').style.display = 'none'; });
-            
-            const toggleOutcomeDetailsBtn = document.getElementById('toggle-outcome-details');
-            if (toggleOutcomeDetailsBtn) {
-                toggleOutcomeDetailsBtn.addEventListener('click', function() {
-                    const details = document.getElementById('outcome-details');
-                    details.style.display = details.style.display === 'none' ? 'block' : 'none';
-                });
+
+            function syncPdfClientTitles() {
+                const cNameCalc = document.getElementById('client-name').value.trim() || '尊貴客戶';
+                const cNameMed = document.getElementById('med-client-name').value.trim() || cNameCalc;
+                
+                document.getElementById('pdf-client-title-calc').textContent = `親愛的客戶：${cNameCalc} 專屬報告`;
+                document.getElementById('pdf-client-title-med').textContent = `親愛的客戶：${cNameMed} 專屬報告`;
             }
 
             document.getElementById('client-name').addEventListener('input', syncPdfClientTitles);
@@ -1713,10 +1693,11 @@
                 document.getElementById('med-total-premium').textContent = '$' + formatNumber(totalMedPremiumAccumulated);
                 document.getElementById('med-loss-a').textContent = `-$${formatNumber(totalMedPremiumAccumulated)}`;
 
+                // 表格標頭：根據是否點擊「詳情」開關動態顯示「實際醫療保費」
                 if (showActualMedicalPremium) {
-                    medTableHead.innerHTML = `<tr><th>保單年度 (歲數)</th><th>累計供款</th><th>醫保保費預備金 (提取)</th><th>醫療保費</th><th style="color:green;">實際醫療保費</th><th>醫保防線結餘</th></tr>`;
+                    medTableHead.innerHTML = `<tr><th>保單年度 (歲數)</th><th>累計供款</th><th>醫保保費預備金 (提取)</th><th>醫療保費</th><th style="color:green;">實際醫療保費</th><th>增值醫保餘額</th></tr>`;
                 } else {
-                    medTableHead.innerHTML = `<tr><th>保單年度 (歲數)</th><th>累計供款</th><th>醫保保費預備金 (提取)</th><th>醫療保費</th><th>醫保防線結餘</th></tr>`;
+                    medTableHead.innerHTML = `<tr><th>保單年度 (歲數)</th><th>累計供款</th><th>醫保保費預備金 (提取)</th><th>醫療保費</th><th>增值醫保餘額</th></tr>`;
                 }
 
                 const labelColA = document.getElementById('med-outcome-label-col-a');
@@ -1729,13 +1710,14 @@
                 let medEngineActive = [true, document.getElementById('group-med-plan2').style.display !== 'none', document.getElementById('group-med-plan3').style.display !== 'none', document.getElementById('group-med-plan4').style.display !== 'none'];
                 let medJarTotals = [m1Total, m2Total, m3Total, m4Total];
 
-                let targetTableAge = Math.max(medMaxAge, 100);
+                let targetTableAge = medMaxAge; // 精準對應增值期年齡
                 let maxMedYear = targetTableAge - medStartAge + 1;
-                if (maxMedYear < 30) maxMedYear = 30;
+                if (maxMedYear < 1) maxMedYear = 1;
 
                 const medReportingYears = [];
                 for (let y = 8; y <= 25; y++) { if (y <= maxMedYear) medReportingYears.push(y); }
                 for (let y = 30; y <= maxMedYear; y += 5) { if (y <= maxMedYear) medReportingYears.push(y); }
+                if (!medReportingYears.includes(maxMedYear)) medReportingYears.push(maxMedYear);
 
                 let sumExtracted = 0, sumMedPremium = 0, sumActualPremium = 0, finalBalance = 0, totalPrincipal = 0;
 
@@ -1770,6 +1752,7 @@
                     sumMedPremium += medPremiumCurrentYear;
                     sumActualPremium += actualMedPremium;
 
+                    // 記錄增值期最後一年的實際結餘
                     if (year === maxMedYear) {
                         finalBalance = rV;
                         totalPrincipal = rC;
@@ -1786,14 +1769,12 @@
                     }
                 }
 
+                // 底部總額更新
                 document.getElementById('med-total-extracted').textContent = `$${formatNumber(sumExtracted)}`;
                 document.getElementById('med-total-premium-col').textContent = `$${formatNumber(sumMedPremium)}`;
                 document.getElementById('med-total-actual-premium').textContent = `$${formatNumber(sumActualPremium)}`;
                 
-                // 詳情方塊數值即時更新
-                document.getElementById('detail-sum-med-prem').textContent = `$${formatNumber(sumMedPremium)}`;
-                document.getElementById('detail-sum-act-prem').textContent = `$${formatNumber(sumActualPremium)}`;
-
+                // 結局 B 最終金額 = 累計提取 + 增值期最終結餘 - 累計醫療保費 - 本金
                 let outcomeTotal = sumExtracted + finalBalance - sumMedPremium - totalPrincipal;
                 document.getElementById('med-outcome-value').textContent = `$${formatNumber(outcomeTotal)}`;
                 document.getElementById('outcome-formula-values').innerHTML = `$${formatNumber(sumExtracted)} + $${formatNumber(finalBalance)} - $${formatNumber(sumMedPremium)} - $${formatNumber(totalPrincipal)} = <strong style="color:var(--gain-color); font-size:1.1rem;">$${formatNumber(outcomeTotal)}</strong>`;
@@ -1853,6 +1834,7 @@
             document.getElementById('promo2-base-pct').addEventListener('input', calculatePromo);
             document.getElementById('promo2-extra-pct').addEventListener('input', calculatePromo);
             
+            // 點擊「詳情」按鈕：切換表格中「實際醫療保費」欄位及底部總額顯示
             document.getElementById('toggle-actual-med').addEventListener('click', function() {
                 showActualMedicalPremium = !showActualMedicalPremium;
                 this.classList.toggle('active', showActualMedicalPremium);
