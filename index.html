@@ -7,7 +7,7 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
     
-    <title>時光複利：增值式醫保 v2.6</title>
+    <title>時光複利：增值式醫保 v2.5</title>
     <link rel="apple-touch-icon" href="icon-192x192.png">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -152,7 +152,6 @@
             border-radius: 6px; font-size: 0.9rem; padding: 2px 8px; cursor: pointer; transition: 0.2s; user-select: none; font-weight: bold; color: var(--primary-color); display: inline-flex; align-items: center; justify-content: center; line-height: 1; vertical-align: middle;
         }
         .mini-pink-btn:active { transform: scale(0.92); }
-        .mini-pink-btn.active { background: #e7f3ff; color: var(--primary-color); border-color: var(--primary-color) !important; }
         
         .inline-toggle { cursor: pointer; display: inline-block; transition: 0.2s; user-select: none; font-size: 1rem; padding: 2px 4px; vertical-align: middle; }
         .inline-toggle:active { transform: scale(0.8); }
@@ -184,6 +183,7 @@
         .flex-input-row { display: flex; align-items: center; gap: 8px; margin-top: 8px; flex-wrap: wrap; }
         .pct-input { width: 70px !important; padding: 4px !important; text-align: center !important; display: inline-block !important; }
         
+        /* 全螢幕背景模糊 Lightbox 彈窗樣式 */
         .lightbox-overlay {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
@@ -240,7 +240,7 @@
     <!-- 願景對話 -->
     <div id="tab-vision" class="tab-section">
         <div class="lazy-bag-container" style="background: #fdfdfd;">
-            <h2>時光複利：歲月豐收 <span style="font-size: 1rem; color: #007bff; vertical-align: middle; background: #e7f3ff; padding: 4px 10px; border-radius: 12px; margin-left: 10px; border: 1px solid #cce5ff;">v2.6</span></h2>
+            <h2>時光複利：歲月豐收 <span style="font-size: 1rem; color: #007bff; vertical-align: middle; background: #e7f3ff; padding: 4px 10px; border-radius: 12px; margin-left: 10px; border: 1px solid #cce5ff;">v2.5</span></h2>
             <h3 style="text-align: center; color: var(--secondary-color); margin-top: 0; margin-bottom: 2rem; border-bottom: 2px solid #f0f2f5; padding-bottom: 1.5rem;">享受人生下半場</h3>
             <div style="display: flex; flex-direction: column; gap: 0.5rem;">
                 <div class="flexibility-card card-rome">
@@ -408,7 +408,6 @@
                     </div>
                 </div>
                 
-                <!-- 儲備金庫三：紅字 -->
                 <div class="extra-jar" id="group-plan3" style="display:none;">
                     <div class="jar-card" style="border-top: 4px solid var(--plan3-color);">
                         <button class="remove-engine-btn" onclick="toggleEngine('plan3', 'tab-calculator')">❌</button>
@@ -505,7 +504,6 @@
                 </div>
             </div>
             
-            <!-- 選擇醫保計劃 & 預期醫療通脹率 -->
             <div class="section" id="med-plan-section">
                 <h3 style="text-align:center; color: var(--primary-color);">📂 選擇醫保計劃</h3>
                 <div class="plan-selector-box">
@@ -773,7 +771,7 @@
                 <div class="table-wrapper">
                     <table id="med-results-table">
                         <thead id="med-results-table-head">
-                            <tr><th>保單年度 (歲數)</th><th>累計供款</th><th>醫保保費預備金 (提取)</th><th>醫療保費</th><th>增值醫保餘額</th></tr>
+                            <tr><th>保單年度 (歲數)</th><th>累計供款</th><th>醫保保費預備金 (提取)</th><th>醫療保費</th><th>醫保防線結餘</th></tr>
                         </thead>
                         <tbody id="med-results-table-body"></tbody>
                         
@@ -788,19 +786,27 @@
                             <tr style="background-color: #f8f9fa; font-size: 0.95rem; border-top: 2px solid var(--border-color);">
                                 <td id="med-outcome-label-col-a" colspan="4" style="text-align: left; color: var(--label-color); padding: 10px 1rem;">
                                     🔴 結局 A • 沒有為自己預備：
+                                    <button class="mini-pink-btn" style="margin-left:5px;" onclick="openLightbox('結局A說明')">！</button>
                                 </td>
                                 <td id="med-loss-a" style="color: var(--inflation-color); font-weight: bold; text-align: right;">$0</td>
                             </tr>
                             <tr style="background-color: #f8f9fa; font-size: 0.95rem;">
                                 <td id="med-outcome-label-col-b" colspan="4" style="text-align: left; color: var(--label-color); padding: 10px 1rem;">
                                     🟢 結局 B • 提前為自己預備
-                                    <!-- 詳情按鈕：點擊切換顯示表格中的「實際醫療保費」及底部累計總額 -->
-                                    <button id="toggle-actual-med" class="mini-pink-btn" style="margin-left:5px;">詳情</button>
+                                    <button class="mini-pink-btn" style="margin-left:5px;" onclick="openLightbox('結局B說明')">！</button>
+                                    <button id="toggle-outcome-details" class="mini-pink-btn" style="margin-left:5px;" title="點擊顯示詳細算式">詳情</button>
+                                    <div id="outcome-details" style="display:none; margin-top:8px; font-size:0.85rem; color:#555; background:#fff; padding:8px; border-radius:6px; border:1px solid #ccc;">
+                                        公式：累計提取 + 結餘 - 累計醫療保費 - 本金<br>
+                                        <span id="outcome-formula-values" style="display:block; margin-top:5px; font-weight:bold;"></span>
+                                    </div>
                                 </td>
                                 <td id="med-outcome-value" style="color: var(--gain-color); font-weight: bold; text-align: right; font-size:1.1rem;">$0</td>
                             </tr>
                         </tfoot>
                     </table>
+                    <div style="text-align: right; margin-top: 0.5rem; display:none;">
+                        <button id="toggle-actual-med" class="mini-pink-btn">明細</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -905,6 +911,8 @@
                     <option value="備用金說明">備用金說明</option>
                     <option value="金庫一說明">金庫一說明</option>
                     <option value="剛性支出說詞">剛性支出說詞</option>
+                    <option value="結局A說明">結局A說明</option>
+                    <option value="結局B說明">結局B說明</option>
                 </select>
             </div>
 
@@ -996,7 +1004,7 @@
 
         async function fetchPopDatabase() {
             try {
-                const res = await fetch(`${GAS_API_URL}?t=${Date.now()}`);
+                const res = await fetch(GAS_API_URL);
                 const json = await res.json();
                 if(json.status === 'success') {
                     globalPopDatabase = json.data;
@@ -1478,6 +1486,14 @@
                 navigator.clipboard.writeText(shareUrlGlobal).then(() => { document.getElementById('copy-success-msg').style.display = 'block'; });
             });
             document.getElementById('close-modal-icon').addEventListener('click', () => { document.getElementById('share-modal').style.display = 'none'; });
+            
+            const toggleOutcomeDetailsBtn = document.getElementById('toggle-outcome-details');
+            if (toggleOutcomeDetailsBtn) {
+                toggleOutcomeDetailsBtn.addEventListener('click', function() {
+                    const details = document.getElementById('outcome-details');
+                    details.style.display = details.style.display === 'none' ? 'block' : 'none';
+                });
+            }
 
             function syncPdfClientTitles() {
                 const cNameCalc = document.getElementById('client-name').value.trim() || '尊貴客戶';
@@ -1690,9 +1706,9 @@
                 document.getElementById('med-loss-a').textContent = `-$${formatNumber(totalMedPremiumAccumulated)}`;
 
                 if (showActualMedicalPremium) {
-                    medTableHead.innerHTML = `<tr><th>保單年度 (歲數)</th><th>累計供款</th><th>醫保保費預備金 (提取)</th><th>醫療保費</th><th style="color:green;">實際醫療保費</th><th>增值醫保餘額</th></tr>`;
+                    medTableHead.innerHTML = `<tr><th>保單年度 (歲數)</th><th>累計供款</th><th>醫保保費預備金 (提取)</th><th>醫療保費</th><th style="color:green;">實際醫療保費</th><th>醫保防線結餘</th></tr>`;
                 } else {
-                    medTableHead.innerHTML = `<tr><th>保單年度 (歲數)</th><th>累計供款</th><th>醫保保費預備金 (提取)</th><th>醫療保費</th><th>增值醫保餘額</th></tr>`;
+                    medTableHead.innerHTML = `<tr><th>保單年度 (歲數)</th><th>累計供款</th><th>醫保保費預備金 (提取)</th><th>醫療保費</th><th>醫保防線結餘</th></tr>`;
                 }
 
                 const labelColA = document.getElementById('med-outcome-label-col-a');
@@ -1705,14 +1721,13 @@
                 let medEngineActive = [true, document.getElementById('group-med-plan2').style.display !== 'none', document.getElementById('group-med-plan3').style.display !== 'none', document.getElementById('group-med-plan4').style.display !== 'none'];
                 let medJarTotals = [m1Total, m2Total, m3Total, m4Total];
 
-                let targetTableAge = medMaxAge; 
+                let targetTableAge = Math.max(medMaxAge, 100);
                 let maxMedYear = targetTableAge - medStartAge + 1;
-                if (maxMedYear < 1) maxMedYear = 1;
+                if (maxMedYear < 30) maxMedYear = 30;
 
                 const medReportingYears = [];
                 for (let y = 8; y <= 25; y++) { if (y <= maxMedYear) medReportingYears.push(y); }
                 for (let y = 30; y <= maxMedYear; y += 5) { if (y <= maxMedYear) medReportingYears.push(y); }
-                if (!medReportingYears.includes(maxMedYear)) medReportingYears.push(maxMedYear);
 
                 let sumExtracted = 0, sumMedPremium = 0, sumActualPremium = 0, finalBalance = 0, totalPrincipal = 0;
 
@@ -1766,7 +1781,6 @@
                 document.getElementById('med-total-extracted').textContent = `$${formatNumber(sumExtracted)}`;
                 document.getElementById('med-total-premium-col').textContent = `$${formatNumber(sumMedPremium)}`;
                 document.getElementById('med-total-actual-premium').textContent = `$${formatNumber(sumActualPremium)}`;
-                
                 let outcomeTotal = sumExtracted + finalBalance - sumMedPremium - totalPrincipal;
                 document.getElementById('med-outcome-value').textContent = `$${formatNumber(outcomeTotal)}`;
                 document.getElementById('outcome-formula-values').innerHTML = `$${formatNumber(sumExtracted)} + $${formatNumber(finalBalance)} - $${formatNumber(sumMedPremium)} - $${formatNumber(totalPrincipal)} = <strong style="color:var(--gain-color); font-size:1.1rem;">$${formatNumber(outcomeTotal)}</strong>`;
