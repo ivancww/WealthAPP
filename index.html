@@ -7,7 +7,7 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
     
-    <title>時光複利：增值型醫療金庫 (純本地獨立版)</title>
+    <title>時光複利：增值型醫療金庫 v1.88</title>
 
     <link rel="apple-touch-icon" href="icon-192x192.png">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -21,10 +21,6 @@
  
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-
-    <!-- Firebase SDK (僅供圖片存取) -->
-    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-storage-compat.js"></script>
 
     <style>
         :root {
@@ -67,7 +63,7 @@
 
         .calculator-container { background: var(--card-bg-color); border-radius: 12px; border: 1px solid var(--border-color); box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05); padding: 2.5rem; }
         header { text-align: center; border-bottom: 1px solid var(--border-color); padding-bottom: 1.5rem; margin-bottom: 2rem; }
-        header h1 { color: var(--primary-color); margin-bottom: 0.5rem; font-weight: 700; font-size: 1.8rem; cursor: pointer; user-select: none; }
+        header h1 { color: var(--primary-color); margin-bottom: 0.5rem; font-weight: 700; font-size: 1.8rem; user-select: none; }
         .section { margin-top: 3rem; }
         .section h2 { display: flex; align-items: center; justify-content: center; color: var(--secondary-color); margin-bottom: 1.5rem; font-size: 1.5rem; flex-wrap: wrap; gap: 8px; }
             
@@ -223,7 +219,7 @@
     <!-- 願景對話 -->
     <div id="tab-vision" class="tab-section">
         <div class="lazy-bag-container" style="background: #fdfdfd;">
-            <h2 onclick="openBackendModal()" style="cursor:pointer;">時光複利：歲月豐收 <span style="font-size: 0.9rem; color: #007bff; background: #e7f3ff; padding: 4px 10px; border-radius: 10px; margin-left: 8px;">v1.90 Local Base</span></h2>
+            <h2>時光複利：歲月豐收 <span style="font-size: 0.9rem; color: #007bff; background: #e7f3ff; padding: 4px 10px; border-radius: 10px; margin-left: 8px;">v1.88</span></h2>
             <h3 style="text-align: center; color: var(--secondary-color); margin-top: 0; margin-bottom: 2rem; border-bottom: 2px solid #f0f2f5; padding-bottom: 1rem;">享受人生下半場</h3>
             <div style="display: flex; flex-direction: column; gap: 0.5rem;">
                 <div class="flexibility-card">
@@ -247,7 +243,7 @@
     <div id="tab-calculator" class="tab-section active">
         <div class="calculator-container">
             <header>
-                <h1 id="main-title" onclick="openBackendModal()" title="點擊開啟動態後台">時光複利：歲月豐收</h1>
+                <h1 id="main-title">時光複利：歲月豐收</h1>
                 <p id="main-subtitle" style="margin:0;">享受人生下半場</p>
                 <h2 id="client-view-title" style="display:none; color: var(--primary-color); font-size: 1.6rem; margin-top: 10px;"></h2>
             </header>
@@ -280,8 +276,7 @@
                 </h2>
                 
                 <div id="pop-comfort-ask" class="hypnotic-pop-box pop-ask">
-                    <div id="target-時光複利：停留喺舒適圈-text">面對無聲無息嘅通脹蠶食 📉，請教一下你有何計劃？ 🤔🛡️</div>
-                    <div id="target-時光複利：停留喺舒適圈-img-container" class="responsive-img-container" style="display:none;"></div>
+                    <div>面對無聲無息嘅通脹蠶食 📉，請教一下你有何計劃？ 🤔🛡️</div>
                 </div>
 
                 <div class="duel-inputs">
@@ -317,8 +312,7 @@
                 </h2>
                 
                 <div id="pop-compound-imagine" class="hypnotic-pop-box pop-imagine">
-                    <div id="target-時光複利：錦囊策略未來想像-text"></div>
-                    <div id="target-時光複利：錦囊策略未來想像-img-container" class="responsive-img-container" style="display:none;"></div>
+                    <div id="target-strategy-text"></div>
                 </div>
 
                 <div class="emoji-toggle-bar" id="emoji-bar">
@@ -347,8 +341,7 @@
                     </div>
 
                     <div id="pop-jar1-urgent" class="hypnotic-pop-box pop-urgent">
-                        <div id="target-時光複利：一號錦囊催眠話術-text">🛑 試諗下，我地為左唔想麻煩 🙅‍♂️...</div>
-                        <div id="target-時光複利：一號錦囊催眠話術-img-container" class="responsive-img-container" style="display:none;"></div>
+                        <div>🛑 試諗下，我地為左唔想麻煩 🙅‍♂️，唔想有改變 🚫...</div>
                     </div>
 
                     <div class="jar-5year-grid">
@@ -487,7 +480,7 @@
     <div id="tab-medical" class="tab-section">
         <div class="calculator-container">
             <header>
-                <h1 onclick="openBackendModal()" title="點擊開啟動態後台">增值型醫療金庫</h1>
+                <h1>增值型醫療金庫</h1>
             </header>
 
             <div class="management-section" id="med-management-section">
@@ -558,8 +551,7 @@
                 </h2>
 
                 <div id="floating-reserve-desc" class="floating-desc">
-                    <div id="target-資產式醫保：保值承諾話術-text">🛡️ <strong>【資產保值承諾】</strong>：不論保單期內是否曾經申請醫療索償、亦不論累計索償金額高低，保單內之儲蓄增值金庫均獨立運作...</div>
-                    <div id="target-資產式醫保：保值承諾話術-img-container" class="responsive-img-container" style="display:none;"></div>
+                    <div>🛡️ <strong>【資產保值承諾】</strong>：不論保單期內是否曾經申請醫療索償、亦不論累計索償金額高低，保單內之儲蓄增值金庫均獨立運作...</div>
                 </div>
 
                 <div class="jar-card" style="border-top: 4px solid var(--plan1-color);">
@@ -581,8 +573,7 @@
                     </div>
 
                     <div id="floating-jar1-desc" class="floating-desc" style="background-color: #f8fdf8; border-color: #c8e6c9; color: #155724;">
-                        <div id="target-資產式醫保：儲備金庫一話術-text">儲備金庫一：提供 100% 醫療防線保障，同時積累終身資產...</div>
-                        <div id="target-資產式醫保：儲備金庫一話術-img-container" class="responsive-img-container" style="display:none;"></div>
+                        <div>儲備金庫一：提供 100% 醫療防線保障，同時積累終身資產...</div>
                     </div>
 
                     <div class="jar-5year-grid">
@@ -810,60 +801,11 @@
         </div>
     </div>
 
-    <!-- 動態內容後台管理 Modal (純本地儲存) -->
-    <div id="backend-modal" class="modal-overlay">
-        <div class="modal-content" style="max-width: 650px; width: 100%; padding: 2rem;">
-            <span class="close-modal" onclick="closeBackendModal()">&times;</span>
-            <h2 style="color: var(--primary-color); margin-top:0;">⚙️ 動態內容與 Firebase 管理後台</h2>
-            
-            <div style="width:100%; text-align:left; margin-bottom: 1.2rem;">
-                <label style="font-weight:700;">1. 選擇配置位置：</label>
-                <select id="backend-target-key" style="margin-top:6px; font-weight:700; color:var(--primary-color); width:100%; height: 48px;">
-                    <option value="時光複利：停留喺舒適圈">時光複利：停留喺舒適圈</option>
-                    <option value="時光複利：錦囊策略未來想像">時光複利：錦囊策略未來想像</option>
-                    <option value="時光複利：一號錦囊催眠話術">時光複利：一號錦囊催眠話術</option>
-                    <option value="資產式醫保：保值承諾話術">資產式醫保：保值承諾話術</option>
-                    <option value="資產式醫保：儲備金庫一話術">資產式醫保：儲備金庫一話術</option>
-                </select>
-            </div>
-
-            <div style="width:100%; text-align:left; margin-bottom: 1.2rem;">
-                <label style="font-weight:700;">2. 手動輸入話術文字 (儲存於本地):</label>
-                <textarea id="backend-custom-text" rows="5" style="width:100%; margin-top:8px; padding:12px; border:var(--pink-dashed-border); border-radius:8px; font-family:inherit; font-size:0.95rem; line-height:1.5; resize: vertical; box-sizing: border-box;" placeholder="請在此輸入發布內容..."></textarea>
-            </div>
-
-            <div style="width:100%; text-align:left; margin-bottom: 1.2rem;">
-                <label style="font-weight:700;">3. Firebase 圖片上傳 / 替換：</label>
-                <input type="file" id="backend-file-input" accept="image/*" style="width:100%; padding:8px; border:var(--pink-dashed-border); border-radius:8px; background:#fff; box-sizing: border-box; margin-top:6px;">
-                <div id="backend-upload-status" style="font-size:0.88rem; color:#666; margin-top:4px; min-height:1.2em;"></div>
-            </div>
-
-            <div style="width:100%; text-align:left; margin-bottom: 1.2rem;">
-                <label style="font-weight:700;">4. 當前區域圖片預覽：</label>
-                <div id="backend-img-preview-container" class="responsive-img-container" style="background:#f8f9fa; border:1px dashed #ccc; border-radius:12px; min-height:100px; padding:10px; box-sizing: border-box;">
-                    <span style="color:#999; font-size:0.95rem;">(無圖片)</span>
-                </div>
-            </div>
-
-            <div style="display:flex; gap:12px; width:100%; justify-content:center; margin-top:1.5rem;">
-                <button class="btn btn-primary" onclick="saveBackendConfig()" style="flex:1; padding: 0.8rem 1.5rem;">💾 儲存並發布</button>
-                <button class="btn btn-danger" onclick="deleteBackendImage()" style="flex:1; padding: 0.8rem 1.5rem; background:#dc3545; color:white; border:none;">🗑️ 刪除圖片</button>
-            </div>
-        </div>
-    </div>
-
     <script>
-        // 原始試算表進行回報與保費讀取
+        // 直接匯出 Excel 數據庫 URL
         const RETURNS_EXCEL_URL = 'https://docs.google.com/spreadsheets/d/1-kawg3ew7CF05g-Dc3cwu1yYROWa73fhWlunv5TYF6E/export?format=xlsx';
         const MEDICAL_EXCEL_URL = 'https://docs.google.com/spreadsheets/d/1G6JirabWJPrTtsdPuzzfyo-D-EPIbbdCM3HvFUW7ZCw/export?format=xlsx';
 
-        try {
-            const firebaseConfig = { projectId: "sales-coach-pwa", storageBucket: "sales-coach-pwa.appspot.com" };
-            if (!firebase.apps.length) { firebase.initializeApp(firebaseConfig); }
-            window.firebaseStorageRef = firebase.storage().ref();
-        } catch (e) { console.warn("Firebase warning:", e); }
-
-        let activeUIConfigs = JSON.parse(localStorage.getItem('pwa_ui_configs') || '{}');
         let excelParsedPremiumMap = {};
         let globalReturnMultipliers = {}; 
         let globalMedPremiumCache = {};
@@ -927,87 +869,7 @@
             calculateAndDisplay();
         };
 
-        window.openBackendModal = function() {
-            renderBackendCurrentKeyConfig();
-            document.getElementById('backend-modal').style.display = 'flex';
-        };
-
-        window.closeBackendModal = function() { document.getElementById('backend-modal').style.display = 'none'; };
-
-        function renderBackendCurrentKeyConfig() {
-            const key = document.getElementById('backend-target-key').value;
-            const config = activeUIConfigs[key] || {};
-            const imgContainer = document.getElementById('backend-img-preview-container');
-            
-            imgContainer.innerHTML = config.imgUrl ? `<img src="${config.imgUrl}" class="responsive-img">` : `<span style="color:#999;">(無圖片)</span>`;
-            document.getElementById('backend-custom-text').value = config.text || '';
-            document.getElementById('backend-upload-status').textContent = '';
-        }
-
-        document.getElementById('backend-target-key').addEventListener('change', renderBackendCurrentKeyConfig);
-
-        window.saveBackendConfig = async function() {
-            const key = document.getElementById('backend-target-key').value;
-            const customText = document.getElementById('backend-custom-text').value;
-            const fileInput = document.getElementById('backend-file-input');
-            const uploadStatus = document.getElementById('backend-upload-status');
-
-            if (!activeUIConfigs[key]) activeUIConfigs[key] = {};
-            activeUIConfigs[key].text = customText;
-
-            if (fileInput && fileInput.files.length > 0) {
-                uploadStatus.textContent = '⏳ 正在上傳圖片至 Firebase...';
-                uploadStatus.style.color = '#007bff';
-                try {
-                    if (window.firebaseStorageRef) {
-                        const file = fileInput.files[0];
-                        const snapshot = await window.firebaseStorageRef.child(`coach_images/${key}_${Date.now()}`).put(file);
-                        activeUIConfigs[key].imgUrl = await snapshot.ref.getDownloadURL();
-                        uploadStatus.textContent = '✅ 圖片上傳成功！';
-                        uploadStatus.style.color = '#28a745';
-                    } else { throw new Error("Firebase 未能初始化"); }
-                } catch (e) {
-                    console.error(e);
-                    uploadStatus.textContent = `⚠️ 圖片上傳失敗 (${e.message})`;
-                    uploadStatus.style.color = '#dc3545';
-                }
-            }
-
-            localStorage.setItem('pwa_ui_configs', JSON.stringify(activeUIConfigs));
-            applyUIConfigsToPage();
-            if (fileInput) fileInput.value = '';
-            renderBackendCurrentKeyConfig();
-            calculateAndDisplay();
-            alert('✅ 本地儲存發布成功！');
-        };
-
-        window.deleteBackendImage = function() {
-            const key = document.getElementById('backend-target-key').value;
-            if (activeUIConfigs[key] && activeUIConfigs[key].imgUrl) {
-                delete activeUIConfigs[key].imgUrl;
-                localStorage.setItem('pwa_ui_configs', JSON.stringify(activeUIConfigs));
-                applyUIConfigsToPage();
-                renderBackendCurrentKeyConfig();
-                alert('🗑️ 已刪除該區圖片！');
-            }
-        };
-
-        function applyUIConfigsToPage() {
-            Object.keys(activeUIConfigs).forEach(key => {
-                const conf = activeUIConfigs[key];
-                const textEl = document.getElementById(`target-${key}-text`);
-                const imgContainer = document.getElementById(`target-${key}-img-container`);
-                if (textEl && conf.text) textEl.innerHTML = conf.text.replace(/\n/g, '<br>');
-                if (imgContainer) {
-                    if (conf.imgUrl) {
-                        imgContainer.innerHTML = `<img src="${conf.imgUrl}" class="responsive-img">`;
-                        imgContainer.style.display = 'flex';
-                    } else { imgContainer.style.display = 'none'; }
-                }
-            });
-        }
-
-        // 畫板
+        // 白板畫板
         const canvas = document.getElementById('drawing-board');
         const ctx = canvas.getContext('2d');
         let drawing = false, currentPenColor = 'black', isEraser = false;
@@ -1143,7 +1005,7 @@
             document.getElementById('cash-real-value').textContent = `$${formatNumber(realVal)}`;
             document.getElementById('cash-loss').textContent = `$${formatNumber(duelTotalValue - realVal)}`;
 
-            const targetStrategyTextEl = document.getElementById('target-時光複利：錦囊策略未來想像-text');
+            const targetStrategyTextEl = document.getElementById('target-strategy-text');
             if(targetStrategyTextEl) {
                 targetStrategyTextEl.innerHTML = (planMode === 'education') ? 
                     `🎓 <strong>仔女教育基金藍圖：</strong><br>羅馬城非一日建成！當仔女準備起飛升學 ✈️，預留俾佢哋嘅 <strong style="color:red;">#學費與啟航基金</strong>...` : 
@@ -1397,7 +1259,6 @@
             ctx.lineCap = 'round'; ctx.lineJoin = 'round';
             setTimeout(resizeCanvas, 100);
 
-            applyUIConfigsToPage();
             setupEventListeners();
 
             await Promise.all([fetchReturnRates(), fetchMedPremiums(document.getElementById('med-plan-select').value)]);
