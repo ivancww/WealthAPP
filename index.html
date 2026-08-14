@@ -7,7 +7,7 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
     
-    <title>時光複利：增值式醫保 v3.1</title>
+    <title>時光複利：增值式醫保 v3.2</title>
     <link rel="apple-touch-icon" href="icon-192x192.png">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -209,12 +209,23 @@
         .close-modal { position: absolute; top: 10px; right: 15px; font-size: 1.5rem; cursor: pointer; }
         .pdf-client-header { display: none; text-align: center; font-size: 1.5rem; font-weight: bold; color: var(--primary-color); margin-bottom: 1.5rem; border-bottom: 2px solid var(--primary-color); padding-bottom: 0.8rem; }
         
+        /* 猶豫代價卡片樣式 */
+        .delay-loss-card {
+            background: linear-gradient(135deg, #fff5f5, #ffe3e3);
+            border: 2px solid #ff8787;
+            border-radius: 12px;
+            padding: 1.2rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(220, 53, 69, 0.1);
+        }
+        
         @media print {
             body { background: #fff !important; color: #000 !important; }
             .bottom-nav, .nav-toggle-btn, .management-section, #med-management-section, .modal-overlay, .lightbox-overlay, .inline-toggle, .mini-pink-btn, #share-btn, #med-share-btn { display: none !important; }
-            #comfort-zone-section, #emoji-bar { display: none !important; }
+            #comfort-zone-section, #emoji-bar, .delay-loss-card { display: none !important; }
             #med-plan-section { display: none !important; }
-            #med-results-table tfoot { display: none !important; } /* PDF 導出時隱藏結局 A, B */
+            #med-results-table tfoot { display: none !important; }
             .pdf-client-header { display: block !important; }
             .calculator-container, .lazy-bag-container { box-shadow: none !important; border: none !important; padding: 0 !important; }
             .tab-section { display: block !important; opacity: 1 !important; }
@@ -234,7 +245,7 @@
     <!-- 願景對話 -->
     <div id="tab-vision" class="tab-section">
         <div class="lazy-bag-container" style="background: #fdfdfd;">
-            <h2>時光複利：歲月豐收 <span style="font-size: 1rem; color: #007bff; vertical-align: middle; background: #e7f3ff; padding: 4px 10px; border-radius: 12px; margin-left: 10px; border: 1px solid #cce5ff;">v3.1</span></h2>
+            <h2>時光複利：歲月豐收 <span style="font-size: 1rem; color: #007bff; vertical-align: middle; background: #e7f3ff; padding: 4px 10px; border-radius: 12px; margin-left: 10px; border: 1px solid #cce5ff;">v3.2</span></h2>
             <h3 style="text-align: center; color: var(--secondary-color); margin-top: 0; margin-bottom: 2rem; border-bottom: 2px solid #f0f2f5; padding-bottom: 1.5rem;">享受人生下半場</h3>
             <div style="display: flex; flex-direction: column; gap: 0.5rem;">
                 <div class="flexibility-card card-rome">
@@ -301,9 +312,34 @@
                 <div class="top-input-grid">
                     <div class="input-group"><label>開始歲數</label><input type="number" id="start-age" value="30"></div>
                     <div class="input-group" id="inflation-group"><label>預期通脹率: <span id="inflation-value">2.0%</span></label><input type="range" id="inflation-rate" min="1" max="5" value="2" step="0.1"></div>
+                    <div class="input-group">
+                        <label>猶豫延遲啟動</label>
+                        <select id="delay-years-select" style="font-weight: bold; color: #dc3545;">
+                            <option value="0">即時啟動 (0年)</option>
+                            <option value="1">延遲 1 年啟動</option>
+                            <option value="2">延遲 2 年啟動</option>
+                            <option value="3">延遲 3 年啟動</option>
+                            <option value="5">延遲 5 年啟動</option>
+                        </select>
+                    </div>
                 </div>
             </div>
             
+            <!-- 猶豫代價錯失卡片 -->
+            <div id="delay-loss-card-calc" class="delay-loss-card" style="display:none;">
+                <h3 style="color:#d84315; margin:0 0 8px 0; font-size:1.2rem;">⏳ 延遲啟動的時間代價
+                    <button class="mini-pink-btn" onclick="openLightbox('猶豫代價')">！</button>
+                </h3>
+                <div style="font-size:1rem; color:#495057;">
+                    同樣到了 <strong id="delay-target-age">60</strong> 歲時：
+                    今日啟動可達 <strong style="color:var(--gain-color);" id="delay-today-val">$0</strong>，
+                    延遲 <span id="delay-yrs-count">0</span> 年則為 <strong style="color:#6c757d;" id="delay-delayed-val">$0</strong>
+                </div>
+                <div style="margin-top:10px; font-size:1.3rem; font-weight:900; color:#dc3545;">
+                    歲月靜靜帶走了收益：<span id="delay-loss-diff">$0</span>
+                </div>
+            </div>
+
             <div class="section" id="comfort-zone-section">
                 <h2>
                     ⏳ 停留喺舒適圈嘅隱形代價
@@ -892,6 +928,7 @@
                     <option value="舒適圈請教">舒適圈請教</option>
                     <option value="未來想像">未來想像</option>
                     <option value="不行動代價">不行動代價</option>
+                    <option value="猶豫代價">猶豫代價 (新分頁: 代價)</option>
                     <option value="備用金說明">備用金說明</option>
                     <option value="金庫一說明">金庫一說明</option>
                     <option value="剛性支出說詞">剛性支出說詞</option>
@@ -1267,7 +1304,7 @@
         };
         window.handleShare = function(defaultTab) {
             const pureShareIds = [
-                'client-name', 'plan-mode', 'start-age', 'inflation-rate', 'existing-deposit', 'bank-deposit', 'bank-interest', 
+                'client-name', 'plan-mode', 'start-age', 'inflation-rate', 'delay-years-select', 'existing-deposit', 'bank-deposit', 'bank-interest', 
                 'duel-year', 'plan1-contribution', 'plan1-y2', 'plan1-y3', 'plan1-y4', 'plan1-y5',
                 'plan2-contribution', 'plan2-y2', 'plan2-y3', 'plan2-y4', 'plan2-y5',
                 'plan3-contribution', 'plan3-y2', 'plan3-y3', 'plan3-y4', 'plan3-y5',
@@ -1317,7 +1354,7 @@
             ctx.lineJoin = 'round';
             setTimeout(resizeCanvas, 100);
             const pureShareIds = [
-                'client-name', 'plan-mode', 'start-age', 'inflation-rate', 'existing-deposit', 'bank-deposit', 'bank-interest', 
+                'client-name', 'plan-mode', 'start-age', 'inflation-rate', 'delay-years-select', 'existing-deposit', 'bank-deposit', 'bank-interest', 
                 'duel-year', 'plan1-contribution', 'plan1-y2', 'plan1-y3', 'plan1-y4', 'plan1-y5',
                 'plan2-contribution', 'plan2-y2', 'plan2-y3', 'plan2-y4', 'plan2-y5',
                 'plan3-contribution', 'plan3-y2', 'plan3-y3', 'plan3-y4', 'plan3-y5',
@@ -1459,6 +1496,8 @@
                 const fixedBankDeposit = parseFormattedNumber(inputs['bank-deposit'].value);
                 const duelYear = parseInt(inputs['duel-year'].value) || 25;
                 const planMode = inputs['plan-mode'].value;
+                const delayYears = parseInt(document.getElementById('delay-years-select').value) || 0;
+
                 document.querySelectorAll('#tab-calculator .age-y1').forEach(el => el.textContent = startAge);
                 document.querySelectorAll('#tab-calculator .age-y2').forEach(el => el.textContent = startAge + 1);
                 document.querySelectorAll('#tab-calculator .age-y3').forEach(el => el.textContent = startAge + 2);
@@ -1510,6 +1549,43 @@
                 for (let y = 8; y <= 25; y++) { if(y <= maxYear) reportingYears.push(y); }
                 for (let y = 30; y <= maxYear; y += 5) { if(y <= maxYear) reportingYears.push(y); }
                 if(!reportingYears.includes(maxYear)) reportingYears.push(maxYear);
+
+                // 計算猶豫代價（錨定 60 歲）
+                const targetAgeFOMO = 60;
+                let todayAsset60 = 0, delayedAsset60 = 0;
+                const year60Today = targetAgeFOMO - startAge + 1;
+                const year60Delayed = year60Today - delayYears;
+
+                const calcAssetForYear = (y) => {
+                    if (y <= 0) return 0;
+                    let rV = 0, jarTotalsTemp = [p1Total, p2Total, p3Total, p4Total];
+                    [1, 6, 11, 16].forEach((sY, i) => {
+                        const pA = y - (sY - 1); 
+                        const tP = isEngineActive[i] ? jarTotalsTemp[i] : 0;
+                        const strategy = planStrategies[i];
+                        if (pA > 0 && tP > 0) {
+                            let multiplier = getMultiplierFromExcel(strategy, pA);
+                            rV += tP * multiplier;
+                        }
+                    });
+                    return rV;
+                };
+
+                todayAsset60 = calcAssetForYear(year60Today);
+                delayedAsset60 = calcAssetForYear(year60Delayed);
+                const lossDiff = todayAsset60 - delayedAsset60;
+
+                const delayCard = document.getElementById('delay-loss-card-calc');
+                if (delayYears > 0 && todayAsset60 > 0) {
+                    document.getElementById('delay-target-age').textContent = targetAgeFOMO;
+                    document.getElementById('delay-today-val').textContent = `$${formatNumber(todayAsset60)}`;
+                    document.getElementById('delay-yrs-count').textContent = delayYears;
+                    document.getElementById('delay-delayed-val').textContent = `$${formatNumber(delayedAsset60)}`;
+                    document.getElementById('delay-loss-diff').textContent = `-$${formatNumber(lossDiff)}`;
+                    delayCard.style.display = 'block';
+                } else {
+                    delayCard.style.display = 'none';
+                }
 
                 let divIcon = (isSharedMode) ? '' : (showDividend ? `<span class="inline-toggle active" onclick="toggleDividend()" title="點擊隱藏紅利">💰</span>` : `<span class="inline-toggle" onclick="toggleDividend()" title="點擊顯示紅利" style="filter:grayscale(100%); opacity:0.4;">💰</span>`);
                 let intIcon = (isSharedMode) ? '' : (showInterest ? `<span class="inline-toggle active" onclick="toggleInterest()" title="點擊隱藏年息">📈</span>` : `<span class="inline-toggle" onclick="toggleInterest()" title="點擊顯示年息" style="filter:grayscale(100%); opacity:0.4;">📈</span>`);
@@ -1576,7 +1652,7 @@
                 const medInflationRateEl = document.getElementById('med-inflation-rate-num');
                 const medInflationRate = (parseFloat(medInflationRateEl ? medInflationRateEl.value : 0) || 0) / 100;
                 const medRetireAge = parseInt(inputs['med-retire-age'].value) || 65;
-                const medMaxAgeInput = parseInt(inputs['med-max-age'].value) || 100; // 輸入框的增值期
+                const medMaxAgeInput = parseInt(inputs['med-max-age'].value) || 100; 
                 
                 document.querySelectorAll('.med-age-y1').forEach(el => el.textContent = medStartAge);
                 document.querySelectorAll('.med-age-y2').forEach(el => el.textContent = medStartAge + 1);
@@ -1623,7 +1699,7 @@
                 document.getElementById('med-plan3-5yr-total').textContent = formatNumber(m3Total + m3PremTotal);
                 document.getElementById('med-plan4-5yr-total').textContent = formatNumber(m4Total + m4PremTotal);
                 
-                // 頂部圖片「醫保總保費」：僅計算 轉換期(medRetireAge) 至 增值期(medMaxAgeInput)
+                // 頂部卡片醫療總保費（轉換期至增值期）
                 let cardMedPremiumTotal = 0;
                 for (let a = medRetireAge; a <= medMaxAgeInput; a++) {
                     let singlePrem = getPremiumForAge(a);
