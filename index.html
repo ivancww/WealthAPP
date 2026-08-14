@@ -7,7 +7,7 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
     
-    <title>時光複利：增值式醫保 v3.4</title>
+    <title>時光複利：增值式醫保 v3.5</title>
     <link rel="apple-touch-icon" href="icon-192x192.png">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -48,7 +48,7 @@
             --plan3-color: #dc3545;
             --plan4-color: rgba(108, 92, 231, 0.8);
             --gain-color: #28a745; --inflation-color: #dc3545;
-            --pink-dashed-border: 2px dashed #f8bbd0;
+            --pink-dashed-border: 1.5px dashed #f8bbd0;
         }
         
         body { font-family: 'Noto Sans TC', sans-serif; background-color: var(--bg-color); color: var(--text-color); margin: 0; padding: 0; padding-bottom: 20px; box-sizing: border-box; overflow-x: hidden; }
@@ -129,12 +129,6 @@
         th, td { padding: 0.9rem 1rem; text-align: right; border-bottom: 1px solid var(--border-color); }
         th { font-weight: 500; color: var(--label-color); background-color: #f8f9fa; vertical-align: bottom; }
         
-        td.delay-highlight, th.delay-highlight {
-            color: #dc3545 !important;
-            font-weight: bold;
-            background-color: #fff0f0;
-        }
-
         .emoji-toggle-bar { display: flex; gap: 15px; align-items: center; justify-content: center; background: #f8f9fa; padding: 12px; border-radius: 8px; border: 1px dashed var(--border-color); margin-bottom: 1.5rem; flex-wrap: wrap; }
         .emoji-toggle { cursor: pointer; font-size: 1.8rem; opacity: 0.3; filter: grayscale(100%); transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); padding: 5px; border-radius: 50%; background: #e9ecef; width: 45px; height: 45px; display: flex; align-items: center; justify-content: center; box-shadow: inset 0 2px 4px rgba(0,0,0,0.05); user-select: none; }
         .emoji-toggle.active { opacity: 1; filter: none; background: #fff3cd; box-shadow: 0 4px 10px rgba(255, 193, 7, 0.3); transform: scale(1.15); border: 2px solid #ffca28; }
@@ -148,10 +142,11 @@
         .reveal-mask { cursor: pointer; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); position: relative; }
         .reveal-mask.hidden-blur .summary-value { filter: blur(6px); opacity: 0.15; user-select: none; pointer-events: none; }
         
+        /* 縮小尺寸的驚嘆號按鈕 */
         .mini-pink-btn { 
             background: #ffffff; 
             border: var(--pink-dashed-border) !important; 
-            border-radius: 6px; font-size: 0.9rem; padding: 2px 8px; cursor: pointer; transition: 0.2s; user-select: none; font-weight: bold; color: var(--primary-color); display: inline-flex; align-items: center; justify-content: center; line-height: 1; vertical-align: middle;
+            border-radius: 4px; font-size: 0.75rem; padding: 1px 5px; cursor: pointer; transition: 0.2s; user-select: none; font-weight: bold; color: var(--primary-color); display: inline-flex; align-items: center; justify-content: center; line-height: 1.1; vertical-align: middle;
         }
         .mini-pink-btn:active { transform: scale(0.92); }
         
@@ -179,6 +174,38 @@
         .promo-result-box { background: linear-gradient(135deg, #28a745 0%, #20c997 100%); color: white; padding: 1.5rem; border-radius: 12px; text-align: center; }
         .promo-result-box .big-savings { font-size: 3rem; font-weight: 900; }
         
+        /* 累積表頂部控制列 */
+        .delay-control-bar {
+            display: none;
+            background: #fff8f8;
+            border: 1px dashed #ff8787;
+            padding: 8px 12px;
+            border-radius: 8px;
+            margin-top: 10px;
+            font-size: 0.9rem;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .fly-money-btn {
+            background: #ffe3e3;
+            border: 1px solid #ff8787;
+            border-radius: 20px;
+            padding: 4px 12px;
+            font-size: 0.85rem;
+            color: #d84315;
+            cursor: pointer;
+            font-weight: bold;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            margin-top: 10px;
+            transition: transform 0.2s;
+        }
+        .fly-money-btn:active { transform: scale(0.95); }
+
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6); z-index: 2000; align-items: center; justify-content: center; }
         .modal-content { background: #fff; padding: 2rem; border-radius: 12px; max-width: 450px; width: 90%; text-align: center; position: relative; max-height: 85vh; overflow-y: auto; }
         .qr-container img { margin: 0 auto; display: block; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
@@ -216,8 +243,8 @@
         
         @media print {
             body { background: #fff !important; color: #000 !important; }
-            .bottom-nav, .nav-toggle-btn, .management-section, #med-management-section, .modal-overlay, .lightbox-overlay, .inline-toggle, .mini-pink-btn, #share-btn, #med-share-btn { display: none !important; }
-            #comfort-zone-section, #emoji-bar { display: none !important; }
+            .bottom-nav, .nav-toggle-btn, .management-section, #med-management-section, .modal-overlay, .lightbox-overlay, .inline-toggle, .mini-pink-btn, #share-btn, #med-share-btn, .fly-money-btn { display: none !important; }
+            #comfort-zone-section, #emoji-bar, .delay-control-bar { display: none !important; }
             #med-plan-section { display: none !important; }
             #med-results-table tfoot { display: none !important; }
             .pdf-client-header { display: block !important; }
@@ -239,7 +266,7 @@
     <!-- 願景對話 -->
     <div id="tab-vision" class="tab-section">
         <div class="lazy-bag-container" style="background: #fdfdfd;">
-            <h2>時光複利：歲月豐收 <span style="font-size: 1rem; color: #007bff; vertical-align: middle; background: #e7f3ff; padding: 4px 10px; border-radius: 12px; margin-left: 10px; border: 1px solid #cce5ff;">v3.4</span></h2>
+            <h2>時光複利：歲月豐收 <span style="font-size: 1rem; color: #007bff; vertical-align: middle; background: #e7f3ff; padding: 4px 10px; border-radius: 12px; margin-left: 10px; border: 1px solid #cce5ff;">v3.5</span></h2>
             <h3 style="text-align: center; color: var(--secondary-color); margin-top: 0; margin-bottom: 2rem; border-bottom: 2px solid #f0f2f5; padding-bottom: 1.5rem;">享受人生下半場</h3>
             <div style="display: flex; flex-direction: column; gap: 0.5rem;">
                 <div class="flexibility-card card-rome">
@@ -423,8 +450,30 @@
                     </div>
                 </div>
                 
+                <!-- 累積表頂部控制列（點擊表格頂部 ！ 展開） -->
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1.5rem;">
+                    <h3 style="margin:0; font-size:1.1rem; color:var(--secondary-color); display:flex; align-items:center; gap:6px;">
+                        📊 複利累積表
+                        <button class="mini-pink-btn" onclick="toggleDelayControlBar()" title="展開/收起延遲安排對比">！</button>
+                    </h3>
+                </div>
+
+                <div id="delay-control-bar" class="delay-control-bar">
+                    <span style="font-weight:bold; color:#d84315;">⏳ 延遲啟動年期：</span>
+                    <input type="number" id="custom-delay-years" value="3" min="1" max="10" style="width:65px; height:32px; padding:2px; font-weight:bold; color:#d84315;" onchange="calculateAndDisplay()">
+                    <span style="color:#666;">年</span>
+                    <button class="btn btn-primary" style="width:auto; padding:4px 10px; font-size:0.8rem;" onclick="calculateAndDisplay()">🔄 即時對比</button>
+                </div>
+
                 <div class="table-wrapper">
                     <table id="results-table"><thead id="results-table-head"></thead><tbody id="results-table-body"></tbody></table>
+                </div>
+
+                <!-- 延遲對比開啟後，底部顯示 💸 按鈕 -->
+                <div id="fly-money-container" style="text-align:center; display:none;">
+                    <button class="fly-money-btn" onclick="openLightbox('猶豫代價')">
+                        💸 點擊查看這幾年流走的時光代價
+                    </button>
                 </div>
             </div>
         </div>
@@ -667,7 +716,7 @@
                             <div class="input-group">
                                 <label>第13年 (<span class="med-age-y13">42</span>歲)</label>
                                 <input type="text" id="med-plan3-y3" value="60,000" readonly class="readonly-box">
-                                <div class="med-prem-subbox">醫療保費: $<span id="med-prem-y13">0</span></div>
+                                <div class="med-prem-subbox">醫療保費: $<span id="med-prem-y12">0</span></div>
                             </div>
                             <div class="input-group">
                                 <label>第14年 (<span class="med-age-y14">43</span>歲)</label>
@@ -920,7 +969,6 @@
             <div class="input-group" style="margin-bottom: 1rem;">
                 <label>選擇位置標識 (標籤)</label>
                 <select id="admin-pop-select" style="font-weight: bold;">
-                    <option value="延遲啟動">延遲啟動 (對比話術)</option>
                     <option value="猶豫代價">猶豫代價 (分頁: 代價)</option>
                     <option value="舒適圈請教">舒適圈請教</option>
                     <option value="未來想像">未來想像</option>
@@ -963,7 +1011,7 @@
         let showDividend = false; 
         let showInterest = false; 
         let isSharedMode = false; 
-        let isDelayModeActive = false;
+        let isDelayControlOpen = false;
         
         let globalPopDatabase = []; 
         let shareUrlGlobal = '';
@@ -1018,6 +1066,15 @@
         };
         window.closeStrategyModal = function() {
             document.getElementById('strategy-modal').style.display = 'none';
+        };
+
+        window.toggleDelayControlBar = function() {
+            isDelayControlOpen = !isDelayControlOpen;
+            const bar = document.getElementById('delay-control-bar');
+            const flyBtn = document.getElementById('fly-money-container');
+            bar.style.display = isDelayControlOpen ? 'flex' : 'none';
+            flyBtn.style.display = isDelayControlOpen ? 'block' : 'none';
+            calculateAndDisplay();
         };
 
         async function fetchPopDatabase() {
@@ -1113,12 +1170,6 @@
                 statusMsg.textContent = "❌ 儲存失敗，請重試。";
                 statusMsg.style.color = "#dc3545";
             }
-        };
-
-        window.toggleDelayMode = function() {
-            isDelayModeActive = !isDelayModeActive;
-            openLightbox('猶豫代價');
-            calculateAndDisplay();
         };
 
         window.toggleDividend = function() {
@@ -1512,7 +1563,7 @@
                 const fixedBankDeposit = parseFormattedNumber(inputs['bank-deposit'].value);
                 const duelYear = parseInt(inputs['duel-year'].value) || 25;
                 const planMode = inputs['plan-mode'].value;
-                const delayShiftYears = isDelayModeActive ? 3 : 0;
+                const delayYears = isDelayControlOpen ? (parseInt(document.getElementById('custom-delay-years').value) || 0) : 0;
 
                 document.querySelectorAll('#tab-calculator .age-y1').forEach(el => el.textContent = startAge);
                 document.querySelectorAll('#tab-calculator .age-y2').forEach(el => el.textContent = startAge + 1);
@@ -1574,23 +1625,19 @@
                 let divIcon = (isSharedMode) ? '' : (showDividend ? `<span class="inline-toggle active" onclick="toggleDividend()" title="點擊隱藏紅利">💰</span>` : `<span class="inline-toggle" onclick="toggleDividend()" title="點擊顯示紅利" style="filter:grayscale(100%); opacity:0.4;">💰</span>`);
                 let intIcon = (isSharedMode) ? '' : (showInterest ? `<span class="inline-toggle active" onclick="toggleInterest()" title="點擊隱藏年息">📈</span>` : `<span class="inline-toggle" onclick="toggleInterest()" title="點擊顯示年息" style="filter:grayscale(100%); opacity:0.4;">📈</span>`);
                 
-                let delayBtn = `<button class="mini-pink-btn" style="margin-left:4px;" onclick="toggleDelayMode()" title="點擊查看延遲啟動代價">！</button>`;
                 let strategyBtn = `<button class="mini-pink-btn" style="margin-left:4px;" onclick="openStrategyModal()" title="點擊設定提取策略">！</button>`;
 
-                let ageThClass = isDelayModeActive ? 'class="delay-highlight"' : '';
-                let assetThClass = isDelayModeActive ? 'class="delay-highlight"' : '';
-
-                let headerBase = `<tr><th ${ageThClass}>年份 (歲數)${delayBtn}</th><th>累計供款</th>`;
+                let headerBase = `<tr><th>年份 (歲數)</th><th>累計供款</th>`;
                 let iconSubRow = (!isSharedMode && (divIcon || intIcon)) ? `<br>${divIcon} ${intIcon}` : '';
 
                 if (planMode === '教育基金') {
-                    headerBase += `<th>每月教育金${strategyBtn}</th><th>累積已領教育金</th><th ${assetThClass}>畢業啟航資金${iconSubRow}</th>`;
+                    headerBase += `<th>每月教育金${strategyBtn}</th><th>累積已領教育金</th><th>畢業啟航資金${iconSubRow}</th>`;
                 } else if (planMode === '創造被動收入') {
-                    headerBase += `<th>每月被動收入${strategyBtn}</th><th>累積已被動收入</th><th ${assetThClass}>資產水庫${iconSubRow}</th>`;
+                    headerBase += `<th>每月被動收入${strategyBtn}</th><th>累積已被動收入</th><th>資產水庫${iconSubRow}</th>`;
                 } else if (planMode === '紅利增值享受') {
-                    headerBase += `<th>每月提現額${strategyBtn}</th><th>累積已提現額</th><th ${assetThClass}>增值總資產${iconSubRow}</th>`;
+                    headerBase += `<th>每月提現額${strategyBtn}</th><th>累積已提現額</th><th>增值總資產${iconSubRow}</th>`;
                 } else {
-                    headerBase += `<th>每月長糧 (年金)${strategyBtn}</th><th>累積已領長糧</th><th ${assetThClass}>安老備用金${iconSubRow}</th>`;
+                    headerBase += `<th>每月長糧 (年金)${strategyBtn}</th><th>累積已領長糧</th><th>安老備用金${iconSubRow}</th>`;
                 }
                 let thDividend = showDividend ? `<th>歲月增值紅利</th>` : '';
                 let thInterest = showInterest ? `<th>年息</th>` : '';
@@ -1598,53 +1645,68 @@
                 tableBody.innerHTML = '';
                 let prevYear = 0, prevBalance = 0;
                 const jarTotals = [p1Total, p2Total, p3Total, p4Total];
+
+                const calcAssets = (y) => {
+                    if (y <= 0) return { rV: 0, rW: 0, rA: 0, rC: 0 };
+                    let rV = 0, rW = 0, rA = 0, rC = 0;
+                    [1, 6, 11, 16].forEach((sY, i) => {
+                        const pA = y - (sY - 1); 
+                        const tP = isEngineActive[i] ? jarTotals[i] : 0;
+                        const aC = tP / 5;
+                        const strategy = planStrategies[i];
+                        let cV = 0, cW = 0, cA = 0;
+                        if (pA > 0 && tP > 0) {
+                            rC += Math.min(pA, 5) * aC;
+                            let multiplier = getMultiplierFromExcel(strategy, pA);
+                            if (strategy === 'withdraw7_from8' && pA >= 8) { cA = tP * 0.07; cW = cA * (pA - 8 + 1); cV = tP * multiplier; }
+                            else if (strategy === 'withdraw12_from15' && pA >= 15) { cA = tP * 0.12; cW = cA * (pA - 15 + 1); cV = tP * multiplier; }
+                            else if (strategy === 'withdraw18_from20' && pA >= 20) { cA = tP * 0.18; cW = cA * (pA - 20 + 1); cV = tP * multiplier; }
+                            else if (strategy === 'withdraw23_from25' && pA >= 25) { cA = tP * 0.23; cW = cA * (pA - 25 + 1); cV = tP * multiplier; }
+                            else if (strategy === 'withdraw29_from30' && pA >= 30) { cA = tP * 0.29; cW = cA * (pA - 30 + 1); cV = tP * multiplier; }
+                            else { cV = tP * multiplier; }
+                            if(pA < 5 && strategy !== 'none') cV = Math.min(pA, 5) * aC;
+                        }
+                        rV += cV; rW += cW; rA += cA;
+                    });
+                    return { rV, rW, rA, rC };
+                };
+
                 for (let year = 1; year <= maxYear; year++) {
                     let currentAge = startAge + year - 1;
-                    let effectiveYear = Math.max(0, year - delayShiftYears);
                     
-                    let rV = 0, rW = 0, rA = 0, rC = 0;
-                    if (effectiveYear > 0) {
-                        [1, 6, 11, 16].forEach((sY, i) => {
-                            const pA = effectiveYear - (sY - 1); 
-                            const tP = isEngineActive[i] ? jarTotals[i] : 0;
-                            const aC = tP / 5;
-                            const strategy = planStrategies[i];
-                            let cV = 0, cW = 0, cA = 0;
-                            if (pA > 0 && tP > 0) {
-                                rC += Math.min(pA, 5) * aC;
-                                let multiplier = getMultiplierFromExcel(strategy, pA);
-                                
-                                if (strategy === 'withdraw7_from8' && pA >= 8) { cA = tP * 0.07; cW = cA * (pA - 8 + 1); cV = tP * multiplier; }
-                                else if (strategy === 'withdraw12_from15' && pA >= 15) { cA = tP * 0.12; cW = cA * (pA - 15 + 1); cV = tP * multiplier; }
-                                else if (strategy === 'withdraw18_from20' && pA >= 20) { cA = tP * 0.18; cW = cA * (pA - 20 + 1); cV = tP * multiplier; }
-                                else if (strategy === 'withdraw23_from25' && pA >= 25) { cA = tP * 0.23; cW = cA * (pA - 25 + 1); cV = tP * multiplier; }
-                                else if (strategy === 'withdraw29_from30' && pA >= 30) { cA = tP * 0.29; cW = cA * (pA - 30 + 1); cV = tP * multiplier; }
-                                else { cV = tP * multiplier; }
-                                
-                                if(pA < 5 && strategy !== 'none') cV = Math.min(pA, 5) * aC;
-                            }
-                            rV += cV; rW += cW; rA += cA;
-                        });
-                    }
-                    let netProfit = (rV + rW) - rC;
+                    // 今日正常啟動
+                    let todayRes = calcAssets(year);
+                    // 延遲啟動對比
+                    let delayedRes = calcAssets(year - delayYears);
+                    
+                    let netProfit = (todayRes.rV + todayRes.rW) - todayRes.rC;
                     if (reportingYears.includes(year)) {
                         let annualGrowthRate = 0, displayRate = "0.0%";
                         if (prevYear !== 0 && year !== 8 && isPureRollover && prevBalance > 0) {
                             let yearsDiff = year - prevYear;
-                            annualGrowthRate = (rV - prevBalance) / prevBalance / yearsDiff;
+                            annualGrowthRate = (todayRes.rV - prevBalance) / prevBalance / yearsDiff;
                             displayRate = (annualGrowthRate * 100).toFixed(1) + "%";
                         } else { displayRate = "-"; }
-                        prevYear = year; prevBalance = rV;
+                        prevYear = year; prevBalance = todayRes.rV;
                         let tdDividend = showDividend ? `<td style="color:red; font-weight:bold;">$${formatNumber(netProfit)}</td>` : '';
                         let tdInterest = showInterest ? `<td style="color:#28a745; font-weight:bold; background-color:#f0fdf4;">${displayRate}</td>` : '';
                         
-                        // 每月領取金額 = 年領 / 12
-                        let displayMonthlyWithdraw = rA / 12;
-                        let ageTdClass = isDelayModeActive ? 'class="delay-highlight"' : '';
-                        let assetTdClass = isDelayModeActive ? 'class="delay-highlight"' : '';
+                        let displayMonthlyWithdraw = todayRes.rA / 12;
+
+                        // 若開啟延遲模式，顯示雙數字對比
+                        let ageDisplay = `${year} (${currentAge})`;
+                        let assetDisplay = `$${formatNumber(todayRes.rV)}`;
+
+                        if (isDelayControlOpen && delayYears > 0) {
+                            let diffLoss = todayRes.rV - delayedRes.rV;
+                            ageDisplay = `<div>${year} (${currentAge})</div><div style="font-size:0.75rem; color:#dc3545; font-weight:bold;">遲${delayYears}年: ${Math.max(0, year-delayYears)}年</div>`;
+                            assetDisplay = `<div>$${formatNumber(todayRes.rV)}</div>
+                                            <div style="font-size:0.8rem; color:#888;">遲做: $${formatNumber(delayedRes.rV)}</div>
+                                            <div style="font-size:0.85rem; color:#dc3545; font-weight:bold;">少攞: -$${formatNumber(diffLoss)}</div>`;
+                        }
 
                         const row = document.createElement('tr');
-                        row.innerHTML = `<td ${ageTdClass}>${year} (${currentAge})</td><td>$${formatNumber(rC)}</td><td style="color:blue; font-weight:bold;">$${formatNumber(displayMonthlyWithdraw)}</td><td style="color:var(--gain-color); font-weight:bold;">$${formatNumber(rW)}</td><td style="color:#6f42c1; font-weight:bold;" ${assetTdClass}>$${formatNumber(rV)}</td>` + tdDividend + tdInterest;
+                        row.innerHTML = `<td>${ageDisplay}</td><td>$${formatNumber(todayRes.rC)}</td><td style="color:blue; font-weight:bold;">$${formatNumber(displayMonthlyWithdraw)}</td><td style="color:var(--gain-color); font-weight:bold;">$${formatNumber(todayRes.rW)}</td><td style="color:#6f42c1; font-weight:bold;">${assetDisplay}</td>` + tdDividend + tdInterest;
                         tableBody.appendChild(row);
                     }
                 }
