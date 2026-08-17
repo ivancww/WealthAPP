@@ -7,7 +7,7 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
     
-    <title>時光複利：增值式醫保 v3.6</title>
+    <title>時光複利：增值式醫保 v3.7</title>
     <link rel="apple-touch-icon" href="icon-192x192.png">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -263,7 +263,7 @@
     <!-- 願景對話 -->
     <div id="tab-vision" class="tab-section">
         <div class="lazy-bag-container" style="background: #fdfdfd;">
-            <h2>時光複利：歲月豐收 <span style="font-size: 1rem; color: #007bff; vertical-align: middle; background: #e7f3ff; padding: 4px 10px; border-radius: 12px; margin-left: 10px; border: 1px solid #cce5ff;">v3.6</span></h2>
+            <h2>時光複利：歲月豐收 <span style="font-size: 1rem; color: #007bff; vertical-align: middle; background: #e7f3ff; padding: 4px 10px; border-radius: 12px; margin-left: 10px; border: 1px solid #cce5ff;">v3.7</span></h2>
             <h3 style="text-align: center; color: var(--secondary-color); margin-top: 0; margin-bottom: 2rem; border-bottom: 2px solid #f0f2f5; padding-bottom: 1.5rem;">享受人生下半場</h3>
             <div style="display: flex; flex-direction: column; gap: 0.5rem;">
                 <div class="flexibility-card card-rome">
@@ -447,7 +447,7 @@
                     </div>
                 </div>
                 
-                <!-- 累積表頂部控制列（點擊表格頂部 ！ 展開） -->
+                <!-- 累積表頂部控制列 -->
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1.5rem;">
                     <h3 style="margin:0; font-size:1.1rem; color:var(--secondary-color); display:flex; align-items:center; gap:6px;">
                         📊 複利累積表
@@ -561,7 +561,7 @@
                     </div>
                     
                     <div class="input-group"><label>轉換期</label><input type="number" id="med-retire-age" value="65"></div>
-                    <div class="input-group"><label>增值期</label><input type="number" id="med-max-age" value="100"></div>
+                    <div class="input-group"><label>增值期</label><input type="number" id="med-max-age" value="70"></div>
                 </div>
             </div>
             
@@ -770,11 +770,24 @@
                     </div>
                 </div>
                 
+                <!-- 增值式醫保累積表頂部控制列 -->
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1.5rem;">
+                    <h3 style="margin:0; font-size:1.1rem; color:var(--secondary-color); display:flex; align-items:center; gap:6px;">
+                        📊 醫保累積表
+                        <button class="mini-pink-btn" onclick="toggleMedDelayControlBar()" title="展開/收起延遲安排對比">！</button>
+                    </h3>
+                </div>
+
+                <div id="med-delay-control-bar" class="delay-control-bar">
+                    <span style="font-weight:bold; color:#d84315;">⏳ 延遲啟動年期：</span>
+                    <input type="number" id="med-custom-delay-years" value="3" min="1" max="10" style="width:65px; height:32px; padding:2px; font-weight:bold; color:#d84315;" onchange="calculateAndDisplay()">
+                    <span style="color:#666;">年</span>
+                    <button class="btn btn-primary" style="width:auto; padding:4px 10px; font-size:0.8rem;" onclick="calculateAndDisplay()">🔄 即時對比</button>
+                </div>
+
                 <div class="table-wrapper">
                     <table id="med-results-table">
-                        <thead id="med-results-table-head">
-                            <tr><th>保單年度 (歲數)</th><th>累計供款</th><th>醫保保費預備金 (提取)</th><th>醫療保費</th><th>增值醫保餘額</th></tr>
-                        </thead>
+                        <thead id="med-results-table-head"></thead>
                         <tbody id="med-results-table-body"></tbody>
                         
                         <tfoot>
@@ -1002,6 +1015,7 @@
         let showInterest = false; 
         let isSharedMode = false; 
         let isDelayControlOpen = false;
+        let isMedDelayControlOpen = false; // 增值式醫保獨立開關
         
         let globalPopDatabase = []; 
         let shareUrlGlobal = '';
@@ -1062,6 +1076,13 @@
             isDelayControlOpen = !isDelayControlOpen;
             const bar = document.getElementById('delay-control-bar');
             bar.style.display = isDelayControlOpen ? 'flex' : 'none';
+            calculateAndDisplay();
+        };
+
+        window.toggleMedDelayControlBar = function() {
+            isMedDelayControlOpen = !isMedDelayControlOpen;
+            const bar = document.getElementById('med-delay-control-bar');
+            bar.style.display = isMedDelayControlOpen ? 'flex' : 'none';
             calculateAndDisplay();
         };
 
@@ -1614,8 +1635,6 @@
                 let intIcon = (isSharedMode) ? '' : (showInterest ? `<span class="inline-toggle active" onclick="toggleInterest()" title="點擊隱藏年息">📈</span>` : `<span class="inline-toggle" onclick="toggleInterest()" title="點擊顯示年息" style="filter:grayscale(100%); opacity:0.4;">📈</span>`);
                 
                 let strategyBtn = `<button class="mini-pink-btn" style="margin-left:4px;" onclick="openStrategyModal()" title="點擊設定提取策略">！</button>`;
-
-                // 年份下方 Emoji（開啟延遲模式時才一併顯示）
                 let flyMoneyEmoji = (isDelayControlOpen && delayYears > 0) ? `<div class="fly-money-inline" onclick="openLightbox('猶豫代價')" title="點擊查看這幾年流走的時光代價">💸</div>` : '';
 
                 let headerBase = `<tr><th><div>年份 (歲數)</div>${flyMoneyEmoji}</th><th>累計供款</th>`;
@@ -1698,12 +1717,14 @@
                         tableBody.appendChild(row);
                     }
                 }
-                // 2. 增值式醫保獨立數據計算與累積表
+                
+                // 2. 增值式醫保獨立數據計算與累積表（連動增值期輸入）
                 const medStartAge = parseInt(inputs['med-start-age'].value) || startAge;
                 const medInflationRateEl = document.getElementById('med-inflation-rate-num');
                 const medInflationRate = (parseFloat(medInflationRateEl ? medInflationRateEl.value : 0) || 0) / 100;
                 const medRetireAge = parseInt(inputs['med-retire-age'].value) || 65;
-                const medMaxAgeInput = parseInt(inputs['med-max-age'].value) || 100; 
+                const medMaxAgeInput = parseInt(inputs['med-max-age'].value) || 70; // 精確以輸入的增值期為準
+                const medDelayYears = isMedDelayControlOpen ? (parseInt(document.getElementById('med-custom-delay-years').value) || 0) : 0;
                 
                 document.querySelectorAll('.med-age-y1').forEach(el => el.textContent = medStartAge);
                 document.querySelectorAll('.med-age-y2').forEach(el => el.textContent = medStartAge + 1);
@@ -1750,46 +1771,44 @@
                 document.getElementById('med-plan3-5yr-total').textContent = formatNumber(m3Total + m3PremTotal);
                 document.getElementById('med-plan4-5yr-total').textContent = formatNumber(m4Total + m4PremTotal);
                 
+                // 頂部卡片醫療總保費（轉換期至增值期）
                 let cardMedPremiumTotal = 0;
                 for (let a = medRetireAge; a <= medMaxAgeInput; a++) {
                     let singlePrem = getPremiumForAge(a);
                     cardMedPremiumTotal += singlePrem * Math.pow(1 + medInflationRate, a - medStartAge);
                 }
                 document.getElementById('med-total-premium').textContent = '$' + formatNumber(cardMedPremiumTotal);
-
-                let tableLimitAge = 100;
-                let totalMedPremium100 = 0;
-                for (let a = medRetireAge; a <= tableLimitAge; a++) {
-                    let singlePrem = getPremiumForAge(a);
-                    totalMedPremium100 += singlePrem * Math.pow(1 + medInflationRate, a - medStartAge);
-                }
-                document.getElementById('med-loss-a').textContent = `-$${formatNumber(totalMedPremium100)}`;
+                document.getElementById('med-loss-a').textContent = `-$${formatNumber(cardMedPremiumTotal)}`;
                 
+                let medFlyMoneyEmoji = (isMedDelayControlOpen && medDelayYears > 0) ? `<div class="fly-money-inline" onclick="openLightbox('猶豫代價')" title="點擊查看這幾年流走的時光代價">💸</div>` : '';
+
                 if (showActualMedicalPremium) {
-                    medTableHead.innerHTML = `<tr><th>保單年度 (歲數)</th><th>累計供款</th><th>醫保保費預備金 (提取)</th><th>醫療保費</th><th style="color:green;">實際醫療保費</th><th>增值醫保餘額</th></tr>`;
+                    medTableHead.innerHTML = `<tr><th><div>保單年度 (歲數)</div>${medFlyMoneyEmoji}</th><th>累計供款</th><th>醫保保費預備金 (提取)</th><th>醫療保費</th><th style="color:green;">實際醫療保費</th><th>增值醫保餘額</th></tr>`;
                 } else {
-                    medTableHead.innerHTML = `<tr><th>保單年度 (歲數)</th><th>累計供款</th><th>醫保保費預備金 (提取)</th><th>醫療保費</th><th>增值醫保餘額</th></tr>`;
+                    medTableHead.innerHTML = `<tr><th><div>保單年度 (歲數)</div>${medFlyMoneyEmoji}</th><th>累計供款</th><th>醫保保費預備金 (提取)</th><th>醫療保費</th><th>增值醫保餘額</th></tr>`;
                 }
                 const labelColA = document.getElementById('med-outcome-label-col-a');
                 const labelColB = document.getElementById('med-outcome-label-col-b');
                 if(showActualMedicalPremium) { labelColA.colSpan = 5; labelColB.colSpan = 5; } 
                 else { labelColA.colSpan = 4; labelColB.colSpan = 4; }
                 medTableBody.innerHTML = '';
-                let medStrategies = [inputs['med-plan1-strategy'], inputs['med-plan2-strategy'], inputs['med-plan3-strategy'], inputs['med-plan4-strategy']].map(el => el.value);
+                
+                let medStrategies = [inputs['med-plan1-strategy'].value, inputs['med-plan2-strategy'].value, inputs['med-plan3-strategy'].value, inputs['med-plan4-strategy'].value];
                 let medEngineActive = [true, document.getElementById('group-med-plan2').style.display !== 'none', document.getElementById('group-med-plan3').style.display !== 'none', document.getElementById('group-med-plan4').style.display !== 'none'];
                 let medJarTotals = [m1Total, m2Total, m3Total, m4Total];
-                let maxMedYear = tableLimitAge - medStartAge + 1;
+                
+                // 表格上限年份精確對應至增值期
+                let maxMedYear = Math.max(1, medMaxAgeInput - medStartAge + 1);
                 const medReportingYears = [];
                 for (let y = 8; y <= 25; y++) { if (y <= maxMedYear) medReportingYears.push(y); }
                 for (let y = 30; y <= maxMedYear; y += 5) { if (y <= maxMedYear) medReportingYears.push(y); }
-                if(!medReportingYears.includes(maxMedYear)) medReportingYears.push(maxMedYear);
+                if (!medReportingYears.includes(maxMedYear)) medReportingYears.push(maxMedYear); // 確保結尾歲數必出現
 
-                let sumExtracted = 0, sumMedPremium = 0, sumActualPremium = 0, finalBalance = 0, totalPrincipal = 0;
-                for (let year = 1; year <= maxMedYear; year++) {
-                    let currentAge = medStartAge + year - 1;
+                const calcMedAssets = (y) => {
+                    if (y <= 0) return { rV: 0, rW: 0, rA: 0, rC: 0 };
                     let rV = 0, rW = 0, rA = 0, rC = 0;
                     [1, 6, 11, 16].forEach((sY, i) => {
-                        const pA = year - (sY - 1); 
+                        const pA = y - (sY - 1); 
                         const tP = medEngineActive[i] ? medJarTotals[i] : 0;
                         const aC = tP / 5;
                         const strategy = medStrategies[i];
@@ -1807,21 +1826,43 @@
                         }
                         rV += cV; rW += cW; rA += cA;
                     });
-                    let medPremiumCurrentYear = (currentAge >= medRetireAge && currentAge <= tableLimitAge) ? getPremiumForAge(currentAge) * Math.pow(1 + medInflationRate, year - 1) : 0;
-                    let actualMedPremium = rA - medPremiumCurrentYear;
-                    sumExtracted += rA;
+                    return { rV, rW, rA, rC };
+                };
+
+                let sumExtracted = 0, sumMedPremium = 0, sumActualPremium = 0, finalBalance = 0, totalPrincipal = 0;
+                for (let year = 1; year <= maxMedYear; year++) {
+                    let currentAge = medStartAge + year - 1;
+                    let todayRes = calcMedAssets(year);
+                    let delayedRes = calcMedAssets(year - medDelayYears);
+
+                    let medPremiumCurrentYear = (currentAge >= medRetireAge && currentAge <= medMaxAgeInput) ? getPremiumForAge(currentAge) * Math.pow(1 + medInflationRate, year - 1) : 0;
+                    let actualMedPremium = todayRes.rA - medPremiumCurrentYear;
+                    sumExtracted += todayRes.rA;
                     sumMedPremium += medPremiumCurrentYear;
                     sumActualPremium += actualMedPremium;
+                    
                     if (year === maxMedYear) {
-                        finalBalance = rV;
-                        totalPrincipal = rC;
+                        finalBalance = todayRes.rV;
+                        totalPrincipal = todayRes.rC;
                     }
+
                     if (medReportingYears.includes(year)) {
+                        let ageDisplay = `${year} (${currentAge})`;
+                        let balanceDisplay = `$${formatNumber(todayRes.rV)}`;
+
+                        if (isMedDelayControlOpen && medDelayYears > 0) {
+                            let diffLoss = todayRes.rV - delayedRes.rV;
+                            ageDisplay = `<div>${year} (${currentAge})</div><div style="font-size:0.75rem; color:#dc3545; font-weight:bold;">遲${medDelayYears}年: ${Math.max(0, year-medDelayYears)}年</div>`;
+                            balanceDisplay = `<div>$${formatNumber(todayRes.rV)}</div>
+                                              <div style="font-size:0.8rem; color:#888;">遲做: $${formatNumber(delayedRes.rV)}</div>
+                                              <div style="font-size:0.85rem; color:#dc3545; font-weight:bold;">少攞: -$${formatNumber(diffLoss)}</div>`;
+                        }
+
                         const medRow = document.createElement('tr');
                         if (showActualMedicalPremium) {
-                            medRow.innerHTML = `<td>${year} (${currentAge})</td><td>$${formatNumber(rC)}</td><td style="color:blue; font-weight:bold;">$${formatNumber(rA)}</td><td style="color:purple; font-weight:bold;">$${formatNumber(medPremiumCurrentYear)}</td><td style="color:green; font-weight:bold;">$${formatNumber(actualMedPremium)}</td><td style="color:red; font-weight:bold;">$${formatNumber(rV)}</td>`;
+                            medRow.innerHTML = `<td>${ageDisplay}</td><td>$${formatNumber(todayRes.rC)}</td><td style="color:blue; font-weight:bold;">$${formatNumber(todayRes.rA)}</td><td style="color:purple; font-weight:bold;">$${formatNumber(medPremiumCurrentYear)}</td><td style="color:green; font-weight:bold;">$${formatNumber(actualMedPremium)}</td><td style="color:red; font-weight:bold;">${balanceDisplay}</td>`;
                         } else {
-                            medRow.innerHTML = `<td>${year} (${currentAge})</td><td>$${formatNumber(rC)}</td><td style="color:blue; font-weight:bold;">$${formatNumber(rA)}</td><td style="color:purple; font-weight:bold;">$${formatNumber(medPremiumCurrentYear)}</td><td style="color:red; font-weight:bold;">$${formatNumber(rV)}</td>`;
+                            medRow.innerHTML = `<td>${ageDisplay}</td><td>$${formatNumber(todayRes.rC)}</td><td style="color:blue; font-weight:bold;">$${formatNumber(todayRes.rA)}</td><td style="color:purple; font-weight:bold;">$${formatNumber(medPremiumCurrentYear)}</td><td style="color:red; font-weight:bold;">${balanceDisplay}</td>`;
                         }
                         medTableBody.appendChild(medRow);
                     }
