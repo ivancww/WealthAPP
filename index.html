@@ -7,7 +7,7 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
     
-    <title>時光複利：增值式醫保 v3.5</title>
+    <title>時光複利：增值式醫保 v3.6</title>
     <link rel="apple-touch-icon" href="icon-192x192.png">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -98,7 +98,8 @@
         
         body.shared-mode .bottom-nav, 
         body.shared-mode .nav-toggle-btn, 
-        body.shared-mode .mini-pink-btn { display: none !important; }
+        body.shared-mode .mini-pink-btn,
+        body.shared-mode .fly-money-inline { display: none !important; }
         body.shared-mode { padding-bottom: 20px !important; }
         
         .input-group { min-width: 100px; position: relative; }
@@ -189,22 +190,18 @@
             flex-wrap: wrap;
         }
 
-        .fly-money-btn {
-            background: #ffe3e3;
-            border: 1px solid #ff8787;
-            border-radius: 20px;
-            padding: 4px 12px;
-            font-size: 0.85rem;
-            color: #d84315;
+        /* 標題欄年份下方的 Emoji 按鈕樣式 */
+        .fly-money-inline {
             cursor: pointer;
-            font-weight: bold;
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-            margin-top: 10px;
+            font-size: 1.1rem;
+            display: inline-block;
+            margin-top: 4px;
             transition: transform 0.2s;
+            user-select: none;
         }
-        .fly-money-btn:active { transform: scale(0.95); }
+        .fly-money-inline:active {
+            transform: scale(0.85);
+        }
 
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6); z-index: 2000; align-items: center; justify-content: center; }
         .modal-content { background: #fff; padding: 2rem; border-radius: 12px; max-width: 450px; width: 90%; text-align: center; position: relative; max-height: 85vh; overflow-y: auto; }
@@ -243,7 +240,7 @@
         
         @media print {
             body { background: #fff !important; color: #000 !important; }
-            .bottom-nav, .nav-toggle-btn, .management-section, #med-management-section, .modal-overlay, .lightbox-overlay, .inline-toggle, .mini-pink-btn, #share-btn, #med-share-btn, .fly-money-btn { display: none !important; }
+            .bottom-nav, .nav-toggle-btn, .management-section, #med-management-section, .modal-overlay, .lightbox-overlay, .inline-toggle, .mini-pink-btn, #share-btn, #med-share-btn, .fly-money-inline { display: none !important; }
             #comfort-zone-section, #emoji-bar, .delay-control-bar { display: none !important; }
             #med-plan-section { display: none !important; }
             #med-results-table tfoot { display: none !important; }
@@ -266,7 +263,7 @@
     <!-- 願景對話 -->
     <div id="tab-vision" class="tab-section">
         <div class="lazy-bag-container" style="background: #fdfdfd;">
-            <h2>時光複利：歲月豐收 <span style="font-size: 1rem; color: #007bff; vertical-align: middle; background: #e7f3ff; padding: 4px 10px; border-radius: 12px; margin-left: 10px; border: 1px solid #cce5ff;">v3.5</span></h2>
+            <h2>時光複利：歲月豐收 <span style="font-size: 1rem; color: #007bff; vertical-align: middle; background: #e7f3ff; padding: 4px 10px; border-radius: 12px; margin-left: 10px; border: 1px solid #cce5ff;">v3.6</span></h2>
             <h3 style="text-align: center; color: var(--secondary-color); margin-top: 0; margin-bottom: 2rem; border-bottom: 2px solid #f0f2f5; padding-bottom: 1.5rem;">享受人生下半場</h3>
             <div style="display: flex; flex-direction: column; gap: 0.5rem;">
                 <div class="flexibility-card card-rome">
@@ -467,13 +464,6 @@
 
                 <div class="table-wrapper">
                     <table id="results-table"><thead id="results-table-head"></thead><tbody id="results-table-body"></tbody></table>
-                </div>
-
-                <!-- 延遲對比開啟後，底部顯示 💸 按鈕 -->
-                <div id="fly-money-container" style="text-align:center; display:none;">
-                    <button class="fly-money-btn" onclick="openLightbox('猶豫代價')">
-                        💸 點擊查看這幾年流走的時光代價
-                    </button>
                 </div>
             </div>
         </div>
@@ -716,7 +706,7 @@
                             <div class="input-group">
                                 <label>第13年 (<span class="med-age-y13">42</span>歲)</label>
                                 <input type="text" id="med-plan3-y3" value="60,000" readonly class="readonly-box">
-                                <div class="med-prem-subbox">醫療保費: $<span id="med-prem-y12">0</span></div>
+                                <div class="med-prem-subbox">醫療保費: $<span id="med-prem-y13">0</span></div>
                             </div>
                             <div class="input-group">
                                 <label>第14年 (<span class="med-age-y14">43</span>歲)</label>
@@ -1071,9 +1061,7 @@
         window.toggleDelayControlBar = function() {
             isDelayControlOpen = !isDelayControlOpen;
             const bar = document.getElementById('delay-control-bar');
-            const flyBtn = document.getElementById('fly-money-container');
             bar.style.display = isDelayControlOpen ? 'flex' : 'none';
-            flyBtn.style.display = isDelayControlOpen ? 'block' : 'none';
             calculateAndDisplay();
         };
 
@@ -1627,7 +1615,10 @@
                 
                 let strategyBtn = `<button class="mini-pink-btn" style="margin-left:4px;" onclick="openStrategyModal()" title="點擊設定提取策略">！</button>`;
 
-                let headerBase = `<tr><th>年份 (歲數)</th><th>累計供款</th>`;
+                // 年份下方 Emoji（開啟延遲模式時才一併顯示）
+                let flyMoneyEmoji = (isDelayControlOpen && delayYears > 0) ? `<div class="fly-money-inline" onclick="openLightbox('猶豫代價')" title="點擊查看這幾年流走的時光代價">💸</div>` : '';
+
+                let headerBase = `<tr><th><div>年份 (歲數)</div>${flyMoneyEmoji}</th><th>累計供款</th>`;
                 let iconSubRow = (!isSharedMode && (divIcon || intIcon)) ? `<br>${divIcon} ${intIcon}` : '';
 
                 if (planMode === '教育基金') {
@@ -1674,9 +1665,7 @@
                 for (let year = 1; year <= maxYear; year++) {
                     let currentAge = startAge + year - 1;
                     
-                    // 今日正常啟動
                     let todayRes = calcAssets(year);
-                    // 延遲啟動對比
                     let delayedRes = calcAssets(year - delayYears);
                     
                     let netProfit = (todayRes.rV + todayRes.rW) - todayRes.rC;
@@ -1693,7 +1682,6 @@
                         
                         let displayMonthlyWithdraw = todayRes.rA / 12;
 
-                        // 若開啟延遲模式，顯示雙數字對比
                         let ageDisplay = `${year} (${currentAge})`;
                         let assetDisplay = `$${formatNumber(todayRes.rV)}`;
 
