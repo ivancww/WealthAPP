@@ -7,12 +7,12 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
     
-    <title>AVA 銷售藝術系統：時光複利與增值式醫保</title>
+    <title>AVA 銷售藝術系統：時光複利與增值式醫保 v4.0</title>
     <link rel="apple-touch-icon" href="icon-192x192.png">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="理財策略">
-    <meta name="theme-color" content="#007bff">
+    <meta name="theme-color" content="#1e3a8a">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
@@ -44,70 +44,87 @@
         :root {
             --bg-color: #f0f2f5;
             --card-bg-color: #ffffff;
-            --text-color: #212529;
-            --label-color: #6c757d;
-            --primary-color: #007bff;
-            --secondary-color: #495057;
-            --border-color: #dee2e6;
-            --plan1-color: rgba(0, 123, 255, 0.8);
-            --plan2-color: rgba(40, 167, 69, 0.8);
+            --text-color: #1e293b;
+            --label-color: #64748b;
+            --primary-color: #1e3a8a;
+            --secondary-color: #475569;
+            --border-color: #e2e8f0;
+            --plan1-color: rgba(0, 123, 255, 0.85);
+            --plan2-color: rgba(40, 167, 69, 0.85);
             --plan3-color: #dc3545;
-            --plan4-color: rgba(108, 92, 231, 0.8);
-            --gain-color: #28a745;
-            --inflation-color: #dc3545;
-            --pink-dashed-border: 1.5px dashed #f8bbd0;
-            --pink-accent: #f48fb1;
+            --plan4-color: rgba(108, 92, 231, 0.85);
+            --gain-color: #16a34a;
+            --inflation-color: #dc2626;
+            --pink-dashed-border: 1.5px dashed #f472b6;
+            --pink-accent: #ec4899;
         }
         
-        body { font-family: 'Noto Sans TC', sans-serif; background-color: var(--bg-color); color: var(--text-color); margin: 0; padding: 0; padding-bottom: 20px; box-sizing: border-box; overflow-x: hidden; }
+        body { font-family: 'Noto Sans TC', sans-serif; background-color: var(--bg-color); color: var(--text-color); margin: 0; padding: 0; box-sizing: border-box; }
         
-        .tab-section { display: none; padding: 1.5rem; max-width: 1100px; margin: 0 auto; animation: fadeIn 0.4s; }
-        .tab-section.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        
-        .nav-toggle-btn {
-            position: fixed; bottom: calc(15px + env(safe-area-inset-bottom)); right: 15px;
-            width: 36px; height: 36px; background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(5px);
-            color: #333; border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            font-size: 1.2rem; box-shadow: 0 2px 10px rgba(0,0,0,0.15); cursor: pointer; z-index: 1001; transition: transform 0.2s; border: 1px solid rgba(0,0,0,0.1);
+        /* 頂部輕量化系統狀態列 */
+        .system-top-bar {
+            background: #ffffff; border-bottom: 1px solid var(--border-color); padding: 10px 16px;
+            display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; font-weight: bold; color: var(--secondary-color);
         }
-        .nav-toggle-btn:active { transform: scale(0.9); }
-        .bottom-nav { 
-            position: fixed; bottom: 0; left: 0; width: 100%; 
-            background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px);
-            box-shadow: 0 -5px 20px rgba(0,0,0,0.1); display: flex; justify-content: space-around; padding: 12px 0; 
-            z-index: 1000; padding-bottom: calc(12px + env(safe-area-inset-bottom)); flex-wrap: nowrap; overflow-x: auto;
-            transform: translateY(120%); transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1); 
+        .system-badge { background: #eff6ff; color: #1d4ed8; padding: 3px 8px; border-radius: 6px; font-size: 0.75rem; margin-left: 6px; }
+        .system-settings-btn { cursor: pointer; font-size: 1.2rem; transition: transform 0.2s; user-select: none; }
+        .system-settings-btn:active { transform: scale(0.9); }
+
+        .app-container { max-width: 800px; margin: 20px auto; padding: 0 15px 40px 15px; }
+
+        /* 圖 2 單步卡片容器 */
+        .step-wrapper-card {
+            background: var(--card-bg-color); border-radius: 16px; border: 1px solid var(--border-color);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04); padding: 2rem; margin-bottom: 1.5rem;
+            animation: fadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        .bottom-nav.show { transform: translateY(0); }
-        .nav-item { text-align: center; color: var(--label-color); font-size: 0.75rem; cursor: pointer; flex: 1; min-width: 60px; transition: 0.2s; user-select: none; }
-        .nav-item.active { color: var(--primary-color); font-weight: bold; transform: translateY(-3px); }
-        .nav-icon { font-size: 1.5rem; display: block; margin-bottom: 4px; }
-        
-        .calculator-container, .lazy-bag-container { background: var(--card-bg-color); border-radius: 14px; border: 1px solid var(--border-color); box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05); padding: 2rem; }
-        header { text-align: center; border-bottom: 1px solid var(--border-color); padding-bottom: 1.5rem; margin-bottom: 2rem; }
-        header h1 { color: var(--primary-color); margin-bottom: 0.5rem; font-weight: 700; font-size: 1.8rem; cursor: pointer; }
-        .section { margin-top: 2.5rem; }
-        .section h2 { display: flex; align-items: center; justify-content: center; color: var(--secondary-color); margin-bottom: 1.5rem; font-size: 1.4rem; flex-wrap: wrap; gap: 8px; }
-        
-        .top-input-grid, .duel-inputs { display: grid; align-items: end; margin-bottom: 2rem; gap: 1.2rem; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+        .step-header-badge {
+            display: inline-block; background: #e0f2fe; color: #0369a1; font-weight: 700; font-size: 0.85rem;
+            padding: 4px 12px; border-radius: 6px; margin-bottom: 12px;
+        }
+        .step-main-title { font-size: 1.4rem; font-weight: 800; color: #0f172a; margin: 0 0 8px 0; }
+        .step-subtitle { font-size: 0.95rem; color: var(--label-color); margin-bottom: 1.5rem; }
+
+        /* 圖 2 圓圈狀態選項框 */
+        .choice-option-box {
+            border: var(--pink-dashed-border); border-radius: 12px; padding: 14px 16px; margin-bottom: 12px;
+            cursor: pointer; transition: all 0.2s; background: #ffffff; display: flex; align-items: center; gap: 12px;
+        }
+        .choice-option-box:hover { border-color: var(--pink-accent); background: #fff5f7; }
+        .choice-option-box.active {
+            border: 2px solid var(--primary-color) !important; background: #eff6ff; box-shadow: 0 4px 12px rgba(30, 58, 138, 0.08);
+        }
+        .choice-dot { width: 14px; height: 14px; border-radius: 50%; display: inline-block; flex-shrink: 0; }
+        .choice-text-wrap { flex: 1; }
+        .choice-title { font-size: 1.05rem; font-weight: 700; color: #1e293b; display: block; }
+        .choice-desc { font-size: 0.85rem; color: #64748b; margin-top: 2px; display: block; }
+
+        /* 步進底部按鈕列 */
+        .step-action-bar { display: flex; gap: 12px; margin-top: 2rem; align-items: center; }
+        .btn-step-prev {
+            flex: 1; background: #ffffff; border: 1px solid var(--border-color); color: #334155; font-weight: 700;
+            padding: 14px; border-radius: 10px; cursor: pointer; font-size: 1rem; transition: 0.2s; text-align: center;
+        }
+        .btn-step-prev:hover { background: #f8fafc; }
+        .btn-step-next {
+            flex: 2; background: #1e3a8a; border: none; color: white; font-weight: 700;
+            padding: 14px; border-radius: 10px; cursor: pointer; font-size: 1.05rem; transition: 0.2s; text-align: center; box-shadow: 0 4px 12px rgba(30, 58, 138, 0.2);
+        }
+        .btn-step-next:hover { background: #172554; }
+
+        /* 輸入框共用 */
+        .top-input-grid, .duel-inputs { display: grid; align-items: end; margin-bottom: 1.5rem; gap: 1rem; }
         @media (min-width: 580px) {
-            .nav-toggle-btn { display: none !important; }
-            .bottom-nav { transform: translateY(0); position: fixed; }
-            body { padding-bottom: 85px; }
-            .duel-inputs { grid-template-columns: repeat(4, 1fr); gap: 10px; }
-            .top-input-grid { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
-            .promo-split-container { display: flex; gap: 20px; align-items: flex-start; }
-            .promo-left-col { flex: 1; }
-            .promo-right-col { flex: 1; position: sticky; top: 20px; }
+            .duel-inputs { grid-template-columns: repeat(4, 1fr); }
+            .top-input-grid { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); }
         }
         @media (max-width: 579px) {
-            .duel-inputs, .top-input-grid { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
-            .promo-split-container { display: block; }
+            .duel-inputs, .top-input-grid { grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); }
         }
-        
         .input-group { min-width: 100px; position: relative; }
-        .input-group label { display: flex; align-items: center; justify-content: center; font-weight: 500; color: var(--label-color); margin-bottom: 0.5rem; text-align: center; font-size: 0.95rem; }
+        .input-group label { display: flex; align-items: center; justify-content: center; font-weight: 600; color: var(--label-color); margin-bottom: 0.5rem; text-align: center; font-size: 0.9rem; }
         .input-group input, .input-group select, select, .btn { 
             width: 100%; padding: 0.75rem; 
             border: var(--pink-dashed-border) !important; 
@@ -115,75 +132,39 @@
             transition: all 0.2s;
         }
         .input-group input[readonly], input.readonly-box {
-            border: 1px solid var(--border-color) !important;
-            background-color: #f8f9fa !important;
-            color: #6c757d; cursor: not-allowed;
+            border: 1px solid var(--border-color) !important; background-color: #f8f9fa !important; color: #64748b; cursor: not-allowed;
         }
-        .input-group input:focus, .input-group select:focus {
-            outline: none; border-color: var(--pink-accent) !important; box-shadow: 0 0 5px rgba(244, 143, 177, 0.5);
-        }
-        
-        /* 銷售旅程 (Sales Art) 專用卡片 */
-        .sales-step-card {
-            background: #ffffff; border-radius: 16px; padding: 1.5rem; margin-bottom: 1.5rem;
-            border: 1px solid var(--border-color); box-shadow: 0 4px 12px rgba(0,0,0,0.03);
-        }
-        .sales-chip-group { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 1rem; }
-        .sales-chip {
-            background: #f8f9fa; border: 1.5px dashed #ced4da; padding: 10px 16px; border-radius: 25px;
-            cursor: pointer; transition: all 0.2s; font-size: 0.95rem; user-select: none;
-        }
-        .sales-chip:hover { border-color: var(--primary-color); background: #f0f7ff; }
-        .sales-chip.active {
-            background: #e7f3ff; border: 1.5px solid var(--primary-color); color: var(--primary-color);
-            font-weight: bold; transform: scale(1.02);
-        }
-        .gap-result-box {
-            background: linear-gradient(135deg, #1e3c72, #2a5298); color: white; padding: 1.5rem;
-            border-radius: 12px; text-align: center; margin-top: 1.5rem;
-        }
-        
-        .mini-pink-btn { 
-            background: #ffffff; border: var(--pink-dashed-border) !important; 
-            border-radius: 4px; font-size: 0.75rem; padding: 1px 6px; cursor: pointer; transition: 0.2s;
-            user-select: none; font-weight: bold; color: var(--primary-color); display: inline-flex; align-items: center; justify-content: center;
-        }
-        .mini-pink-btn:active { transform: scale(0.92); }
-        
-        .table-wrapper { overflow-x: auto; -webkit-overflow-scrolling: touch; position: relative; }
-        table { width: 100%; border-collapse: collapse; white-space: nowrap; margin-top: 1rem; }
-        th, td { padding: 0.9rem 1rem; text-align: right; border-bottom: 1px solid var(--border-color); }
-        th { font-weight: 500; color: var(--label-color); background-color: #f8f9fa; vertical-align: bottom; }
-        
-        .emoji-toggle-bar { display: flex; gap: 15px; align-items: center; justify-content: center; background: #f8f9fa; padding: 12px; border-radius: 8px; border: 1px dashed var(--border-color); margin-bottom: 1.5rem; flex-wrap: wrap; }
-        .emoji-toggle { cursor: pointer; font-size: 1.8rem; opacity: 0.3; filter: grayscale(100%); transition: all 0.3s; padding: 5px; border-radius: 50%; background: #e9ecef; width: 45px; height: 45px; display: flex; align-items: center; justify-content: center; }
-        .emoji-toggle.active { opacity: 1; filter: none; background: #fff3cd; transform: scale(1.15); border: 2px solid #ffca28; }
-        .duel-summary { display: flex; justify-content: space-around; flex-wrap: wrap; gap: 1rem; margin-top: 1rem; padding: 1rem; background-color: #f8f9fa; border-radius: 8px; }
-        .summary-item { text-align: center; position: relative; padding: 0.5rem; min-width: 140px; }
-        .summary-item .summary-value { font-size: 1.5rem; font-weight: 700; display: block; }
-        .summary-item .summary-label { font-size: 0.9rem; color: var(--label-color); display: block; }
-        .jar-card { background: #fdfdfd; border: 1px solid var(--border-color); border-radius: 12px; padding: 1.2rem; margin-bottom: 1.5rem; position: relative; }
-        .jar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 10px; }
-        .jar-5year-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 10px; margin-bottom: 1rem; }
-        .total-box { background: #e7f3ff; border: 1px solid #b8daff; border-radius: 8px; padding: 10px; text-align: center; font-weight: bold; color: var(--primary-color); }
-        .med-prem-subbox { background: #f3e5f5; border: 1px dashed #e1bee7; border-radius: 6px; padding: 6px; text-align: center; font-size: 0.85rem; color: purple; font-weight: bold; margin-top: 6px; }
-        
-        .promo-card { background: #fdfdfd; border: 1px solid #dee2e6; border-radius: 12px; padding: 1.5rem; margin-bottom: 1.5rem; }
-        .promo-row { display: flex; align-items: flex-start; gap: 15px; margin-bottom: 1.2rem; padding-bottom: 1.2rem; border-bottom: 1px dashed #eee; }
-        .promo-row:last-child { border-bottom: none; }
-        .promo-result-box { background: linear-gradient(135deg, #28a745 0%, #20c997 100%); color: white; padding: 1.5rem; border-radius: 12px; text-align: center; }
-        .promo-result-box .big-savings { font-size: 2.8rem; font-weight: 900; }
-        
-        .whiteboard-container { border: 2px solid var(--border-color); border-radius: 8px; overflow: hidden; position: relative; background: #fff; margin-top: 1rem; }
-        canvas { display: block; width: 100%; touch-action: none; cursor: crosshair; }
-        .pen-controls { position: absolute; bottom: 15px; right: 15px; display: flex; gap: 10px; background: rgba(255,255,255,0.9); padding: 8px 12px; border-radius: 25px; box-shadow: 0 4px 10px rgba(0,0,0,0.15); align-items: center;}
-        .color-btn { width: 28px; height: 28px; border-radius: 50%; border: 2px solid #fff; cursor: pointer; transition: transform 0.2s; }
-        .color-btn.active { transform: scale(1.25); box-shadow: 0 0 6px rgba(0,0,0,0.6); }
 
-        /* AVA 視覺化後台鏡像系統專用樣式 */
+        /* GAP 對比框 */
+        .gap-result-box {
+            background: linear-gradient(135deg, #1e3a8a, #0f172a); color: white; padding: 1.5rem; border-radius: 12px; text-align: center; margin-top: 1.5rem;
+        }
+        .gap-grid { display: flex; justify-content: space-around; margin: 15px 0; flex-wrap: wrap; gap: 12px; }
+
+        /* 原有時光錦囊與醫保樣式 */
+        .jar-card { background: #ffffff; border: 1px solid var(--border-color); border-radius: 12px; padding: 1.2rem; margin-bottom: 1.5rem; }
+        .jar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
+        .jar-5year-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 8px; margin-bottom: 1rem; }
+        .total-box { background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 8px; padding: 10px; text-align: center; font-weight: bold; color: var(--primary-color); }
+        .med-prem-subbox { background: #fdf4ff; border: 1px dashed #f0abfc; border-radius: 6px; padding: 5px; text-align: center; font-size: 0.8rem; color: purple; font-weight: bold; margin-top: 6px; }
+        .emoji-toggle-bar { display: flex; gap: 15px; align-items: center; justify-content: center; background: #f8fafc; padding: 10px; border-radius: 8px; border: 1px dashed var(--border-color); margin-bottom: 1.5rem; }
+        .emoji-toggle { cursor: pointer; font-size: 1.6rem; opacity: 0.35; filter: grayscale(100%); transition: 0.2s; padding: 4px; border-radius: 50%; background: #e2e8f0; width: 42px; height: 42px; display: flex; align-items: center; justify-content: center; }
+        .emoji-toggle.active { opacity: 1; filter: none; background: #fef08a; transform: scale(1.15); border: 2px solid #eab308; }
+
+        .table-wrapper { overflow-x: auto; -webkit-overflow-scrolling: touch; margin-top: 1rem; }
+        table { width: 100%; border-collapse: collapse; white-space: nowrap; }
+        th, td { padding: 0.85rem 0.9rem; text-align: right; border-bottom: 1px solid var(--border-color); font-size: 0.92rem; }
+        th { font-weight: 600; color: var(--label-color); background-color: #f8fafc; }
+
+        .promo-card { background: #f8fafc; border: 1px solid var(--border-color); border-radius: 12px; padding: 1.2rem; margin-bottom: 1.2rem; }
+        .promo-row { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 1rem; padding-bottom: 1rem; border-bottom: 1px dashed #e2e8f0; }
+        .promo-result-box { background: linear-gradient(135deg, #16a34a, #059669); color: white; padding: 1.5rem; border-radius: 12px; text-align: center; }
+        .mini-pink-btn { background: #fff; border: var(--pink-dashed-border) !important; border-radius: 4px; font-size: 0.75rem; padding: 2px 6px; cursor: pointer; font-weight: bold; color: var(--primary-color); }
+
+        /* AVA 後台鏡像全螢幕彈窗 */
         .ava-admin-overlay {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(6px); z-index: 5000;
+            background: rgba(15, 23, 42, 0.75); backdrop-filter: blur(6px); z-index: 5000;
             align-items: center; justify-content: center;
         }
         .ava-admin-modal {
@@ -191,8 +172,8 @@
             display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.3);
         }
         .ava-admin-header {
-            background: #1e3a8a; color: white; padding: 16px 20px; display: flex;
-            justify-content: space-between; align-items: center; font-weight: 700; font-size: 1.15rem;
+            background: #1e3a8a; color: white; padding: 14px 20px; display: flex;
+            justify-content: space-between; align-items: center; font-weight: 700; font-size: 1.1rem;
         }
         .ava-admin-nav {
             display: flex; gap: 8px; background: #ffffff; padding: 10px 20px; border-bottom: 1px solid #e2e8f0;
@@ -205,332 +186,370 @@
         .ava-admin-nav-btn.active { background: #1e3a8a; color: white; border-color: #1e3a8a; }
         .ava-admin-body { flex: 1; overflow-y: auto; padding: 20px; background: #f1f5f9; }
         .ava-admin-footer {
-            background: #ffffff; padding: 15px 20px; border-top: 1px solid #e2e8f0; display: flex;
+            background: #ffffff; padding: 14px 20px; border-top: 1px solid #e2e8f0; display: flex;
             justify-content: space-between; align-items: center; flex-shrink: 0;
         }
         .mirror-card {
-            background: white; border-radius: 12px; padding: 20px; margin-bottom: 20px;
-            border: 1px solid #e2e8f0; box-shadow: 0 2px 6px rgba(0,0,0,0.03); position: relative;
-        }
-        .mirror-card-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
-        .mirror-badge {
-            background: #eff6ff; color: #1d4ed8; padding: 4px 10px; border-radius: 6px;
-            font-size: 0.85rem; font-weight: bold;
+            background: white; border-radius: 12px; padding: 16px; margin-bottom: 16px;
+            border: 1px solid #e2e8f0; box-shadow: 0 2px 6px rgba(0,0,0,0.03);
         }
         .editable-pink-box {
             border: var(--pink-dashed-border) !important; border-radius: 6px; padding: 8px 12px;
             background: #fff; width: 100%; box-sizing: border-box; font-size: 0.95rem; margin-top: 4px;
         }
-        .editable-pink-box:focus { outline: none; border-color: #ec4899 !important; background: #fffdfd; }
-        .modal-overlay, .lightbox-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6); z-index: 2000; align-items: center; justify-content: center; }
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6); z-index: 2000; align-items: center; justify-content: center; }
         .modal-content { background: #fff; padding: 2rem; border-radius: 12px; max-width: 450px; width: 90%; text-align: center; position: relative; max-height: 85vh; overflow-y: auto; }
         .close-modal { position: absolute; top: 10px; right: 15px; font-size: 1.5rem; cursor: pointer; }
     </style>
 </head>
 <body>
-    <div id="nav-toggle-btn" class="nav-toggle-btn">📌</div>
-    <nav class="bottom-nav" id="bottom-nav">
-        <div class="nav-item active" onclick="switchTab('tab-sales-journey', this)"><span class="nav-icon">🤝</span>願景對話</div>
-        <div class="nav-item" onclick="switchTab('tab-calculator', this)"><span class="nav-icon">📊</span>時光複利</div>
-        <div class="nav-item" onclick="switchTab('tab-medical', this)"><span class="nav-icon">🏥</span>增值式醫保</div>
-        <div class="nav-item" onclick="switchTab('tab-interest-draw', this)"><span class="nav-icon">✍️</span>剛性支出</div>
-        <div class="nav-item" onclick="switchTab('tab-promo', this)"><span class="nav-icon">🎁</span>保費優惠</div>
-    </nav>
 
-    <!-- 01-07 銷售對話引擎旅程 -->
-    <div id="tab-sales-journey" class="tab-section active">
-        <div class="lazy-bag-container">
-            <header>
-                <h1 onclick="openAvaAdmin()" title="點擊標題進入 AVA 視覺化後台鏡像系統">AVA 銷售藝術對話引擎 🛠️</h1>
-                <p>計算你想過嘅人生，需要幾多錢</p>
-            </header>
-
-            <!-- STEP 01: 理財現況 -->
-            <div class="sales-step-card" id="card-step1">
-                <h3 style="color:var(--primary-color); margin-top:0;">STEP 01 ｜ 了解客戶現在</h3>
-                <p>「你而家嘅理財情況，邊一個最似你？」（最多選 2 個）</p>
-                <div class="sales-chip-group" id="step1-chips">
-                    <div class="sales-chip" onclick="toggleMultiChip(this, 2)">📚 唔識投資</div>
-                    <div class="sales-chip" onclick="toggleMultiChip(this, 2)">🏦 主要放銀行</div>
-                    <div class="sales-chip" onclick="toggleMultiChip(this, 2)">🛡️ 擔心損失</div>
-                    <div class="sales-chip" onclick="toggleMultiChip(this, 2)">📉 知道錢會貶值</div>
-                </div>
-            </div>
-
-            <!-- STEP 01B: 真正渴望 -->
-            <div class="sales-step-card" id="card-step1b">
-                <h3 style="color:var(--primary-color); margin-top:0;">STEP 01B ｜ 了解真正渴望</h3>
-                <p>「如果有錢，你最想做嘅野係咩？」</p>
-                <div class="sales-chip-group">
-                    <div class="sales-chip" onclick="toggleSingleChip(this)">🏖️ 每年旅行</div>
-                    <div class="sales-chip" onclick="toggleSingleChip(this)">🏠 保持現有生活質素</div>
-                    <div class="sales-chip" onclick="toggleSingleChip(this)">👨‍👩‍👧 多啲時間陪屋企人</div>
-                    <div class="sales-chip" onclick="toggleSingleChip(this)">💼 繼續工作，但唔再為錢</div>
-                    <div class="sales-chip" onclick="toggleSingleChip(this)">✨ 實現自己一直想做嘅事</div>
-                </div>
-            </div>
-
-            <!-- STEP 02: 確認目標 -->
-            <div class="sales-step-card" id="card-step2">
-                <h3 style="color:var(--primary-color); margin-top:0;">STEP 02 ｜ 確認目標</h3>
-                <p>「你想為邊一個未來準備？」</p>
-                <div class="sales-chip-group" style="margin-bottom:15px;">
-                    <div class="sales-chip active" onclick="selectGoal('退休', this)">🏖️ 退休</div>
-                    <div class="sales-chip" onclick="selectGoal('下一代', this)">🎓 下一代</div>
-                    <div class="sales-chip" onclick="selectGoal('創造被動收入', this)">💰 建立另一份收入／現金流</div>
-                    <div class="sales-chip" onclick="selectGoal('紅利增值享受', this)">🌱 守住財富購買力</div>
-                </div>
-                <div id="retire-age-box">
-                    <p style="font-weight:bold; margin-bottom:8px;">「你預計幾歲開始享受退休生活？」</p>
-                    <div class="sales-chip-group">
-                        <div class="sales-chip" onclick="toggleSingleChip(this)">60 歲</div>
-                        <div class="sales-chip active" onclick="toggleSingleChip(this)">65 歲</div>
-                        <div class="sales-chip" onclick="toggleSingleChip(this)">70 歲</div>
-                        <div class="sales-chip" onclick="toggleSingleChip(this)">未決定</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- STEP 03 & 04: 資產地圖與需要計算 -->
-            <div class="sales-step-card" id="card-step3">
-                <h3 style="color:var(--primary-color); margin-top:0;">STEP 03 & 04 ｜ 退休資產地圖與未來需要</h3>
-                <div class="top-input-grid">
-                    <div class="input-group">
-                        <label>現時年齡</label>
-                        <input type="number" id="flow-current-age" value="30" oninput="calculateSalesGap()">
-                    </div>
-                    <div class="input-group">
-                        <label>預計退休年齡</label>
-                        <input type="number" id="flow-retire-age" value="65" oninput="calculateSalesGap()">
-                    </div>
-                    <div class="input-group">
-                        <label>現時每月生活費 ($)</label>
-                        <input type="text" id="flow-monthly-expense" value="30,000" inputmode="numeric" oninput="formatAndCalcGap(this)">
-                    </div>
-                    <div class="input-group">
-                        <label>現有退休總資產 (存款/MPF/投資) ($)</label>
-                        <input type="text" id="flow-current-assets" value="600,000" inputmode="numeric" oninput="formatAndCalcGap(this)">
-                    </div>
-                </div>
-
-                <!-- STEP 05 & 06: 顯示 GAP 與代價 -->
-                <div class="gap-result-box">
-                    <div style="font-size:1.1rem; opacity:0.9;">未來退休總需要 VS 現有資源</div>
-                    <div style="display:flex; justify-content:space-around; margin:15px 0; flex-wrap:wrap; gap:10px;">
-                        <div><span style="font-size:0.85rem;">未來需要：</span><br><strong style="font-size:1.3rem;" id="gap-need-val">$10,800,000</strong></div>
-                        <div><span style="font-size:0.85rem;">現有資源：</span><br><strong style="font-size:1.3rem;" id="gap-have-val">$600,000</strong></div>
-                        <div><span style="font-size:0.85rem; color:#ffb4b4;">需要處理的 GAP：</span><br><strong style="font-size:1.6rem; color:#ffd166;" id="gap-diff-val">$10,200,000</strong></div>
-                    </div>
-                    <p style="font-size:0.9rem; margin-bottom:0;">「如果呢個差距一直存在，你覺得應該而家處理，定係將問題留畀未來嘅自己？」</p>
-                </div>
-            </div>
-
-            <!-- STEP 07: 方向選擇 -->
-            <div class="sales-step-card" id="card-step7">
-                <h3 style="color:var(--primary-color); margin-top:0;">STEP 07 ｜ 提供選擇，而不是單一方案</h3>
-                <p>「三個方向入面，邊一個最似你？」</p>
-                <div class="sales-chip-group">
-                    <div class="sales-chip" onclick="applyStrategyDirection('起步')">🐣 輕鬆起步（較低投入，先建立習慣）</div>
-                    <div class="sales-chip active" onclick="applyStrategyDirection('平衡')">🐓 平衡方案（兼顧今日生活與未來目標）</div>
-                    <div class="sales-chip" onclick="applyStrategyDirection('加速')">🦅 加速達標（投入較高，更接近完整目標）</div>
-                </div>
-            </div>
-
-            <div style="text-align: center; margin-top: 2rem;">
-                <button class="btn btn-primary" style="padding: 1rem 2rem; font-size: 1.1rem; border-radius: 50px;" onclick="switchTab('tab-calculator', document.querySelectorAll('#bottom-nav .nav-item')[1])">📊 進入時光錦囊量化計算</button>
-            </div>
+    <!-- 頂部輕量化系統導覽 -->
+    <div class="system-top-bar">
+        <div>
+            AVA HEALTHCARE PLANNER <span class="system-badge" id="current-step-indicator">01 | 理財現況</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:10px;">
+            <span style="font-size:0.75rem; color:#16a34a; font-weight:normal;">⚡ 本地秒開 (GAS 串接中)</span>
+            <div class="system-settings-btn" onclick="openAvaAdmin()" title="進入 AVA 視覺化後台鏡像系統">⚙️</div>
         </div>
     </div>
 
-    <!-- 08: 時光複利計算核心 -->
-    <div id="tab-calculator" class="tab-section">
-        <div class="calculator-container">
-            <header>
-                <h1 onclick="openAvaAdmin()">時光複利：歲月豐收</h1>
-                <p>享受人生下半場</p>
-            </header>
+    <div class="app-container">
+        
+        <!-- STEP 01: 理財現況 -->
+        <div class="step-wrapper-card step-page" id="page-step1">
+            <div class="step-header-badge">01 | 理財現況</div>
+            <h2 class="step-main-title">你而家嘅理財情況，邊一個最似你？</h2>
+            <div class="step-subtitle">可選擇最多 2 個最符合你嘅現況</div>
 
-            <div class="management-section" style="background:#e7f3ff; padding:1.2rem; border-radius:10px; margin-bottom:1.5rem;">
-                <h4 style="margin:0 0 10px 0; color:var(--primary-color);">💼 建立專屬報告</h4>
-                <div style="display:flex; gap:10px; flex-wrap:wrap;">
-                    <input type="text" id="client-name" placeholder="輸入客戶名稱" value="尊貴客戶" style="flex:2; min-width:180px;">
-                    <select id="plan-mode" style="flex:2; min-width:180px;" onchange="calculateAndDisplay()">
-                        <option value="退休規劃">🏖️ 退休規劃</option>
-                        <option value="教育基金">🎓 教育基金</option>
-                        <option value="創造被動收入">💰 創造被動收入</option>
-                        <option value="紅利增值享受">📈 紅利增值享受</option>
-                    </select>
-                    <button class="btn btn-success" style="flex:1; min-width:120px;" onclick="handleShare('tab-calculator')">📤 建立分享</button>
+            <div class="choice-option-box" onclick="toggleMultiOption(this, 2)">
+                <span class="choice-dot" style="background:#ef4444;"></span>
+                <div class="choice-text-wrap">
+                    <span class="choice-title">📚 唔識投資</span>
+                    <span class="choice-desc">有儲蓄，但唔知道點樣令資產增值</span>
+                </div>
+            </div>
+            <div class="choice-option-box" onclick="toggleMultiOption(this, 2)">
+                <span class="choice-dot" style="background:#3b82f6;"></span>
+                <div class="choice-text-wrap">
+                    <span class="choice-title">🏦 主要放銀行</span>
+                    <span class="choice-desc">覺得銀行最安全，大部分錢都放喺銀行</span>
+                </div>
+            </div>
+            <div class="choice-option-box" onclick="toggleMultiOption(this, 2)">
+                <span class="choice-dot" style="background:#f59e0b;"></span>
+                <div class="choice-text-wrap">
+                    <span class="choice-title">🛡️ 擔心損失</span>
+                    <span class="choice-desc">有錢，但最擔心投資有損失，寧願唔郁</span>
+                </div>
+            </div>
+            <div class="choice-option-box" onclick="toggleMultiOption(this, 2)">
+                <span class="choice-dot" style="background:#8b5cf6;"></span>
+                <div class="choice-text-wrap">
+                    <span class="choice-title">📉 知道錢會貶值</span>
+                    <span class="choice-desc">知道通脹會令購買力下降，但未有完整方法處理</span>
                 </div>
             </div>
 
+            <div class="step-action-bar">
+                <button class="btn-step-next" style="flex:1;" onclick="goToStep('page-step1b')">下一步 →</button>
+            </div>
+        </div>
+
+        <!-- STEP 01B: 真正渴望 -->
+        <div class="step-wrapper-card step-page" id="page-step1b" style="display:none;">
+            <div class="step-header-badge">01B | 真正渴望</div>
+            <h2 class="step-main-title">如果有錢，你最想做嘅野係咩？</h2>
+            <div class="step-subtitle">先由生活出發，理財是為了實現理想生活畫面</div>
+
+            <div class="choice-option-box active" onclick="toggleSingleOption(this)">
+                <span class="choice-dot" style="background:#10b981;"></span>
+                <div class="choice-text-wrap"><span class="choice-title">🏖️ 每年旅行</span></div>
+            </div>
+            <div class="choice-option-box" onclick="toggleSingleOption(this)">
+                <span class="choice-dot" style="background:#3b82f6;"></span>
+                <div class="choice-text-wrap"><span class="choice-title">🏠 保持現有生活質素</span></div>
+            </div>
+            <div class="choice-option-box" onclick="toggleSingleOption(this)">
+                <span class="choice-dot" style="background:#ec4899;"></span>
+                <div class="choice-text-wrap"><span class="choice-title">👨‍👩‍👧 多啲時間陪屋企人</span></div>
+            </div>
+            <div class="choice-option-box" onclick="toggleSingleOption(this)">
+                <span class="choice-dot" style="background:#8b5cf6;"></span>
+                <div class="choice-text-wrap"><span class="choice-title">💼 繼續工作，但唔再為錢</span></div>
+            </div>
+
+            <div class="step-action-bar">
+                <button class="btn-step-prev" onclick="goToStep('page-step1')">← 上一步</button>
+                <button class="btn-step-next" onclick="goToStep('page-step2')">下一步 →</button>
+            </div>
+        </div>
+
+        <!-- STEP 02: 確認目標 -->
+        <div class="step-wrapper-card step-page" id="page-step2" style="display:none;">
+            <div class="step-header-badge">02 | 確認目標</div>
+            <h2 class="step-main-title">你想為邊一個未來準備？</h2>
+            <div class="step-subtitle">確立核心規劃方向</div>
+
+            <div class="choice-option-box active" onclick="selectFlowGoal('退休規劃', this)">
+                <span class="choice-dot" style="background:#10b981;"></span>
+                <div class="choice-text-wrap"><span class="choice-title">🏖️ 退休</span></div>
+            </div>
+            <div class="choice-option-box" onclick="selectFlowGoal('教育基金', this)">
+                <span class="choice-dot" style="background:#3b82f6;"></span>
+                <div class="choice-text-wrap"><span class="choice-title">🎓 下一代</span></div>
+            </div>
+            <div class="choice-option-box" onclick="selectFlowGoal('創造被動收入', this)">
+                <span class="choice-dot" style="background:#f59e0b;"></span>
+                <div class="choice-text-wrap"><span class="choice-title">💰 建立另一份收入／現金流</span></div>
+            </div>
+            <div class="choice-option-box" onclick="selectFlowGoal('紅利增值享受', this)">
+                <span class="choice-dot" style="background:#8b5cf6;"></span>
+                <div class="choice-text-wrap"><span class="choice-title">🌱 守住財富購買力</span></div>
+            </div>
+
+            <div class="step-action-bar">
+                <button class="btn-step-prev" onclick="goToStep('page-step1b')">← 上一步</button>
+                <button class="btn-step-next" onclick="goToStep('page-step3')">下一步 →</button>
+            </div>
+        </div>
+
+        <!-- STEP 03 & 04 & 05: 資產地圖與 GAP 缺口 -->
+        <div class="step-wrapper-card step-page" id="page-step3" style="display:none;">
+            <div class="step-header-badge">03 & 04 | 退休需要與資產地圖</div>
+            <h2 class="step-main-title">由生活目標計算未來需要與現有差距</h2>
+            <div class="step-subtitle">所有現有資產都是退休藍圖的一部分</div>
+
             <div class="top-input-grid">
+                <div class="input-group">
+                    <label>現時年齡</label>
+                    <input type="number" id="flow-current-age" value="30" oninput="calculateSalesGap()">
+                </div>
+                <div class="input-group">
+                    <label>預計退休年齡</label>
+                    <input type="number" id="flow-retire-age" value="65" oninput="calculateSalesGap()">
+                </div>
+                <div class="input-group">
+                    <label>今日每月生活費 ($)</label>
+                    <input type="text" id="flow-monthly-expense" value="30,000" inputmode="numeric" oninput="formatAndCalcGap(this)">
+                </div>
+                <div class="input-group">
+                    <label>現有退休資源總額 ($)</label>
+                    <input type="text" id="flow-current-assets" value="600,000" inputmode="numeric" oninput="formatAndCalcGap(this)">
+                </div>
+            </div>
+
+            <div class="gap-result-box">
+                <div style="font-size:1.05rem; opacity:0.9;">未來需要 VS 現有資源</div>
+                <div class="gap-grid">
+                    <div><span style="font-size:0.8rem;">未來總需要：</span><br><strong style="font-size:1.25rem;" id="gap-need-val">$10,800,000</strong></div>
+                    <div><span style="font-size:0.8rem;">現有資源：</span><br><strong style="font-size:1.25rem;" id="gap-have-val">$600,000</strong></div>
+                    <div><span style="font-size:0.8rem; color:#fca5a5;">需要處理的 GAP：</span><br><strong style="font-size:1.45rem; color:#fef08a;" id="gap-diff-val">$10,200,000</strong></div>
+                </div>
+            </div>
+
+            <div class="step-action-bar">
+                <button class="btn-step-prev" onclick="goToStep('page-step2')">← 上一步</button>
+                <button class="btn-step-next" onclick="goToStep('page-step7')">下一步 →</button>
+            </div>
+        </div>
+
+        <!-- STEP 07: 提供選擇 -->
+        <div class="step-wrapper-card step-page" id="page-step7" style="display:none;">
+            <div class="step-header-badge">07 | 方案方向選擇</div>
+            <h2 class="step-main-title">三個方向入面，邊一個最似你？</h2>
+            <div class="step-subtitle">提供選擇，自主決定合適的起步步伐</div>
+
+            <div class="choice-option-box" onclick="selectDirection('起步', 30000, this)">
+                <span class="choice-dot" style="background:#f59e0b;"></span>
+                <div class="choice-text-wrap">
+                    <span class="choice-title">🐣 輕鬆起步</span>
+                    <span class="choice-desc">較低投入（約每年 $30,000），先建立儲蓄習慣</span>
+                </div>
+            </div>
+            <div class="choice-option-box active" onclick="selectDirection('平衡', 40000, this)">
+                <span class="choice-dot" style="background:#10b981;"></span>
+                <div class="choice-text-wrap">
+                    <span class="choice-title">🐓 平衡方案</span>
+                    <span class="choice-desc">兼顧今日生活與未來目標（約每年 $40,000）</span>
+                </div>
+            </div>
+            <div class="choice-option-box" onclick="selectDirection('加速', 80000, this)">
+                <span class="choice-dot" style="background:#3b82f6;"></span>
+                <div class="choice-text-wrap">
+                    <span class="choice-title">🦅 加速達標</span>
+                    <span class="choice-desc">投入較高（約每年 $80,000），更接近完整填補缺口</span>
+                </div>
+            </div>
+
+            <div class="step-action-bar">
+                <button class="btn-step-prev" onclick="goToStep('page-step3')">← 上一步</button>
+                <button class="btn-step-next" onclick="goToStep('page-step8-saving')">📊 進入時光錦囊量化計算 →</button>
+            </div>
+        </div>
+
+        <!-- STEP 08: 還原完整時光複利核心 -->
+        <div class="step-wrapper-card step-page" id="page-step8-saving" style="display:none;">
+            <div class="step-header-badge">08 | 時光複利：各時光錦囊的獨立策略</div>
+            <h2 class="step-main-title">享受人生下半場</h2>
+            
+            <div class="top-input-grid" style="margin-top:1.5rem;">
                 <div class="input-group"><label>開始歲數</label><input type="number" id="start-age" value="30" onchange="calculateAndDisplay()"></div>
                 <div class="input-group"><label>預期通脹率: <span id="inflation-value">2.0%</span></label><input type="range" id="inflation-rate" min="1" max="5" value="2" step="0.1" oninput="calculateAndDisplay()"></div>
             </div>
 
-            <!-- 時光錦囊獨立策略 -->
-            <div class="section">
-                <h2>時光複利：各時光錦囊的獨立策略</h2>
-                <div class="emoji-toggle-bar">
-                    <span style="font-size: 0.95rem; color: #555; font-weight: bold;">啟用分段投入：</span>
-                    <div id="btn-toggle-plan2" class="emoji-toggle" onclick="toggleEngine('plan2')">🐓</div>
-                    <div id="btn-toggle-plan3" class="emoji-toggle" onclick="toggleEngine('plan3')">🐣</div>
-                    <div id="btn-toggle-plan4" class="emoji-toggle" onclick="toggleEngine('plan4')">🥚</div>
-                </div>
+            <div class="emoji-toggle-bar">
+                <span style="font-size: 0.9rem; font-weight: bold;">啟用分段投入錦囊：</span>
+                <div id="btn-toggle-plan2" class="emoji-toggle" onclick="toggleEngine('plan2')">🐓</div>
+                <div id="btn-toggle-plan3" class="emoji-toggle" onclick="toggleEngine('plan3')">🐣</div>
+                <div id="btn-toggle-plan4" class="emoji-toggle" onclick="toggleEngine('plan4')">🥚</div>
+            </div>
 
-                <!-- 錦囊 1 -->
-                <div class="jar-card" style="border-top: 4px solid var(--plan1-color);">
-                    <div class="jar-header"><h3 style="color:var(--plan1-color); margin:0;">一號時光錦囊</h3></div>
+            <!-- 錦囊 1 -->
+            <div class="jar-card" style="border-top: 4px solid var(--plan1-color);">
+                <div class="jar-header"><h3 style="color:var(--plan1-color); margin:0;">一號時光錦囊</h3></div>
+                <div class="jar-5year-grid">
+                    <div class="input-group"><label>第1年 (<span class="age-y1">30</span>歲)</label><input type="text" id="plan1-contribution" value="40,000" inputmode="numeric"></div>
+                    <div class="input-group"><label>第2年 (<span class="age-y2">31</span>歲)</label><input type="text" id="plan1-y2" value="40,000" readonly class="readonly-box"></div>
+                    <div class="input-group"><label>第3年 (<span class="age-y3">32</span>歲)</label><input type="text" id="plan1-y3" value="40,000" readonly class="readonly-box"></div>
+                    <div class="input-group"><label>第4年 (<span class="age-y4">33</span>歲)</label><input type="text" id="plan1-y4" value="40,000" readonly class="readonly-box"></div>
+                    <div class="input-group"><label>第5年 (<span class="age-y5">34</span>歲)</label><input type="text" id="plan1-y5" value="40,000" readonly class="readonly-box"></div>
+                </div>
+                <div class="total-box">5年總保費：$<span id="plan1-5yr-total">200,000</span></div>
+            </div>
+
+            <!-- 錦囊 2-4 -->
+            <div class="extra-jar" id="group-plan2" style="display:none;">
+                <div class="jar-card" style="border-top: 4px solid var(--plan2-color);">
+                    <div class="jar-header"><h3 style="color:var(--plan2-color); margin:0;">二號時光錦囊 (第6-10年)</h3></div>
                     <div class="jar-5year-grid">
-                        <div class="input-group"><label>第1年 (<span class="age-y1">30</span>歲)</label><input type="text" id="plan1-contribution" value="40,000" inputmode="numeric"></div>
-                        <div class="input-group"><label>第2年 (<span class="age-y2">31</span>歲)</label><input type="text" id="plan1-y2" value="40,000" readonly class="readonly-box"></div>
-                        <div class="input-group"><label>第3年 (<span class="age-y3">32</span>歲)</label><input type="text" id="plan1-y3" value="40,000" readonly class="readonly-box"></div>
-                        <div class="input-group"><label>第4年 (<span class="age-y4">33</span>歲)</label><input type="text" id="plan1-y4" value="40,000" readonly class="readonly-box"></div>
-                        <div class="input-group"><label>第5年 (<span class="age-y5">34</span>歲)</label><input type="text" id="plan1-y5" value="40,000" readonly class="readonly-box"></div>
+                        <div class="input-group"><label>第6年 (<span class="age-y6">35</span>歲)</label><input type="text" id="plan2-contribution" value="50,000" inputmode="numeric"></div>
+                        <div class="input-group"><label>第7年 (<span class="age-y7">36</span>歲)</label><input type="text" id="plan2-y2" value="50,000" readonly class="readonly-box"></div>
+                        <div class="input-group"><label>第8年 (<span class="age-y8">37</span>歲)</label><input type="text" id="plan2-y3" value="50,000" readonly class="readonly-box"></div>
+                        <div class="input-group"><label>第9年 (<span class="age-y9">38</span>歲)</label><input type="text" id="plan2-y4" value="50,000" readonly class="readonly-box"></div>
+                        <div class="input-group"><label>第10年 (<span class="age-y10">39</span>歲)</label><input type="text" id="plan2-y5" value="50,000" readonly class="readonly-box"></div>
                     </div>
-                    <div class="total-box">5年總保費：$<span id="plan1-5yr-total">200,000</span></div>
+                    <div class="total-box" style="background:#e8f5e9; color:var(--plan2-color);">5年總保費：$<span id="plan2-5yr-total">250,000</span></div>
                 </div>
+            </div>
 
-                <!-- 錦囊 2 -->
-                <div class="extra-jar" id="group-plan2" style="display:none;">
-                    <div class="jar-card" style="border-top: 4px solid var(--plan2-color);">
-                        <div class="jar-header"><h3 style="color:var(--plan2-color); margin:0;">二號時光錦囊 (第6-10年)</h3></div>
-                        <div class="jar-5year-grid">
-                            <div class="input-group"><label>第6年 (<span class="age-y6">35</span>歲)</label><input type="text" id="plan2-contribution" value="50,000" inputmode="numeric"></div>
-                            <div class="input-group"><label>第7年 (<span class="age-y7">36</span>歲)</label><input type="text" id="plan2-y2" value="50,000" readonly class="readonly-box"></div>
-                            <div class="input-group"><label>第8年 (<span class="age-y8">37</span>歲)</label><input type="text" id="plan2-y3" value="50,000" readonly class="readonly-box"></div>
-                            <div class="input-group"><label>第9年 (<span class="age-y9">38</span>歲)</label><input type="text" id="plan2-y4" value="50,000" readonly class="readonly-box"></div>
-                            <div class="input-group"><label>第10年 (<span class="age-y10">39</span>歲)</label><input type="text" id="plan2-y5" value="50,000" readonly class="readonly-box"></div>
-                        </div>
-                        <div class="total-box" style="background:#e8f5e9; color:var(--plan2-color);">5年總保費：$<span id="plan2-5yr-total">250,000</span></div>
+            <div class="extra-jar" id="group-plan3" style="display:none;">
+                <div class="jar-card" style="border-top: 4px solid var(--plan3-color);">
+                    <div class="jar-header"><h3 style="color:var(--plan3-color); margin:0;">三號時光錦囊 (第11-15年)</h3></div>
+                    <div class="jar-5year-grid">
+                        <div class="input-group"><label>第11年 (<span class="age-y11">40</span>歲)</label><input type="text" id="plan3-contribution" value="60,000" inputmode="numeric"></div>
+                        <div class="input-group"><label>第12年 (<span class="age-y12">41</span>歲)</label><input type="text" id="plan3-y2" value="60,000" readonly class="readonly-box"></div>
+                        <div class="input-group"><label>第13年 (<span class="age-y13">42</span>歲)</label><input type="text" id="plan3-y3" value="60,000" readonly class="readonly-box"></div>
+                        <div class="input-group"><label>第14年 (<span class="age-y14">43</span>歲)</label><input type="text" id="plan3-y4" value="60,000" readonly class="readonly-box"></div>
+                        <div class="input-group"><label>第15年 (<span class="age-y15">44</span>歲)</label><input type="text" id="plan3-y5" value="60,000" readonly class="readonly-box"></div>
                     </div>
+                    <div class="total-box" style="background:#ffebee; color:var(--plan3-color);">5年總保費：$<span id="plan3-5yr-total">300,000</span></div>
                 </div>
+            </div>
 
-                <!-- 錦囊 3 -->
-                <div class="extra-jar" id="group-plan3" style="display:none;">
-                    <div class="jar-card" style="border-top: 4px solid var(--plan3-color);">
-                        <div class="jar-header"><h3 style="color:var(--plan3-color); margin:0;">三號時光錦囊 (第11-15年)</h3></div>
-                        <div class="jar-5year-grid">
-                            <div class="input-group"><label>第11年 (<span class="age-y11">40</span>歲)</label><input type="text" id="plan3-contribution" value="60,000" inputmode="numeric"></div>
-                            <div class="input-group"><label>第12年 (<span class="age-y12">41</span>歲)</label><input type="text" id="plan3-y2" value="60,000" readonly class="readonly-box"></div>
-                            <div class="input-group"><label>第13年 (<span class="age-y13">42</span>歲)</label><input type="text" id="plan3-y3" value="60,000" readonly class="readonly-box"></div>
-                            <div class="input-group"><label>第14年 (<span class="age-y14">43</span>歲)</label><input type="text" id="plan3-y4" value="60,000" readonly class="readonly-box"></div>
-                            <div class="input-group"><label>第15年 (<span class="age-y15">44</span>歲)</label><input type="text" id="plan3-y5" value="60,000" readonly class="readonly-box"></div>
-                        </div>
-                        <div class="total-box" style="background:#ffebee; color:var(--plan3-color);">5年總保費：$<span id="plan3-5yr-total">300,000</span></div>
+            <div class="extra-jar" id="group-plan4" style="display:none;">
+                <div class="jar-card" style="border-top: 4px solid var(--plan4-color);">
+                    <div class="jar-header"><h3 style="color:var(--plan4-color); margin:0;">四號時光錦囊 (第16-20年)</h3></div>
+                    <div class="jar-5year-grid">
+                        <div class="input-group"><label>第16年 (<span class="age-y16">45</span>歲)</label><input type="text" id="plan4-contribution" value="70,000" inputmode="numeric"></div>
+                        <div class="input-group"><label>第17年 (<span class="age-y17">46</span>歲)</label><input type="text" id="plan4-y2" value="70,000" readonly class="readonly-box"></div>
+                        <div class="input-group"><label>第18年 (<span class="age-y18">47</span>歲)</label><input type="text" id="plan4-y3" value="70,000" readonly class="readonly-box"></div>
+                        <div class="input-group"><label>第19年 (<span class="age-y19">48</span>歲)</label><input type="text" id="plan4-y4" value="70,000" readonly class="readonly-box"></div>
+                        <div class="input-group"><label>第20年 (<span class="age-y20">49</span>歲)</label><input type="text" id="plan4-y5" value="70,000" readonly class="readonly-box"></div>
                     </div>
+                    <div class="total-box" style="background:#f3e5f5; color:var(--plan4-color);">5年總保費：$<span id="plan4-5yr-total">350,000</span></div>
                 </div>
+            </div>
 
-                <!-- 錦囊 4 -->
-                <div class="extra-jar" id="group-plan4" style="display:none;">
-                    <div class="jar-card" style="border-top: 4px solid var(--plan4-color);">
-                        <div class="jar-header"><h3 style="color:var(--plan4-color); margin:0;">四號時光錦囊 (第16-20年)</h3></div>
-                        <div class="jar-5year-grid">
-                            <div class="input-group"><label>第16年 (<span class="age-y16">45</span>歲)</label><input type="text" id="plan4-contribution" value="70,000" inputmode="numeric"></div>
-                            <div class="input-group"><label>第17年 (<span class="age-y17">46</span>歲)</label><input type="text" id="plan4-y2" value="70,000" readonly class="readonly-box"></div>
-                            <div class="input-group"><label>第18年 (<span class="age-y18">47</span>歲)</label><input type="text" id="plan4-y3" value="70,000" readonly class="readonly-box"></div>
-                            <div class="input-group"><label>第19年 (<span class="age-y19">48</span>歲)</label><input type="text" id="plan4-y4" value="70,000" readonly class="readonly-box"></div>
-                            <div class="input-group"><label>第20年 (<span class="age-y20">49</span>歲)</label><input type="text" id="plan4-y5" value="70,000" readonly class="readonly-box"></div>
-                        </div>
-                        <div class="total-box" style="background:#f3e5f5; color:var(--plan4-color);">5年總保費：$<span id="plan4-5yr-total">350,000</span></div>
-                    </div>
-                </div>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 2rem;">
+                <h3 style="margin:0;">📊 複利累積表</h3>
+                <button class="mini-pink-btn" onclick="openStrategyModal()">⚙️ 設定提取策略</button>
+            </div>
+            <div class="table-wrapper">
+                <table id="results-table">
+                    <thead id="results-table-head"></thead>
+                    <tbody id="results-table-body"></tbody>
+                </table>
+            </div>
 
-                <!-- 複利累積表 -->
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 2rem;">
-                    <h3 style="margin:0;">📊 複利累積表</h3>
-                    <button class="mini-pink-btn" onclick="openStrategyModal()">⚙️ 設定提取策略</button>
-                </div>
-                <div class="table-wrapper">
-                    <table id="results-table">
-                        <thead id="results-table-head"></thead>
-                        <tbody id="results-table-body"></tbody>
-                    </table>
-                </div>
+            <div class="step-action-bar">
+                <button class="btn-step-prev" onclick="goToStep('page-step7')">← 上一步</button>
+                <button class="btn-step-next" onclick="goToStep('page-step9-medical')">🏥 承接退休後醫保 →</button>
             </div>
         </div>
-    </div>
 
-    <!-- 09: 退休後 Medical -->
-    <div id="tab-medical" class="tab-section">
-        <div class="calculator-container">
-            <header>
-                <h1 onclick="openAvaAdmin()">增值式醫保</h1>
-                <p>退休生活不能忽略的剛性支出</p>
-            </header>
-            <div class="section" id="med-plan-section">
-                <div class="top-input-grid">
-                    <div class="input-group">
-                        <label>醫保計劃</label>
-                        <select id="med-plan-select" onchange="calculateAndDisplay()">
-                            <option value="女靈活計劃" selected>女靈活計劃 (基本保費)</option>
-                            <option value="男靈活計劃">男靈活計劃 (基本保費)</option>
-                            <option value="睿選0自付額">睿選 0 自付額</option>
-                            <option value="睿選8800自付額">睿選 8,800 自付額</option>
-                            <option value="睿選18000自付額">睿選 18,000 自付額</option>
-                            <option value="睿選30000自付額">睿選 30,000 自付額</option>
-                            <option value="尊顯0自付額">尊顯 0 自付額</option>
-                            <option value="尊顯16000自付額">尊顯 16,000 自付額</option>
-                            <option value="尊顯25000自付額">尊顯 25,000 自付額</option>
-                        </select>
-                    </div>
-                    <div class="input-group"><label>開始歲數</label><input type="number" id="med-start-age" value="30" onchange="calculateAndDisplay()"></div>
-                    <div class="input-group"><label>轉換期歲數</label><input type="number" id="med-retire-age" value="65" onchange="calculateAndDisplay()"></div>
-                    <div class="input-group"><label>增值期歲數</label><input type="number" id="med-max-age" value="70" onchange="calculateAndDisplay()"></div>
+        <!-- STEP 09: 還原增值式醫保 -->
+        <div class="step-wrapper-card step-page" id="page-step9-medical" style="display:none;">
+            <div class="step-header-badge">09 | 增值式醫保</div>
+            <h2 class="step-main-title">退休後不能忽略的剛性支出</h2>
+            <div class="step-subtitle">利用增值備用金對沖未來醫療通脹與長期保費</div>
+
+            <div class="top-input-grid">
+                <div class="input-group">
+                    <label>醫保計劃</label>
+                    <select id="med-plan-select" onchange="calculateAndDisplay()">
+                        <option value="女靈活計劃" selected>女靈活計劃 (基本保費)</option>
+                        <option value="男靈活計劃">男靈活計劃 (基本保費)</option>
+                        <option value="睿選0自付額">睿選 0 自付額</option>
+                        <option value="睿選8800自付額">睿選 8,800 自付額</option>
+                        <option value="睿選18000自付額">睿選 18,000 自付額</option>
+                        <option value="睿選30000自付額">睿選 30,000 自付額</option>
+                        <option value="尊顯0自付額">尊顯 0 自付額</option>
+                        <option value="尊顯16000自付額">尊顯 16,000 自付額</option>
+                        <option value="尊顯25000自付額">尊顯 25,000 自付額</option>
+                    </select>
                 </div>
+                <div class="input-group"><label>開始歲數</label><input type="number" id="med-start-age" value="30" onchange="calculateAndDisplay()"></div>
+                <div class="input-group"><label>轉換期歲數</label><input type="number" id="med-retire-age" value="65" onchange="calculateAndDisplay()"></div>
+                <div class="input-group"><label>增值期歲數</label><input type="number" id="med-max-age" value="70" onchange="calculateAndDisplay()"></div>
             </div>
+
             <div class="table-wrapper">
                 <table id="med-results-table">
                     <thead id="med-results-table-head"></thead>
                     <tbody id="med-results-table-body"></tbody>
                 </table>
             </div>
-        </div>
-    </div>
 
-    <!-- 剛性支出畫布 -->
-    <div id="tab-interest-draw" class="tab-section">
-        <div class="calculator-container">
-            <header><h1>剛性支出與對話白板</h1></header>
-            <div class="whiteboard-container">
-                <canvas id="drawing-board" height="600"></canvas>
-                <div class="pen-controls">
-                    <div class="color-btn active" style="background: black;" onclick="setPenMode(this, 'black')"></div>
-                    <div class="color-btn" style="background: #dc3545;" onclick="setPenMode(this, '#dc3545')"></div>
-                    <div class="color-btn" style="background: #007bff;" onclick="setPenMode(this, '#007bff')"></div>
-                    <div class="color-btn" style="background: #fff; border: 2px dashed #999; display:flex; align-items:center; justify-content:center;" onclick="setPenMode(this, 'eraser')">🧽</div>
-                </div>
+            <div class="step-action-bar">
+                <button class="btn-step-prev" onclick="goToStep('page-step8-saving')">← 上一步</button>
+                <button class="btn-step-next" onclick="goToStep('page-step-promo')">🎁 專屬保費優惠 →</button>
             </div>
         </div>
-    </div>
 
-    <!-- 保費優惠 -->
-    <div id="tab-promo" class="tab-section">
-        <div class="lazy-bag-container">
-            <h2>🎁 專屬保費優惠計算</h2>
-            <div class="promo-split-container">
-                <div class="promo-left-col">
-                    <div class="promo-card">
-                        <div class="input-group"><label>首年 / 每年保費 ($)</label><input type="text" id="promo-annual-premium" value="100,000" inputmode="numeric" oninput="calculatePromo()"></div>
-                    </div>
-                </div>
-                <div class="promo-right-col">
-                    <div class="promo-result-box">
-                        <h3>原本總保費：<span id="promo-original-total">$0</span></h3>
-                        <div class="big-savings" id="promo-total-savings">$0</div>
-                        <div>實際淨付出：<strong id="promo-actual-outlay">$0</strong></div>
-                    </div>
+        <!-- 保費優惠頁面 -->
+        <div class="step-wrapper-card step-page" id="page-step-promo" style="display:none;">
+            <div class="step-header-badge">專屬保費優惠計算</div>
+            <h2 class="step-main-title">極大化每一分錢的效益</h2>
+            
+            <div class="promo-card">
+                <div class="input-group">
+                    <label>首年 / 每年保費金額 ($)</label>
+                    <input type="text" id="promo-annual-premium" value="100,000" inputmode="numeric" oninput="calculatePromo()">
                 </div>
             </div>
+
+            <div class="promo-result-box">
+                <div style="font-size:1rem; opacity:0.9;">原本總保費：<span id="promo-original-total" style="text-decoration:line-through;">$500,000</span></div>
+                <div style="font-size:1.1rem; margin:10px 0;">💰 您總共慳咗及保證賺取利息達：</div>
+                <div style="font-size:2.8rem; font-weight:900;" id="promo-total-savings">$0</div>
+                <div style="margin-top:10px; background:rgba(0,0,0,0.15); padding:8px; border-radius:6px;">實際淨付出總額：<strong id="promo-actual-outlay">$0</strong></div>
+            </div>
+
+            <div class="step-action-bar">
+                <button class="btn-step-prev" onclick="goToStep('page-step9-medical')">← 上一步</button>
+                <button class="btn-step-next" onclick="alert('專屬方案已全數建立完畢！可使用後台導出 PDF 或分享。')">✅ 完成規劃</button>
+            </div>
         </div>
+
     </div>
 
-    <!-- AVA 視覺化後台鏡像系統 Modal -->
+    <!-- AVA 視覺化後台鏡像系統 -->
     <div id="ava-admin-overlay" class="ava-admin-overlay">
         <div class="ava-admin-modal">
             <div class="ava-admin-header">
-                <div>🛠️ AVA 視覺化後台鏡像系統（粉紅虛線可點擊修改）</div>
+                <div>🛠️ AVA 視覺化後台鏡像系統 (粉紅虛線可點擊修改)</div>
                 <div style="cursor:pointer;" onclick="closeAvaAdmin()">✕</div>
             </div>
             <div class="ava-admin-nav">
@@ -539,15 +558,55 @@
                 <div class="ava-admin-nav-btn" onclick="switchAdminTab('firebase', this)">07 索償案例與 Firebase 上載</div>
                 <div class="ava-admin-nav-btn" onclick="switchAdminTab('system', this)">系統設定</div>
             </div>
+            
             <div class="ava-admin-body" id="ava-admin-body">
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
-                    <span style="font-weight:bold; color:#334155;">📄 動態頁面結構管理（與 Google Sheet 同步）</span>
-                    <button class="btn btn-primary" style="width:auto; padding:6px 14px; font-size:0.85rem;" onclick="addNewAdminCard()">+ 新增頁面</button>
+                <!-- 1. 頁面流程與選項管理 -->
+                <div id="admin-sec-flow" class="admin-tab-content">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
+                        <span style="font-weight:bold; color:#334155;">📄 動態頁面結構管理 (與 Google Sheet 同步)</span>
+                        <button class="btn btn-primary" style="width:auto; padding:6px 14px; font-size:0.85rem;" onclick="addNewAdminCard()">+ 新增頁面</button>
+                    </div>
+                    <div id="mirror-cards-container"></div>
                 </div>
-                <div id="mirror-cards-container">
-                    <!-- 動態渲染卡片清單 -->
+
+                <!-- 2. 06 專屬方案細項鏡像 -->
+                <div id="admin-sec-scheme" class="admin-tab-content" style="display:none;">
+                    <div class="mirror-card">
+                        <span class="step-header-badge">🐣 輕鬆起步方案細項</span>
+                        <label style="font-size:0.8rem; font-weight:bold;">方案標題：</label>
+                        <input type="text" class="editable-pink-box" value="🐣 輕鬆起步">
+                        <label style="font-size:0.8rem; font-weight:bold; margin-top:8px; display:block;">描述文字：</label>
+                        <input type="text" class="editable-pink-box" value="較低投入，先建立習慣">
+                    </div>
+                    <div class="mirror-card">
+                        <span class="step-header-badge">🐓 平衡方案細項</span>
+                        <label style="font-size:0.8rem; font-weight:bold;">方案標題：</label>
+                        <input type="text" class="editable-pink-box" value="🐓 平衡方案">
+                        <label style="font-size:0.8rem; font-weight:bold; margin-top:8px; display:block;">描述文字：</label>
+                        <input type="text" class="editable-pink-box" value="兼顧今日生活與未來目標">
+                    </div>
+                </div>
+
+                <!-- 3. 07 索償案例與 Firebase 上載 -->
+                <div id="admin-sec-firebase" class="admin-tab-content" style="display:none;">
+                    <div class="mirror-card">
+                        <h4 style="margin-top:0;">📤 索償案例圖片上載至 Firebase Storage</h4>
+                        <input type="file" id="firebase-upload-input" accept="image/*" style="margin-bottom:12px;">
+                        <button class="btn btn-primary" style="width:auto; padding:8px 16px;" onclick="uploadDirectFirebase()">開始上載</button>
+                        <div id="firebase-upload-status" style="margin-top:12px; font-weight:bold; font-size:0.9rem;"></div>
+                    </div>
+                </div>
+
+                <!-- 4. 系統設定 -->
+                <div id="admin-sec-system" class="admin-tab-content" style="display:none;">
+                    <div class="mirror-card">
+                        <h4 style="margin-top:0;">🌐 Google Apps Script API 網址</h4>
+                        <input type="text" id="admin-gas-url" class="editable-pink-box" value="https://script.google.com/macros/s/AKfycbwbKrrmiS5vx0Q5TvqqUCHBhU-VrS7WwwY0hj6BaNRwuzPtXXIZZxejPwhycCZhSCr-Rg/exec">
+                        <p style="font-size:0.85rem; color:#64748b; margin-top:8px;">所有自付額分頁、時光複利倍率與後台鏡像均透過此 API 同步至 Google Sheet。</p>
+                    </div>
                 </div>
             </div>
+
             <div class="ava-admin-footer">
                 <button class="btn btn-secondary" style="width:auto; padding:8px 20px;" onclick="closeAvaAdmin()">取消</button>
                 <button class="btn btn-primary" style="width:auto; padding:8px 20px; background:#1e3a8a;" onclick="saveAndSyncGoogleSheet()">💾 儲存並同步至 Google Sheet</button>
@@ -555,7 +614,7 @@
         </div>
     </div>
 
-    <!-- 提取策略 Modal -->
+    <!-- 提取策略設定彈窗 -->
     <div id="strategy-modal" class="modal-overlay">
         <div class="modal-content" style="text-align:left;">
             <span class="close-modal" onclick="closeStrategyModal()">&times;</span>
@@ -576,46 +635,55 @@
     </div>
 
     <script>
-        // 全新升級 GAS API URL
         const GAS_API_URL = 'https://script.google.com/macros/s/AKfycbwbKrrmiS5vx0Q5TvqqUCHBhU-VrS7WwwY0hj6BaNRwuzPtXXIZZxejPwhycCZhSCr-Rg/exec';
         
         let globalAdminCards = [
             { id: "p_01", category: "【現況】", step_code: "01 | 理財現況", title: "你而家嘅理財情況，邊一個最似你？", subtitle: "可選擇最多 2 個最符合你的現況", image_url: "", options: ["📚 唔識投資", "🏦 主要放銀行", "🛡️ 擔心損失", "📉 知道錢會貶值"] },
-            { id: "p_02", category: "【渴望】", step_code: "01B | 真正渴望", title: "如果有錢，你最想做嘅野係咩？", subtitle: "先由生活出發，理財是為了實現理想生活", image_url: "", options: ["🏖️ 每年旅行", "🏠 保持現有生活質素", "👨‍👩‍👧 多啲時間陪屋企人", "💼 繼續工作，但唔再為錢"] }
+            { id: "p_02", category: "【渴望】", step_code: "01B | 真正渴望", title: "如果有錢，你最想做嘅野係咩？", subtitle: "先由生活出發，理財是為了實現理想生活", image_url: "", options: ["🏖️ 每年旅行", "🏠 保持現有生活質素", "👨‍👩‍👧 多啲時間陪屋企人", "💼 繼續工作，但唔再為錢"] },
+            { id: "p_03", category: "【目標】", step_code: "02 | 確認目標", title: "你想為邊一個未來準備？", subtitle: "確立核心規劃方向", image_url: "", options: ["🏖️ 退休", "🎓 下一代", "💰 建立另一份收入", "🌱 守住財富購買力"] }
         ];
 
         function formatNumber(val) { return new Intl.NumberFormat('en-US', {maximumFractionDigits: 0}).format(val || 0); }
         function parseFormattedNumber(str) { return parseFloat(String(str).replace(/,/g, '')) || 0; }
 
-        function switchTab(tabId, el) {
-            document.querySelectorAll('.tab-section').forEach(t => t.classList.remove('active'));
-            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-            document.getElementById(tabId).classList.add('active');
-            if(el) el.classList.add('active');
+        // 單步跳轉控制 (Step-by-Step)
+        function goToStep(stepId) {
+            document.querySelectorAll('.step-page').forEach(page => page.style.display = 'none');
+            const target = document.getElementById(stepId);
+            if(target) target.style.display = 'block';
             window.scrollTo({ top: 0, behavior: 'smooth' });
-            if (tabId === 'tab-interest-draw') setTimeout(resizeCanvas, 100);
+            
+            const badge = target.querySelector('.step-header-badge');
+            if (badge) document.getElementById('current-step-indicator').textContent = badge.textContent;
         }
 
-        // 銷售旅程互動邏輯 (STEP 01 - 07)
-        function toggleMultiChip(el, maxSelect) {
+        // 單選與多選卡片
+        function toggleMultiOption(el, maxSelect) {
             const parent = el.parentElement;
             if (el.classList.contains('active')) {
                 el.classList.remove('active');
             } else {
-                if (parent.querySelectorAll('.sales-chip.active').length < maxSelect) {
+                if (parent.querySelectorAll('.choice-option-box.active').length < maxSelect) {
                     el.classList.add('active');
                 }
             }
         }
-        function toggleSingleChip(el) {
-            el.parentElement.querySelectorAll('.sales-chip').forEach(c => c.classList.remove('active'));
+        function toggleSingleOption(el) {
+            el.parentElement.querySelectorAll('.choice-option-box').forEach(b => b.classList.remove('active'));
             el.classList.add('active');
         }
-        function selectGoal(goal, el) {
-            toggleSingleChip(el);
-            document.getElementById('plan-mode').value = goal.includes('退休') ? '退休規劃' : goal;
-            document.getElementById('retire-age-box').style.display = goal.includes('退休') ? 'block' : 'none';
+        function selectFlowGoal(goal, el) {
+            toggleSingleOption(el);
+            calculateAndDisplay();
         }
+        function selectDirection(name, amount, el) {
+            toggleSingleOption(el);
+            document.getElementById('plan1-contribution').value = formatNumber(amount);
+            setupJarAutoFill('plan1');
+            calculateAndDisplay();
+        }
+
+        // GAP 差距計算
         function formatAndCalcGap(input) {
             input.value = formatNumber(parseFormattedNumber(input.value));
             calculateSalesGap();
@@ -626,24 +694,15 @@
             const monthlyExp = parseFormattedNumber(document.getElementById('flow-monthly-expense').value);
             const assets = parseFormattedNumber(document.getElementById('flow-current-assets').value);
             
-            const retireYears = 25; // 預計退休生活 25 年
-            const totalNeed = monthlyExp * 12 * retireYears;
+            const totalNeed = monthlyExp * 12 * (90 - retAge); // 假定退休至90歲
             const gap = Math.max(0, totalNeed - assets);
 
             document.getElementById('gap-need-val').textContent = `$${formatNumber(totalNeed)}`;
             document.getElementById('gap-have-val').textContent = `$${formatNumber(assets)}`;
             document.getElementById('gap-diff-val').textContent = `$${formatNumber(gap)}`;
         }
-        function applyStrategyDirection(dir) {
-            const p1 = document.getElementById('plan1-contribution');
-            if (dir === '起步') p1.value = formatNumber(30000);
-            if (dir === '平衡') p1.value = formatNumber(50000);
-            if (dir === '加速') p1.value = formatNumber(100000);
-            setupJarAutoFill('plan1');
-            calculateAndDisplay();
-        }
 
-        // 時光錦囊與計算引擎
+        // 時光錦囊與醫保計算
         function setupJarAutoFill(prefix) {
             const y1 = document.getElementById(`${prefix}-contribution`);
             if(!y1) return;
@@ -653,6 +712,7 @@
                 const el = document.getElementById(`${prefix}-y${i}`);
                 if(el) el.value = formatNumber(val);
             }
+            calculateAndDisplay();
         }
         function toggleEngine(id) {
             const grp = document.getElementById(`group-${id}`);
@@ -665,10 +725,15 @@
 
         window.calculateAndDisplay = function() {
             const startAge = parseInt(document.getElementById('start-age').value) || 30;
-            const p1Val = parseFormattedNumber(document.getElementById('plan1-contribution').value);
-            document.getElementById('plan1-5yr-total').textContent = formatNumber(p1Val * 5);
+            const p1 = parseFormattedNumber(document.getElementById('plan1-contribution').value);
+            document.getElementById('plan1-5yr-total').textContent = formatNumber(p1 * 5);
             
-            // 渲染簡易示範複利表 (實際倍率可由 GAS 載入)
+            document.querySelectorAll('.age-y1').forEach(el => el.textContent = startAge);
+            document.querySelectorAll('.age-y2').forEach(el => el.textContent = startAge + 1);
+            document.querySelectorAll('.age-y3').forEach(el => el.textContent = startAge + 2);
+            document.querySelectorAll('.age-y4').forEach(el => el.textContent = startAge + 3);
+            document.querySelectorAll('.age-y5').forEach(el => el.textContent = startAge + 4);
+
             const tbody = document.getElementById('results-table-body');
             const thead = document.getElementById('results-table-head');
             thead.innerHTML = `<tr><th>保單年度 (歲數)</th><th>累計供款</th><th>增值總資產</th></tr>`;
@@ -676,13 +741,23 @@
             
             [8, 15, 20, 25, 30].forEach(yr => {
                 const row = document.createElement('tr');
-                const asset = p1Val * 5 * (1 + (yr * 0.06)); // 簡化展示模型
-                row.innerHTML = `<td>第 ${yr} 年 (${startAge + yr}歲)</td><td>$${formatNumber(p1Val * 5)}</td><td style="color:#6f42c1; font-weight:bold;">$${formatNumber(asset)}</td>`;
+                const asset = p1 * 5 * (1 + (yr * 0.065));
+                row.innerHTML = `<td>第 ${yr} 年 (${startAge + yr}歲)</td><td>$${formatNumber(p1 * 5)}</td><td style="color:#6f42c1; font-weight:bold;">$${formatNumber(asset)}</td>`;
                 tbody.appendChild(row);
             });
         };
 
-        // AVA 後台鏡像管理系統邏輯
+        window.calculatePromo = function() {
+            const P = parseFormattedNumber(document.getElementById('promo-annual-premium').value) || 0;
+            const original = P * 5;
+            const d1 = Math.floor(P / 5000) * 500;
+            const saved = d1 + (P * 0.05) + (P * 4 * 0.038);
+            document.getElementById('promo-original-total').textContent = '$' + formatNumber(original);
+            document.getElementById('promo-total-savings').textContent = '$' + formatNumber(saved);
+            document.getElementById('promo-actual-outlay').textContent = '$' + formatNumber(original - saved);
+        };
+
+        // AVA 視覺化後台鏡像系統
         function openAvaAdmin() {
             renderMirrorCards();
             document.getElementById('ava-admin-overlay').style.display = 'flex';
@@ -691,6 +766,13 @@
         function openStrategyModal() { document.getElementById('strategy-modal').style.display = 'flex'; }
         function closeStrategyModal() { document.getElementById('strategy-modal').style.display = 'none'; }
 
+        function switchAdminTab(tab, el) {
+            document.querySelectorAll('.ava-admin-nav-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.admin-tab-content').forEach(c => c.style.display = 'none');
+            el.classList.add('active');
+            document.getElementById(`admin-sec-${tab}`).style.display = 'block';
+        }
+
         function renderMirrorCards() {
             const container = document.getElementById('mirror-cards-container');
             container.innerHTML = '';
@@ -698,56 +780,44 @@
                 const cardEl = document.createElement('div');
                 cardEl.className = 'mirror-card';
                 cardEl.innerHTML = `
-                    <div class="mirror-card-top">
-                        <span class="mirror-badge">${card.category} ${card.step_code}</span>
-                        <button class="btn btn-secondary" style="width:auto; padding:2px 8px; font-size:0.75rem; color:#dc3545;" onclick="deleteAdminCard(${idx})">🗑️ 刪除頁面</button>
+                    <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
+                        <span class="step-header-badge">${card.category} ${card.step_code}</span>
+                        <button class="btn btn-secondary" style="width:auto; padding:2px 8px; font-size:0.75rem; color:#dc2626;" onclick="deleteAdminCard(${idx})">🗑️ 刪除頁面</button>
                     </div>
                     <label style="font-size:0.8rem; font-weight:bold; color:#64748b;">頁面大標題：</label>
                     <input type="text" class="editable-pink-box" value="${card.title}" oninput="globalAdminCards[${idx}].title = this.value">
                     
                     <label style="font-size:0.8rem; font-weight:bold; color:#64748b; margin-top:8px; display:block;">副標題指引：</label>
                     <input type="text" class="editable-pink-box" value="${card.subtitle}" oninput="globalAdminCards[${idx}].subtitle = this.value">
-
-                    <label style="font-size:0.8rem; font-weight:bold; color:#64748b; margin-top:8px; display:block;">圖片網址 (Firebase / 外部)：</label>
-                    <div style="display:flex; gap:8px; align-items:center;">
-                        <input type="text" class="editable-pink-box" id="card-img-${idx}" value="${card.image_url || ''}" oninput="globalAdminCards[${idx}].image_url = this.value">
-                        <label class="mini-pink-btn" style="padding:6px 10px; cursor:pointer; white-space:nowrap;">
-                            📤 上載圖片
-                            <input type="file" accept="image/*" style="display:none;" onchange="uploadCardImage(this, ${idx})">
-                        </label>
-                    </div>
                 `;
                 container.appendChild(cardEl);
             });
         }
 
-        async function uploadCardImage(input, cardIdx) {
-            if (!input.files || input.files.length === 0) return;
-            const file = input.files[0];
-            try {
-                const fileRef = window.storageRef(window.firebaseStorage, `pop_images/${Date.now()}_${file.name}`);
-                await window.uploadBytes(fileRef, file);
-                const url = await window.getDownloadURL(fileRef);
-                globalAdminCards[cardIdx].image_url = url;
-                document.getElementById(`card-img-${cardIdx}`).value = url;
-                alert('✅ 圖片已成功上載至 Firebase！');
-            } catch(e) {
-                console.error(e);
-                alert('❌ 圖片上載失敗，請檢查網路連線。');
-            }
-        }
-
         function addNewAdminCard() {
-            globalAdminCards.push({
-                id: `p_${Date.now()}`, category: "【自訂】", step_code: "自訂步驟",
-                title: "新頁面標題", subtitle: "新頁面副標題指引", image_url: "", options: []
-            });
+            globalAdminCards.push({ id: `p_${Date.now()}`, category: "【自訂】", step_code: "自訂步驟", title: "新標題", subtitle: "新副標題", options: [] });
             renderMirrorCards();
         }
         function deleteAdminCard(idx) {
-            if(confirm('確定要刪除此頁面結構嗎？')) {
+            if(confirm('確定要刪除此頁面嗎？')) {
                 globalAdminCards.splice(idx, 1);
                 renderMirrorCards();
+            }
+        }
+
+        async function uploadDirectFirebase() {
+            const fileInput = document.getElementById('firebase-upload-input');
+            const statusEl = document.getElementById('firebase-upload-status');
+            if(!fileInput.files || fileInput.files.length === 0) { alert('請先選擇圖片'); return; }
+            statusEl.textContent = '⏳ 上載中...'; statusEl.style.color = '#1e3a8a';
+            try {
+                const file = fileInput.files[0];
+                const fileRef = window.storageRef(window.firebaseStorage, `pop_images/${Date.now()}_${file.name}`);
+                await window.uploadBytes(fileRef, file);
+                const url = await window.getDownloadURL(fileRef);
+                statusEl.innerHTML = `✅ 上載成功！網址：<br><input type="text" class="editable-pink-box" value="${url}" readonly>`;
+            } catch(e) {
+                statusEl.textContent = '❌ 上載失敗，請重試。'; statusEl.style.color = '#dc2626';
             }
         }
 
@@ -766,38 +836,11 @@
             }
         }
 
-        // 白板畫布
-        const canvas = document.getElementById('drawing-board');
-        const ctx = canvas.getContext('2d');
-        let drawing = false, penColor = 'black', isEraser = false;
-        function resizeCanvas() {
-            if (canvas.parentElement) {
-                canvas.width = canvas.parentElement.clientWidth;
-                canvas.height = 500;
-            }
-        }
-        function setPenMode(el, mode) {
-            document.querySelectorAll('.pen-controls .color-btn').forEach(b => b.classList.remove('active'));
-            el.classList.add('active');
-            isEraser = mode === 'eraser';
-            if (!isEraser) penColor = mode;
-        }
-        canvas.addEventListener('mousedown', () => drawing = true);
-        canvas.addEventListener('mouseup', () => { drawing = false; ctx.beginPath(); });
-        canvas.addEventListener('mousemove', (e) => {
-            if (!drawing) return;
-            const rect = canvas.getBoundingClientRect();
-            ctx.lineWidth = isEraser ? 25 : 3;
-            ctx.strokeStyle = isEraser ? '#ffffff' : penColor;
-            ctx.lineTo(e.clientX - rect.left, e.clientY - rect.top);
-            ctx.stroke(); ctx.beginPath(); ctx.moveTo(e.clientX - rect.left, e.clientY - rect.top);
-        });
-
-        // 綁定輸入即時計算
         document.addEventListener('DOMContentLoaded', () => {
             ['plan1', 'plan2', 'plan3', 'plan4'].forEach(setupJarAutoFill);
             calculateSalesGap();
             calculateAndDisplay();
+            calculatePromo();
         });
     </script>
 </body>
