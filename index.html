@@ -7,7 +7,7 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
     
-    <title>AVA 銷售藝術系統：時光複利與增值式醫保 v4.1.2</title>
+    <title>AVA 銷售藝術系統：時光複利與增值式醫保 v4.1.3</title>
     <link rel="apple-touch-icon" href="icon-192x192.png">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -234,7 +234,7 @@
     <!-- 頂部輕量化系統導覽 -->
     <div class="system-top-bar">
         <div>
-            AVA HEALTHCARE PLANNER <span class="system-badge" id="app-version-badge">v4.1.2</span>
+            AVA HEALTHCARE PLANNER <span class="system-badge" id="app-version-badge">v4.1.3</span>
         </div>
         <div style="display:flex; align-items:center; gap:10px;">
             <span class="system-badge" id="current-step-indicator">01 | 理財現況</span>
@@ -577,7 +577,7 @@
             </div>
         </div>
 
-        <!-- 原有增值式醫保頁面 (完整還原：金庫一至四完整展開、8-25年逐年與至100歲、自付額、結局 A/B 詳細算式) -->
+        <!-- 原有增值式醫保頁面 (完整還原：醫療通脹累計總額、轉換期到增值期總保費、金庫一至四、詳細算式) -->
         <div class="step-wrapper-card step-page" id="page-medical">
             <div class="step-header-badge">09 | 增值式醫保</div>
             <h2 class="step-main-title" onclick="openAvaAdmin()">增值式醫保</h2>
@@ -646,9 +646,9 @@
             
             <div class="section">
                 <div class="duel-summary" style="justify-content: center;">
-                    <div class="summary-item" style="max-width: 350px;">
+                    <div class="summary-item" style="max-width: 380px;">
                         <span class="summary-value" id="med-total-premium" style="color: var(--primary-color); font-size: 2.2rem;">$0</span>
-                        <span class="summary-label" style="font-weight: bold; font-size: 1.1rem;">醫保總保費</span>
+                        <span class="summary-label" style="font-weight: bold; font-size: 1.1rem;" id="med-total-prem-label">轉換期至增值期 醫保總保費</span>
                     </div>
                 </div>
             </div>
@@ -1421,7 +1421,7 @@
 
                     let tdDividend = showDividend ? `<td style="color:red; font-weight:bold;">$${formatNumber(netProfit)}</td>` : '';
                     let tdInterest = showInterest ? `<td style="color:#28a745; font-weight:bold; background-color:#f0fdf4;">${displayRate}</td>` : '';
-                    let displayAnnualWithdraw = todayRes.rA; // 還原每年長糧
+                    let displayAnnualWithdraw = todayRes.rA;
                     let ageDisplay = `${year} (${currentAge})`;
                     let assetDisplay = `$${formatNumber(todayRes.rV)}`;
 
@@ -1437,7 +1437,7 @@
                 }
             }
 
-            // 2. 增值式醫保計算 (完整金庫一至四、8-25年逐年與至100歲、醫療通脹)
+            // 2. 增值式醫保計算 (完整還原：轉換期至增值期累計總保費與醫療通脹算式)
             const medStartAge = parseInt(document.getElementById('med-start-age').value) || startAge;
             const medInflationRate = (parseFloat(document.getElementById('med-inflation-rate-num').value) || 0) / 100;
             const medRetireAge = parseInt(document.getElementById('med-retire-age').value) || 65;
@@ -1475,6 +1475,7 @@
             document.getElementById('med-plan3-5yr-total').textContent = formatNumber(m3Total + m3PremTotal);
             document.getElementById('med-plan4-5yr-total').textContent = formatNumber(m4Total + m4PremTotal);
 
+            // 核心修正：精確計算「轉換期 (medRetireAge) 至 增值期 (medMaxAgeInput)」的醫保總保費 (含通脹率)
             let cardMedPremiumTotal = 0;
             for (let a = medRetireAge; a <= medMaxAgeInput; a++) {
                 let singlePrem = getPremiumForAge(a);
@@ -1588,7 +1589,7 @@
             document.getElementById('outcome-formula-values').innerHTML = `$${formatNumber(sumExtracted)} + $${formatNumber(finalBalance)} - $${formatNumber(sumMedPremium)} - $${formatNumber(totalPrincipal)} = <strong style="color:var(--gain-color); font-size:1.1rem;">$${formatNumber(outcomeTotal)}</strong>`;
         };
 
-        // 3. 保費優惠計算 (完全還原)
+        // 3. 保費優惠計算
         window.calculatePromo = function() {
             const P = parseFormattedNumber(document.getElementById('promo-annual-premium').value) || 0;
             const N = parseInt(document.getElementById('promo-term').value) || 5;
@@ -1845,6 +1846,11 @@
             document.getElementById('existing-deposit').addEventListener('input', function() { formatAndCalcGap(this); calculateAndDisplay(); });
             document.getElementById('bank-deposit').addEventListener('input', function() { formatAndCalcGap(this); calculateAndDisplay(); });
             document.getElementById('duel-year').addEventListener('input', calculateAndDisplay);
+
+            document.getElementById('med-inflation-rate-num').addEventListener('input', calculateAndDisplay);
+            document.getElementById('med-start-age').addEventListener('input', calculateAndDisplay);
+            document.getElementById('med-retire-age').addEventListener('input', calculateAndDisplay);
+            document.getElementById('med-max-age').addEventListener('input', calculateAndDisplay);
 
             document.getElementById('promo-annual-premium').addEventListener('input', calculatePromo);
             document.getElementById('promo-term').addEventListener('input', calculatePromo);
