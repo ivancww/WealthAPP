@@ -7,7 +7,7 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
     
-    <title>AVA 銷售藝術系統：時光複利與增值式醫保 v4.1.0</title>
+    <title>AVA 銷售藝術系統：時光複利與增值式醫保 v4.1.1</title>
     <link rel="apple-touch-icon" href="icon-192x192.png">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -55,7 +55,6 @@
         
         body { font-family: 'Noto Sans TC', sans-serif; background-color: var(--bg-color); color: var(--text-color); margin: 0; padding: 0; padding-bottom: 20px; box-sizing: border-box; overflow-x: hidden; }
         
-        /* 頂部輕量化系統狀態列 */
         .system-top-bar {
             background: #ffffff; border-bottom: 1px solid var(--border-color); padding: 10px 16px;
             display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; font-weight: bold; color: var(--secondary-color);
@@ -64,9 +63,8 @@
         .system-settings-btn { cursor: pointer; font-size: 1.25rem; transition: transform 0.2s; user-select: none; }
         .system-settings-btn:active { transform: scale(0.9); }
 
-        .app-container { max-width: 900px; margin: 20px auto; padding: 0 15px 40px 15px; }
+        .app-container { max-width: 950px; margin: 20px auto; padding: 0 15px 40px 15px; }
 
-        /* 每頁一步 Step 卡片樣式 */
         .step-page { display: none; }
         .step-page.active { display: block; animation: fadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1); }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
@@ -82,7 +80,6 @@
         .step-main-title { font-size: 1.45rem; font-weight: 800; color: #0f172a; margin: 0 0 8px 0; }
         .step-subtitle { font-size: 0.95rem; color: var(--label-color); margin-bottom: 1.5rem; }
 
-        /* 圓圈狀態選項框 */
         .choice-option-box {
             border: var(--pink-dashed-border); border-radius: 12px; padding: 14px 16px; margin-bottom: 12px;
             cursor: pointer; transition: all 0.2s; background: #ffffff; display: flex; align-items: center; gap: 12px;
@@ -96,7 +93,6 @@
         .choice-title { font-size: 1.05rem; font-weight: 700; color: #1e293b; display: block; }
         .choice-desc { font-size: 0.85rem; color: #64748b; margin-top: 2px; display: block; }
 
-        /* 步進底部按鈕列 */
         .step-action-bar { display: flex; gap: 12px; margin-top: 2.5rem; align-items: center; }
         .btn-step-prev {
             flex: 1; background: #ffffff; border: 1px solid var(--border-color); color: #334155; font-weight: 700;
@@ -109,13 +105,11 @@
         }
         .btn-step-next:hover { background: #172554; }
 
-        /* GAP 對比框 */
         .gap-result-box {
             background: linear-gradient(135deg, #1e3a8a, #0f172a); color: white; padding: 1.5rem; border-radius: 12px; text-align: center; margin-top: 1.5rem;
         }
         .gap-grid { display: flex; justify-content: space-around; margin: 15px 0; flex-wrap: wrap; gap: 12px; }
 
-        /* 原有計算與樣式系統完全還原 */
         .top-input-grid, .duel-inputs { display: grid; align-items: end; margin-bottom: 2rem; gap: 1.5rem; }
         @media (min-width: 580px) {
             .duel-inputs { grid-template-columns: repeat(4, 1fr); gap: 10px; }
@@ -170,10 +164,11 @@
         
         .mini-pink-btn { 
             background: #ffffff; border: var(--pink-dashed-border) !important; 
-            border-radius: 4px; font-size: 0.75rem; padding: 1px 5px; cursor: pointer; transition: 0.2s; font-weight: bold; color: var(--primary-color); display: inline-flex; align-items: center; justify-content: center;
+            border-radius: 4px; font-size: 0.75rem; padding: 1px 5px; cursor: pointer; transition: 0.2s; font-weight: bold; color: var(--primary-color); display: inline-flex; align-items: center; justify-content: center; line-height: 1.1; vertical-align: middle;
         }
         .mini-pink-btn:active { transform: scale(0.92); }
         .inline-toggle { cursor: pointer; display: inline-block; transition: 0.2s; user-select: none; font-size: 1rem; padding: 2px 4px; vertical-align: middle; }
+        .inline-toggle:hover { opacity: 1 !important; transform: scale(1.1); }
         .management-section { background: linear-gradient(135deg, #e7f3ff, #f1f8ff); padding: 1.5rem; border-radius: 12px; margin-bottom: 2rem; border: 1px solid #cce5ff; }
         
         .promo-card { background: #fdfdfd; border: 1px solid #dee2e6; border-radius: 12px; padding: 1.5rem; margin-bottom: 1.5rem; }
@@ -194,7 +189,6 @@
         .total-box { background: #e7f3ff; border: 1px solid #b8daff; border-radius: 8px; padding: 10px; text-align: center; font-weight: bold; color: var(--primary-color); }
         .med-prem-subbox { background: #f3e5f5; border: 1px dashed #e1bee7; border-radius: 6px; padding: 6px; text-align: center; font-size: 0.85rem; color: purple; font-weight: bold; margin-top: 6px; }
 
-        /* AVA 後台鏡像全螢幕彈窗 */
         .ava-admin-overlay {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(15, 23, 42, 0.75); backdrop-filter: blur(6px); z-index: 5000;
@@ -240,10 +234,10 @@
     <!-- 頂部輕量化系統導覽 -->
     <div class="system-top-bar">
         <div>
-            AVA HEALTHCARE PLANNER <span class="system-badge" id="current-step-indicator">01 | 理財現況</span>
+            AVA HEALTHCARE PLANNER <span class="system-badge" id="app-version-badge">v4.1.1</span>
         </div>
         <div style="display:flex; align-items:center; gap:10px;">
-            <span style="font-size:0.75rem; color:#16a34a; font-weight:normal;">⚡ 本地秒開 (GAS 串接中)</span>
+            <span class="system-badge" id="current-step-indicator">01 | 理財現況</span>
             <div class="system-settings-btn" onclick="openAvaAdmin()" title="進入 AVA 視覺化後台鏡像系統">⚙️</div>
         </div>
     </div>
@@ -327,19 +321,19 @@
 
             <div class="choice-option-box active" onclick="selectFlowGoal('退休規劃', this)">
                 <span class="choice-dot" style="background:#10b981;"></span>
-                <div class="choice-text-wrap"><span class="choice-title">🏖️ 退休</span></div>
+                <div class="choice-text-wrap"><span class="choice-title">🏖️ 退休規劃</span></div>
             </div>
             <div class="choice-option-box" onclick="selectFlowGoal('教育基金', this)">
                 <span class="choice-dot" style="background:#3b82f6;"></span>
-                <div class="choice-text-wrap"><span class="choice-title">🎓 下一代</span></div>
+                <div class="choice-text-wrap"><span class="choice-title">🎓 教育基金</span></div>
             </div>
             <div class="choice-option-box" onclick="selectFlowGoal('創造被動收入', this)">
                 <span class="choice-dot" style="background:#f59e0b;"></span>
-                <div class="choice-text-wrap"><span class="choice-title">💰 建立另一份收入／現金流</span></div>
+                <div class="choice-text-wrap"><span class="choice-title">💰 創造被動收入</span></div>
             </div>
             <div class="choice-option-box" onclick="selectFlowGoal('紅利增值享受', this)">
                 <span class="choice-dot" style="background:#8b5cf6;"></span>
-                <div class="choice-text-wrap"><span class="choice-title">🌱 守住財富購買力</span></div>
+                <div class="choice-text-wrap"><span class="choice-title">📈 紅利增值享受</span></div>
             </div>
 
             <div class="step-action-bar">
@@ -422,7 +416,7 @@
             </div>
         </div>
 
-        <!-- 原有時光複利頁面 (完整還原) -->
+        <!-- 原有時光複利頁面 (完整還原：舒適圈代價、錦囊1-4、8-25年逐年與至100歲、紅利/年息開關) -->
         <div class="step-wrapper-card step-page" id="page-calculator">
             <div class="step-header-badge">08 | 時光複利：歲月豐收</div>
             <h2 class="step-main-title" onclick="openAvaAdmin()">時光複利：歲月豐收</h2>
@@ -583,7 +577,7 @@
             </div>
         </div>
 
-        <!-- 原有增值式醫保頁面 (完整還原) -->
+        <!-- 原有增值式醫保頁面 (完整還原：8-25年逐年與至100歲、自付額、結局 A/B 詳細算式) -->
         <div class="step-wrapper-card step-page" id="page-medical">
             <div class="step-header-badge">09 | 增值式醫保</div>
             <h2 class="step-main-title" onclick="openAvaAdmin()">增值式醫保</h2>
@@ -726,11 +720,31 @@
                     </div>
                 </div>
 
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1.5rem;">
+                    <h3 style="margin:0; font-size:1.1rem; color:var(--secondary-color); display:flex; align-items:center; gap:6px;">
+                        📊 醫保累積表
+                        <button class="mini-pink-btn" onclick="toggleMedDelayControlBar()">！</button>
+                    </h3>
+                </div>
+                <div id="med-delay-control-bar" class="delay-control-bar">
+                    <span style="font-weight:bold; color:#d84315;">⏳ 延遲啟動年期：</span>
+                    <input type="number" id="med-custom-delay-years" value="3" min="1" max="10" style="width:65px; height:32px; padding:2px; font-weight:bold; color:#d84315;" onchange="calculateAndDisplay()">
+                    <span style="color:#666;">年</span>
+                    <button class="btn btn-primary" style="width:auto; padding:4px 10px; font-size:0.8rem;" onclick="calculateAndDisplay()">🔄 即時對比</button>
+                </div>
+
                 <div class="table-wrapper">
                     <table id="med-results-table">
                         <thead id="med-results-table-head"></thead>
                         <tbody id="med-results-table-body"></tbody>
                         <tfoot>
+                            <tr id="med-footer-totals" style="display:none; background-color: #fff3cd; font-weight:bold;">
+                                <td colspan="2" style="text-align: right;">累計總額：</td>
+                                <td id="med-total-extracted" style="color:blue; font-weight:bold;"></td>
+                                <td id="med-total-premium-col" style="color:purple; font-weight:bold;"></td>
+                                <td id="med-total-actual-premium" style="color:green; font-weight:bold;"></td>
+                                <td></td>
+                            </tr>
                             <tr style="background-color: #f8f9fa; font-size: 0.95rem; border-top: 2px solid var(--border-color);">
                                 <td id="med-outcome-label-col-a" colspan="4" style="text-align: left; color: var(--label-color); padding: 10px 1rem;">🔴 結局 A • 沒有為自己預備：</td>
                                 <td id="med-loss-a" style="color: var(--inflation-color); font-weight: bold; text-align: right;">$0</td>
@@ -748,6 +762,9 @@
                             </tr>
                         </tfoot>
                     </table>
+                    <div style="text-align: right; margin-top: 0.5rem;">
+                        <button id="toggle-actual-med" class="mini-pink-btn">明細</button>
+                    </div>
                 </div>
             </div>
 
@@ -757,7 +774,7 @@
             </div>
         </div>
 
-        <!-- 原有保費優惠頁面 (完整還原) -->
+        <!-- 原有保費優惠頁面 (完整還原優惠 1, 2, 3 及預繳利息退回算式) -->
         <div class="step-wrapper-card step-page" id="page-promo">
             <div class="step-header-badge">專屬保費優惠計算</div>
             <h2 class="step-main-title">專屬保費優惠計算</h2>
@@ -784,8 +801,13 @@
                             <input type="checkbox" id="promo2-check" class="promo-checkbox" checked>
                             <div class="promo-content">
                                 <h4>優惠 2：續保保費折扣</h4>
-                                <div style="margin-top:5px;">
-                                    <span>第 2 年續保即減 </span><input type="number" id="promo2-base-pct" value="5" step="0.1" style="width:60px; display:inline-block;"> %
+                                <div style="display:flex; align-items:center; gap:8px; margin-top:6px; flex-wrap:wrap;">
+                                    <span>第 2 年續保即減</span>
+                                    <input type="number" id="promo2-base-pct" value="5" step="0.1" style="width:70px; padding:4px; text-align:center;"> %
+                                </div>
+                                <div style="display:flex; align-items:center; gap:8px; margin-top:6px; flex-wrap:wrap;">
+                                    <span>如同時配置危疾「愛伴航2」或人壽「活然人生」，額外再減</span>
+                                    <input type="number" id="promo2-extra-pct" value="3" step="0.1" style="width:70px; padding:4px; text-align:center;"> %
                                 </div>
                                 <div class="promo-tag" style="margin-top:10px;">已為您慳下：<span id="promo2-saved">$0</span></div>
                             </div>
@@ -895,21 +917,76 @@
 
     <!-- 提取策略設定彈窗 -->
     <div id="strategy-modal" class="modal-overlay">
-        <div class="modal-content" style="text-align:left;">
+        <div class="modal-content" style="max-width: 480px; text-align: left;">
             <span class="close-modal" onclick="closeStrategyModal()">&times;</span>
-            <h3 style="color:var(--primary-color); margin-top:0; text-align:center;">⚙️ 設定時光錦囊提取策略</h3>
-            <div class="input-group" style="margin-bottom:1.2rem;">
-                <label>一號時光錦囊</label>
+            <h3 style="color:var(--primary-color); margin-top:0; text-align:center;">⚙️ 設定各錦囊提取策略</h3>
+            <p style="font-size:0.85rem; color:#666; text-align:center; margin-bottom:1.5rem;">設定完成後，表格將即時以「每月提取額」顯示。</p>
+            
+            <div class="input-group" style="margin-bottom: 1.2rem;">
+                <label style="font-weight:bold; color:var(--plan1-color);">一號時光錦囊提取策略</label>
                 <select id="plan1-strategy" onchange="calculateAndDisplay()">
-                    <option value="none">自動滾存</option>
-                    <option value="withdraw7_from8">8年開始領取 (7%)</option>
-                    <option value="withdraw12_from15">15年開始領取 (12%)</option>
-                    <option value="withdraw18_from20">20年開始領取 (18%)</option>
-                    <option value="withdraw23_from25">25年開始領取 (23%)</option>
-                    <option value="withdraw29_from30">30年開始領取 (29%)</option>
+                    <option value="none">滾存不提取</option>
+                    <option value="withdraw7_from8">第8年開始 取7%</option>
+                    <option value="withdraw12_from15">第15年開始 取12%</option>
+                    <option value="withdraw18_from20">第20年開始 取18%</option>
+                    <option value="withdraw23_from25">第25年開始 取23%</option>
+                    <option value="withdraw29_from30">第30年開始 取29%</option>
                 </select>
             </div>
-            <button class="btn btn-primary" onclick="closeStrategyModal()">確認設定</button>
+            <div class="input-group" id="modal-plan2-group" style="margin-bottom: 1.2rem; display:none;">
+                <label style="font-weight:bold; color:var(--plan2-color);">二號時光錦囊提取策略</label>
+                <select id="plan2-strategy" onchange="calculateAndDisplay()">
+                    <option value="none">滾存不提取</option>
+                    <option value="withdraw7_from8">第8年開始 取7%</option>
+                    <option value="withdraw12_from15">第15年開始 取12%</option>
+                    <option value="withdraw18_from20">第20年開始 取18%</option>
+                    <option value="withdraw23_from25">第25年開始 取23%</option>
+                    <option value="withdraw29_from30">第30年開始 取29%</option>
+                </select>
+            </div>
+            <div class="input-group" id="modal-plan3-group" style="margin-bottom: 1.2rem; display:none;">
+                <label style="font-weight:bold; color:var(--plan3-color);">三號時光錦囊提取策略</label>
+                <select id="plan3-strategy" onchange="calculateAndDisplay()">
+                    <option value="none">滾存不提取</option>
+                    <option value="withdraw7_from8">第8年開始 取7%</option>
+                    <option value="withdraw12_from15">第15年開始 取12%</option>
+                    <option value="withdraw18_from20">第20年開始 取18%</option>
+                    <option value="withdraw23_from25">第25年開始 取23%</option>
+                    <option value="withdraw29_from30">第30年開始 取29%</option>
+                </select>
+            </div>
+            <div class="input-group" id="modal-plan4-group" style="margin-bottom: 1.5rem; display:none;">
+                <label style="font-weight:bold; color:var(--plan4-color);">四號時光錦囊提取策略</label>
+                <select id="plan4-strategy" onchange="calculateAndDisplay()">
+                    <option value="none">滾存不提取</option>
+                    <option value="withdraw7_from8">第8年開始 取7%</option>
+                    <option value="withdraw12_from15">第15年開始 取12%</option>
+                    <option value="withdraw18_from20">第20年開始 取18%</option>
+                    <option value="withdraw23_from25">第25年開始 取23%</option>
+                    <option value="withdraw29_from30">第30年開始 取29%</option>
+                </select>
+            </div>
+            <button class="btn btn-primary" onclick="closeStrategyModal()" style="width: 100%;">✅ 確認設定</button>
+        </div>
+    </div>
+
+    <!-- 醫保提取策略設定彈窗 -->
+    <div id="med-strategy-modal" class="modal-overlay">
+        <div class="modal-content" style="max-width: 480px; text-align: left;">
+            <span class="close-modal" onclick="closeMedStrategyModal()">&times;</span>
+            <h3 style="color:var(--primary-color); margin-top:0; text-align:center;">⚙️ 設定醫保預備金提取策略</h3>
+            <div class="input-group" style="margin-bottom: 1.2rem;">
+                <label style="font-weight:bold; color:var(--plan1-color);">儲備金庫一 提取策略</label>
+                <select id="med-plan1-strategy" onchange="calculateAndDisplay()">
+                    <option value="none">滾存不提取</option>
+                    <option value="withdraw7_from8">第8年開始 取7%</option>
+                    <option value="withdraw12_from15">第15年開始 取12%</option>
+                    <option value="withdraw18_from20">第20年開始 取18%</option>
+                    <option value="withdraw23_from25">第25年開始 取23%</option>
+                    <option value="withdraw29_from30">第30年開始 取29%</option>
+                </select>
+            </div>
+            <button class="btn btn-primary" onclick="closeMedStrategyModal()" style="width: 100%;">✅ 確認設定</button>
         </div>
     </div>
 
@@ -917,7 +994,22 @@
     <div id="lightbox-overlay" class="lightbox-overlay" onclick="closeLightbox()">
         <div class="modal-content" onclick="event.stopPropagation()">
             <span class="close-modal" onclick="closeLightbox()">&times;</span>
+            <div id="lightbox-img-container"></div>
             <div id="lightbox-text-container" style="font-size:1.1rem; line-height:1.6; color:#333; margin-top:10px;"></div>
+        </div>
+    </div>
+
+    <!-- 分享 Modal -->
+    <div id="share-modal" class="modal-overlay">
+        <div class="modal-content">
+            <span class="close-modal" id="close-modal-icon">&times;</span>
+            <h3 style="color:var(--primary-color); margin-top:0;">🔗 成功建立分享連結！</h3>
+            <div class="qr-container" id="qr-code-display"></div>
+            <div style="display:flex; gap:10px; margin-top:15px; justify-content:center;">
+                <button class="btn btn-secondary" id="copy-url-btn" style="flex:1;">📄 複製網址</button>
+                <button class="btn btn-primary" onclick="window.print()" style="flex:1;">📄 導出 PDF</button>
+            </div>
+            <p id="copy-success-msg" style="color: var(--gain-color); font-size: 0.85rem; display: none; margin-top: 5px;">✅ 網址已複製！</p>
         </div>
     </div>
 
@@ -928,6 +1020,8 @@
         
         let isPurchasingPowerMaskHidden = true; 
         let showActualMedicalPremium = false; 
+        let showDividend = false; 
+        let showInterest = false; 
         let isSharedMode = false; 
         let isDelayControlOpen = false;
         let isMedDelayControlOpen = false;
@@ -935,18 +1029,17 @@
         let excelParsedPremiumMap = {};
         let globalReturnMultipliers = {}; 
         let globalMedPremiumCache = {};
+        let shareUrlGlobal = '';
 
-        // 銷售旅程鏡像資料 (對應分頁：銷售旅程話術)
         let globalAdminCards = [
             { id: "STEP_01", category: "【現況】", step_code: "01 | 理財現況", title: "你而家嘅理財情況，邊一個最似你？", subtitle: "可選擇最多 2 個最符合你嘅現況", image_url: "", options: ["📚 唔識投資", "🏦 主要放銀行", "🛡️ 擔心損失", "📉 知道錢會貶值"] },
             { id: "STEP_01B", category: "【渴望】", step_code: "01B | 真正渴望", title: "如果有錢，你最想做嘅野係咩？", subtitle: "先由生活出發，理財是為了實現理想生活畫面", image_url: "", options: ["🏖️ 每年旅行", "🏠 保持現有生活質素", "👨‍👩‍👧 多啲時間陪屋企人", "💼 繼續工作，但唔再為錢"] },
-            { id: "STEP_02", category: "【目標】", step_code: "02 | 確認目標", title: "你想為邊一個未來準備？", subtitle: "確立核心規劃方向", image_url: "", options: ["🏖️ 退休", "🎓 下一代", "💰 建立另一份收入", "🌱 守住財富購買力"] }
+            { id: "STEP_02", category: "【目標】", step_code: "02 | 確認目標", title: "你想為邊一個未來準備？", subtitle: "確立核心規劃方向", image_url: "", options: ["🏖️ 退休規劃", "🎓 教育基金", "💰 創造被動收入", "📈 紅利增值享受"] }
         ];
 
         function formatNumber(value) { return new Intl.NumberFormat('en-US', {maximumFractionDigits: 0}).format(value || 0); }
         function parseFormattedNumber(str) { return parseFloat(String(str).replace(/,/g, '')) || 0; }
 
-        // 單步跳轉控制 (Step-by-Step)
         function goToStep(stepId) {
             document.querySelectorAll('.step-page').forEach(page => page.classList.remove('active'));
             const target = document.getElementById(stepId);
@@ -958,7 +1051,6 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // 單選與多選卡片
         function toggleMultiOption(el, maxSelect) {
             const parent = el.parentElement;
             if (el.classList.contains('active')) {
@@ -985,7 +1077,6 @@
             calculateAndDisplay();
         }
 
-        // GAP 差距計算
         function formatAndCalcGap(input) {
             input.value = formatNumber(parseFormattedNumber(input.value));
             calculateSalesGap();
@@ -996,7 +1087,7 @@
             const monthlyExp = parseFormattedNumber(document.getElementById('flow-monthly-expense').value);
             const assets = parseFormattedNumber(document.getElementById('flow-current-assets').value);
             
-            const totalNeed = monthlyExp * 12 * (90 - retAge);
+            const totalNeed = monthlyExp * 12 * Math.max(1, 90 - retAge);
             const gap = Math.max(0, totalNeed - assets);
 
             document.getElementById('gap-need-val').textContent = `$${formatNumber(totalNeed)}`;
@@ -1011,7 +1102,6 @@
             calculateAndDisplay();
         }
 
-        // 錦囊自動填充
         function setupJarAutoFill(jarPrefix) {
             const y1El = document.getElementById(`${jarPrefix}-contribution`);
             if(!y1El) return;
@@ -1029,9 +1119,11 @@
         function toggleEngine(engineId) {
             const groupCalc = document.getElementById(`group-${engineId}`);
             const btnCalc = document.getElementById(`btn-toggle-${engineId}`);
+            const groupMed = document.getElementById(`group-med-${engineId}`);
             const isCurrentlyHidden = groupCalc.style.display === 'none';
-            groupCalc.style.display = isCurrentlyHidden ? 'block' : 'none';
-            btnCalc.classList.toggle('active', isCurrentlyHidden);
+            if(groupCalc) groupCalc.style.display = isCurrentlyHidden ? 'block' : 'none';
+            if(groupMed) groupMed.style.display = isCurrentlyHidden ? 'block' : 'none';
+            if(btnCalc) btnCalc.classList.toggle('active', isCurrentlyHidden);
             calculateAndDisplay();
         }
 
@@ -1040,6 +1132,22 @@
             document.getElementById('delay-control-bar').style.display = isDelayControlOpen ? 'flex' : 'none';
             calculateAndDisplay();
         }
+        function toggleMedDelayControlBar() {
+            isMedDelayControlOpen = !isMedDelayControlOpen;
+            document.getElementById('med-delay-control-bar').style.display = isMedDelayControlOpen ? 'flex' : 'none';
+            calculateAndDisplay();
+        }
+
+        window.toggleDividend = function() {
+            if (isSharedMode) return; 
+            showDividend = !showDividend;
+            calculateAndDisplay();
+        };
+        window.toggleInterest = function() {
+            if (isSharedMode) return; 
+            showInterest = !showInterest;
+            calculateAndDisplay();
+        };
 
         const strategyToSheetMap = {
             'none': '自動滾存',
@@ -1078,21 +1186,21 @@
             return 0;
         };
 
-        // 時光複利與增值醫保計算邏輯 (完整保留)
+        // 核心計算引擎 (完全還原)
         window.calculateAndDisplay = function() {
+            // 1. 時光複利計算
             const startAge = parseInt(document.getElementById('start-age').value) || 30;
             const inflationRate = parseFloat(document.getElementById('inflation-rate').value) / 100;
             const bankInterestRate = parseFloat(document.getElementById('bank-interest').value) / 100;
             const existingDeposit = parseFormattedNumber(document.getElementById('existing-deposit').value);
             const fixedBankDeposit = parseFormattedNumber(document.getElementById('bank-deposit').value);
             const duelYear = parseInt(document.getElementById('duel-year').value) || 25;
+            const planMode = document.getElementById('plan-mode').value;
             const delayYears = isDelayControlOpen ? (parseInt(document.getElementById('custom-delay-years').value) || 0) : 0;
 
-            document.querySelectorAll('#page-calculator .age-y1').forEach(el => el.textContent = startAge);
-            document.querySelectorAll('#page-calculator .age-y2').forEach(el => el.textContent = startAge + 1);
-            document.querySelectorAll('#page-calculator .age-y3').forEach(el => el.textContent = startAge + 2);
-            document.querySelectorAll('#page-calculator .age-y4').forEach(el => el.textContent = startAge + 3);
-            document.querySelectorAll('#page-calculator .age-y5').forEach(el => el.textContent = startAge + 4);
+            for(let i=1; i<=20; i++) {
+                document.querySelectorAll(`.age-y${i}`).forEach(el => el.textContent = startAge + i - 1);
+            }
 
             const getJarTotal = (prefix) => {
                 let sum = 0;
@@ -1118,55 +1226,259 @@
             document.getElementById('cash-real-value').textContent = `$${formatNumber(totalCashWithInterest / Math.pow(1 + inflationRate, duelYear))}`;
             document.getElementById('cash-loss').textContent = `$${formatNumber(totalCashWithInterest - (totalCashWithInterest / Math.pow(1 + inflationRate, duelYear)))}`;
 
-            const tableHead = document.getElementById('results-table-head');
+            const planStrategies = [
+                document.getElementById('plan1-strategy').value,
+                document.getElementById('plan2-strategy').value,
+                document.getElementById('plan3-strategy').value,
+                document.getElementById('plan4-strategy').value
+            ];
+            const isEngineActive = [true, document.getElementById('group-plan2').style.display !== 'none', document.getElementById('group-plan3').style.display !== 'none', document.getElementById('group-plan4').style.display !== 'none'];
+            const isPureRollover = isEngineActive.every((active, i) => !active || planStrategies[i] === 'none');
+
+            let maxYear = Math.max(30, 100 - startAge + 1);
+            const reportingYears = [];
+            for (let y = 8; y <= 25; y++) { if(y <= maxYear) reportingYears.push(y); }
+            for (let y = 30; y <= maxYear; y += 5) { if(y <= maxYear) reportingYears.push(y); }
+            if(!reportingYears.includes(maxYear)) reportingYears.push(maxYear);
+
+            let divIcon = (isSharedMode) ? '' : (showDividend ? `<span class="inline-toggle active" onclick="toggleDividend()" title="點擊隱藏紅利">💰</span>` : `<span class="inline-toggle" onclick="toggleDividend()" title="點擊顯示紅利" style="filter:grayscale(100%); opacity:0.4;">💰</span>`);
+            let intIcon = (isSharedMode) ? '' : (showInterest ? `<span class="inline-toggle active" onclick="toggleInterest()" title="點擊隱藏年息">📈</span>` : `<span class="inline-toggle" onclick="toggleInterest()" title="點擊顯示年息" style="filter:grayscale(100%); opacity:0.4;">📈</span>`);
+            let strategyBtn = `<button class="mini-pink-btn" style="margin-left:4px;" onclick="openStrategyModal()" title="點擊設定提取策略">！</button>`;
+            let flyMoneyEmoji = (isDelayControlOpen && delayYears > 0) ? `<div class="fly-money-inline" onclick="openLightbox('猶豫代價')">💸</div>` : '';
+            
+            let headerBase = `<tr><th><div>年份 (歲數)</div>${flyMoneyEmoji}</th><th>累計供款</th>`;
+            let iconSubRow = (!isSharedMode && (divIcon || intIcon)) ? `<br>${divIcon} ${intIcon}` : '';
+            if (planMode === '教育基金') {
+                headerBase += `<th>每月教育金${strategyBtn}</th><th>累積已領教育金</th><th>畢業啟航資金${iconSubRow}</th>`;
+            } else if (planMode === '創造被動收入') {
+                headerBase += `<th>每月被動收入${strategyBtn}</th><th>累積已被動收入</th><th>資產水庫${iconSubRow}</th>`;
+            } else if (planMode === '紅利增值享受') {
+                headerBase += `<th>每月提現額${strategyBtn}</th><th>累積已提現額</th><th>增值總資產${iconSubRow}</th>`;
+            } else {
+                headerBase += `<th>每月長糧 (年金)${strategyBtn}</th><th>累積已領長糧</th><th>安老備用金${iconSubRow}</th>`;
+            }
+            let thDividend = showDividend ? `<th>歲月增值紅利</th>` : '';
+            let thInterest = showInterest ? `<th>年息</th>` : '';
+            
+            document.getElementById('results-table-head').innerHTML = headerBase + thDividend + thInterest + `</tr>`;
             const tableBody = document.getElementById('results-table-body');
-            tableHead.innerHTML = `<tr><th>保單年度 (歲數)</th><th>累計供款</th><th>每月長糧</th><th>累積已領長糧</th><th>增值總資產</th></tr>`;
             tableBody.innerHTML = '';
 
-            const reportingYears = [8, 15, 20, 25, 30];
-            reportingYears.forEach(year => {
-                const row = document.createElement('tr');
-                const growth = p1Total * (1 + (year * 0.055));
-                row.innerHTML = `<td>第 ${year} 年 (${startAge + year}歲)</td><td>$${formatNumber(p1Total)}</td><td style="color:blue; font-weight:bold;">$0</td><td style="color:green; font-weight:bold;">$0</td><td style="color:#6f42c1; font-weight:bold;">$${formatNumber(growth)}</td>`;
-                tableBody.appendChild(row);
-            });
+            let prevYear = 0, prevBalance = 0;
+            const jarTotals = [p1Total, p2Total, p3Total, p4Total];
+            const calcAssets = (y) => {
+                if (y <= 0) return { rV: 0, rW: 0, rA: 0, rC: 0 };
+                let rV = 0, rW = 0, rA = 0, rC = 0;
+                [1, 6, 11, 16].forEach((sY, i) => {
+                    const pA = y - (sY - 1); 
+                    const tP = isEngineActive[i] ? jarTotals[i] : 0;
+                    const aC = tP / 5;
+                    const strategy = planStrategies[i];
+                    let cV = 0, cW = 0, cA = 0;
+                    if (pA > 0 && tP > 0) {
+                        rC += Math.min(pA, 5) * aC;
+                        let multiplier = getMultiplierFromExcel(strategy, pA);
+                        if (strategy === 'withdraw7_from8' && pA >= 8) { cA = tP * 0.07; cW = cA * (pA - 8 + 1); cV = tP * multiplier; }
+                        else if (strategy === 'withdraw12_from15' && pA >= 15) { cA = tP * 0.12; cW = cA * (pA - 15 + 1); cV = tP * multiplier; }
+                        else if (strategy === 'withdraw18_from20' && pA >= 20) { cA = tP * 0.18; cW = cA * (pA - 20 + 1); cV = tP * multiplier; }
+                        else if (strategy === 'withdraw23_from25' && pA >= 25) { cA = tP * 0.23; cW = cA * (pA - 25 + 1); cV = tP * multiplier; }
+                        else if (strategy === 'withdraw29_from30' && pA >= 30) { cA = tP * 0.29; cW = cA * (pA - 30 + 1); cV = tP * multiplier; }
+                        else { cV = tP * multiplier; }
+                        if(pA < 5 && strategy !== 'none') cV = Math.min(pA, 5) * aC;
+                    }
+                    rV += cV; rW += cW; rA += cA;
+                });
+                return { rV, rW, rA, rC };
+            };
 
-            // 增值醫保計算
+            for (let year = 1; year <= maxYear; year++) {
+                let currentAge = startAge + year - 1;
+                let todayRes = calcAssets(year);
+                let delayedRes = calcAssets(year - delayYears);
+                let netProfit = (todayRes.rV + todayRes.rW) - todayRes.rC;
+
+                if (reportingYears.includes(year)) {
+                    let displayRate = "-";
+                    if (prevYear !== 0 && year !== 8 && isPureRollover && prevBalance > 0) {
+                        let yearsDiff = year - prevYear;
+                        displayRate = (((todayRes.rV - prevBalance) / prevBalance / yearsDiff) * 100).toFixed(1) + "%";
+                    }
+                    prevYear = year; prevBalance = todayRes.rV;
+
+                    let tdDividend = showDividend ? `<td style="color:red; font-weight:bold;">$${formatNumber(netProfit)}</td>` : '';
+                    let tdInterest = showInterest ? `<td style="color:#28a745; font-weight:bold; background-color:#f0fdf4;">${displayRate}</td>` : '';
+                    let displayMonthlyWithdraw = todayRes.rA / 12;
+                    let ageDisplay = `${year} (${currentAge})`;
+                    let assetDisplay = `$${formatNumber(todayRes.rV)}`;
+
+                    if (isDelayControlOpen && delayYears > 0) {
+                        let diffLoss = todayRes.rV - delayedRes.rV;
+                        ageDisplay = `<div>${year} (${currentAge})</div><div style="font-size:0.75rem; color:#dc3545; font-weight:bold;">遲${delayYears}年: ${Math.max(0, year-delayYears)}年</div>`;
+                        assetDisplay = `<div>$${formatNumber(todayRes.rV)}</div><div style="font-size:0.8rem; color:#888;">遲做: $${formatNumber(delayedRes.rV)}</div><div style="font-size:0.85rem; color:#dc3545; font-weight:bold;">少攞: -$${formatNumber(diffLoss)}</div>`;
+                    }
+
+                    const row = document.createElement('tr');
+                    row.innerHTML = `<td>${ageDisplay}</td><td>$${formatNumber(todayRes.rC)}</td><td style="color:blue; font-weight:bold;">$${formatNumber(displayMonthlyWithdraw)}</td><td style="color:var(--gain-color); font-weight:bold;">$${formatNumber(todayRes.rW)}</td><td style="color:#6f42c1; font-weight:bold;">${assetDisplay}</td>` + tdDividend + tdInterest;
+                    tableBody.appendChild(row);
+                }
+            }
+
+            // 2. 增值式醫保計算
             const medStartAge = parseInt(document.getElementById('med-start-age').value) || startAge;
+            const medInflationRate = (parseFloat(document.getElementById('med-inflation-rate-num').value) || 0) / 100;
             const medRetireAge = parseInt(document.getElementById('med-retire-age').value) || 65;
-            const medMaxAge = parseInt(document.getElementById('med-max-age').value) || 70;
-            
+            const medMaxAgeInput = parseInt(document.getElementById('med-max-age').value) || 70;
+            const medDelayYears = isMedDelayControlOpen ? (parseInt(document.getElementById('med-custom-delay-years').value) || 0) : 0;
+
+            for(let i=1; i<=20; i++) {
+                document.querySelectorAll(`.med-age-y${i}`).forEach(el => el.textContent = medStartAge + i - 1);
+            }
+
+            const updateJarMedPremiums = (startOffset) => {
+                let sumMedPrem = 0;
+                for (let i = 1; i <= 5; i++) {
+                    let yearIndex = startOffset + i;
+                    let curAge = medStartAge + yearIndex - 1;
+                    let prem = getPremiumForAge(curAge) * Math.pow(1 + medInflationRate, yearIndex - 1);
+                    sumMedPrem += prem;
+                    const premEl = document.getElementById(`med-prem-y${yearIndex}`);
+                    if (premEl) premEl.textContent = formatNumber(prem);
+                }
+                return sumMedPrem;
+            };
+
+            let m1PremTotal = updateJarMedPremiums(0);
+            let m2PremTotal = updateJarMedPremiums(5);
+            const m1Total = getJarTotal('med-plan1');
+            const m2Total = getJarTotal('med-plan2');
+            document.getElementById('med-plan1-5yr-total').textContent = formatNumber(m1Total + m1PremTotal);
+            document.getElementById('med-plan2-5yr-total').textContent = formatNumber(m2Total + m2PremTotal);
+
             let cardMedPremiumTotal = 0;
-            for (let a = medRetireAge; a <= medMaxAge; a++) {
-                cardMedPremiumTotal += getPremiumForAge(a);
+            for (let a = medRetireAge; a <= medMaxAgeInput; a++) {
+                let singlePrem = getPremiumForAge(a);
+                cardMedPremiumTotal += singlePrem * Math.pow(1 + medInflationRate, a - medStartAge);
             }
             document.getElementById('med-total-premium').textContent = '$' + formatNumber(cardMedPremiumTotal);
             document.getElementById('med-loss-a').textContent = `-$${formatNumber(cardMedPremiumTotal)}`;
-            document.getElementById('med-outcome-value').textContent = `+$${formatNumber(p1Total * 1.5)}`;
 
+            let medFlyMoneyEmoji = (isMedDelayControlOpen && medDelayYears > 0) ? `<div class="fly-money-inline" onclick="openLightbox('猶豫代價')">💸</div>` : '';
+            let medStrategyBtn = `<button class="mini-pink-btn" style="margin-left:4px;" onclick="openMedStrategyModal()">！</button>`;
+            
             const medTableHead = document.getElementById('med-results-table-head');
+            if (showActualMedicalPremium) {
+                medTableHead.innerHTML = `<tr><th><div>保單年度 (歲數)</div>${medFlyMoneyEmoji}</th><th>累計供款</th><th>醫保保費預備金 (提取)${medStrategyBtn}</th><th>醫療保費</th><th style="color:green;">實際醫療保費</th><th>增值醫保餘額</th></tr>`;
+            } else {
+                medTableHead.innerHTML = `<tr><th><div>保單年度 (歲數)</div>${medFlyMoneyEmoji}</th><th>累計供款</th><th>醫保保費預備金 (提取)${medStrategyBtn}</th><th>醫療保費</th><th>增值醫保餘額</th></tr>`;
+            }
+
+            const labelColA = document.getElementById('med-outcome-label-col-a');
+            const labelColB = document.getElementById('med-outcome-label-col-b');
+            if(showActualMedicalPremium) { labelColA.colSpan = 5; labelColB.colSpan = 5; } 
+            else { labelColA.colSpan = 4; labelColB.colSpan = 4; }
+
             const medTableBody = document.getElementById('med-results-table-body');
-            medTableHead.innerHTML = `<tr><th>保單年度 (歲數)</th><th>累計供款</th><th>醫療保費</th><th>增值醫保餘額</th></tr>`;
             medTableBody.innerHTML = '';
-            reportingYears.forEach(year => {
-                const medRow = document.createElement('tr');
-                medRow.innerHTML = `<td>第 ${year} 年 (${medStartAge + year}歲)</td><td>$${formatNumber(p1Total)}</td><td style="color:purple; font-weight:bold;">$${formatNumber(getPremiumForAge(medStartAge + year))}</td><td style="color:red; font-weight:bold;">$${formatNumber(p1Total * (1 + year * 0.05))}</td>`;
-                medTableBody.appendChild(medRow);
-            });
+
+            let maxMedYear = Math.max(1, medMaxAgeInput - medStartAge + 1);
+            const medReportingYears = [];
+            for (let y = 8; y <= 25; y++) { if (y <= maxMedYear) medReportingYears.push(y); }
+            for (let y = 30; y <= maxMedYear; y += 5) { if (y <= maxMedYear) medReportingYears.push(y); }
+            if (!medReportingYears.includes(maxMedYear)) medReportingYears.push(maxMedYear);
+
+            let medStrategies = [document.getElementById('med-plan1-strategy').value, 'none', 'none', 'none'];
+            let medEngineActive = [true, document.getElementById('group-med-plan2').style.display !== 'none', false, false];
+            let medJarTotals = [m1Total, m2Total, 0, 0];
+
+            const calcMedAssets = (y) => {
+                if (y <= 0) return { rV: 0, rW: 0, rA: 0, rC: 0 };
+                let rV = 0, rW = 0, rA = 0, rC = 0;
+                [1, 6].forEach((sY, i) => {
+                    const pA = y - (sY - 1); 
+                    const tP = medEngineActive[i] ? medJarTotals[i] : 0;
+                    const aC = tP / 5;
+                    const strategy = medStrategies[i];
+                    let cV = 0, cW = 0, cA = 0;
+                    if (pA > 0 && tP > 0) {
+                        rC += Math.min(pA, 5) * aC;
+                        let multiplier = getMultiplierFromExcel(strategy, pA);
+                        if (strategy === 'withdraw7_from8' && pA >= 8) { cA = tP * 0.07; cW = cA * (pA - 8 + 1); cV = tP * multiplier; }
+                        else if (strategy === 'withdraw12_from15' && pA >= 15) { cA = tP * 0.12; cW = cA * (pA - 15 + 1); cV = tP * multiplier; }
+                        else { cV = tP * multiplier; }
+                        if(pA < 5 && strategy !== 'none') cV = Math.min(pA, 5) * aC;
+                    }
+                    rV += cV; rW += cW; rA += cA;
+                });
+                return { rV, rW, rA, rC };
+            };
+
+            let sumExtracted = 0, sumMedPremium = 0, sumActualPremium = 0, finalBalance = 0, totalPrincipal = 0;
+            for (let year = 1; year <= maxMedYear; year++) {
+                let currentAge = medStartAge + year - 1;
+                let todayRes = calcMedAssets(year);
+                let delayedRes = calcMedAssets(year - medDelayYears);
+                let medPremiumCurrentYear = (currentAge >= medRetireAge && currentAge <= medMaxAgeInput) ? getPremiumForAge(currentAge) * Math.pow(1 + medInflationRate, year - 1) : 0;
+                let actualMedPremium = todayRes.rA - medPremiumCurrentYear;
+                sumExtracted += todayRes.rA;
+                sumMedPremium += medPremiumCurrentYear;
+                sumActualPremium += actualMedPremium;
+
+                if (year === maxMedYear) {
+                    finalBalance = todayRes.rV;
+                    totalPrincipal = todayRes.rC;
+                }
+                if (medReportingYears.includes(year)) {
+                    let ageDisplay = `${year} (${currentAge})`;
+                    let balanceDisplay = `$${formatNumber(todayRes.rV)}`;
+                    if (isMedDelayControlOpen && medDelayYears > 0) {
+                        let diffLoss = todayRes.rV - delayedRes.rV;
+                        ageDisplay = `<div>${year} (${currentAge})</div><div style="font-size:0.75rem; color:#dc3545; font-weight:bold;">遲${medDelayYears}年: ${Math.max(0, year-medDelayYears)}年</div>`;
+                        balanceDisplay = `<div>$${formatNumber(todayRes.rV)}</div><div style="font-size:0.8rem; color:#888;">遲做: $${formatNumber(delayedRes.rV)}</div><div style="font-size:0.85rem; color:#dc3545; font-weight:bold;">少攞: -$${formatNumber(diffLoss)}</div>`;
+                    }
+
+                    const medRow = document.createElement('tr');
+                    if (showActualMedicalPremium) {
+                        medRow.innerHTML = `<td>${ageDisplay}</td><td>$${formatNumber(todayRes.rC)}</td><td style="color:blue; font-weight:bold;">$${formatNumber(todayRes.rA)}</td><td style="color:purple; font-weight:bold;">$${formatNumber(medPremiumCurrentYear)}</td><td style="color:green; font-weight:bold;">$${formatNumber(actualMedPremium)}</td><td style="color:red; font-weight:bold;">${balanceDisplay}</td>`;
+                    } else {
+                        medRow.innerHTML = `<td>${ageDisplay}</td><td>$${formatNumber(todayRes.rC)}</td><td style="color:blue; font-weight:bold;">$${formatNumber(todayRes.rA)}</td><td style="color:purple; font-weight:bold;">$${formatNumber(medPremiumCurrentYear)}</td><td style="color:red; font-weight:bold;">${balanceDisplay}</td>`;
+                    }
+                    medTableBody.appendChild(medRow);
+                }
+            }
+
+            document.getElementById('med-total-extracted').textContent = `$${formatNumber(sumExtracted)}`;
+            document.getElementById('med-total-premium-col').textContent = `$${formatNumber(sumMedPremium)}`;
+            document.getElementById('med-total-actual-premium').textContent = `$${formatNumber(sumActualPremium)}`;
+            let outcomeTotal = sumExtracted + finalBalance - sumMedPremium - totalPrincipal;
+            document.getElementById('med-outcome-value').textContent = `$${formatNumber(outcomeTotal)}`;
+            document.getElementById('outcome-formula-values').innerHTML = `$${formatNumber(sumExtracted)} + $${formatNumber(finalBalance)} - $${formatNumber(sumMedPremium)} - $${formatNumber(totalPrincipal)} = <strong style="color:var(--gain-color); font-size:1.1rem;">$${formatNumber(outcomeTotal)}</strong>`;
         };
 
+        // 3. 保費優惠計算 (完全還原)
         window.calculatePromo = function() {
             const P = parseFormattedNumber(document.getElementById('promo-annual-premium').value) || 0;
             const N = parseInt(document.getElementById('promo-term').value) || 5;
             const usePromo1 = document.getElementById('promo1-check').checked;
             const usePromo2 = document.getElementById('promo2-check').checked;
+            const baseDiscountPct = parseFloat(document.getElementById('promo2-base-pct').value) / 100 || 0;
+            const extraDiscountPct = parseFloat(document.getElementById('promo2-extra-pct').value) / 100 || 0;
             const usePromo3 = document.getElementById('promo3-check').checked;
             const rate = parseFloat(document.getElementById('promo3-rate').value) / 100 || 0.038;
 
             let d1 = usePromo1 ? Math.floor(P / 5000) * 500 : 0;
-            let d2 = (usePromo2 && N >= 2) ? P * 0.05 : 0;
-            let prepayAmount = P * (N - 1);
-            let totalInterest = usePromo3 ? prepayAmount * rate * 2 : 0;
+            let totalDiscountRate = baseDiscountPct + extraDiscountPct;
+            let d2 = (usePromo2 && N >= 2) ? P * totalDiscountRate : 0;
+            let totalInterest = 0; let prepayAmount = 0;
+
+            if (usePromo3 && N > 1) {
+                prepayAmount = P * (N - 1);
+                let balance = prepayAmount;
+                for (let t = 2; t <= N; t++) {
+                    let interest = balance * rate;
+                    totalInterest += interest; 
+                    balance = balance + interest - P;
+                }
+            }
 
             document.getElementById('promo-original-total').textContent = '$' + formatNumber(P * N);
             document.getElementById('promo-total-savings').textContent = '$' + formatNumber(d1 + d2 + totalInterest);
@@ -1174,16 +1486,38 @@
             document.getElementById('promo1-saved').textContent = '$' + formatNumber(d1);
             document.getElementById('promo2-saved').textContent = '$' + formatNumber(d2);
             document.getElementById('promo3-saved').textContent = '$' + formatNumber(totalInterest);
+
+            const descEl = document.getElementById('promo3-desc');
+            if (usePromo3 && N > 1) {
+                let initialPay = P + prepayAmount - d1;
+                let refundAmount = totalInterest + d2; 
+                descEl.innerHTML = `💡 <strong>預繳計算詳情：</strong><br>
+                您於投保時一次過繳付首年及預繳保費。扣除首年優惠後，當日實繳： <strong style="color:#d84315;">$${formatNumber(initialPay)}</strong>。<br>
+                其中 <strong style="color:#007bff;">$${formatNumber(prepayAmount)}</strong> 作為預繳本金，每年按 ${parseFloat(document.getElementById('promo3-rate').value).toFixed(1)}% 保證生息並自動扣除基本保費。<br>
+                保單滿期後，系統會將 <strong style="color:#28a745;">$${formatNumber(refundAmount)}</strong> 以現金形式全數退回給您！<br>
+                <span style="font-size:0.85rem; color:#666;">(滿期退回金額 = 預繳累積純利息 $${formatNumber(totalInterest)}${usePromo2 ? ` + 優惠2慳返未扣除嘅本金 $${formatNumber(d2)}` : ''})</span>`;
+                descEl.style.display = 'block';
+            } else {
+                descEl.style.display = 'none';
+            }
         };
 
-        // AVA 視覺化後台鏡像系統 (如圖 1 規範)
+        // AVA 視覺化後台鏡像系統邏輯
         function openAvaAdmin() {
             renderMirrorCards();
             document.getElementById('ava-admin-overlay').style.display = 'flex';
         }
         function closeAvaAdmin() { document.getElementById('ava-admin-overlay').style.display = 'none'; }
-        function openStrategyModal() { document.getElementById('strategy-modal').style.display = 'flex'; }
+        function openStrategyModal() {
+            document.getElementById('modal-plan2-group').style.display = (document.getElementById('group-plan2').style.display !== 'none') ? 'block' : 'none';
+            document.getElementById('modal-plan3-group').style.display = (document.getElementById('group-plan3').style.display !== 'none') ? 'block' : 'none';
+            document.getElementById('modal-plan4-group').style.display = (document.getElementById('group-plan4').style.display !== 'none') ? 'block' : 'none';
+            document.getElementById('strategy-modal').style.display = 'flex';
+        }
         function closeStrategyModal() { document.getElementById('strategy-modal').style.display = 'none'; }
+        function openMedStrategyModal() { document.getElementById('med-strategy-modal').style.display = 'flex'; }
+        function closeMedStrategyModal() { document.getElementById('med-strategy-modal').style.display = 'none'; }
+        
         function openLightbox(text) {
             document.getElementById('lightbox-text-container').textContent = text;
             document.getElementById('lightbox-overlay').style.display = 'flex';
@@ -1309,7 +1643,6 @@
             const selectEl = document.getElementById('med-plan-select');
             if(!selectEl) return;
             const sheetName = selectEl.value;
-            // 模糊匹配分頁名稱 (支援自付額被截斷的情況)
             const matchedKey = Object.keys(globalMedPremiumCache).find(k => k.includes(sheetName) || sheetName.includes(k));
             if(matchedKey && globalMedPremiumCache[matchedKey]) {
                 excelParsedPremiumMap = globalMedPremiumCache[matchedKey];
@@ -1319,7 +1652,41 @@
             calculateAndDisplay();
         }
 
+        window.handleShare = function(defaultTab) {
+            const pureShareIds = [
+                'client-name', 'plan-mode', 'start-age', 'inflation-rate', 'existing-deposit', 'bank-deposit', 'bank-interest', 
+                'duel-year', 'plan1-contribution', 'plan1-y2', 'plan1-y3', 'plan1-y4', 'plan1-y5',
+                'plan2-contribution', 'plan2-y2', 'plan2-y3', 'plan2-y4', 'plan2-y5',
+                'plan3-contribution', 'plan3-y2', 'plan3-y3', 'plan3-y4', 'plan3-y5',
+                'plan4-contribution', 'plan4-y2', 'plan4-y3', 'plan4-y4', 'plan4-y5',
+                'plan1-strategy', 'plan2-strategy', 'plan3-strategy', 'plan4-strategy',
+                'med-client-name', 'med-plan1-contribution', 'med-plan1-y2', 'med-plan1-y3', 'med-plan1-y4', 'med-plan1-y5',
+                'med-plan2-contribution', 'med-plan2-y2', 'med-plan2-y3', 'med-plan2-y4', 'med-plan2-y5',
+                'med-start-age', 'med-inflation-rate-num', 'med-pay-term', 'med-retire-age', 'med-max-age',
+                'med-plan1-strategy', 'med-plan-select'
+            ];
+            const currentData = {};
+            pureShareIds.forEach(id => { 
+                const el = document.getElementById(id);
+                if(el) currentData[id] = parseFormattedNumber(el.value) || el.value; 
+            });
+            if (defaultTab) currentData['default_tab'] = defaultTab;
+            const base64Str = btoa(unescape(encodeURIComponent(JSON.stringify(currentData)))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+            shareUrlGlobal = `${window.location.origin}${window.location.pathname}?data=${base64Str}`;
+            
+            const qrContainer = document.getElementById('qr-code-display');
+            qrContainer.innerHTML = '';
+            new QRCode(qrContainer, { text: shareUrlGlobal, width: 220, height: 220, correctLevel : QRCode.CorrectLevel.M });
+            document.getElementById('share-modal').style.display = 'flex';
+        };
+
         document.addEventListener('DOMContentLoaded', function() {
+            // 自動從 <title> 提取版本號並同步顯示於頂部徽章
+            const match = document.title.match(/v\d+(\.\d+)+/i);
+            if (match && document.getElementById('app-version-badge')) {
+                document.getElementById('app-version-badge').textContent = match[0];
+            }
+
             ['plan1', 'plan2', 'plan3', 'plan4', 'med-plan1', 'med-plan2'].forEach(setupJarAutoFill);
             
             document.getElementById('toggle-interest').addEventListener('click', function() {
@@ -1331,6 +1698,36 @@
                 calculateAndDisplay();
             });
             document.getElementById('med-plan-select').addEventListener('change', applySelectedMedicalPlan);
+            document.getElementById('plan-mode').addEventListener('change', calculateAndDisplay);
+            document.getElementById('inflation-rate').addEventListener('input', calculateAndDisplay);
+            document.getElementById('existing-deposit').addEventListener('input', function() { formatAndCalcGap(this); calculateAndDisplay(); });
+            document.getElementById('bank-deposit').addEventListener('input', function() { formatAndCalcGap(this); calculateAndDisplay(); });
+            document.getElementById('duel-year').addEventListener('input', calculateAndDisplay);
+
+            document.getElementById('promo-annual-premium').addEventListener('input', calculatePromo);
+            document.getElementById('promo-term').addEventListener('input', calculatePromo);
+            document.getElementById('promo1-check').addEventListener('change', calculatePromo);
+            document.getElementById('promo2-check').addEventListener('change', calculatePromo);
+            document.getElementById('promo2-base-pct').addEventListener('input', calculatePromo);
+            document.getElementById('promo2-extra-pct').addEventListener('input', calculatePromo);
+            document.getElementById('promo3-check').addEventListener('change', calculatePromo);
+            document.getElementById('promo3-rate').addEventListener('input', calculatePromo);
+
+            document.getElementById('toggle-actual-med').addEventListener('click', function() {
+                showActualMedicalPremium = !showActualMedicalPremium;
+                document.getElementById('med-footer-totals').style.display = showActualMedicalPremium ? 'table-row' : 'none';
+                calculateAndDisplay();
+            });
+
+            document.getElementById('toggle-outcome-details').addEventListener('click', function() {
+                const details = document.getElementById('outcome-details');
+                details.style.display = details.style.display === 'none' ? 'block' : 'none';
+            });
+
+            document.getElementById('copy-url-btn').addEventListener('click', () => {
+                navigator.clipboard.writeText(shareUrlGlobal).then(() => { document.getElementById('copy-success-msg').style.display = 'block'; });
+            });
+            document.getElementById('close-modal-icon').addEventListener('click', () => { document.getElementById('share-modal').style.display = 'none'; });
 
             calculateSalesGap();
             calculatePromo();
