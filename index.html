@@ -7,12 +7,12 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
     
-    <title>AVA 銷售藝術系統：時光複利與增值式醫保 v4.1.3</title>
+    <title>AVA 銷售藝術系統：時光錦囊與增值式醫保 v4.2.0</title>
     <link rel="apple-touch-icon" href="icon-192x192.png">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="理財策略">
-    <meta name="theme-color" content="#007bff">
+    <meta name="theme-color" content="#24478f">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
@@ -41,19 +41,34 @@
     </script>
     <style>
         :root {
+            --primary: #24478f;
+            --primary-light: #edf2ff;
+            --accent: #d81b45;
+            --text: #243042;
+            --subtext: #687385;
+            --border: #e4e8ef;
+            --bg: #f6f8fb;
+            --white: #ffffff;
+            
             --bg-color: #f0f2f5;
-            --card-bg-color: #ffffff; --text-color: #212529; --label-color: #6c757d;
-            --primary-color: #007bff; --secondary-color: #495057; --border-color: #dee2e6;
+            --card-bg-color: #ffffff;
+            --text-color: #212529;
+            --label-color: #6c757d;
+            --primary-color: #007bff;
+            --secondary-color: #495057;
+            --border-color: #dee2e6;
             --plan1-color: rgba(0, 123, 255, 0.8);
             --plan2-color: rgba(40, 167, 69, 0.8);
             --plan3-color: #dc3545;
             --plan4-color: rgba(108, 92, 231, 0.8);
-            --gain-color: #28a745; --inflation-color: #dc3545;
+            --gain-color: #28a745;
+            --inflation-color: #dc3545;
             --pink-dashed-border: 1.5px dashed #f8bbd0;
             --navy-blue: #1e3a8a;
         }
         
-        body { font-family: 'Noto Sans TC', sans-serif; background-color: var(--bg-color); color: var(--text-color); margin: 0; padding: 0; padding-bottom: 20px; box-sizing: border-box; overflow-x: hidden; }
+        * { box-sizing: border-box; }
+        body { font-family: 'Noto Sans TC', -apple-system, BlinkMacSystemFont, sans-serif; background-color: var(--bg-color); color: var(--text-color); margin: 0; padding: 0; padding-bottom: 20px; box-sizing: border-box; overflow-x: hidden; }
         
         .system-top-bar {
             background: #ffffff; border-bottom: 1px solid var(--border-color); padding: 10px 16px;
@@ -62,13 +77,12 @@
         .system-badge { background: #eff6ff; color: #1d4ed8; padding: 3px 8px; border-radius: 6px; font-size: 0.75rem; margin-left: 6px; }
         .system-settings-btn { cursor: pointer; font-size: 1.25rem; transition: transform 0.2s; user-select: none; }
         .system-settings-btn:active { transform: scale(0.9); }
-
         .app-container { max-width: 950px; margin: 20px auto; padding: 0 15px 40px 15px; }
-
+        
         .step-page { display: none; }
         .step-page.active { display: block; animation: fadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1); }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
+        
         .step-wrapper-card {
             background: var(--card-bg-color); border-radius: 16px; border: 1px solid var(--border-color);
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05); padding: 2.2rem; margin-bottom: 1.5rem;
@@ -79,20 +93,46 @@
         }
         .step-main-title { font-size: 1.45rem; font-weight: 800; color: #0f172a; margin: 0 0 8px 0; }
         .step-subtitle { font-size: 0.95rem; color: var(--label-color); margin-bottom: 1.5rem; }
-
-        .choice-option-box {
-            border: var(--pink-dashed-border); border-radius: 12px; padding: 14px 16px; margin-bottom: 12px;
-            cursor: pointer; transition: all 0.2s; background: #ffffff; display: flex; align-items: center; gap: 12px;
+        
+        /* 旅程卡片樣式 */
+        .options { display: flex; flex-direction: column; gap: 14px; }
+        .option {
+            width: 100%; padding: 18px 20px; background: white; border: 2px solid var(--border); border-radius: 16px;
+            text-align: left; cursor: pointer; transition: 0.25s;
         }
-        .choice-option-box:hover { border-color: #f48fb1; background: #fff5f7; }
-        .choice-option-box.active {
-            border: 2px solid var(--primary-color) !important; background: #eff6ff; box-shadow: 0 4px 12px rgba(0, 123, 255, 0.08);
+        .option:hover { border-color: var(--primary); transform: translateY(-2px); }
+        .option.selected { border-color: var(--primary); background: var(--primary-light); }
+        .option-title { font-size: 16px; font-weight: 700; margin-bottom: 6px; color: #1e293b; }
+        .option-desc { color: var(--subtext); font-size: 13.5px; line-height: 1.5; }
+        
+        .scenario-card {
+            background: linear-gradient(135deg, #f4f7ff, #ffffff); border: 1px solid #dce5fb; border-radius: 20px;
+            padding: 24px; margin-top: 15px;
         }
-        .choice-dot { width: 14px; height: 14px; border-radius: 50%; display: inline-block; flex-shrink: 0; }
-        .choice-text-wrap { flex: 1; }
-        .choice-title { font-size: 1.05rem; font-weight: 700; color: #1e293b; display: block; }
-        .choice-desc { font-size: 0.85rem; color: #64748b; margin-top: 2px; display: block; }
-
+        .scenario-icon { font-size: 38px; margin-bottom: 12px; }
+        .scenario-title { font-size: 19px; font-weight: 700; margin-bottom: 12px; color: #1e293b; }
+        .scenario-text { color: var(--subtext); line-height: 1.8; font-size: 15px; }
+        
+        .time-machine { text-align: center; padding: 20px 10px; }
+        .clock {
+            width: 120px; height: 120px; margin: 0 auto 20px; border-radius: 50%; border: 6px solid var(--primary);
+            display: flex; align-items: center; justify-content: center; font-size: 55px; box-shadow: 0 12px 30px rgba(36,71,143,.15);
+        }
+        .letter-card { background: #fffdf8; border: 1px solid #efe6d4; border-radius: 18px; padding: 22px; text-align: left; margin-top: 20px; }
+        .letter-title { color: var(--subtext); font-size: 13.5px; margin-bottom: 10px; }
+        .letter-message { font-size: 18px; line-height: 1.6; font-weight: 600; color: #1e293b; }
+        
+        .memory-card { border-radius: 20px; padding: 24px; background: linear-gradient(135deg, #fff8ed, #ffffff); border: 1px solid #f1dfc1; }
+        .memory-year { color: #a66b00; font-weight: 700; font-size: 14px; margin-bottom: 8px; }
+        .memory-question { font-size: 18px; line-height: 1.6; font-weight: 700; color: #1e293b; }
+        
+        .final-card { text-align: center; padding: 20px 10px; }
+        .summary { margin-top: 25px; text-align: left; background: #f7f9fc; padding: 20px; border-radius: 16px; border: 1px solid var(--border); }
+        .summary-row { padding: 12px 0; border-bottom: 1px solid var(--border); }
+        .summary-row:last-child { border-bottom: none; }
+        .summary-label { color: var(--subtext); font-size: 13px; margin-bottom: 4px; }
+        .summary-value { font-weight: 700; line-height: 1.5; color: #1e293b; }
+        
         .step-action-bar { display: flex; gap: 12px; margin-top: 2.5rem; align-items: center; }
         .btn-step-prev {
             flex: 1; background: #ffffff; border: 1px solid var(--border-color); color: #334155; font-weight: 700;
@@ -104,12 +144,9 @@
             padding: 14px; border-radius: 10px; cursor: pointer; font-size: 1.05rem; transition: 0.2s; text-align: center; box-shadow: 0 4px 12px rgba(30, 58, 138, 0.2);
         }
         .btn-step-next:hover { background: #172554; }
+        .btn-step-next:disabled { opacity: 0.4; cursor: not-allowed; }
 
-        .gap-result-box {
-            background: linear-gradient(135deg, #1e3a8a, #0f172a); color: white; padding: 1.5rem; border-radius: 12px; text-align: center; margin-top: 1.5rem;
-        }
-        .gap-grid { display: flex; justify-content: space-around; margin: 15px 0; flex-wrap: wrap; gap: 12px; }
-
+        /* 表格與計算輸入框樣式 */
         .top-input-grid, .duel-inputs { display: grid; align-items: end; margin-bottom: 2rem; gap: 1.5rem; }
         @media (min-width: 580px) {
             .duel-inputs { grid-template-columns: repeat(4, 1fr); gap: 10px; }
@@ -188,7 +225,7 @@
         .jar-5year-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 10px; margin-bottom: 1rem; }
         .total-box { background: #e7f3ff; border: 1px solid #b8daff; border-radius: 8px; padding: 10px; text-align: center; font-weight: bold; color: var(--primary-color); }
         .med-prem-subbox { background: #f3e5f5; border: 1px dashed #e1bee7; border-radius: 6px; padding: 6px; text-align: center; font-size: 0.85rem; color: purple; font-weight: bold; margin-top: 6px; }
-
+        
         .ava-admin-overlay {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(15, 23, 42, 0.75); backdrop-filter: blur(6px); z-index: 5000;
@@ -230,198 +267,155 @@
     </style>
 </head>
 <body>
-
-    <!-- 頂部輕量化系統導覽 -->
+    <!-- 頂部系統導覽 -->
     <div class="system-top-bar">
         <div>
-            AVA HEALTHCARE PLANNER <span class="system-badge" id="app-version-badge">v4.1.3</span>
+            AVA HEALTHCARE PLANNER <span class="system-badge" id="app-version-badge">v4.2.0</span>
         </div>
         <div style="display:flex; align-items:center; gap:10px;">
-            <span class="system-badge" id="current-step-indicator">01 | 理財現況</span>
+            <span class="system-badge" id="current-step-indicator">時光錦囊 · 探索</span>
             <div class="system-settings-btn" onclick="openAvaAdmin()" title="進入 AVA 視覺化後台鏡像系統">⚙️</div>
         </div>
     </div>
-
+    
     <div class="app-container">
+        <!-- ==========================================
+             客群互動前置模組：時光錦囊旅程 (1 - 5 步與總結)
+        =========================================== -->
         
-        <!-- STEP 01: 理財現況 -->
-        <div class="step-wrapper-card step-page active" id="page-step1">
-            <div class="step-header-badge">01 | 理財現況</div>
-            <h2 class="step-main-title">你而家嘅理財情況，邊一個最似你？</h2>
-            <div class="step-subtitle">可選擇最多 2 個最符合你嘅現況</div>
-
-            <div class="choice-option-box" onclick="toggleMultiOption(this, 2)">
-                <span class="choice-dot" style="background:#ef4444;"></span>
-                <div class="choice-text-wrap">
-                    <span class="choice-title">📚 唔識投資</span>
-                    <span class="choice-desc">有儲蓄，但唔知道點樣令資產增值</span>
-                </div>
+        <!-- STEP 1: 你的想法 -->
+        <div class="step-wrapper-card step-page active" id="page-journey-step1">
+            <div class="step-header-badge">STEP 1 · 你的想法</div>
+            <h2 class="step-main-title">每個人對生活與未來，都有不同的想法。</h2>
+            <div class="step-subtitle" style="line-height: 1.7;">
+                沒有對與錯。<br>我們只是想先了解：<strong>你現在比較接近哪一種？</strong>
             </div>
-            <div class="choice-option-box" onclick="toggleMultiOption(this, 2)">
-                <span class="choice-dot" style="background:#3b82f6;"></span>
-                <div class="choice-text-wrap">
-                    <span class="choice-title">🏦 主要放銀行</span>
-                    <span class="choice-desc">覺得銀行最安全，大部分錢都放喺銀行</span>
-                </div>
+            <div class="options">
+                <button class="option" data-step="1" data-value="present">
+                    <div class="option-title">🌅 先享受現在</div>
+                    <div class="option-desc">今天的生活同樣重要，未來的事情可以慢慢再想。</div>
+                </button>
+                <button class="option" data-step="1" data-value="uncertain">
+                    <div class="option-title">🧭 我知道未來重要</div>
+                    <div class="option-desc">但還未找到真正適合自己的方法。</div>
+                </button>
+                <button class="option" data-step="1" data-value="builder">
+                    <div class="option-title">🌱 我相信慢慢建立</div>
+                    <div class="option-desc">不需要一步到位，但希望逐步令未來有更多選擇。</div>
+                </button>
             </div>
-            <div class="choice-option-box" onclick="toggleMultiOption(this, 2)">
-                <span class="choice-dot" style="background:#f59e0b;"></span>
-                <div class="choice-text-wrap">
-                    <span class="choice-title">🛡️ 擔心損失</span>
-                    <span class="choice-desc">有錢，但最擔心投資有損失，寧願唔郁</span>
-                </div>
-            </div>
-            <div class="choice-option-box" onclick="toggleMultiOption(this, 2)">
-                <span class="choice-dot" style="background:#8b5cf6;"></span>
-                <div class="choice-text-wrap">
-                    <span class="choice-title">📉 知道錢會貶值</span>
-                    <span class="choice-desc">知道通脹會令購買力下降，但未有完整方法處理</span>
-                </div>
-            </div>
-
             <div class="step-action-bar">
-                <button class="btn-step-next" style="flex:1;" onclick="goToStep('page-step1b')">下一步 →</button>
+                <button class="btn-step-next" id="journey-next-1" disabled onclick="goJourneyStep(2)">下一步 →</button>
             </div>
         </div>
 
-        <!-- STEP 01B: 真正渴望 -->
-        <div class="step-wrapper-card step-page" id="page-step1b">
-            <div class="step-header-badge">01B | 真正渴望</div>
-            <h2 class="step-main-title">如果有錢，你最想做嘅野係咩？</h2>
-            <div class="step-subtitle">先由生活出發，理財是為了實現理想生活畫面</div>
-
-            <div class="choice-option-box active" onclick="toggleSingleOption(this)">
-                <span class="choice-dot" style="background:#10b981;"></span>
-                <div class="choice-text-wrap"><span class="choice-title">🏖️ 每年旅行</span></div>
-            </div>
-            <div class="choice-option-box" onclick="toggleSingleOption(this)">
-                <span class="choice-dot" style="background:#3b82f6;"></span>
-                <div class="choice-text-wrap"><span class="choice-title">🏠 保持現有生活質素</span></div>
-            </div>
-            <div class="choice-option-box" onclick="toggleSingleOption(this)">
-                <span class="choice-dot" style="background:#ec4899;"></span>
-                <div class="choice-text-wrap"><span class="choice-title">👨‍👩‍👧 多啲時間陪屋企人</span></div>
-            </div>
-            <div class="choice-option-box" onclick="toggleSingleOption(this)">
-                <span class="choice-dot" style="background:#8b5cf6;"></span>
-                <div class="choice-text-wrap"><span class="choice-title">💼 繼續工作，但唔再為錢</span></div>
-            </div>
-
+        <!-- STEP 2: 你的現在 -->
+        <div class="step-wrapper-card step-page" id="page-journey-step2">
+            <div class="step-header-badge">STEP 2 · 你的現在</div>
+            <h2 class="step-main-title" id="step2Title">那麼，你現在的狀況比較接近哪一種？</h2>
+            <div class="step-subtitle" id="step2Description"></div>
+            <div class="options" id="step2Options"></div>
             <div class="step-action-bar">
-                <button class="btn-step-prev" onclick="goToStep('page-step1')">← 上一步</button>
-                <button class="btn-step-next" onclick="goToStep('page-step2')">下一步 →</button>
+                <button class="btn-step-prev" onclick="goJourneyStep(1)">← 上一步</button>
+                <button class="btn-step-next" id="journey-next-2" disabled onclick="goJourneyStep(3)">下一步 →</button>
             </div>
         </div>
 
-        <!-- STEP 02: 確認目標 -->
-        <div class="step-wrapper-card step-page" id="page-step2">
-            <div class="step-header-badge">02 | 確認目標</div>
-            <h2 class="step-main-title">你想為邊一個未來準備？</h2>
-            <div class="step-subtitle">確立核心規劃方向</div>
-
-            <div class="choice-option-box active" onclick="selectFlowGoal('退休規劃', this)">
-                <span class="choice-dot" style="background:#10b981;"></span>
-                <div class="choice-text-wrap"><span class="choice-title">🏖️ 退休規劃</span></div>
+        <!-- STEP 3: 換一個角度看看 -->
+        <div class="step-wrapper-card step-page" id="page-journey-step3">
+            <div class="step-header-badge">STEP 3 · 換一個角度看看</div>
+            <h2 class="step-main-title">或者，你可以這樣理解現在的自己。</h2>
+            <div class="step-subtitle">每個人的情況不同。所以，適合的開始方式也不會完全一樣。</div>
+            <div class="scenario-card" id="scenarioCard">
+                <div class="scenario-icon" id="scenarioIcon"></div>
+                <div class="scenario-title" id="scenarioTitle"></div>
+                <div class="scenario-text" id="scenarioText"></div>
             </div>
-            <div class="choice-option-box" onclick="selectFlowGoal('教育基金', this)">
-                <span class="choice-dot" style="background:#3b82f6;"></span>
-                <div class="choice-text-wrap"><span class="choice-title">🎓 教育基金</span></div>
-            </div>
-            <div class="choice-option-box" onclick="selectFlowGoal('創造被動收入', this)">
-                <span class="choice-dot" style="background:#f59e0b;"></span>
-                <div class="choice-text-wrap"><span class="choice-title">💰 創造被動收入</span></div>
-            </div>
-            <div class="choice-option-box" onclick="selectFlowGoal('紅利增值享受', this)">
-                <span class="choice-dot" style="background:#8b5cf6;"></span>
-                <div class="choice-text-wrap"><span class="choice-title">📈 紅利增值享受</span></div>
-            </div>
-
             <div class="step-action-bar">
-                <button class="btn-step-prev" onclick="goToStep('page-step1b')">← 上一步</button>
-                <button class="btn-step-next" onclick="goToStep('page-step3')">下一步 →</button>
+                <button class="btn-step-prev" onclick="goJourneyStep(2)">← 上一步</button>
+                <button class="btn-step-next" onclick="goJourneyStep(4)">下一步 →</button>
             </div>
         </div>
 
-        <!-- STEP 03 & 04 & 05: 退休需要與資產缺口 GAP -->
-        <div class="step-wrapper-card step-page" id="page-step3">
-            <div class="step-header-badge">03 & 04 | 退休資產地圖與需要</div>
-            <h2 class="step-main-title">由生活目標計算未來需要與現有差距</h2>
-            <div class="step-subtitle">所有現有資產都是退休藍圖的一部分</div>
-
-            <div class="top-input-grid">
-                <div class="input-group">
-                    <label>現時年齡</label>
-                    <input type="number" id="flow-current-age" value="30" oninput="calculateSalesGap()">
-                </div>
-                <div class="input-group">
-                    <label>預計退休年齡</label>
-                    <input type="number" id="flow-retire-age" value="65" oninput="calculateSalesGap()">
-                </div>
-                <div class="input-group">
-                    <label>今日每月生活費 ($)</label>
-                    <input type="text" id="flow-monthly-expense" value="30,000" inputmode="numeric" oninput="formatAndCalcGap(this)">
-                </div>
-                <div class="input-group">
-                    <label>現有退休資源總額 ($)</label>
-                    <input type="text" id="flow-current-assets" value="600,000" inputmode="numeric" oninput="formatAndCalcGap(this)">
+        <!-- STEP 4: 回望時間 -->
+        <div class="step-wrapper-card step-page" id="page-journey-step4">
+            <div class="step-header-badge">STEP 4 · 回望時間</div>
+            <h2 class="step-main-title">不如，回望一下 10 年前。</h2>
+            <div class="step-subtitle">不需要想得太複雜。只需要想一想：<strong>10 年前的你，曾經為今天留下了甚麼？</strong></div>
+            <div class="memory-card">
+                <div class="memory-year">🕰️ 10 年前</div>
+                <div class="memory-question">
+                    當時的你，有沒有做過一些選擇，<br><br>
+                    是當時覺得很普通，<br>但今天回望，才發現原來一直影響著現在？
                 </div>
             </div>
-
-            <div class="gap-result-box">
-                <div style="font-size:1.05rem; opacity:0.9;">未來總需要 VS 現有資源</div>
-                <div class="gap-grid">
-                    <div><span style="font-size:0.8rem;">未來總需要：</span><br><strong style="font-size:1.25rem;" id="gap-need-val">$10,800,000</strong></div>
-                    <div><span style="font-size:0.8rem;">現有資源：</span><br><strong style="font-size:1.25rem;" id="gap-have-val">$600,000</strong></div>
-                    <div><span style="font-size:0.8rem; color:#fca5a5;">需要處理的 GAP：</span><br><strong style="font-size:1.45rem; color:#fef08a;" id="gap-diff-val">$10,200,000</strong></div>
-                </div>
+            <div class="step-subtitle" style="margin-top:20px; line-height:1.7;">
+                可能是一份工作。可能是一個決定。可能是一個習慣。亦可能只是當年，你願意開始的一件事。
             </div>
-
             <div class="step-action-bar">
-                <button class="btn-step-prev" onclick="goToStep('page-step2')">← 上一步</button>
-                <button class="btn-step-next" onclick="goToStep('page-step7')">下一步 →</button>
+                <button class="btn-step-prev" onclick="goJourneyStep(3)">← 上一步</button>
+                <button class="btn-step-next" onclick="goJourneyStep(5)">下一步 →</button>
             </div>
         </div>
 
-        <!-- STEP 07: 方案方向選擇 -->
-        <div class="step-wrapper-card step-page" id="page-step7">
-            <div class="step-header-badge">07 | 方案方向選擇</div>
-            <h2 class="step-main-title">三個方向入面，邊一個最似你？</h2>
-            <div class="step-subtitle">提供選擇，自主決定合適的起步步伐</div>
-
-            <div class="choice-option-box" onclick="selectDirection('起步', 30000, this)">
-                <span class="choice-dot" style="background:#f59e0b;"></span>
-                <div class="choice-text-wrap">
-                    <span class="choice-title">🐣 輕鬆起步</span>
-                    <span class="choice-desc">較低投入（約每年 $30,000），先建立儲蓄習慣</span>
-                </div>
+        <!-- STEP 5: 時光錦囊 -->
+        <div class="step-wrapper-card step-page" id="page-journey-step5">
+            <div class="step-header-badge">STEP 5 · 時光錦囊</div>
+            <div class="time-machine">
+                <div class="clock">🕰️</div>
+                <h2 class="step-main-title" style="margin-top:10px;">如果你現在有一部時光機……</h2>
+                <div class="step-subtitle">你不需要知道 10 年後會發生甚麼。<br>你只需要留下一句說話，給未來的自己。</div>
             </div>
-            <div class="choice-option-box active" onclick="selectDirection('平衡', 40000, this)">
-                <span class="choice-dot" style="background:#10b981;"></span>
-                <div class="choice-text-wrap">
-                    <span class="choice-title">🐓 平衡方案</span>
-                    <span class="choice-desc">兼顧今日生活與未來目標（約每年 $40,000）</span>
-                </div>
+            <div class="options" id="step5Options"></div>
+            <div class="letter-card" id="futureLetter" style="display:none;">
+                <div class="letter-title">📩 收件人：10 年後的自己</div>
+                <div class="letter-message" id="letterMessage"></div>
             </div>
-            <div class="choice-option-box" onclick="selectDirection('加速', 80000, this)">
-                <span class="choice-dot" style="background:#3b82f6;"></span>
-                <div class="choice-text-wrap">
-                    <span class="choice-title">🦅 加速達標</span>
-                    <span class="choice-desc">投入較高（約每年 $80,000），更接近完整填補缺口</span>
-                </div>
-            </div>
-
             <div class="step-action-bar">
-                <button class="btn-step-prev" onclick="goToStep('page-step3')">← 上一步</button>
-                <button class="btn-step-next" onclick="goToStep('page-calculator')">📊 進入時光錦囊量化計算 →</button>
+                <button class="btn-step-prev" onclick="goJourneyStep(4)">← 上一步</button>
+                <button class="btn-step-next" id="journey-next-5" disabled onclick="goJourneyStep('result')">完成時光錦囊 →</button>
             </div>
         </div>
 
-        <!-- 原有時光複利頁面 (每年長糧、舒適圈、錦囊1-4、8-25年逐年與至100歲、紅利/年息開關) -->
+        <!-- 錦囊總結 -->
+        <div class="step-wrapper-card step-page" id="page-journey-result">
+            <div class="final-card">
+                <div style="font-size:60px;">🌱</div>
+                <h2 class="step-main-title" style="margin-top: 15px;">你的時光錦囊，已經寫好了。</h2>
+                <div class="step-subtitle">未來未必可以預測。但今天的選擇，可以慢慢為未來留下不同的可能。</div>
+                <div class="summary">
+                    <div class="summary-row">
+                        <div class="summary-label">你現在的想法</div>
+                        <div class="summary-value" id="summaryStep1"></div>
+                    </div>
+                    <div class="summary-row">
+                        <div class="summary-label">你現在的狀況</div>
+                        <div class="summary-value" id="summaryStep2"></div>
+                    </div>
+                    <div class="summary-row">
+                        <div class="summary-label">你留給未來自己的說話</div>
+                        <div class="summary-value" id="summaryStep5"></div>
+                    </div>
+                </div>
+                <div class="step-subtitle" style="margin-top:25px; line-height: 1.8;">
+                    下一步，我們才一起看看：<br>
+                    <strong>如何將今天這個想法，慢慢變成一個真正可以看見的未來。</strong>
+                </div>
+            </div>
+            <div class="step-action-bar">
+                <button class="btn-step-prev" onclick="goJourneyStep(5)">← 上一步</button>
+                <button class="btn-step-next" onclick="goToStep('page-calculator')">📊 進入時光複利量化規劃 →</button>
+            </div>
+        </div>
+
+        <!-- ==========================================
+             三大核心量化模組：
+             1. 時光複利（每年長糧、舒適圈、錦囊1-4、8-25年及至100歲、紅利/年息）
+        =========================================== -->
         <div class="step-wrapper-card step-page" id="page-calculator">
-            <div class="step-header-badge">08 | 時光複利：歲月豐收</div>
+            <div class="step-header-badge">時光複利 · 歲月豐收</div>
             <h2 class="step-main-title" onclick="openAvaAdmin()">時光複利：歲月豐收</h2>
             <p style="color:var(--secondary-color); margin-top:0; margin-bottom:1.5rem;">享受人生下半場</p>
-
             <div class="management-section" id="management-section">
                 <h3 style="margin-bottom: 1rem; color: var(--primary-color);">💼 客戶專屬報告建立</h3>
                 <div style="display: flex; gap: 10px; max-width: 650px; margin: 0 auto; align-items: center; flex-wrap: wrap;">
@@ -437,7 +431,6 @@
                     <div class="input-group" style="flex: 1; min-width: 120px;"><button id="share-btn" class="btn btn-success" onclick="handleShare('page-calculator')">📤 建立分享</button></div>
                 </div>
             </div>
-
             <div class="section">
                 <div class="top-input-grid">
                     <div class="input-group"><label>開始歲數</label><input type="number" id="start-age" value="30"></div>
@@ -475,7 +468,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="section">
                 <h2>
                     時光複利：各時光錦囊的獨立策略
@@ -570,19 +562,19 @@
                     <table id="results-table"><thead id="results-table-head"></thead><tbody id="results-table-body"></tbody></table>
                 </div>
             </div>
-
             <div class="step-action-bar">
-                <button class="btn-step-prev" onclick="goToStep('page-step7')">← 上一步</button>
+                <button class="btn-step-prev" onclick="goToStep('page-journey-result')">← 返回時光錦囊總結</button>
                 <button class="btn-step-next" onclick="goToStep('page-medical')">🏥 承接退休後醫保 →</button>
             </div>
         </div>
 
-        <!-- 原有增值式醫保頁面 (完整還原：醫療通脹累計總額、轉換期到增值期總保費、金庫一至四、詳細算式) -->
+        <!-- ==========================================
+             2. 增值式醫保（醫療通脹、轉換期/增值期、金庫一至四、完整算式）
+        =========================================== -->
         <div class="step-wrapper-card step-page" id="page-medical">
-            <div class="step-header-badge">09 | 增值式醫保</div>
+            <div class="step-header-badge">增值式醫保</div>
             <h2 class="step-main-title" onclick="openAvaAdmin()">增值式醫保</h2>
             <p style="color:var(--secondary-color); margin-top:0; margin-bottom:1.5rem;">退休生活不能忽略的剛性支出</p>
-
             <div class="management-section" id="med-management-section">
                 <h3 style="margin-bottom: 1rem; color: var(--primary-color);">💼 增值式醫保報告</h3>
                 <div style="display: flex; gap: 10px; max-width: 600px; margin: 0 auto; align-items: center; flex-wrap: wrap;">
@@ -688,7 +680,6 @@
                     </div>
                     <div class="total-box">5年儲備 + 醫療保費總額：$<span id="med-plan1-5yr-total">200,000</span></div>
                 </div>
-
                 <!-- 儲備金庫二 -->
                 <div class="extra-jar" id="group-med-plan2" style="display:none;">
                     <div class="jar-card" style="border-top: 4px solid var(--plan2-color);">
@@ -723,8 +714,7 @@
                         <div class="total-box" style="background:#e8f5e9; color:var(--plan2-color);">5年儲備 + 醫療保費總額：$<span id="med-plan2-5yr-total">250,000</span></div>
                     </div>
                 </div>
-
-                <!-- 儲備金庫三：紅字 -->
+                <!-- 儲備金庫三 -->
                 <div class="extra-jar" id="group-med-plan3" style="display:none;">
                     <div class="jar-card" style="border-top: 4px solid var(--plan3-color);">
                         <div class="jar-header"><h3 style="color:var(--plan3-color); margin:0;">儲備金庫三 + <span style="color:purple; font-weight:bold;">醫療保費</span> (第11-15年)</h3></div>
@@ -758,7 +748,6 @@
                         <div class="total-box" style="background:#ffebee; color:var(--plan3-color);">5年儲備 + 醫療保費總額：$<span id="med-plan3-5yr-total">300,000</span></div>
                     </div>
                 </div>
-
                 <!-- 儲備金庫四 -->
                 <div class="extra-jar" id="group-med-plan4" style="display:none;">
                     <div class="jar-card" style="border-top: 4px solid var(--plan4-color);">
@@ -793,7 +782,7 @@
                         <div class="total-box" style="background:#f3e5f5; color:var(--plan4-color);">5年儲備 + 醫療保費總額：$<span id="med-plan4-5yr-total">350,000</span></div>
                     </div>
                 </div>
-
+                
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1.5rem;">
                     <h3 style="margin:0; font-size:1.1rem; color:var(--secondary-color); display:flex; align-items:center; gap:6px;">
                         📊 醫保累積表
@@ -806,7 +795,6 @@
                     <span style="color:#666;">年</span>
                     <button class="btn btn-primary" style="width:auto; padding:4px 10px; font-size:0.8rem;" onclick="calculateAndDisplay()">🔄 即時對比</button>
                 </div>
-
                 <div class="table-wrapper">
                     <table id="med-results-table">
                         <thead id="med-results-table-head"></thead>
@@ -841,14 +829,15 @@
                     </div>
                 </div>
             </div>
-
             <div class="step-action-bar">
                 <button class="btn-step-prev" onclick="goToStep('page-calculator')">← 上一步</button>
                 <button class="btn-step-next" onclick="goToStep('page-promo')">🎁 專屬保費優惠 →</button>
             </div>
         </div>
 
-        <!-- 原有保費優惠頁面 (完整還原優惠 1, 2, 3 及預繳利息退回算式) -->
+        <!-- ==========================================
+             3. 保費優惠計算（優惠 1, 2, 3 及預繳利息退回算式）
+        =========================================== -->
         <div class="step-wrapper-card step-page" id="page-promo">
             <div class="step-header-badge">專屬保費優惠計算</div>
             <h2 class="step-main-title">專屬保費優惠計算</h2>
@@ -911,13 +900,11 @@
                     </div>
                 </div>
             </div>
-
             <div class="step-action-bar">
                 <button class="btn-step-prev" onclick="goToStep('page-medical')">← 上一步</button>
-                <button class="btn-step-next" onclick="alert('專屬方案已全數規劃完成！可點擊上方分享或導出 PDF。')">✅ 完成所有規劃</button>
+                <button class="btn-step-next" onclick="alert('專屬方案已全數規劃完成！可點擊上方建立分享或導出 PDF。')">✅ 完成所有規劃</button>
             </div>
         </div>
-
     </div>
 
     <!-- AVA 視覺化後台鏡像系統 -->
@@ -942,7 +929,6 @@
                     </div>
                     <div id="mirror-cards-container"></div>
                 </div>
-
                 <div id="admin-sec-scheme" class="admin-tab-content" style="display:none;">
                     <div class="mirror-card">
                         <span class="step-header-badge">🐣 輕鬆起步方案細項</span>
@@ -959,7 +945,6 @@
                         <input type="text" class="editable-pink-box" value="兼顧今日生活與未來目標">
                     </div>
                 </div>
-
                 <div id="admin-sec-firebase" class="admin-tab-content" style="display:none;">
                     <div class="mirror-card">
                         <h4 style="margin-top:0; color:#1e3a8a;">📤 索償案例圖片上載至 Firebase Storage</h4>
@@ -968,7 +953,6 @@
                         <div id="firebase-upload-status" style="margin-top:12px; font-weight:bold; font-size:0.9rem;"></div>
                     </div>
                 </div>
-
                 <div id="admin-sec-system" class="admin-tab-content" style="display:none;">
                     <div class="mirror-card">
                         <h4 style="margin-top:0; color:#1e3a8a;">🌐 Google Apps Script API 網址</h4>
@@ -977,7 +961,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="ava-admin-footer">
                 <button class="btn btn-secondary" style="width:auto; padding:8px 20px;" onclick="closeAvaAdmin()">取消</button>
                 <button class="btn btn-primary" style="width:auto; padding:8px 20px; background:#1e3a8a;" onclick="saveAndSyncGoogleSheet()">💾 儲存並同步至 Google Sheet</button>
@@ -1107,7 +1090,7 @@
         <div class="modal-content">
             <span class="close-modal" id="close-modal-icon">&times;</span>
             <h3 style="color:var(--primary-color); margin-top:0;">🔗 成功建立分享連結！</h3>
-            <div class="qr-container" id="qr-code-display"></div>
+            <div class="qr-container" id="qr-code-display" style="display:flex; justify-content:center; margin:15px 0;"></div>
             <div style="display:flex; gap:10px; margin-top:15px; justify-content:center;">
                 <button class="btn btn-secondary" id="copy-url-btn" style="flex:1;">📄 複製網址</button>
                 <button class="btn btn-primary" onclick="window.print()" style="flex:1;">📄 導出 PDF</button>
@@ -1121,6 +1104,15 @@
         const RETURNS_EXCEL_URL = 'https://docs.google.com/spreadsheets/d/1-kawg3ew7CF05g-Dc3cwu1yYROWa73fhWlunv5TYF6E/export?format=xlsx';
         const MEDICAL_EXCEL_URL = 'https://docs.google.com/spreadsheets/d/1G6JirabWJPrTtsdPuzzfyo-D-EPIbbdCM3HvFUW7ZCw/export?format=xlsx';
         
+        // 錦囊旅程 State
+        const journeyState = {
+            step1: null,
+            step1Text: null,
+            step2: null,
+            step2Text: null,
+            step5: null
+        };
+        
         let isPurchasingPowerMaskHidden = true; 
         let showActualMedicalPremium = false; 
         let showDividend = false; 
@@ -1133,7 +1125,6 @@
         let globalReturnMultipliers = {}; 
         let globalMedPremiumCache = {};
         let shareUrlGlobal = '';
-
         let globalAdminCards = [
             { id: "STEP_01", category: "【現況】", step_code: "01 | 理財現況", title: "你而家嘅理財情況，邊一個最似你？", subtitle: "可選擇最多 2 個最符合你嘅現況", image_url: "", options: ["📚 唔識投資", "🏦 主要放銀行", "🛡️ 擔心損失", "📉 知道錢會貶值"] },
             { id: "STEP_01B", category: "【渴望】", step_code: "01B | 真正渴望", title: "如果有錢，你最想做嘅野係咩？", subtitle: "先由生活出發，理財是為了實現理想生活畫面", image_url: "", options: ["🏖️ 每年旅行", "🏠 保持現有生活質素", "👨‍👩‍👧 多啲時間陪屋企人", "💼 繼續工作，但唔再為錢"] },
@@ -1154,50 +1145,184 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        function toggleMultiOption(el, maxSelect) {
-            const parent = el.parentElement;
-            if (el.classList.contains('active')) {
-                el.classList.remove('active');
-            } else {
-                if (parent.querySelectorAll('.choice-option-box.active').length < maxSelect) {
-                    el.classList.add('active');
-                }
+        /* =====================================================
+           時光錦囊旅程邏輯 (Saving 客)
+        ===================================================== */
+        function goJourneyStep(step) {
+            if (step === 'result') {
+                showJourneyResult();
+                return;
             }
-        }
-        function toggleSingleOption(el) {
-            el.parentElement.querySelectorAll('.choice-option-box').forEach(b => b.classList.remove('active'));
-            el.classList.add('active');
-        }
-        function selectFlowGoal(goal, el) {
-            toggleSingleOption(el);
-            document.getElementById('plan-mode').value = goal;
-            calculateAndDisplay();
-        }
-        function selectDirection(name, amount, el) {
-            toggleSingleOption(el);
-            document.getElementById('plan1-contribution').value = formatNumber(amount);
-            setupJarAutoFill('plan1');
-            calculateAndDisplay();
+            if (step === 3) generateJourneyScenario();
+            if (step === 5) generateJourneyStep5();
+            goToStep(`page-journey-step${step}`);
         }
 
-        function formatAndCalcGap(input) {
-            input.value = formatNumber(parseFormattedNumber(input.value));
-            calculateSalesGap();
-        }
-        function calculateSalesGap() {
-            const curAge = parseInt(document.getElementById('flow-current-age').value) || 30;
-            const retAge = parseInt(document.getElementById('flow-retire-age').value) || 65;
-            const monthlyExp = parseFormattedNumber(document.getElementById('flow-monthly-expense').value);
-            const assets = parseFormattedNumber(document.getElementById('flow-current-assets').value);
-            
-            const totalNeed = monthlyExp * 12 * Math.max(1, 90 - retAge);
-            const gap = Math.max(0, totalNeed - assets);
+        const step1Buttons = document.querySelectorAll('[data-step="1"]');
+        step1Buttons.forEach(button => {
+            button.addEventListener("click", () => {
+                step1Buttons.forEach(btn => btn.classList.remove("selected"));
+                button.classList.add("selected");
+                journeyState.step1 = button.dataset.value;
+                journeyState.step1Text = button.querySelector(".option-title").innerText;
+                journeyState.step2 = null;
+                journeyState.step2Text = null;
+                generateJourneyStep2();
+                document.getElementById('journey-next-1').disabled = false;
+            });
+        });
 
-            document.getElementById('gap-need-val').textContent = `$${formatNumber(totalNeed)}`;
-            document.getElementById('gap-have-val').textContent = `$${formatNumber(assets)}`;
-            document.getElementById('gap-diff-val').textContent = `$${formatNumber(gap)}`;
+        function generateJourneyStep2() {
+            const container = document.getElementById("step2Options");
+            const description = document.getElementById("step2Description");
+            container.innerHTML = "";
+            let options = [];
+
+            if (journeyState.step1 === "present") {
+                description.innerHTML = `享受現在沒有問題。<br><br>只是想了解一下：在目前的生活節奏中，你比較接近哪一種？`;
+                options = [
+                    { value: "enjoy", title: "🍷 生活已經有很多想做的事", desc: "旅行、興趣、生活享受，暫時不想被太多規劃限制。" },
+                    { value: "leftover", title: "🌊 每個月過得去，但很難留下", desc: "收入不是沒有，只是生活開支與不同事情，慢慢就用掉了。" },
+                    { value: "later", title: "⏳ 我覺得還有很多時間", desc: "未來可以再處理，現在暫時沒有迫切需要開始。" }
+                ];
+            } else if (journeyState.step1 === "uncertain") {
+                description.innerHTML = `你知道未來值得思考，<br><br>但不同方法都有不同說法。<br><br>現在的你，比較接近哪一種？`;
+                options = [
+                    { value: "invest", title: "📈 想嘗試投資，但不知道怎樣開始", desc: "看到不同機會，但不知道哪一種真正適合自己。" },
+                    { value: "bank", title: "🏦 我比較相信熟悉與穩定", desc: "寧願簡單、容易理解，也不想每天擔心市場。" },
+                    { value: "doubt", title: "🤔 我擔心長期計劃不夠靈活", desc: "時間太長、限制太多，怕將來想改變時沒有選擇。" }
+                ];
+            } else if (journeyState.step1 === "builder") {
+                description.innerHTML = `你已經認同：<br>未來不需要一次過準備好。<br><br>只是現在，你比較接近哪一種狀況？`;
+                options = [
+                    { value: "startsmall", title: "🌱 想開始，但希望由舒服的程度開始", desc: "不想影響現在生活，只希望慢慢建立。" },
+                    { value: "discipline", title: "📅 我需要一個方法幫自己持續", desc: "知道應該做，但如果太自由，最後可能又不了了之。" },
+                    { value: "already", title: "🧱 已經有一些安排，但想看看是否足夠", desc: "希望未來不同階段，都有更多選擇。" }
+                ];
+            }
+
+            options.forEach(item => {
+                const button = document.createElement("button");
+                button.className = "option";
+                button.innerHTML = `<div class="option-title">${item.title}</div><div class="option-desc">${item.desc}</div>`;
+                button.addEventListener("click", () => {
+                    document.querySelectorAll("#step2Options .option").forEach(btn => btn.classList.remove("selected"));
+                    button.classList.add("selected");
+                    journeyState.step2 = item.value;
+                    journeyState.step2Text = item.title;
+                    document.getElementById('journey-next-2').disabled = false;
+                });
+                container.appendChild(button);
+            });
         }
 
+        function generateJourneyScenario() {
+            const icon = document.getElementById("scenarioIcon");
+            const title = document.getElementById("scenarioTitle");
+            const text = document.getElementById("scenarioText");
+            const scenarios = {
+                present_enjoy: {
+                    icon: "🍷",
+                    title: "生活就像一趟旅行",
+                    text: `如果你將所有東西都留到最後，可能會錯過今天。但如果整趟旅程都只顧眼前，到下一個地方時，又可能需要重新開始。<br><br>享受今天，與為下一段旅程留下準備，其實可以同時存在。`
+                },
+                present_leftover: {
+                    icon: "🪣",
+                    title: "就像一個有小洞的水桶",
+                    text: `不是沒有水流進來。只是每天都有不同地方，慢慢流走。<br><br>有時候問題不在於要放更多進去，而是：能不能先留下一小部分，不讓它每次都跟著生活一起流走。`
+                },
+                present_later: {
+                    icon: "⏳",
+                    title: "時間看起來很多，是因為還沒有走遠",
+                    text: `10 年聽起來很長。但回望過去，10 年往往比想像中快。<br><br>未來不需要今天完成。只是有些事情，今天開始，與 10 年後才開始，可以完全不同。`
+                },
+                uncertain_invest: {
+                    icon: "🧭",
+                    title: "不是所有路，都需要自己駕駛",
+                    text: `有些人喜歡自己研究地圖，自己選路。<br><br>但亦有人只希望知道：「我想去的地方，有沒有一條可以慢慢走到的路？」<br><br>方法不一定要最刺激，最重要是：你能不能真正走得下去。`
+                },
+                uncertain_bank: {
+                    icon: "🏦",
+                    title: "安全感，有時比刺激更重要",
+                    text: `有些人喜歡每天看升跌。有些人不想每天做決定。<br><br>就像有人喜歡自己開車，有人更喜歡坐一條已經知道方向的路線。<br><br>不是哪一種比較好，而是：哪一種令你更容易一直走下去。`
+                },
+                uncertain_doubt: {
+                    icon: "🚪",
+                    title: "真正的問題，不是時間長",
+                    text: `而是：「長時間之後，我還有沒有選擇？」<br><br>就像租一間房子，與建立一個真正屬於自己的空間。<br><br>在開始之前，最重要不是先決定要不要，而是先弄清楚：未來不同階段，自己可以有哪些選擇。`
+                },
+                builder_startsmall: {
+                    icon: "🌱",
+                    title: "種樹，不需要第一天就長大",
+                    text: `一棵樹的開始，可能只是一粒種子。<br><br>重要的不是第一天有多大，而是：它有沒有被放在一個地方，可以一直慢慢成長。<br><br>有些未來，也不需要一次過建立完成。`
+                },
+                builder_discipline: {
+                    icon: "🪴",
+                    title: "植物不需要每天做決定",
+                    text: `如果每天都要問：「今天要不要澆水？」有一天，很容易就忘記。<br><br>有時候真正有價值的，不是靠每天提醒自己，而是建立一個習慣，讓事情自然慢慢發生。`
+                },
+                builder_already: {
+                    icon: "🏡",
+                    title: "一間房子，不會只靠一面牆",
+                    text: `已經有一些安排，不代表未來所有需要都已經完成。<br><br>不同安排，可以有不同角色。<br><br>最重要的是：當人生走到不同階段，自己是否仍然有足夠的空間與選擇。`
+                }
+            };
+            const key = `${journeyState.step1}_${journeyState.step2}`;
+            const scenario = scenarios[key];
+            if (!scenario) return;
+            icon.innerHTML = scenario.icon;
+            title.innerHTML = scenario.title;
+            text.innerHTML = scenario.text;
+        }
+
+        function generateJourneyStep5() {
+            const container = document.getElementById("step5Options");
+            container.innerHTML = "";
+            let messages = [];
+
+            if (journeyState.step1 === "present") {
+                messages = [
+                    { title: "🌅 我會繼續享受今天", desc: "但不會完全忘記未來的你。", message: "我會繼續享受今天，但也會由今天開始，為你留下一點。" },
+                    { title: "🌱 我不需要一次做很多", desc: "但可以慢慢開始。", message: "我不需要今天為你完成所有事情，但我會開始慢慢為你建立。" }
+                ];
+            } else if (journeyState.step1 === "uncertain") {
+                messages = [
+                    { title: "🧭 我會慢慢找到適合自己的方法", desc: "不需要跟別人一樣。", message: "我未必知道哪一條路最好，但我會開始找一條真正適合你的路。" },
+                    { title: "🕊️ 我希望你將來有更多選擇", desc: "而不是只剩下一個答案。", message: "我會由今天開始，慢慢為你留下更多選擇。" }
+                ];
+            } else if (journeyState.step1 === "builder") {
+                messages = [
+                    { title: "🌱 我會由今天開始慢慢建立", desc: "不用一步到位。", message: "我會由今天開始，慢慢為你建立，不需要一次完成。" },
+                    { title: "🕰️ 我會讓時間陪我們一起走", desc: "今天做一點，讓時間慢慢累積。", message: "我負責今天開始，而時間會陪我們慢慢走向未來。" }
+                ];
+            }
+
+            messages.forEach(item => {
+                const button = document.createElement("button");
+                button.className = "option";
+                button.innerHTML = `<div class="option-title">${item.title}</div><div class="option-desc">${item.desc}</div>`;
+                button.addEventListener("click", () => {
+                    document.querySelectorAll("#step5Options .option").forEach(btn => btn.classList.remove("selected"));
+                    button.classList.add("selected");
+                    journeyState.step5 = item.message;
+                    document.getElementById("futureLetter").style.display = "block";
+                    document.getElementById("letterMessage").innerHTML = `「${item.message}」`;
+                    document.getElementById('journey-next-5').disabled = false;
+                });
+                container.appendChild(button);
+            });
+        }
+
+        function showJourneyResult() {
+            document.getElementById("summaryStep1").innerText = journeyState.step1Text || "-";
+            document.getElementById("summaryStep2").innerText = journeyState.step2Text || "-";
+            document.getElementById("summaryStep5").innerText = journeyState.step5 ? `「${journeyState.step5}」` : "-";
+            goToStep('page-journey-result');
+        }
+
+        /* =====================================================
+           三大量化引擎計算邏輯 (時光複利 / 醫保 / 優惠)
+        ===================================================== */
         function unlockPurchasingPowerMask() {
             isPurchasingPowerMaskHidden = false;
             document.getElementById('mask-real-value').classList.remove('hidden-blur');
@@ -1246,6 +1371,7 @@
             document.getElementById('delay-control-bar').style.display = isDelayControlOpen ? 'flex' : 'none';
             calculateAndDisplay();
         }
+
         function toggleMedDelayControlBar() {
             isMedDelayControlOpen = !isMedDelayControlOpen;
             document.getElementById('med-delay-control-bar').style.display = isMedDelayControlOpen ? 'flex' : 'none';
@@ -1257,6 +1383,7 @@
             showDividend = !showDividend;
             calculateAndDisplay();
         };
+
         window.toggleInterest = function() {
             if (isSharedMode) return; 
             showInterest = !showInterest;
@@ -1300,7 +1427,7 @@
             return 0;
         };
 
-        // 核心計算引擎 (完全還原：每年長糧、自付額、8-25年逐年與至100歲、金庫一至四)
+        // 1 & 2. 核心計算引擎：時光複利與增值式醫保
         window.calculateAndDisplay = function() {
             // 1. 時光複利計算
             const startAge = parseInt(document.getElementById('start-age').value) || 30;
@@ -1329,12 +1456,13 @@
             const p2Total = getJarTotal('plan2');
             const p3Total = getJarTotal('plan3');
             const p4Total = getJarTotal('plan4');
+
             document.getElementById('plan1-5yr-total').textContent = formatNumber(p1Total);
             document.getElementById('plan2-5yr-total').textContent = formatNumber(p2Total);
             document.getElementById('plan3-5yr-total').textContent = formatNumber(p3Total);
             document.getElementById('plan4-5yr-total').textContent = formatNumber(p4Total);
-            document.getElementById('inflation-value').textContent = `${(inflationRate*100).toFixed(1)}%`;
 
+            document.getElementById('inflation-value').textContent = `${(inflationRate*100).toFixed(1)}%`;
             const totalCashWithInterest = existingDeposit * Math.pow(1 + bankInterestRate, duelYear) + fixedBankDeposit * ((Math.pow(1 + bankInterestRate, duelYear) - 1) / bankInterestRate || 1);
             document.getElementById('cash-total').textContent = `$${formatNumber(totalCashWithInterest)}`;
             document.getElementById('cash-real-value').textContent = `$${formatNumber(totalCashWithInterest / Math.pow(1 + inflationRate, duelYear))}`;
@@ -1377,9 +1505,9 @@
             document.getElementById('results-table-head').innerHTML = headerBase + thDividend + thInterest + `</tr>`;
             const tableBody = document.getElementById('results-table-body');
             tableBody.innerHTML = '';
-
             let prevYear = 0, prevBalance = 0;
             const jarTotals = [p1Total, p2Total, p3Total, p4Total];
+
             const calcAssets = (y) => {
                 if (y <= 0) return { rV: 0, rW: 0, rA: 0, rC: 0 };
                 let rV = 0, rW = 0, rA = 0, rC = 0;
@@ -1437,7 +1565,7 @@
                 }
             }
 
-            // 2. 增值式醫保計算 (完整還原：轉換期至增值期累計總保費與醫療通脹算式)
+            // 2. 增值式醫保計算 (含醫療通脹、轉換期至增值期總額、結局 A/B)
             const medStartAge = parseInt(document.getElementById('med-start-age').value) || startAge;
             const medInflationRate = (parseFloat(document.getElementById('med-inflation-rate-num').value) || 0) / 100;
             const medRetireAge = parseInt(document.getElementById('med-retire-age').value) || 65;
@@ -1470,12 +1598,13 @@
             const m2Total = getJarTotal('med-plan2');
             const m3Total = getJarTotal('med-plan3');
             const m4Total = getJarTotal('med-plan4');
+
             document.getElementById('med-plan1-5yr-total').textContent = formatNumber(m1Total + m1PremTotal);
             document.getElementById('med-plan2-5yr-total').textContent = formatNumber(m2Total + m2PremTotal);
             document.getElementById('med-plan3-5yr-total').textContent = formatNumber(m3Total + m3PremTotal);
             document.getElementById('med-plan4-5yr-total').textContent = formatNumber(m4Total + m4PremTotal);
 
-            // 核心修正：精確計算「轉換期 (medRetireAge) 至 增值期 (medMaxAgeInput)」的醫保總保費 (含通脹率)
+            // 精確計算「轉換期至增值期」醫保總保費
             let cardMedPremiumTotal = 0;
             for (let a = medRetireAge; a <= medMaxAgeInput; a++) {
                 let singlePrem = getPremiumForAge(a);
@@ -1501,7 +1630,6 @@
 
             const medTableBody = document.getElementById('med-results-table-body');
             medTableBody.innerHTML = '';
-
             let maxMedYear = Math.max(1, medMaxAgeInput - medStartAge + 1);
             const medReportingYears = [];
             for (let y = 8; y <= 25; y++) { if (y <= maxMedYear) medReportingYears.push(y); }
@@ -1554,6 +1682,7 @@
                 let delayedRes = calcMedAssets(year - medDelayYears);
                 let medPremiumCurrentYear = (currentAge >= medRetireAge && currentAge <= medMaxAgeInput) ? getPremiumForAge(currentAge) * Math.pow(1 + medInflationRate, year - 1) : 0;
                 let actualMedPremium = todayRes.rA - medPremiumCurrentYear;
+
                 sumExtracted += todayRes.rA;
                 sumMedPremium += medPremiumCurrentYear;
                 sumActualPremium += actualMedPremium;
@@ -1562,9 +1691,11 @@
                     finalBalance = todayRes.rV;
                     totalPrincipal = todayRes.rC;
                 }
+
                 if (medReportingYears.includes(year)) {
                     let ageDisplay = `${year} (${currentAge})`;
                     let balanceDisplay = `$${formatNumber(todayRes.rV)}`;
+
                     if (isMedDelayControlOpen && medDelayYears > 0) {
                         let diffLoss = todayRes.rV - delayedRes.rV;
                         ageDisplay = `<div>${year} (${currentAge})</div><div style="font-size:0.75rem; color:#dc3545; font-weight:bold;">遲${medDelayYears}年: ${Math.max(0, year-medDelayYears)}年</div>`;
@@ -1589,7 +1720,7 @@
             document.getElementById('outcome-formula-values').innerHTML = `$${formatNumber(sumExtracted)} + $${formatNumber(finalBalance)} - $${formatNumber(sumMedPremium)} - $${formatNumber(totalPrincipal)} = <strong style="color:var(--gain-color); font-size:1.1rem;">$${formatNumber(outcomeTotal)}</strong>`;
         };
 
-        // 3. 保費優惠計算
+        // 3. 保費優惠計算 (優惠 1, 優惠 2, 優惠 3 預繳利息)
         window.calculatePromo = function() {
             const P = parseFormattedNumber(document.getElementById('promo-annual-premium').value) || 0;
             const N = parseInt(document.getElementById('promo-term').value) || 5;
@@ -1697,6 +1828,7 @@
             globalAdminCards.push({ id: `STEP_${Date.now()}`, category: "【自訂】", step_code: "自訂步驟", title: "新標題", subtitle: "新副標題", options: [] });
             renderMirrorCards();
         }
+
         function deleteAdminCard(idx) {
             if(confirm('確定要刪除此頁面嗎？')) {
                 globalAdminCards.splice(idx, 1);
@@ -1819,7 +1951,7 @@
             
             const qrContainer = document.getElementById('qr-code-display');
             qrContainer.innerHTML = '';
-            new QRCode(qrContainer, { text: shareUrlGlobal, width: 220, height: 220, correctLevel : QRCode.CorrectLevel.M });
+            new QRCode(qrContainer, { text: shareUrlGlobal, width: 200, height: 200, correctLevel : QRCode.CorrectLevel.M });
             document.getElementById('share-modal').style.display = 'flex';
         };
 
@@ -1828,7 +1960,6 @@
             if (match && document.getElementById('app-version-badge')) {
                 document.getElementById('app-version-badge').textContent = match[0];
             }
-
             ['plan1', 'plan2', 'plan3', 'plan4', 'med-plan1', 'med-plan2', 'med-plan3', 'med-plan4'].forEach(setupJarAutoFill);
             
             document.getElementById('toggle-interest').addEventListener('click', function() {
@@ -1843,15 +1974,13 @@
             document.getElementById('med-pay-term').addEventListener('change', updateMedicalJarsByTerm);
             document.getElementById('plan-mode').addEventListener('change', calculateAndDisplay);
             document.getElementById('inflation-rate').addEventListener('input', calculateAndDisplay);
-            document.getElementById('existing-deposit').addEventListener('input', function() { formatAndCalcGap(this); calculateAndDisplay(); });
-            document.getElementById('bank-deposit').addEventListener('input', function() { formatAndCalcGap(this); calculateAndDisplay(); });
+            document.getElementById('existing-deposit').addEventListener('input', calculateAndDisplay);
+            document.getElementById('bank-deposit').addEventListener('input', calculateAndDisplay);
             document.getElementById('duel-year').addEventListener('input', calculateAndDisplay);
-
             document.getElementById('med-inflation-rate-num').addEventListener('input', calculateAndDisplay);
             document.getElementById('med-start-age').addEventListener('input', calculateAndDisplay);
             document.getElementById('med-retire-age').addEventListener('input', calculateAndDisplay);
             document.getElementById('med-max-age').addEventListener('input', calculateAndDisplay);
-
             document.getElementById('promo-annual-premium').addEventListener('input', calculatePromo);
             document.getElementById('promo-term').addEventListener('input', calculatePromo);
             document.getElementById('promo1-check').addEventListener('change', calculatePromo);
@@ -1860,25 +1989,22 @@
             document.getElementById('promo2-extra-pct').addEventListener('input', calculatePromo);
             document.getElementById('promo3-check').addEventListener('change', calculatePromo);
             document.getElementById('promo3-rate').addEventListener('input', calculatePromo);
-
+            
             document.getElementById('toggle-actual-med').addEventListener('click', function() {
                 showActualMedicalPremium = !showActualMedicalPremium;
                 document.getElementById('med-footer-totals').style.display = showActualMedicalPremium ? 'table-row' : 'none';
                 calculateAndDisplay();
             });
-
             document.getElementById('toggle-outcome-details').addEventListener('click', function() {
                 const details = document.getElementById('outcome-details');
                 details.style.display = details.style.display === 'none' ? 'block' : 'none';
             });
-
             document.getElementById('copy-url-btn').addEventListener('click', () => {
                 navigator.clipboard.writeText(shareUrlGlobal).then(() => { document.getElementById('copy-success-msg').style.display = 'block'; });
             });
             document.getElementById('close-modal-icon').addEventListener('click', () => { document.getElementById('share-modal').style.display = 'none'; });
 
             updateMedicalJarsByTerm();
-            calculateSalesGap();
             calculatePromo();
             Promise.all([fetchReturnRates(), fetchAllMedicalPremiums()]).then(() => {
                 calculateAndDisplay();
